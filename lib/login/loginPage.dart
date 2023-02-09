@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
       });
       return http.Response('Timeout', 500);
     });
-
+    print(response.body);
     return json.decode(response.body);
   }
 

@@ -35,6 +35,7 @@ class Data {
   String? tLvcShip;
   String? tLvcSite;
   String? tLvcVend;
+  String? tLvcVendDesc;
   String? tLvtOrd;
   String? tLvtDue;
   String? tLvcCurr;
@@ -56,6 +57,7 @@ class Data {
       this.tLvcShip,
       this.tLvcSite,
       this.tLvcVend,
+      this.tLvcVendDesc,
       this.tLvtOrd,
       this.tLvtDue,
       this.tLvcCurr,
@@ -77,6 +79,7 @@ class Data {
     tLvcShip = json['t_lvc_ship'];
     tLvcSite = json['t_lvc_site'];
     tLvcVend = json['t_lvc_vend'];
+    tLvcVendDesc = json['t_lvc_vend_desc'];
     tLvtOrd = json['t_lvt_ord'];
     tLvtDue = json['t_lvt_due'];
     tLvcCurr = json['t_lvc_curr'];
@@ -100,6 +103,7 @@ class Data {
     data['t_lvc_ship'] = tLvcShip;
     data['t_lvc_site'] = tLvcSite;
     data['t_lvc_vend'] = tLvcVend;
+    data['t_lvc_vend_desc'] = tLvcVendDesc;
     data['t_lvt_ord'] = tLvtOrd;
     data['t_lvt_due'] = tLvtDue;
     data['t_lvc_curr'] = tLvcCurr;

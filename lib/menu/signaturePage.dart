@@ -109,6 +109,7 @@ class _CreateSignatureState extends State<CreateSignature> {
                 if (controller!.isNotEmpty) {
                   final signature = await exportSignature();
 
+                  // ignore: use_build_context_synchronously
                   await Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: ((context) =>
