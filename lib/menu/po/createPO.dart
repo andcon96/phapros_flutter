@@ -1,8 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cool_alert/cool_alert.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_template/menu/po/alokasiPO.dart';
+import 'package:flutter_template/menu/po/testing.dart';
 import 'package:flutter_template/menu/po/wsaPoModel.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:flutter_template/utils/loading.dart';
@@ -74,7 +78,7 @@ class _createpoState extends State<createpo> {
   bool loading = false;
   bool overlayloading = false;
 
-  // Step 1 --> Datanya pasti sama jadi pakai array 0
+  // Step 1
   TextEditingController itemno = TextEditingController();
   TextEditingController itemname = TextEditingController();
   TextEditingController supplier = TextEditingController();
@@ -110,6 +114,10 @@ class _createpoState extends State<createpo> {
   TextEditingController angkutanketeranganissingle = TextEditingController();
   TextEditingController angkutanketeranganissegregated =
       TextEditingController();
+
+  // Step 6
+  String? _currline;
+  // List<dynamic>? _currline;
 
   TextEditingController address = TextEditingController();
   TextEditingController pincode = TextEditingController();
@@ -724,7 +732,7 @@ class _createpoState extends State<createpo> {
           ),
         ),
         Step(
-          state: _activeStepIndex <= 4 ? StepState.editing : StepState.complete,
+          state: StepState.complete,
           isActive: _activeStepIndex >= 4,
           title: const Text('Angkutan'),
           content: Column(
@@ -966,37 +974,19 @@ class _createpoState extends State<createpo> {
           ),
         ),
         Step(
-          state: _activeStepIndex <= 5 ? StepState.editing : StepState.complete,
-          isActive: _activeStepIndex >= 5,
-          title: const Text('Informasi Bahan Datang'),
-          content: Column(
-            children: [
-              _textInputReadonly(
-                hint: "Item No.",
-                controller: itemno,
-              ),
-            ],
-          ),
-        ),
-        Step(
             state: StepState.complete,
-            isActive: _activeStepIndex >= 6,
-            title: const Text('Confirm'),
+            isActive: _activeStepIndex >= 5,
+            title: const Text('Detail Alokasi'),
             content: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const Text('Password: *****'),
-                Text('Address : ${address.text}'),
-                Text('PinCode : ${pincode.text}'),
-              ],
+              // ignore: prefer_const_literals_to_create_immutables
+              children: [],
             ))
       ];
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     return loading
         ? const Loading()
         : Scaffold(
@@ -1008,59 +998,91 @@ class _createpoState extends State<createpo> {
                   progressIndicator:
                       SpinKitFadingCube(color: Colors.purple[300], size: 70.0),
                   color: Colors.grey[100],
-                  child: Stepper(
-                    type: StepperType.vertical,
-                    currentStep: _activeStepIndex,
-                    steps: stepList(),
-                    onStepContinue: () {
-                      if (_activeStepIndex < (stepList().length - 1)) {
-                        setState(() {
-                          _activeStepIndex += 1;
-                        });
-                      } else {
-                        print('Submited');
-                      }
-                    },
-                    onStepCancel: () {
-                      if (_activeStepIndex == 0) {
-                        return;
-                      }
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Stepper(
+                          physics: const ClampingScrollPhysics(),
+                          type: StepperType.vertical,
+                          currentStep: _activeStepIndex,
+                          steps: stepList(),
+                          onStepContinue: () {
+                            if (_activeStepIndex < (stepList().length - 1)) {
+                              setState(() {
+                                _activeStepIndex += 1;
+                              });
+                            } else {
+                              CoolAlert.show(
+                                context: context,
+                                type: CoolAlertType.confirm,
+                                text: 'Lanjut ke Detail Alokasi Item?',
+                                confirmBtnText: 'Yes',
+                                cancelBtnText: 'No',
+                                confirmBtnColor: Colors.green,
+                                onConfirmBtnTap: () {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop();
+                                  Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) => alokasipo(
+                                              selectedline: widget.selectedline,
+                                            )),
+                                  );
+                                  // Navigator.push(
+                                  //   context,
+                                  //   CupertinoPageRoute(
+                                  //       builder: (context) =>
+                                  //           MyHomePage(title: 'halo')),
+                                  // );
+                                },
+                              );
+                            }
+                          },
+                          onStepCancel: () {
+                            if (_activeStepIndex == 0) {
+                              return;
+                            }
 
-                      setState(() {
-                        _activeStepIndex -= 1;
-                      });
-                    },
-                    onStepTapped: (int index) {
-                      setState(() {
-                        _activeStepIndex = index;
-                      });
-                    },
-                    controlsBuilder: (context, controls) {
-                      final isLastStep =
-                          _activeStepIndex == stepList().length - 1;
-                      return Row(
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: controls.onStepContinue,
-                              child: (isLastStep)
-                                  ? const Text('Submit')
-                                  : const Text('Next'),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          if (_activeStepIndex > 0)
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: controls.onStepCancel,
-                                child: const Text('Back'),
-                              ),
-                            )
-                        ],
-                      );
-                    },
+                            setState(() {
+                              _activeStepIndex -= 1;
+                            });
+                          },
+                          onStepTapped: (int index) {
+                            setState(() {
+                              _activeStepIndex = index;
+                            });
+                          },
+                          controlsBuilder: (context, controls) {
+                            final isLastStep =
+                                _activeStepIndex == stepList().length - 1;
+                            return Row(
+                              children: [
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: controls.onStepContinue,
+                                    child: (isLastStep)
+                                        ? const Text('Detail')
+                                        : const Text('Next'),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                if (_activeStepIndex > 0)
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      onPressed: controls.onStepCancel,
+                                      child: const Text('Back'),
+                                    ),
+                                  )
+                              ],
+                            );
+                          },
+                        )
+                      ],
+                    ),
                   )),
             ));
   }

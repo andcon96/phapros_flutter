@@ -50,6 +50,7 @@ class Data {
   String? tLvcLoc;
   String? tLvcLotNext;
   bool? tIsSelected;
+  String? tLvcUm;
 
   Data(
       {this.tLvcNbr,
@@ -71,7 +72,8 @@ class Data {
       this.tLvdPrice,
       this.tLvcLoc,
       this.tLvcLotNext,
-      this.tIsSelected});
+      this.tIsSelected,
+      this.tLvcUm});
 
   Data.fromJson(Map<String, dynamic> json) {
     tLvcNbr = json['t_lvc_nbr'];
@@ -94,6 +96,7 @@ class Data {
     tLvcLoc = json['t_lvc_loc'];
     tLvcLotNext = json['t_lvc_lot_next'];
     tIsSelected = json['t_isSelected'];
+    tLvcUm = json['t_lvc_um'];
   }
 
   Map<String, dynamic> toJson() {
@@ -118,6 +121,7 @@ class Data {
     data['t_lvc_loc'] = tLvcLoc;
     data['t_lvc_lot_next'] = tLvcLotNext;
     data['t_isSelected'] = tIsSelected;
+    data['t_lvc_um'] = tLvcUm;
     return data;
   }
 }
