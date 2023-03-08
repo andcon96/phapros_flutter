@@ -420,19 +420,6 @@ class _POBrowseState extends State<POBrowse> {
                                                                 TextOverflow
                                                                     .fade,
                                                           )),
-                                                      Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 10),
-                                                          child: Text(
-                                                            'PPN: ${user.poPpn ?? 0}',
-                                                            style: content,
-                                                            softWrap: true,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .fade,
-                                                          )),
                                                       Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
@@ -471,89 +458,6 @@ class _POBrowseState extends State<POBrowse> {
                                                               },
                                                             ),
                                                           ),
-                                                          if (_custId == 'null')
-                                                            const Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            10)),
-                                                          if (_custId == 'null')
-                                                            Ink(
-                                                              decoration: const ShapeDecoration(
-                                                                  color: Colors
-                                                                      .orange,
-                                                                  shape:
-                                                                      CircleBorder()),
-                                                              child: IconButton(
-                                                                icon: const Icon(
-                                                                    Icons.edit),
-                                                                color: Colors
-                                                                    .white,
-                                                                onPressed:
-                                                                    () async {
-                                                                  // Navigator
-                                                                  //     .push(
-                                                                  //   context,
-                                                                  //   CupertinoPageRoute(
-                                                                  //       builder: (context) =>
-                                                                  //           knedit(
-                                                                  //             knid: user.id,
-                                                                  //             initial: user.initial,
-                                                                  //             custname: user.name,
-                                                                  //             module: user.moduleName,
-                                                                  //             moduleid: user.moduleId,
-                                                                  //             keyword: user.keyword,
-                                                                  //             title: user.datumCase,
-                                                                  //             detail: user.caseDetails,
-                                                                  //             solution: user.solution,
-                                                                  //             attach: user.datafile,
-                                                                  //           )),
-                                                                  // );
-                                                                },
-                                                              ),
-                                                            ),
-                                                          if (_custId == 'null')
-                                                            const Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            10)),
-                                                          if (_custId == 'null')
-                                                            Ink(
-                                                              decoration:
-                                                                  const ShapeDecoration(
-                                                                      color: Colors
-                                                                          .red,
-                                                                      shape:
-                                                                          CircleBorder()),
-                                                              child: IconButton(
-                                                                icon: const Icon(
-                                                                    Icons
-                                                                        .delete),
-                                                                color: Colors
-                                                                    .white,
-                                                                onPressed:
-                                                                    () async {
-                                                                  // Navigator
-                                                                  //     .push(
-                                                                  //   context,
-                                                                  //   CupertinoPageRoute(
-                                                                  //       builder: (context) =>
-                                                                  //           kndelete(
-                                                                  //             initial: user.initial,
-                                                                  //             custname: user.name,
-                                                                  //             module: user.moduleName,
-                                                                  //             keyword: user.keyword,
-                                                                  //             title: user.datumCase,
-                                                                  //             detail: user.caseDetails,
-                                                                  //             solution: user.solution,
-                                                                  //             attach: user.datafile,
-                                                                  //             knid: user.id,
-                                                                  //           )),
-                                                                  // );
-                                                                },
-                                                              ),
-                                                            ),
                                                         ],
                                                       )
                                                     ],

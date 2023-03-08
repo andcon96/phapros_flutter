@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_template/menu/po/alokasiPO.dart';
-import 'package:flutter_template/menu/po/testing.dart';
 import 'package:flutter_template/menu/po/wsaPoModel.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:flutter_template/utils/loading.dart';
@@ -1002,85 +1001,157 @@ class _createpoState extends State<createpo> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Stepper(
-                          physics: const ClampingScrollPhysics(),
-                          type: StepperType.vertical,
-                          currentStep: _activeStepIndex,
-                          steps: stepList(),
-                          onStepContinue: () {
-                            if (_activeStepIndex < (stepList().length - 1)) {
-                              setState(() {
-                                _activeStepIndex += 1;
-                              });
-                            } else {
-                              CoolAlert.show(
-                                context: context,
-                                type: CoolAlertType.confirm,
-                                text: 'Lanjut ke Detail Alokasi Item?',
-                                confirmBtnText: 'Yes',
-                                cancelBtnText: 'No',
-                                confirmBtnColor: Colors.green,
-                                onConfirmBtnTap: () {
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop();
-                                  Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                        builder: (context) => alokasipo(
-                                              selectedline: widget.selectedline,
-                                            )),
+                        Form(
+                            key: _formKey,
+                            child: Stepper(
+                              physics: const ClampingScrollPhysics(),
+                              type: StepperType.vertical,
+                              currentStep: _activeStepIndex,
+                              steps: stepList(),
+                              onStepContinue: () {
+                                if (_activeStepIndex <
+                                    (stepList().length - 1)) {
+                                  setState(() {
+                                    _activeStepIndex += 1;
+                                  });
+                                } else {
+                                  CoolAlert.show(
+                                    context: context,
+                                    type: CoolAlertType.confirm,
+                                    text: 'Lanjut ke Detail Alokasi Item?',
+                                    confirmBtnText: 'Yes',
+                                    cancelBtnText: 'No',
+                                    confirmBtnColor: Colors.green,
+                                    onConfirmBtnTap: () {
+                                      Navigator.of(context, rootNavigator: true)
+                                          .pop();
+                                      Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                            builder: (context) => alokasipo(
+                                                selectedline:
+                                                    widget.selectedline,
+                                                imrno: imrno.text,
+                                                arrivaldate: arrivaldate.text,
+                                                imrdate: imrdate.text,
+                                                dono: dono.text,
+                                                articleno: articleno.text,
+                                                proddate: proddate.text,
+                                                expdate: expdate.text,
+                                                manufacturer: manufacturer.text,
+                                                origincountry:
+                                                    origincountry.text,
+                                                certificateChecked:
+                                                    _certificateChecked,
+                                                certificate: certificate.text,
+                                                msdsChecked: _msdsChecked,
+                                                msds: msds.text,
+                                                forwarderdoChecked:
+                                                    _forwarderdoChecked,
+                                                forwaderdo: forwaderdo.text,
+                                                packinglistChecked:
+                                                    _packinglistChecked,
+                                                packinglist: packinglist.text,
+                                                otherdocsChecked:
+                                                    _otherdocsChecked,
+                                                otherdocs: otherdocs.text,
+                                                keteranganisclean:
+                                                    keteranganisclean.text,
+                                                keteranganisdry:
+                                                    keteranganisdry.text,
+                                                keteranganisnotspilled:
+                                                    keteranganisnotspilled.text,
+                                                transporterno:
+                                                    transporterno.text,
+                                                policeno: policeno.text,
+                                                angkutanketeranganisclean:
+                                                    angkutanketeranganisclean
+                                                        .text,
+                                                angkutanketeranganisdry:
+                                                    angkutanketeranganisdry
+                                                        .text,
+                                                angkutanketeranganisnotspilled:
+                                                    angkutanketeranganisnotspilled
+                                                        .text,
+                                                angkutanketeranganissingle:
+                                                    angkutanketeranganissingle
+                                                        .text,
+                                                angkutanketeranganissegregated:
+                                                    angkutanketeranganissegregated
+                                                        .text,
+                                                sackordosChecked:
+                                                    _sackordosChecked,
+                                                sackordosDamage:
+                                                    _sackordosDamage.toString(),
+                                                drumorvatChecked:
+                                                    _drumorvatChecked,
+                                                drumorvatDamage:
+                                                    _drumorvatDamage.toString(),
+                                                palletorpetiChecked:
+                                                    _palletorpetiChecked,
+                                                palletorpetiDamage: _palletorpetiDamage.toString(),
+                                                isclean: _isclean.toString(),
+                                                isdry: _isdry.toString(),
+                                                isnotspilled: _isnotspilled.toString(),
+                                                issealed: _issealed.toString(),
+                                                ismanufacturerlabel: _ismanufacturerlabel.toString(),
+                                                angkutanisclean: _angkutanisclean.toString(),
+                                                angkutanisdry: _angkutanisdry.toString(),
+                                                angkutanisnotspilled: _angkutanisnotspilled.toString(),
+                                                angkutanissingle: _angkutanissingle.toString(),
+                                                angkutansegregate: _angkutansegregate.toString())),
+                                      );
+                                      // Navigator.push(
+                                      //   context,
+                                      //   CupertinoPageRoute(
+                                      //       builder: (context) =>
+                                      //           MyHomePage(title: 'halo')),
+                                      // );
+                                    },
                                   );
-                                  // Navigator.push(
-                                  //   context,
-                                  //   CupertinoPageRoute(
-                                  //       builder: (context) =>
-                                  //           MyHomePage(title: 'halo')),
-                                  // );
-                                },
-                              );
-                            }
-                          },
-                          onStepCancel: () {
-                            if (_activeStepIndex == 0) {
-                              return;
-                            }
+                                }
+                              },
+                              onStepCancel: () {
+                                if (_activeStepIndex == 0) {
+                                  return;
+                                }
 
-                            setState(() {
-                              _activeStepIndex -= 1;
-                            });
-                          },
-                          onStepTapped: (int index) {
-                            setState(() {
-                              _activeStepIndex = index;
-                            });
-                          },
-                          controlsBuilder: (context, controls) {
-                            final isLastStep =
-                                _activeStepIndex == stepList().length - 1;
-                            return Row(
-                              children: [
-                                Expanded(
-                                  child: ElevatedButton(
-                                    onPressed: controls.onStepContinue,
-                                    child: (isLastStep)
-                                        ? const Text('Detail')
-                                        : const Text('Next'),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                if (_activeStepIndex > 0)
-                                  Expanded(
-                                    child: ElevatedButton(
-                                      onPressed: controls.onStepCancel,
-                                      child: const Text('Back'),
+                                setState(() {
+                                  _activeStepIndex -= 1;
+                                });
+                              },
+                              onStepTapped: (int index) {
+                                setState(() {
+                                  _activeStepIndex = index;
+                                });
+                              },
+                              controlsBuilder: (context, controls) {
+                                final isLastStep =
+                                    _activeStepIndex == stepList().length - 1;
+                                return Row(
+                                  children: [
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        onPressed: controls.onStepContinue,
+                                        child: (isLastStep)
+                                            ? const Text('Detail')
+                                            : const Text('Next'),
+                                      ),
                                     ),
-                                  )
-                              ],
-                            );
-                          },
-                        )
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    if (_activeStepIndex > 0)
+                                      Expanded(
+                                        child: ElevatedButton(
+                                          onPressed: controls.onStepCancel,
+                                          child: const Text('Back'),
+                                        ),
+                                      )
+                                  ],
+                                );
+                              },
+                            ))
                       ],
                     ),
                   )),

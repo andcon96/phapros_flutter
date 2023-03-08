@@ -110,7 +110,10 @@ class _wsaPOState extends State<wsaPO> {
         return http.Response('Error', 500);
       });
 
-      setState(() => overlayLoading = false);
+      setState(() {
+        selectedDetailPO = [];
+        overlayLoading = false;
+      });
       if (response.statusCode == 200) {
         notSearch = false;
         // print(response.body);
@@ -278,14 +281,24 @@ class _wsaPOState extends State<wsaPO> {
                                       final user = detailpo[index];
 
                                       return ListItemPO(
+                                          user.tLvcDomain ?? '',
+                                          user.tLvcNbr ?? '',
+                                          user.tLvcShip ?? '',
+                                          user.tLvcSite ?? '',
+                                          user.tLvcVend ?? '',
+                                          user.tLvtOrd ?? '',
+                                          user.tLvtDue ?? '',
+                                          user.tLvcCurr ?? '',
                                           user.tLviLine ?? '',
                                           user.tLvcPart ?? '',
                                           user.tLvcPartDesc ?? '',
                                           user.tLvdQtyord ?? '0',
+                                          user.tLvdQtyRcvd ?? '0',
                                           user.tLvdPrice ?? '0',
                                           user.tLvcVend ?? '',
                                           user.tLvcVendDesc ?? '',
                                           user.tIsSelected ?? false,
+                                          user.tLvcUm ?? '',
                                           index);
                                     },
                                     separatorBuilder: (context, index) =>
@@ -344,14 +357,24 @@ class _wsaPOState extends State<wsaPO> {
 
   // ignore: non_constant_identifier_names
   Widget ListItemPO(
+      String domain,
+      String ponbr,
+      String shipto,
+      String site,
+      String vend,
+      String orddate,
+      String duedate,
+      String curr,
       String line,
       String part,
       String partdesc,
       String qtyord,
+      String qtyrcvd,
       String price,
       String vendor,
       String vendordesc,
       bool isSelected,
+      String um,
       int index) {
     return ListTile(
       // ignore: prefer_const_constructors
@@ -368,28 +391,39 @@ class _wsaPOState extends State<wsaPO> {
           fontWeight: FontWeight.w500,
         ),
       ),
-      subtitle: Text('Qty Order : $qtyord, Price: $price'),
-      trailing: isSelected
-          // ignore: prefer_const_constructors
-          ? Icon(
-              Icons.check_circle,
-              color: Colors.purpleAccent[400],
-            )
-          : const Icon(
-              Icons.check_circle_outline,
-              color: Colors.grey,
-            ),
+      subtitle: Text(
+          'Qty Order : ${double.parse(qtyord)}, Qty Open : ${double.parse(qtyord) - double.parse(qtyrcvd)} , Price: $price'),
+      trailing: double.parse(qtyord) - double.parse(qtyrcvd) <= 0
+          ? null
+          : isSelected
+              // ignore: prefer_const_constructors
+              ? Icon(
+                  Icons.check_circle,
+                  color: Colors.purpleAccent[400],
+                )
+              : const Icon(
+                  Icons.check_circle_outline,
+                  color: Colors.grey,
+                ),
       onTap: () {
         setState(() {
           detailpo[index].tIsSelected = !detailpo[index].tIsSelected!;
           if (detailpo[index].tIsSelected == true) {
             selectedDetailPO.add(Data(
+                tLvcDomain: domain,
+                tLvcNbr: ponbr,
+                tLvcShip: shipto,
+                tLvcSite: site,
+                tLvtOrd: orddate,
+                tLvtDue: duedate,
+                tLvcCurr: curr,
                 tLviLine: line,
                 tLvcPart: part,
                 tLvcPartDesc: partdesc,
                 tLvcVend: vendor,
                 tLvcVendDesc: vendordesc,
                 tLvdQtyord: qtyord,
+                tLvcUm: um,
                 tLvdPrice: price));
           } else if (detailpo[index].tIsSelected == false) {
             selectedDetailPO.removeWhere(

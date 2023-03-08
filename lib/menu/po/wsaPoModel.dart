@@ -51,6 +51,12 @@ class Data {
   String? tLvcLotNext;
   bool? tIsSelected;
   String? tLvcUm;
+  String? tLvcBatch;
+  String? tLvcLot;
+  String? tLvdQtyDatang;
+  String? tLvdQtyReject;
+  String? tLvdQtyTerima;
+  bool? tIsSaved;
 
   Data(
       {this.tLvcNbr,
@@ -73,7 +79,13 @@ class Data {
       this.tLvcLoc,
       this.tLvcLotNext,
       this.tIsSelected,
-      this.tLvcUm});
+      this.tLvcUm,
+      this.tLvcBatch,
+      this.tLvcLot,
+      this.tLvdQtyDatang,
+      this.tLvdQtyReject,
+      this.tLvdQtyTerima,
+      this.tIsSaved});
 
   Data.fromJson(Map<String, dynamic> json) {
     tLvcNbr = json['t_lvc_nbr'];
@@ -97,6 +109,12 @@ class Data {
     tLvcLotNext = json['t_lvc_lot_next'];
     tIsSelected = json['t_isSelected'];
     tLvcUm = json['t_lvc_um'];
+    tLvcBatch = json['t_lvc_batch'];
+    tLvcLot = json['t_lvc_lot'];
+    tLvdQtyDatang = json['t_lvd_qty_datang'];
+    tLvdQtyReject = json['t_lvd_qty_reject'];
+    tLvdQtyTerima = json['t_lvd_qty_terima'];
+    tIsSaved = json['t_is_saved'];
   }
 
   Map<String, dynamic> toJson() {
@@ -122,6 +140,12 @@ class Data {
     data['t_lvc_lot_next'] = tLvcLotNext;
     data['t_isSelected'] = tIsSelected;
     data['t_lvc_um'] = tLvcUm;
+    data['t_lvc_batch'] = tLvcBatch;
+    data['t_lvc_lot'] = tLvcLot;
+    data['t_lvd_qty_datang'] = tLvdQtyDatang;
+    data['t_lvd_qty_reject'] = tLvdQtyReject;
+    data['t_lvd_qty_terima'] = tLvdQtyTerima;
+    data['t_is_saved'] = tIsSaved;
     return data;
   }
 }
