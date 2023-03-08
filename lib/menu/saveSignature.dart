@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -46,12 +48,12 @@ class ReviewSignaturePage extends StatelessWidget {
     //making signature name unique
     final time = DateTime.now().toIso8601String().replaceAll('.', ':');
     final name = 'signature_$time';
-    print(name);
 
     final result = await ImageGallerySaver.saveImage(signature, name: name);
     final isSuccessful = result['isSuccess'];
 
     if (isSuccessful) {
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
       Get.snackbar('Success', 'Signature saved to device',
           backgroundColor: Colors.white, colorText: Colors.green);

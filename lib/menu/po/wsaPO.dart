@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:art_sweetalert/art_sweetalert.dart';
-import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_template/menu/po/createPO.dart';
 import 'package:flutter_template/menu/po/wsaPoModel.dart';
-import 'package:flutter_template/utils/styles.dart';
 import 'package:flutter_template/utils/secure_user_login.dart';
+import 'package:flutter_template/utils/styles.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:flutter_template/utils/loading.dart';
 import 'package:iconsax/iconsax.dart';
@@ -87,11 +87,14 @@ class _wsaPOState extends State<wsaPO> {
   Future<bool> getWsaPO(String? search) async {
     try {
       setState(() => overlayLoading = true);
+      final token = await UserSecureStorage.getToken();
+
       final Uri url =
           Uri.parse('http://192.168.18.186:8000/api/wsapo?ponbr=$search');
 
       final response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: "Bearer $token"
       }).timeout(const Duration(milliseconds: 5000), onTimeout: () {
         notSearch = true;
         detailpo = [];
@@ -107,7 +110,10 @@ class _wsaPOState extends State<wsaPO> {
         return http.Response('Error', 500);
       });
 
-      setState(() => overlayLoading = false);
+      setState(() {
+        selectedDetailPO = [];
+        overlayLoading = false;
+      });
       if (response.statusCode == 200) {
         notSearch = false;
         // print(response.body);
@@ -275,12 +281,24 @@ class _wsaPOState extends State<wsaPO> {
                                       final user = detailpo[index];
 
                                       return ListItemPO(
+                                          user.tLvcDomain ?? '',
+                                          user.tLvcNbr ?? '',
+                                          user.tLvcShip ?? '',
+                                          user.tLvcSite ?? '',
+                                          user.tLvcVend ?? '',
+                                          user.tLvtOrd ?? '',
+                                          user.tLvtDue ?? '',
+                                          user.tLvcCurr ?? '',
                                           user.tLviLine ?? '',
                                           user.tLvcPart ?? '',
                                           user.tLvcPartDesc ?? '',
                                           user.tLvdQtyord ?? '0',
+                                          user.tLvdQtyRcvd ?? '0',
                                           user.tLvdPrice ?? '0',
+                                          user.tLvcVend ?? '',
+                                          user.tLvcVendDesc ?? '',
                                           user.tIsSelected ?? false,
+                                          user.tLvcUm ?? '',
                                           index);
                                     },
                                     separatorBuilder: (context, index) =>
@@ -307,7 +325,7 @@ class _wsaPOState extends State<wsaPO> {
                                 text: 'Cannot choose different Part Code',
                                 loopAnimation: false,
                               );
-                              break;
+                              return;
                             }
                             currentvalue = valuepo.tLvcPart ?? '';
                           }
@@ -320,7 +338,13 @@ class _wsaPOState extends State<wsaPO> {
                                   text: 'Please Select Data',
                                   loopAnimation: false,
                                 )
-                              : print('ok');
+                              : Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) => createpo(
+                                            selectedline: selectedDetailPO,
+                                          )),
+                                );
                         },
                         backgroundColor: Colors.purple,
                         child: const Icon(
@@ -332,8 +356,26 @@ class _wsaPOState extends State<wsaPO> {
   }
 
   // ignore: non_constant_identifier_names
-  Widget ListItemPO(String line, String part, String partdesc, String qtyord,
-      String price, bool isSelected, int index) {
+  Widget ListItemPO(
+      String domain,
+      String ponbr,
+      String shipto,
+      String site,
+      String vend,
+      String orddate,
+      String duedate,
+      String curr,
+      String line,
+      String part,
+      String partdesc,
+      String qtyord,
+      String qtyrcvd,
+      String price,
+      String vendor,
+      String vendordesc,
+      bool isSelected,
+      String um,
+      int index) {
     return ListTile(
       // ignore: prefer_const_constructors
       leading: CircleAvatar(
@@ -349,25 +391,39 @@ class _wsaPOState extends State<wsaPO> {
           fontWeight: FontWeight.w500,
         ),
       ),
-      subtitle: Text('Qty Order : $qtyord, Price: $price'),
-      trailing: isSelected
-          // ignore: prefer_const_constructors
-          ? Icon(
-              Icons.check_circle,
-              color: Colors.purpleAccent[400],
-            )
-          : const Icon(
-              Icons.check_circle_outline,
-              color: Colors.grey,
-            ),
+      subtitle: Text(
+          'Qty Order : ${double.parse(qtyord)}, Qty Open : ${double.parse(qtyord) - double.parse(qtyrcvd)} , Price: $price'),
+      trailing: double.parse(qtyord) - double.parse(qtyrcvd) <= 0
+          ? null
+          : isSelected
+              // ignore: prefer_const_constructors
+              ? Icon(
+                  Icons.check_circle,
+                  color: Colors.purpleAccent[400],
+                )
+              : const Icon(
+                  Icons.check_circle_outline,
+                  color: Colors.grey,
+                ),
       onTap: () {
         setState(() {
           detailpo[index].tIsSelected = !detailpo[index].tIsSelected!;
           if (detailpo[index].tIsSelected == true) {
             selectedDetailPO.add(Data(
+                tLvcDomain: domain,
+                tLvcNbr: ponbr,
+                tLvcShip: shipto,
+                tLvcSite: site,
+                tLvtOrd: orddate,
+                tLvtDue: duedate,
+                tLvcCurr: curr,
                 tLviLine: line,
                 tLvcPart: part,
+                tLvcPartDesc: partdesc,
+                tLvcVend: vendor,
+                tLvcVendDesc: vendordesc,
                 tLvdQtyord: qtyord,
+                tLvcUm: um,
                 tLvdPrice: price));
           } else if (detailpo[index].tIsSelected == false) {
             selectedDetailPO.removeWhere(

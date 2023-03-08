@@ -35,6 +35,7 @@ class Data {
   String? tLvcShip;
   String? tLvcSite;
   String? tLvcVend;
+  String? tLvcVendDesc;
   String? tLvtOrd;
   String? tLvtDue;
   String? tLvcCurr;
@@ -49,6 +50,13 @@ class Data {
   String? tLvcLoc;
   String? tLvcLotNext;
   bool? tIsSelected;
+  String? tLvcUm;
+  String? tLvcBatch;
+  String? tLvcLot;
+  String? tLvdQtyDatang;
+  String? tLvdQtyReject;
+  String? tLvdQtyTerima;
+  bool? tIsSaved;
 
   Data(
       {this.tLvcNbr,
@@ -56,6 +64,7 @@ class Data {
       this.tLvcShip,
       this.tLvcSite,
       this.tLvcVend,
+      this.tLvcVendDesc,
       this.tLvtOrd,
       this.tLvtDue,
       this.tLvcCurr,
@@ -69,7 +78,14 @@ class Data {
       this.tLvdPrice,
       this.tLvcLoc,
       this.tLvcLotNext,
-      this.tIsSelected});
+      this.tIsSelected,
+      this.tLvcUm,
+      this.tLvcBatch,
+      this.tLvcLot,
+      this.tLvdQtyDatang,
+      this.tLvdQtyReject,
+      this.tLvdQtyTerima,
+      this.tIsSaved});
 
   Data.fromJson(Map<String, dynamic> json) {
     tLvcNbr = json['t_lvc_nbr'];
@@ -77,6 +93,7 @@ class Data {
     tLvcShip = json['t_lvc_ship'];
     tLvcSite = json['t_lvc_site'];
     tLvcVend = json['t_lvc_vend'];
+    tLvcVendDesc = json['t_lvc_vend_desc'];
     tLvtOrd = json['t_lvt_ord'];
     tLvtDue = json['t_lvt_due'];
     tLvcCurr = json['t_lvc_curr'];
@@ -91,6 +108,13 @@ class Data {
     tLvcLoc = json['t_lvc_loc'];
     tLvcLotNext = json['t_lvc_lot_next'];
     tIsSelected = json['t_isSelected'];
+    tLvcUm = json['t_lvc_um'];
+    tLvcBatch = json['t_lvc_batch'];
+    tLvcLot = json['t_lvc_lot'];
+    tLvdQtyDatang = json['t_lvd_qty_datang'];
+    tLvdQtyReject = json['t_lvd_qty_reject'];
+    tLvdQtyTerima = json['t_lvd_qty_terima'];
+    tIsSaved = json['t_is_saved'];
   }
 
   Map<String, dynamic> toJson() {
@@ -100,6 +124,7 @@ class Data {
     data['t_lvc_ship'] = tLvcShip;
     data['t_lvc_site'] = tLvcSite;
     data['t_lvc_vend'] = tLvcVend;
+    data['t_lvc_vend_desc'] = tLvcVendDesc;
     data['t_lvt_ord'] = tLvtOrd;
     data['t_lvt_due'] = tLvtDue;
     data['t_lvc_curr'] = tLvcCurr;
@@ -114,6 +139,13 @@ class Data {
     data['t_lvc_loc'] = tLvcLoc;
     data['t_lvc_lot_next'] = tLvcLotNext;
     data['t_isSelected'] = tIsSelected;
+    data['t_lvc_um'] = tLvcUm;
+    data['t_lvc_batch'] = tLvcBatch;
+    data['t_lvc_lot'] = tLvcLot;
+    data['t_lvd_qty_datang'] = tLvdQtyDatang;
+    data['t_lvd_qty_reject'] = tLvdQtyReject;
+    data['t_lvd_qty_terima'] = tLvdQtyTerima;
+    data['t_is_saved'] = tIsSaved;
     return data;
   }
 }
