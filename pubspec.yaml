@@ -49,6 +49,9 @@ dependencies:
   pull_to_refresh: ^2.0.0
   expandable: ^5.0.1
   loading_overlay: ^0.3.0
+  intl: ^0.18.0 
+  sticky_headers: ^0.2.0
+
 
 dev_dependencies:
   flutter_test:
