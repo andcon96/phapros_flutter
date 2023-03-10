@@ -51,6 +51,9 @@ dependencies:
   loading_overlay: ^0.3.0
   card_settings: ^3.3.0
   animated_floating_buttons: ^0.0.2
+  intl: ^0.18.0 
+  sticky_headers: ^0.2.0
+
 
 dev_dependencies:
   flutter_test:
