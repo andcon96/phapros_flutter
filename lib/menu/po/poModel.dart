@@ -123,6 +123,7 @@ class PoDetails {
   String? podDomain;
   int? podLine;
   String? podPart;
+  String? podPartDesc;
   String? podQtyOrd;
   String? podQtyRcvd;
   String? podPurCost;
@@ -137,6 +138,7 @@ class PoDetails {
       this.podDomain,
       this.podLine,
       this.podPart,
+      this.podPartDesc,
       this.podQtyOrd,
       this.podQtyRcvd,
       this.podPurCost,
@@ -151,6 +153,7 @@ class PoDetails {
     podDomain = json['pod_domain'];
     podLine = json['pod_line'];
     podPart = json['pod_part'];
+    podPartDesc = json['pod_desc'];
     podQtyOrd = json['pod_qty_ord'];
     podQtyRcvd = json['pod_qty_rcvd'];
     podPurCost = json['pod_pur_cost'];
@@ -167,6 +170,7 @@ class PoDetails {
     data['pod_domain'] = podDomain;
     data['pod_line'] = podLine;
     data['pod_part'] = podPart;
+    data['pod_desc'] = podPartDesc;
     data['pod_qty_ord'] = podQtyOrd;
     data['pod_qty_rcvd'] = podQtyRcvd;
     data['pod_pur_cost'] = podPurCost;
