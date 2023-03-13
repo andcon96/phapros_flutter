@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
-laporanrcpt purchaseOrderFromJson(String str) =>
-    laporanrcpt.fromJson(json.decode(str));
+receiptrcpt purchaseOrderFromJson(String str) =>
+    receiptrcpt.fromJson(json.decode(str));
 
-String purchaseOrderToJson(laporanrcpt data) => json.encode(data.toJson());
+String purchaseOrderToJson(receiptrcpt data) => json.encode(data.toJson());
 
-class laporanrcpt {
-  List<laporanModel>? data;
+class receiptrcpt {
+  List<receiptModel>? data;
   Links? links;
   Meta? meta;
 
-  laporanrcpt({this.data, this.links, this.meta});
+  receiptrcpt({this.data, this.links, this.meta});
 
-  laporanrcpt.fromJson(Map<String, dynamic> json) {
+  receiptrcpt.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = <laporanModel>[];
+      data = <receiptModel>[];
       json['data'].forEach((v) {
-        data!.add(laporanModel.fromJson(v));
+        data!.add(receiptModel.fromJson(v));
       });
     }
     links = json['links'] != null ? Links.fromJson(json['links']) : null;
@@ -38,38 +38,42 @@ class laporanrcpt {
     return data;
   }
 }
-class laporanModel{
-  String? ponbr, rcpt_nbr, rcpt_date, rcptd_part, rcptd_qty_arr, rcptd_lot, rcptd_loc, rcptd_qty_appr, rcptd_qty_rej, nopol, angkutan,supplier,komplain,keterangan,tanggal,komplaindetail,no;
-
-  laporanModel({
+class receiptModel{
+  String? ponbr, rcpt_nbr, rcpt_date, rcptd_part, rcptd_qty_arr, rcptd_lot, rcptd_loc,batch,supplier,shipto,rcptd_qty_appr,rcptd_qty_rej,lastapproval,nextapproval,laststatus;
+  int? userid;
+  receiptModel({
     required this.ponbr, 
     required this.rcpt_nbr, 
     required this.rcpt_date, 
     required this.rcptd_part, 
     required this.rcptd_qty_arr,
     required this.rcptd_loc,
-    required this.rcptd_lot, 
-    required this.rcptd_qty_appr,
+    required this.rcptd_lot,
+    required this.batch, 
+    required this.supplier, 
+    required this.shipto, 
+    required this.rcptd_qty_appr, 
     required this.rcptd_qty_rej,
-    required this.nopol, 
-    required this.angkutan, 
-    required this.supplier,
-    required this.komplain,
-    required this.keterangan,
-    required this.tanggal,
-    required this.komplaindetail,
-    required this.no
+    required this.lastapproval, 
+    required this.nextapproval,
+    required this.userid,
+    required this.laststatus,
+    
+
   });
 
-  factory laporanModel.fromJson(Map<String, dynamic> json){
+  factory receiptModel.fromJson(Map<String, dynamic> json){
     Map<String, dynamic> jsonmaster = json['get_master'];
-    Map<String, dynamic> jsonpo = jsonmaster['getpo'];
-    Map<String, dynamic> jsonlaporan = jsonmaster['get_laporan'] == null ? {} : jsonmaster['get_laporan'];
-
-    Map<String, dynamic> jsontransport = jsonmaster['get_transport'][0];
-
     
-    return laporanModel(
+    
+    Map<String, dynamic> jsonpo = jsonmaster == null ? {} : jsonmaster['getpo'];
+    Map<String, dynamic> jsonlastappr = jsonmaster == null ? {} : jsonmaster['get_appr_histlast'];
+    Map<String, dynamic> jsonlastappruser = jsonlastappr == null ? {} : jsonlastappr['get_user']  ;
+    Map<String, dynamic> jsonfirstappr = jsonmaster == null ? {} : jsonmaster['get_appr_histfirst'];
+    Map<String, dynamic> jsonfirstappruser = jsonfirstappr == null ? {} : jsonfirstappr['get_user'];
+    
+    
+    return receiptModel(
       ponbr: jsonpo['po_nbr'],
       rcpt_nbr: jsonmaster['rcpt_nbr'],
       rcpt_date: jsonmaster['rcpt_date'],
@@ -79,16 +83,17 @@ class laporanModel{
       rcptd_lot: json['rcptd_lot'],
       rcptd_qty_appr: json['sum_qty_appr'],
       rcptd_qty_rej: json['sum_qty_rej'],
-      nopol: jsontransport['rcptt_police_no'],
-      angkutan: jsontransport['rcptt_transporter_no'],
+      batch: json['rcptd_batch'],
+      shipto: jsonpo['po_ship'],
       supplier: jsonpo['po_vend'],
-      komplain: jsonlaporan == {} ? '-' : jsonlaporan['laporan_komplain'],
-      keterangan: jsonlaporan['laporan_keterangan'] ?? '-',
-      tanggal: jsonlaporan['laporan_tgl'] ?? '-',
-      komplaindetail: jsonlaporan['laporan_komplaindetail'] ?? '-',
-      no: jsonlaporan['laporan_no'] ?? '-'
+      lastapproval: jsonlastappruser['name'] == {} ? '-' : jsonlastappruser['name'] ,
+      nextapproval: jsonfirstappruser['name'] == {} ? '-' : jsonfirstappruser['name'],
+      userid: jsonfirstappruser['id'] == {} ? null : jsonfirstappruser['id'],
+      laststatus: jsonlastappr == null ? null : jsonlastappruser['name']
     );
-  }
+    }
+    
+  
   
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
@@ -99,11 +104,6 @@ class laporanModel{
     data['rcptd_loc'] = rcptd_loc;
     data['rcptd_qty_arr'] = rcptd_qty_arr;
     data['rcptd_lot'] = rcptd_lot;
-    data['rcptd_qty_appr'] = rcptd_qty_appr;
-    data['rcptd_qty_rej'] = rcptd_qty_rej;
-    data['nopol'] = nopol;
-    data['angkutan'] = angkutan;
-    data['supplier'] = supplier;
     return data;
   }
 }

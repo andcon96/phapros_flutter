@@ -3,6 +3,9 @@ import 'package:flutter_template/main.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'package:art_sweetalert/art_sweetalert.dart';
+
+
 
 
 
@@ -10,7 +13,7 @@ import 'package:intl/intl.dart';
 
 
 class laporanform extends StatefulWidget {
-  final String ponbr, rcpt_nbr, rcpt_date, rcptd_part, rcptd_qty_arr, rcptd_lot, rcptd_loc;
+  final String ponbr, rcpt_nbr, rcpt_date, rcptd_part, rcptd_qty_arr, rcptd_lot, rcptd_loc,rcptd_qty_rej,rcptd_qty_appr,angkutan,nopol,supplier;
   const laporanform({
     Key? key, 
     required this.ponbr,
@@ -19,7 +22,12 @@ class laporanform extends StatefulWidget {
     required this.rcptd_part, 
     required this.rcptd_qty_arr, 
     required this.rcptd_lot, 
-    required this.rcptd_loc
+    required this.rcptd_loc,
+    required this.rcptd_qty_appr,
+    required this.rcptd_qty_rej,
+    required this.angkutan,
+    required this.nopol,
+    required this.supplier,
   }) : super(key: key);
 
   
@@ -48,6 +56,45 @@ class _laporanform extends State<laporanform> {
   late TextEditingController Angkutan ;
   late TextEditingController NoPol ;
   String rcptnbr = '';
+  late String responseresult = ''; 
+  
+  Future<http.Response> sendlaporan(String url) async{
+    final response = await http
+      .post(Uri.parse(url)).timeout(const Duration(seconds: 20), onTimeout: () {
+        setState(() {
+          ArtSweetAlert.show(
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+              type: ArtSweetAlertType.danger,
+              title: "Error",
+              text: "Failed to load data"));
+        });
+        return http.Response('Error', 500);
+    });
+    responseresult = response.body.toString();
+    
+    if(response.body == 'success'){
+      Navigator.pop(context);
+      return ArtSweetAlert.show(
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+                type: ArtSweetAlertType.success,
+                title: "Success",
+                text: "Success to Submit report for receipt "+IdRcp.text));  
+      
+    }
+    else if (response.body == 'error'){
+      return ArtSweetAlert.show(
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+                type: ArtSweetAlertType.danger,
+                title: "Error",
+                text: "Failed to Submit report for receipt"+IdRcp.text));  
+    };
+    return response;
+  }
+
+  
   
   void initState() {
     super.initState();
@@ -59,17 +106,14 @@ class _laporanform extends State<laporanform> {
     NomorLot = TextEditingController(text: widget.rcptd_lot);
     No = TextEditingController();
     Tanggal = TextEditingController();
-    Supplier = TextEditingController();
+    Supplier = TextEditingController(text:widget.supplier != 'null' ? widget.supplier : '');
     Komplain = TextEditingController();
     Keterangan = TextEditingController();
-    KomplainDetail = TextEditingController();
-    Angkutan = TextEditingController();
-    NoPol = TextEditingController();
+    KomplainDetail = TextEditingController(text:widget.rcptd_qty_rej != 'null' ? widget.rcptd_qty_rej : '');
+    Angkutan = TextEditingController(text:widget.angkutan != 'null' ? widget.angkutan : '');
+    NoPol = TextEditingController(text:widget.nopol != 'null' ? widget.nopol : '');
+    print(widget.supplier);
   }
-  
-  
-
-
   
   @override
   Widget build(BuildContext context) =>Scaffold(
@@ -81,12 +125,38 @@ class _laporanform extends State<laporanform> {
 
       onStepTapped: (step) => setState(() => currentStep = step),
       onStepCancel: currentStep == 0 ? null : () => setState(() => currentStep -= 1),
+      onStepContinue:(){
+        bool isLastStep = (currentStep == getSteps().length - 1);
+          if (isLastStep) {
+              String url = 'http://192.168.18.40:8000/api/submitlaporan?';
+              url += 'idrcpt='+IdRcp.text;
+              url += '&ponbr='+PO.text;
+              url += '&part='+NamaBarang.text;
+              url += '&tglmasuk='+TglMasuk.text;
+              url += '&jmlmasuk='+JumlahMasuk.text;
+              url += '&no='+No.text;
+              url += '&lot='+NomorLot.text;
+              url += '&tgl='+Tanggal.text;
+              url += '&supplier='+Supplier.text;
+              url += '&komplain='+Komplain.text;
+              url += '&keterangan='+Keterangan.text;
+              url += '&komplaindetail='+KomplainDetail.text;
+              url += '&angkutan='+Angkutan.text;
+              url += '&nopol='+NoPol.text;
+              final urlresponse = sendlaporan(url);
+          }
+          else{
+            setState(() => currentStep += 1);
+          }
+      },  
       controlsBuilder: (context,ControlsDetails controls){
         final isLastStep = currentStep == getSteps().length -1;
+        
         return Container(
           margin: EdgeInsets.only(top: 50),
           child: Row(children: [
             if(currentStep != 0)
+            
             Expanded(
               child: ElevatedButton(
               child: Text('BACK'),
@@ -99,6 +169,7 @@ class _laporanform extends State<laporanform> {
             Expanded(
               child: ElevatedButton(
                 child: Text(isLastStep ? 'CONFIRM' :'NEXT'),
+                
                 onPressed: controls.onStepContinue,
               ),
             ),
@@ -160,15 +231,34 @@ class _laporanform extends State<laporanform> {
           ),
           TextFormField(
             controller: Supplier,
+            readOnly: true,
             decoration: InputDecoration(labelText: 'Supplier'),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
           ),
           TextFormField(
             controller: Komplain,
             decoration: InputDecoration(labelText: 'Komplain'),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
           ),
           TextFormField(
             controller: Keterangan,
             decoration: InputDecoration(labelText: 'Keterangan'),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
           ),
         ],
       ),
@@ -181,64 +271,120 @@ class _laporanform extends State<laporanform> {
         children: <Widget>[
           TextFormField(
             controller: NamaBarang,
+            readOnly: true,
             decoration: InputDecoration(labelText: 'Nama Barang'),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
           ),
           TextFormField(
             controller: TglMasuk,
+            
             decoration: InputDecoration(labelText: 'Tgl Masuk'),
-            readOnly: true,
-                        onTap: (){
-              showDatePicker(
-                context: context, 
-                initialDate: TglMasuk.text != '' ? DateTime.parse(TglMasuk.text) : DateTime.now(), 
-                firstDate: DateTime(2000,1), 
-                lastDate: DateTime(2100,12),
-                builder: (context,picker){
-                  return Theme(
-                    data: ThemeData.light().copyWith(
-                      colorScheme: ColorScheme.light(
-                          primary: Colors.blue.shade400,
-
-                      ),
-                      // textButtonTheme: TextButtonThemeData(
-                      //   style: TextButton.styleFrom(
-                      //     textStyle: TextStyle(color: Colors.white) 
-                      //   )
-                      // ),
-                      // dialogBackgroundColor: Colors.white
-                    ), child: picker!,
-                    );
-                }).then((selectedDate){
-                  if(selectedDate != null){
-                    TglMasuk.text = DateFormat('yyyy-MM-dd').format(selectedDate).toString();
-                  }
-                });
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter date';
+              }
+              return null;
             },
+            readOnly: true,
+            //   onTap: (){
+            //   showDatePicker(
+            //     context: context, 
+            //     initialDate: TglMasuk.text != '' ? DateTime.parse(TglMasuk.text) : DateTime.now(), 
+            //     firstDate: DateTime(2000,1), 
+            //     lastDate: DateTime(2100,12),
+            //     builder: (context,picker){
+            //       return Theme(
+            //         data: ThemeData.light().copyWith(
+            //           colorScheme: ColorScheme.light(
+            //               primary: Colors.blue.shade400,
+
+            //           ),
+            //           // textButtonTheme: TextButtonThemeData(
+            //           //   style: TextButton.styleFrom(
+            //           //     textStyle: TextStyle(color: Colors.white) 
+            //           //   )
+            //           // ),
+            //           // dialogBackgroundColor: Colors.white
+            //         ), child: picker!,
+            //         );
+            //     }).then((selectedDate){
+            //       if(selectedDate != null){
+            //         TglMasuk.text = DateFormat('yyyy-MM-dd').format(selectedDate).toString();
+            //       }
+            //     });
+            // },
           ),
            TextFormField(
             controller: JumlahMasuk,
             decoration: InputDecoration(labelText: 'Jumlah Masuk'),
             keyboardType: TextInputType.number,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some quantity';
+              }
+              return null;
+            },
+            readOnly: true,
           ),
           TextFormField(
             controller: KomplainDetail,
             decoration: InputDecoration(labelText: 'Komplain'),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+            readOnly: true,
           ),
           TextFormField(
             controller: PO,
             decoration: InputDecoration(labelText: 'PO'),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+            readOnly: true,
           ),
           TextFormField(
             controller: NomorLot,
             decoration: InputDecoration(labelText: 'No Lot'),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+            readOnly: true,
           ),
           TextFormField(
             controller: Angkutan,
             decoration: InputDecoration(labelText: 'Angkutan'),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+            readOnly: true,
           ),
           TextFormField(
             controller: NoPol,
             decoration: InputDecoration(labelText: 'No Pol'),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+            readOnly: true,
           ),
         ],
       ),

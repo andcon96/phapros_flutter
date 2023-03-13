@@ -1,5 +1,7 @@
 // ignore_for_file: unnecessary_const
 
+import 'package:flutter_template/menu/laporanTidakSesuai/laporanbrowse.dart';
+import 'package:flutter_template/menu/receiptapproval/receiptbrowse.dart';
 import 'package:flutter_template/menu/po/browsePO.dart';
 import 'package:flutter_template/menu/signature.dart';
 import 'package:flutter_template/menu/signaturePage.dart';
@@ -90,7 +92,7 @@ class _NavHomeState extends State<NavHome> with SingleTickerProviderStateMixin {
         onWillPop: _willPopCallback,
         child: DefaultTabController(
           initialIndex: widget.selPage,
-          length: 4,
+          length: 3,
           child: Scaffold(
               // drawer: NavDrawer(),
               // appBar: apptab(),
@@ -99,9 +101,9 @@ class _NavHomeState extends State<NavHome> with SingleTickerProviderStateMixin {
               body: TabBarView(
                 children: const [
                   POBrowse(),
-                  const Center(child: const Text('Content of Tab 2')),
-                  const Center(child: const Text('Content of Tab 3')),
-                  const Center(child: const Text('Content of Tab 4')),
+                  laporanbrowse(),
+                  receiptbrowse(),
+                  // const Center(child: const Text('Content of Tab 4')),
                   // SignaturePage(),
                   // CreateSignature(),
                 ],
@@ -134,20 +136,20 @@ class _NavHomeState extends State<NavHome> with SingleTickerProviderStateMixin {
                         Iconsax.home,
                       ),
                       iconMargin: EdgeInsets.only(bottom: 5),
-                      text: "Home",
+                      text: "PO",
                     ),
                     const Tab(
                         icon: Icon(Iconsax.clipboard_import),
                         iconMargin: EdgeInsets.only(bottom: 5),
-                        text: "CN"),
+                        text: "Unsuitable Receipt"),
                     const Tab(
                         icon: Icon(Iconsax.clipboard_export),
                         iconMargin: EdgeInsets.only(bottom: 5),
-                        text: "CR"),
-                    const Tab(
-                        icon: Icon(Iconsax.archive_book),
-                        iconMargin: EdgeInsets.only(bottom: 5),
-                        text: "KN")
+                        text: "Approve Receipt"),
+                    // const Tab(
+                    //     icon: Icon(Iconsax.archive_book),
+                    //     iconMargin: EdgeInsets.only(bottom: 5),
+                    //     text: "KN")
                   ],
                   labelColor: orangeColor,
                   unselectedLabelColor: Colors.black,

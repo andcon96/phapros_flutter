@@ -13,6 +13,14 @@ class laporanServices{
     
     return list;
   }
+
+  static Future<List<laporanModel>> searchdata(String response) async {
+
+    
+    List<laporanModel> list = parseResponse(response);
+    
+    return list;
+  }
   
   static List<laporanModel> parseResponse(String responseBody) {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
