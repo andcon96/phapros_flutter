@@ -15,7 +15,6 @@ import 'package:flutter_template/utils/secure_user_login.dart';
 import 'package:flutter_template/menu/laporanTidakSesuai/services/laporanServices.dart';
 import 'package:flutter_template/menu/laporanTidakSesuai/laporanform.dart';
 
-
 import 'package:http/http.dart' as http;
 
 // import 'poModel.dart';
@@ -41,7 +40,7 @@ class _laporanbrowse extends State<laporanbrowse> {
   bool overlayloading = false;
   bool onStart = false;
   List<laporanModel> datapo = [];
-  List<laporanModel> _laporanlist= [];
+  List<laporanModel> _laporanlist = [];
   Future<bool> getPassData({bool isRefresh = false, String? search}) async {
     try {
       // if (isRefresh) {
@@ -57,14 +56,13 @@ class _laporanbrowse extends State<laporanbrowse> {
       final token = await UserSecureStorage.getToken();
 
       final Uri url = Uri.parse(
-          'http://192.168.18.40:8000/api/getpolaporan?receiptnbr='+search.toString());
-          
-      
+          'http://192.168.18.186:8000/api/getpolaporan?receiptnbr=' +
+              search.toString());
+
       loadfailed = false;
-      final response = await http
-            .get(url).timeout(const Duration(seconds: 20), onTimeout: () {
+      final response = await http.get(url).timeout(const Duration(seconds: 20),
+          onTimeout: () {
         setState(() {
-          
           loadfailed = true;
           ArtSweetAlert.show(
               context: context,
@@ -74,34 +72,25 @@ class _laporanbrowse extends State<laporanbrowse> {
                   text: "Failed to load data"));
           refreshController.refreshFailed();
         });
-        
+
         return http.Response('Error', 500);
       });
 
       if (response.statusCode == 200) {
-        if(response.body == ''){
+        if (response.body == '') {
           setState(() {
-          datapo = [];
+            datapo = [];
+          });
+        } else {
+          final result =
+              laporanServices.searchdata(response.body).then((newlist) {
+            setState(() {
+              datapo = newlist;
+            });
           });
         }
-        else{
-          final result = laporanServices.searchdata(response.body).then((newlist){
-            setState(() {
 
-              datapo = newlist;
-              
-            });
-        }) ;
-        }
-        
-        
         onStart = true;
-
-        
-
-        
-
-
 
         setState(() {});
         return true;
@@ -131,13 +120,11 @@ class _laporanbrowse extends State<laporanbrowse> {
     init();
   }
 
-    _getData(){
-    laporanServices.getdata().then((list){
-        setState(() {
-          
-          datapo = list;
-          
-        });
+  _getData() {
+    laporanServices.getdata().then((list) {
+      setState(() {
+        datapo = list;
+      });
     });
   }
 
@@ -195,14 +182,12 @@ class _laporanbrowse extends State<laporanbrowse> {
                               ? GestureDetector(
                                   child: const Icon(Iconsax.close_square),
                                   onTap: () async {
-                                    
                                     _textCont.clear();
                                     FocusScopeNode currentFocus =
                                         FocusScope.of(context);
                                     currentFocus.unfocus();
 
                                     final result = await getPassData(
-                                      
                                         isRefresh: true,
                                         search: _textCont.text);
                                     if (result) {
@@ -220,11 +205,10 @@ class _laporanbrowse extends State<laporanbrowse> {
                           setState(() {
                             overlayloading = true;
                           });
-                          
+
                           final result =
                               await getPassData(isRefresh: true, search: text);
                           if (result) {
-                            
                             refreshController.loadComplete();
                             refreshController.refreshCompleted();
                           } else {
@@ -246,14 +230,12 @@ class _laporanbrowse extends State<laporanbrowse> {
                     controller: refreshController,
                     enablePullUp: true,
                     onRefresh: () async {
-                        refreshController.loadComplete();
-                        refreshController.refreshCompleted();
+                      refreshController.loadComplete();
+                      refreshController.refreshCompleted();
                       final result = await getPassData(
                           isRefresh: true, search: _textCont.text);
                       if (result) {
-                        
                       } else {
-                        
                         // refreshController.refreshFailed();
                       }
                     },
@@ -284,7 +266,7 @@ class _laporanbrowse extends State<laporanbrowse> {
                                 ),
                               ),
                             ))
-                        : datapo.isEmpty 
+                        : datapo.isEmpty
                             ? Padding(
                                 padding: const EdgeInsets.only(
                                     top: 10, left: 10, right: 10),
@@ -300,12 +282,10 @@ class _laporanbrowse extends State<laporanbrowse> {
                                     ),
                                   ),
                                 ))
-                                :
-                                ListView.separated(
+                            : ListView.separated(
                                 itemBuilder: (context, index) {
                                   final user = datapo[index];
-                                  
-                                  
+
                                   return ExpandableNotifier(
                                       child: Padding(
                                     padding: const EdgeInsets.only(
@@ -341,8 +321,7 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                         children: [
                                                           const Icon(
                                                             Iconsax.note_2,
-                                                            color:
-                                                                Colors.green,
+                                                            color: Colors.green,
                                                           ),
                                                           Flexible(
                                                             child: Padding(
@@ -407,7 +386,7 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                 TextOverflow
                                                                     .fade,
                                                           )),
-                                                          Padding(
+                                                      Padding(
                                                           padding:
                                                               const EdgeInsets
                                                                       .only(
@@ -446,7 +425,6 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                 TextOverflow
                                                                     .fade,
                                                           )),
-                                                      
                                                       Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
@@ -464,37 +442,36 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                   .remove_red_eye),
                                                               color:
                                                                   Colors.white,
-                                                              onPressed: () =>  {          
-                                                                                                            
-                                                                Navigator.push(context,
-                                                                MaterialPageRoute(
-                                                                  builder: (context) => laporanview(
-                                                                    ponbr: datapo[index].ponbr.toString(), 
-                                                                    rcpt_nbr: datapo[index].rcpt_nbr.toString(), 
-                                                                    rcpt_date: datapo[index].rcpt_date.toString(), 
-                                                                    rcptd_part: datapo[index].rcptd_part.toString(), 
-                                                                    rcptd_qty_arr: datapo[index].rcptd_qty_arr.toString(), 
-                                                                    rcptd_lot: datapo[index].rcptd_lot.toString(), 
-                                                                    rcptd_loc: datapo[index].rcptd_loc.toString(),
-                                                                    rcptd_qty_appr: datapo[index].rcptd_qty_appr.toString(),
-                                                                    rcptd_qty_rej: datapo[index].rcptd_qty_rej.toString(),
-                                                                    nopol: datapo[index].nopol.toString(),
-                                                                    angkutan: datapo[index].angkutan.toString(),
-                                                                    supplier: datapo[index].supplier.toString(),
-                                                                    no: datapo[index].no.toString(),
-                                                                    komplain: datapo[index].komplain.toString(),
-                                                                    keterangan: datapo[index].keterangan.toString(),
-                                                                    tanggal: datapo[index].tanggal.toString(),
-                                                                    komplaindetail: datapo[index].komplaindetail.toString(),
-                                                                  
-                                                                )))
-                                                            
+                                                              onPressed: () => {
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) =>
+                                                                            laporanview(
+                                                                              ponbr: datapo[index].ponbr.toString(),
+                                                                              rcpt_nbr: datapo[index].rcpt_nbr.toString(),
+                                                                              rcpt_date: datapo[index].rcpt_date.toString(),
+                                                                              rcptd_part: datapo[index].rcptd_part.toString(),
+                                                                              rcptd_qty_arr: datapo[index].rcptd_qty_arr.toString(),
+                                                                              rcptd_lot: datapo[index].rcptd_lot.toString(),
+                                                                              rcptd_loc: datapo[index].rcptd_loc.toString(),
+                                                                              rcptd_qty_appr: datapo[index].rcptd_qty_appr.toString(),
+                                                                              rcptd_qty_rej: datapo[index].rcptd_qty_rej.toString(),
+                                                                              nopol: datapo[index].nopol.toString(),
+                                                                              angkutan: datapo[index].angkutan.toString(),
+                                                                              supplier: datapo[index].supplier.toString(),
+                                                                              no: datapo[index].no.toString(),
+                                                                              komplain: datapo[index].komplain.toString(),
+                                                                              keterangan: datapo[index].keterangan.toString(),
+                                                                              tanggal: datapo[index].tanggal.toString(),
+                                                                              komplaindetail: datapo[index].komplaindetail.toString(),
+                                                                            )))
                                                               },
+                                                            ),
                                                           ),
-                                                          
+                                                          SizedBox(
+                                                            width: 6,
                                                           ),
-                                                          SizedBox(width:6,),
-
                                                           Ink(
                                                             decoration:
                                                                 const ShapeDecoration(
@@ -503,33 +480,32 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                     shape:
                                                                         CircleBorder()),
                                                             child: IconButton(
-                                                              icon: const Icon(Icons
-                                                                  .edit_note),
+                                                              icon: const Icon(
+                                                                  Icons
+                                                                      .edit_note),
                                                               color:
                                                                   Colors.white,
-                                                              onPressed: () =>  {          
-                                                                                                            
-                                                                Navigator.push(context,
-                                                                MaterialPageRoute(
-                                                                  builder: (context) => laporanform(
-                                                                    ponbr: datapo[index].ponbr.toString(), 
-                                                                    rcpt_nbr: datapo[index].rcpt_nbr.toString(), 
-                                                                    rcpt_date: datapo[index].rcpt_date.toString() , 
-                                                                    rcptd_part: datapo[index].rcptd_part.toString(), 
-                                                                    rcptd_qty_arr: datapo[index].rcptd_qty_arr.toString(), 
-                                                                    rcptd_lot: datapo[index].rcptd_lot.toString(), 
-                                                                    rcptd_loc: datapo[index].rcptd_loc.toString(),
-                                                                    rcptd_qty_appr: datapo[index].rcptd_qty_appr.toString(),
-                                                                    rcptd_qty_rej: datapo[index].rcptd_qty_rej.toString(),
-                                                                    nopol: datapo[index].nopol.toString(),
-                                                                    angkutan: datapo[index].angkutan.toString(),
-                                                                    supplier: datapo[index].supplier.toString(),
-                                                                  
-                                                                )))
-                                                            
+                                                              onPressed: () => {
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) =>
+                                                                            laporanform(
+                                                                              ponbr: datapo[index].ponbr.toString(),
+                                                                              rcpt_nbr: datapo[index].rcpt_nbr.toString(),
+                                                                              rcpt_date: datapo[index].rcpt_date.toString(),
+                                                                              rcptd_part: datapo[index].rcptd_part.toString(),
+                                                                              rcptd_qty_arr: datapo[index].rcptd_qty_arr.toString(),
+                                                                              rcptd_lot: datapo[index].rcptd_lot.toString(),
+                                                                              rcptd_loc: datapo[index].rcptd_loc.toString(),
+                                                                              rcptd_qty_appr: datapo[index].rcptd_qty_appr.toString(),
+                                                                              rcptd_qty_rej: datapo[index].rcptd_qty_rej.toString(),
+                                                                              nopol: datapo[index].nopol.toString(),
+                                                                              angkutan: datapo[index].angkutan.toString(),
+                                                                              supplier: datapo[index].supplier.toString(),
+                                                                            )))
                                                               },
-                                                          ),
-                                                          
+                                                            ),
                                                           ),
                                                         ],
                                                       )
@@ -569,62 +545,59 @@ class _laporanbrowse extends State<laporanbrowse> {
               )),
         ),
       ),
-      
     );
   }
 
   //  Widget build(BuildContext context) {
-    
+
   //   return Scaffold(
 
   //     body: ListView.builder(
-        
+
   //       itemCount: _laporanlist.length,
   //       itemBuilder: (context, index) {
-          
+
   //         return StickyHeader(
   //         header: Visibility(
-  //               visible: boolvisible, 
+  //               visible: boolvisible,
   //               child:
   //               Container(
   //                 width: double.infinity,
   //                 color: Colors.red,
   //                 padding: const EdgeInsets.all(16),
   //                 child: Text(_laporanlist[index].ponbr.toString()),
-                  
+
   //               )
   //               ),
-                
-  //         content: 
+
+  //         content:
   //           ListTile(
-            
+
   //             title: Text(_laporanlist[index].rcpt_nbr.toString()),
-              
-              
+
   //             // shape: RoundedRectangleBorder(
   //             //   side: BorderSide(color: Colors.black, width: 1),
   //             //   borderRadius: BorderRadius.circular(5),
-  //             // ), 
-              // onTap: () => {
-              //   Navigator.push(context,
-              //   MaterialPageRoute(
-              //     builder: (context) => laporanform(
-              //       ponbr: _laporanlist[index].ponbr.toString(), 
-              //       rcpt_nbr: _laporanlist[index].rcpt_nbr.toString(), 
-              //       rcpt_date: _laporanlist[index].rcpt_date.toString() , 
-              //       rcptd_part: _laporanlist[index].rcptd_part.toString(), 
-              //       rcptd_qty_arr: _laporanlist[index].rcptd_qty_arr.toString(), 
-              //       rcptd_lot: _laporanlist[index].rcptd_lot.toString(), 
-              //       rcptd_loc: _laporanlist[index].rcptd_loc.toString())
-              //   ))
-            
-              // },
+  //             // ),
+  // onTap: () => {
+  //   Navigator.push(context,
+  //   MaterialPageRoute(
+  //     builder: (context) => laporanform(
+  //       ponbr: _laporanlist[index].ponbr.toString(),
+  //       rcpt_nbr: _laporanlist[index].rcpt_nbr.toString(),
+  //       rcpt_date: _laporanlist[index].rcpt_date.toString() ,
+  //       rcptd_part: _laporanlist[index].rcptd_part.toString(),
+  //       rcptd_qty_arr: _laporanlist[index].rcptd_qty_arr.toString(),
+  //       rcptd_lot: _laporanlist[index].rcptd_lot.toString(),
+  //       rcptd_loc: _laporanlist[index].rcptd_loc.toString())
+  //   ))
+
+  // },
   //         )
   //         );
   //       }
   //       )
   //       );
 
-         
-  //       } 
+  //       }
 }

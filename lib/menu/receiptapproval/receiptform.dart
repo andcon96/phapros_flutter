@@ -21,24 +21,24 @@ class receiptform extends StatefulWidget {
       lastapproval,
       nextapproval,
       userid;
-  const receiptform({
-    Key? key,
-    required this.ponbr,
-    required this.rcpt_nbr,
-    required this.rcpt_date,
-    required this.rcptd_part,
-    required this.rcptd_qty_arr,
-    required this.rcptd_lot,
-    required this.rcptd_loc,
-    required this.rcptd_qty_appr,
-    required this.rcptd_qty_rej,
-    required this.supplier,
-    required this.batch,
-    required this.shipto,
-    required this.lastapproval,
-    required this.nextapproval,
-    required this.userid
-  }) : super(key: key);
+  const receiptform(
+      {Key? key,
+      required this.ponbr,
+      required this.rcpt_nbr,
+      required this.rcpt_date,
+      required this.rcptd_part,
+      required this.rcptd_qty_arr,
+      required this.rcptd_lot,
+      required this.rcptd_loc,
+      required this.rcptd_qty_appr,
+      required this.rcptd_qty_rej,
+      required this.supplier,
+      required this.batch,
+      required this.shipto,
+      required this.lastapproval,
+      required this.nextapproval,
+      required this.userid})
+      : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -46,61 +46,58 @@ class receiptform extends StatefulWidget {
 }
 
 class _receiptform extends State<receiptform> {
-
-  Future<http.Response> sendlaporan(String url) async{
+  Future<http.Response> sendlaporan(String url) async {
     final response = await http
-      .post(Uri.parse(url)).timeout(const Duration(seconds: 20), onTimeout: () {
-        setState(() {
-          ArtSweetAlert.show(
+        .post(Uri.parse(url))
+        .timeout(const Duration(seconds: 20), onTimeout: () {
+      setState(() {
+        ArtSweetAlert.show(
             context: context,
             artDialogArgs: ArtDialogArgs(
-              type: ArtSweetAlertType.danger,
-              title: "Error",
-              text: "Failed to load data"));
-        });
-        return http.Response('Error', 500);
+                type: ArtSweetAlertType.danger,
+                title: "Error",
+                text: "Failed to load data"));
+      });
+      return http.Response('Error', 500);
     });
     responseresult = response.body.toString();
-    
-    if(response.body == 'approve success'){
+
+    if (response.body == 'approve success') {
       Navigator.pop(context);
       return ArtSweetAlert.show(
-            context: context,
-            artDialogArgs: ArtDialogArgs(
-                type: ArtSweetAlertType.success,
-                title: "Success",
-                text: "Success to Approve receipt "+IdRcp.text));  
-      
-    }
-    else if (response.body == 'approve failed'){
+          context: context,
+          artDialogArgs: ArtDialogArgs(
+              type: ArtSweetAlertType.success,
+              title: "Success",
+              text: "Success to Approve receipt " + IdRcp.text));
+    } else if (response.body == 'approve failed') {
       return ArtSweetAlert.show(
-            context: context,
-            artDialogArgs: ArtDialogArgs(
-                type: ArtSweetAlertType.danger,
-                title: "Error",
-                text: "Failed to Approve receipt"+IdRcp.text));  
-    }
-    else if(response.body == 'reject success'){
+          context: context,
+          artDialogArgs: ArtDialogArgs(
+              type: ArtSweetAlertType.danger,
+              title: "Error",
+              text: "Failed to Approve receipt" + IdRcp.text));
+    } else if (response.body == 'reject success') {
       Navigator.pop(context);
       return ArtSweetAlert.show(
-            context: context,
-            artDialogArgs: ArtDialogArgs(
-                type: ArtSweetAlertType.success,
-                title: "Success",
-                text: "Success to Reject receipt "+IdRcp.text));  
-      
-    }
-    else if (response.body == 'approve failed'){
+          context: context,
+          artDialogArgs: ArtDialogArgs(
+              type: ArtSweetAlertType.success,
+              title: "Success",
+              text: "Success to Reject receipt " + IdRcp.text));
+    } else if (response.body == 'approve failed') {
       return ArtSweetAlert.show(
-            context: context,
-            artDialogArgs: ArtDialogArgs(
-                type: ArtSweetAlertType.danger,
-                title: "Error",
-                text: "Failed to Reject receipt"+IdRcp.text));  
-    };
+          context: context,
+          artDialogArgs: ArtDialogArgs(
+              type: ArtSweetAlertType.danger,
+              title: "Error",
+              text: "Failed to Reject receipt" + IdRcp.text));
+    }
+    ;
 
     return response;
   }
+
   int currentStep = 0;
   late TextEditingController IdRcp;
   late TextEditingController Batch;
@@ -505,51 +502,59 @@ class _receiptform extends State<receiptform> {
                       child: Row(children: [
                         Expanded(
                           child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.red
-                              ),
+                            style:
+                                ElevatedButton.styleFrom(primary: Colors.red),
                             child: Text('Deny'),
-                            
                             onPressed: () {
                               showModalBottomSheet<void>(
-            context: context,
-            builder: (BuildContext context) {
-              return Container(
-                height: 200,
-                color: Colors.red,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                       Text('Are you sure you want to approve Receipt '+IdRcp.text+'?',style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.black)),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                              primary: Colors.white
-                        ),
-                        child: const Text('Hold this button to continue',style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.black)),
-                        onPressed: () {},
-                        onLongPress:(){                          
-                            String url = 'http://192.168.18.40:8000/api/rejectreceipt?';
-                                  url += 'idrcpt='+IdRcp.text;
-                                  url += '&userid='+widget.userid;
-                                  final urlresponse = sendlaporan(url);
-                            
-                            
-                            Navigator.pop(context);
-                        } ,
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            });
-            
-                              
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Container(
+                                      height: 200,
+                                      color: Colors.red,
+                                      child: Center(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Text(
+                                                'Are you sure you want to approve Receipt ' +
+                                                    IdRcp.text +
+                                                    '?',
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15,
+                                                    color: Colors.black)),
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  primary: Colors.white),
+                                              child: const Text(
+                                                  'Hold this button to continue',
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 15,
+                                                      color: Colors.black)),
+                                              onPressed: () {},
+                                              onLongPress: () {
+                                                String url =
+                                                    'http://192.168.18.186:8000/api/rejectreceipt?';
+                                                url += 'idrcpt=' + IdRcp.text;
+                                                url +=
+                                                    '&userid=' + widget.userid;
+                                                final urlresponse =
+                                                    sendlaporan(url);
 
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  });
                             },
-                              
-                            
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -558,40 +563,48 @@ class _receiptform extends State<receiptform> {
                             child: Text('Approve'),
                             onPressed: () {
                               showModalBottomSheet<void>(
-            context: context,
-            builder: (BuildContext context) {
-              return Container(
-                height: 200,
-                color: Colors.blue,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                       Text('Are you sure you want to approve Receipt '+IdRcp.text+'?',style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.white)),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                              primary: Colors.black
-                        ),
-                        child: const Text('Hold this button to continue'),
-                        onPressed: () {},
-                        onLongPress:(){                          
-                            String url = 'http://192.168.18.40:8000/api/approvereceipt?';
-                            url += 'idrcpt='+IdRcp.text;
-                            url += '&userid='+widget.userid;
-                            
-                            final urlresponse = sendlaporan(url);
-                            Navigator.pop(context);
-                        } ,
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            });
-            
-                              
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Container(
+                                      height: 200,
+                                      color: Colors.blue,
+                                      child: Center(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Text(
+                                                'Are you sure you want to approve Receipt ' +
+                                                    IdRcp.text +
+                                                    '?',
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15,
+                                                    color: Colors.white)),
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  primary: Colors.black),
+                                              child: const Text(
+                                                  'Hold this button to continue'),
+                                              onPressed: () {},
+                                              onLongPress: () {
+                                                String url =
+                                                    'http://192.168.18.186:8000/api/approvereceipt?';
+                                                url += 'idrcpt=' + IdRcp.text;
+                                                url +=
+                                                    '&userid=' + widget.userid;
 
+                                                final urlresponse =
+                                                    sendlaporan(url);
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  });
                             },
                           ),
                         ),
