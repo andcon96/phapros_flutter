@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_template/menu/po/createPO.dart';
-import 'package:flutter_template/menu/po/wsaPoModel.dart';
+import 'package:flutter_template/menu/po/model/wsaPoModel.dart';
 import 'package:flutter_template/utils/secure_user_login.dart';
 import 'package:flutter_template/utils/styles.dart';
 import 'package:loading_overlay/loading_overlay.dart';

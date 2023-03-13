@@ -8,7 +8,7 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_template/menu/po/wsaPO.dart';
-import 'package:flutter_template/menu/po/wsaPoModel.dart';
+import 'package:flutter_template/menu/po/model/wsaPoModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:loading_overlay/loading_overlay.dart';
 
@@ -104,9 +104,12 @@ class _DetailPOState extends State<DetailPO> {
                         .where((line) => line.tLviLine == value)
                         .toList();
 
-                    _um.text = selecteddata[0].tLvcUm.toString();
+                    // print(selecteddata[0].tLvcUm);
+                    // print(widget.cartItem.tLviLine);
 
-                    print('1');
+                    widget.cartItem.tLvcUm = selecteddata[0].tLvcUm.toString();
+
+                    _um.text = selecteddata[0].tLvcUm.toString();
                   });
                 }),
           )),

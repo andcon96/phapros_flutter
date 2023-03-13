@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_template/menu/po/alokasiPO.dart';
-import 'package:flutter_template/menu/po/wsaPoModel.dart';
+import 'package:flutter_template/menu/po/model/wsaPoModel.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:flutter_template/utils/loading.dart';
 // ignore: depend_on_referenced_packages

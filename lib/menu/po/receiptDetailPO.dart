@@ -1,42 +1,44 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_template/menu/po/model/poModel.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutter_template/utils/styles.dart';
 
-class podetail extends StatefulWidget {
+class receiptdetail extends StatefulWidget {
   final String ponbr;
   final String povend;
   final String orddate;
   final String duedate;
   final String total;
-  final List<PoDetails> poddetail;
+  final String? receiptno;
+  final String? receiptstatus;
+  final List<GetDetail>? receiptDetail;
 
-  const podetail(
+  const receiptdetail(
       {Key? key,
       required this.ponbr,
+      required this.receiptno,
+      required this.receiptstatus,
       required this.povend,
       required this.orddate,
       required this.duedate,
       required this.total,
-      required this.poddetail})
+      required this.receiptDetail})
       : super(key: key);
 
   @override
-  _podetailState createState() => _podetailState();
+  _receiptdetailState createState() => _receiptdetailState();
 }
 
-class _podetailState extends State<podetail> {
-  List<PoDetails> listdetail = [];
+class _receiptdetailState extends State<receiptdetail> {
+  List<GetDetail> listdetail = [];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    listdetail = widget.poddetail;
+    print(widget.receiptDetail);
+    listdetail = widget.receiptDetail ?? [];
   }
 
   @override
@@ -51,7 +53,7 @@ class _podetailState extends State<podetail> {
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "Detail PO",
+                "Detail Receipt",
                 style: titleForm,
               ),
               const SizedBox(
@@ -65,12 +67,14 @@ class _podetailState extends State<podetail> {
                   data: widget.povend, title: 'PO Vendor', panjang: 100.00),
               const Divider(),
               _textInfo(
-                  data: widget.orddate, title: 'Order Date', panjang: 200.00),
+                  data: widget.receiptno,
+                  title: 'Receipt Number',
+                  panjang: 100.00),
               const Divider(),
               _textInfo(
-                  data: widget.duedate, title: 'Due Date', panjang: 100.00),
-              const Divider(),
-              _textInfo(data: widget.total, title: 'Total', panjang: 100.00),
+                  data: widget.receiptstatus.toString().kapital(),
+                  title: 'Receipt Status',
+                  panjang: 100.00),
               const Divider(),
               _textInfo(
                   data: '${listdetail.length} Detail(s)',
@@ -102,20 +106,52 @@ class _podetailState extends State<podetail> {
                         child: Card(
                           elevation: 5,
                           child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: Colors.purple[400],
-                              maxRadius: 20,
-                              child: Text(
-                                "${listdetail[i].podLine}",
-                                style: TextStyle(color: Colors.white),
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.purple[400],
+                                maxRadius: 20,
+                                child: Text(
+                                  "${listdetail[i].rcptdLine}",
+                                  style: TextStyle(color: Colors.white),
+                                ),
                               ),
-                            ),
-                            title: Text(
-                                '${listdetail[i].podPart!} - ${listdetail[i].podPartDesc ?? ''}'),
-                            subtitle: Text(
-                                'Qty Order : ${listdetail[i].podQtyOrd}, Qty Open : ${double.parse(listdetail[i].podQtyOrd!) - double.parse(listdetail[i].podQtyRcvd!)}'),
-                            // trailing: Icon(Icons.food_bank),
-                          ),
+                              title: Text(
+                                  '${listdetail[i].rcptdPart!} - ${listdetail[i].rcptdPartDesc}'),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  Text(
+                                      'Qty Datang : ${listdetail[i].rcptdQtyArr}'),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  Text(
+                                      'Qty Terima : ${listdetail[i].rcptdQtyAppr}'),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  Text(
+                                      'Qty Reject : ${listdetail[i].rcptdQtyRej}'),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  Text('Location : ${listdetail[i].rcptdLoc}'),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  Text(
+                                      'Lot Serial : ${listdetail[i].rcptdLot}'),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  Text('Batcg : ${listdetail[i].rcptdBatch}'),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                ],
+                              )),
                         ),
                       ),
                       const Divider(),
@@ -152,4 +188,10 @@ Widget _textInfo({controller, data, title, panjang}) {
       ],
     ),
   );
+}
+
+extension MyExtension on String {
+  String kapital() {
+    return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+  }
 }

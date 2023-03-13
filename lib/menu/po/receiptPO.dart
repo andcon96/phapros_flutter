@@ -2,41 +2,42 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_template/menu/po/model/poModel.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_template/menu/po/receiptDetailPO.dart';
 
 import 'package:flutter_template/utils/styles.dart';
 
-class podetail extends StatefulWidget {
+class PoReceipt extends StatefulWidget {
   final String ponbr;
   final String povend;
   final String orddate;
   final String duedate;
   final String total;
-  final List<PoDetails> poddetail;
+  final List<PoListReceipt> polistreceipt;
 
-  const podetail(
+  const PoReceipt(
       {Key? key,
       required this.ponbr,
       required this.povend,
       required this.orddate,
       required this.duedate,
       required this.total,
-      required this.poddetail})
+      required this.polistreceipt})
       : super(key: key);
 
   @override
-  _podetailState createState() => _podetailState();
+  _PoReceiptState createState() => _PoReceiptState();
 }
 
-class _podetailState extends State<podetail> {
-  List<PoDetails> listdetail = [];
+class _PoReceiptState extends State<PoReceipt> {
+  List<PoListReceipt> listdetail = [];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    listdetail = widget.poddetail;
+    listdetail = widget.polistreceipt;
+
+    print(listdetail[0].getDetail);
   }
 
   @override
@@ -51,7 +52,7 @@ class _podetailState extends State<podetail> {
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "Detail PO",
+                "List Receipt PO",
                 style: titleForm,
               ),
               const SizedBox(
@@ -106,15 +107,51 @@ class _podetailState extends State<podetail> {
                               backgroundColor: Colors.purple[400],
                               maxRadius: 20,
                               child: Text(
-                                "${listdetail[i].podLine}",
+                                "${i + 1}",
                                 style: TextStyle(color: Colors.white),
                               ),
                             ),
-                            title: Text(
-                                '${listdetail[i].podPart!} - ${listdetail[i].podPartDesc ?? ''}'),
-                            subtitle: Text(
-                                'Qty Order : ${listdetail[i].podQtyOrd}, Qty Open : ${double.parse(listdetail[i].podQtyOrd!) - double.parse(listdetail[i].podQtyRcvd!)}'),
-                            // trailing: Icon(Icons.food_bank),
+                            title:
+                                Text('Receipt No : ${listdetail[i].rcptNbr}'),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Text('Status : ${listdetail[i].rcptStatus}'),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                    'Approval Status : ${listdetail[i].getIsOngoinApproval!.isEmpty ? 'Not Started' : 'On Going'}'),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                              ],
+                            ),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.book),
+                              color: Colors.purple,
+                              onPressed: () async {
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) => receiptdetail(
+                                            ponbr: widget.ponbr,
+                                            receiptno: listdetail[i].rcptNbr,
+                                            receiptstatus:
+                                                listdetail[i].rcptStatus,
+                                            povend: widget.povend,
+                                            orddate: widget.orddate,
+                                            duedate: widget.duedate,
+                                            total: widget.total,
+                                            receiptDetail:
+                                                listdetail[i].getDetail,
+                                          )),
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
