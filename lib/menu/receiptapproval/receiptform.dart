@@ -66,7 +66,7 @@ class _receiptform extends State<receiptform> {
     responseresult = response.body.toString();
 
     if (response.body == 'approve success') {
-      Navigator.pop(context);
+      Navigator.pop(context,'refresh');
       return ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
@@ -81,7 +81,7 @@ class _receiptform extends State<receiptform> {
               title: "Error",
               text: "Failed to Approve receipt" + IdRcp.text));
     } else if (response.body == 'reject success') {
-      Navigator.pop(context);
+      Navigator.pop(context,'refresh');
       return ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
@@ -137,7 +137,7 @@ class _receiptform extends State<receiptform> {
     responseresult = response.body.toString();
 
     if (response.body == 'success') {
-      Navigator.pop(context);
+      Navigator.pop(context,'refresh');
       return ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
@@ -546,6 +546,7 @@ class _receiptform extends State<receiptform> {
                                                 url += 'idrcpt=' + IdRcp.text;
                                                 url +=
                                                     '&userid=' + widget.userid;
+                                                    print(url);
                                                     Navigator.pop(context);
                                                     setState(() {
                                                       loading = true;  
