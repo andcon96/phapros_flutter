@@ -601,7 +601,7 @@ class _alokasipoState extends State<alokasipo> {
           context: context,
           type: CoolAlertType.success,
           title: 'Sukses',
-          text: 'Data berhasil dikirim ke QAD',
+          text: 'Data berhasil dikrim',
           loopAnimation: false,
         );
         return true;
