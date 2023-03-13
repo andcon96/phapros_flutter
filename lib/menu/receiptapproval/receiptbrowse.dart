@@ -448,7 +448,8 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                                   .remove_red_eye),
                                                               color:
                                                                   Colors.white,
-                                                              onPressed: () => {
+                                                              onPressed: () async {
+                                                                String refresh = await
                                                                 Navigator.push(
                                                                     context,
                                                                     MaterialPageRoute(
@@ -470,7 +471,10 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                                               shipto: datapo[index].shipto.toString(),
                                                                               lastapproval: datapo[index].lastapproval.toString(),
                                                                               nextapproval: datapo[index].nextapproval.toString(),
-                                                                            )))
+                                                                            )));
+                                                                            if (refresh == 'refresh'){
+                                                                                setState(() {});
+                                                                            }
                                                               },
                                                             ),
                                                           ),
