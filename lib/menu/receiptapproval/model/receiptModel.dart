@@ -38,63 +38,84 @@ class receiptrcpt {
     return data;
   }
 }
-class receiptModel{
-  String? ponbr, rcpt_nbr, rcpt_date, rcptd_part, rcptd_qty_arr, rcptd_lot, rcptd_loc,batch,supplier,shipto,rcptd_qty_appr,rcptd_qty_rej,lastapproval,nextapproval,laststatus;
+
+class receiptModel {
+  String? ponbr,
+      rcpt_nbr,
+      rcpt_date,
+      rcptd_part,
+      rcptd_qty_arr,
+      rcptd_lot,
+      rcptd_loc,
+      batch,
+      supplier,
+      shipto,
+      rcptd_qty_appr,
+      rcptd_qty_rej,
+      lastapproval,
+      nextapproval,
+      laststatus;
   int? userid;
   receiptModel({
-    required this.ponbr, 
-    required this.rcpt_nbr, 
-    required this.rcpt_date, 
-    required this.rcptd_part, 
+    required this.ponbr,
+    required this.rcpt_nbr,
+    required this.rcpt_date,
+    required this.rcptd_part,
     required this.rcptd_qty_arr,
     required this.rcptd_loc,
     required this.rcptd_lot,
-    required this.batch, 
-    required this.supplier, 
-    required this.shipto, 
-    required this.rcptd_qty_appr, 
+    required this.batch,
+    required this.supplier,
+    required this.shipto,
+    required this.rcptd_qty_appr,
     required this.rcptd_qty_rej,
-    required this.lastapproval, 
+    required this.lastapproval,
     required this.nextapproval,
     required this.userid,
     required this.laststatus,
-    
-
   });
 
-  factory receiptModel.fromJson(Map<String, dynamic> json){
+  factory receiptModel.fromJson(Map<String, dynamic> json) {
     Map<String, dynamic> jsonmaster = json['get_master'];
-    
-    
+
     Map<String, dynamic> jsonpo = jsonmaster == null ? {} : jsonmaster['getpo'];
-    Map<String, dynamic> jsonlastappr = jsonmaster == null ? {} : jsonmaster['get_appr_histlast'];
-    Map<String, dynamic> jsonlastappruser = jsonlastappr == null ? {} : jsonlastappr['get_user']  ;
-    Map<String, dynamic> jsonfirstappr = jsonmaster == null ? {} : jsonmaster['get_appr_histfirst'];
-    Map<String, dynamic> jsonfirstappruser = jsonfirstappr == null ? {} : jsonfirstappr['get_user'];
-    
-    
+    Map<String, dynamic> jsonlastappr = jsonmaster == null
+        ? {}
+        : jsonmaster['get_appr_histlast'] == null
+            ? {}
+            : jsonmaster['get_appr_histlast'];
+
+    Map<String, dynamic> jsonlastappruser = jsonlastappr == null
+        ? {}
+        : jsonlastappr.isEmpty
+            ? {}
+            : jsonlastappr['get_user'];
+    Map<String, dynamic> jsonfirstappr =
+        jsonmaster == null ? {} : jsonmaster['get_appr_histfirst'];
+    Map<String, dynamic> jsonfirstappruser =
+        jsonfirstappr == null ? {} : jsonfirstappr['get_user'];
+
     return receiptModel(
-      ponbr: jsonpo['po_nbr'],
-      rcpt_nbr: jsonmaster['rcpt_nbr'],
-      rcpt_date: jsonmaster['rcpt_date'],
-      rcptd_part: json['rcptd_part'],
-      rcptd_loc: json['rcptd_loc'],
-      rcptd_qty_arr: json['sum_qty_arr'],
-      rcptd_lot: json['rcptd_lot'],
-      rcptd_qty_appr: json['sum_qty_appr'],
-      rcptd_qty_rej: json['sum_qty_rej'],
-      batch: json['rcptd_batch'],
-      shipto: jsonpo['po_ship'],
-      supplier: jsonpo['po_vend'],
-      lastapproval: jsonlastappruser['name'] == {} ? '-' : jsonlastappruser['name'] ,
-      nextapproval: jsonfirstappruser['name'] == {} ? '-' : jsonfirstappruser['name'],
-      userid: jsonfirstappruser['id'] == {} ? null : jsonfirstappruser['id'],
-      laststatus: jsonlastappr == null ? null : jsonlastappruser['name']
-    );
-    }
-    
-  
-  
+        ponbr: jsonpo['po_nbr'],
+        rcpt_nbr: jsonmaster['rcpt_nbr'],
+        rcpt_date: jsonmaster['rcpt_date'],
+        rcptd_part: json['rcptd_part'],
+        rcptd_loc: json['rcptd_loc'],
+        rcptd_qty_arr: json['sum_qty_arr'],
+        rcptd_lot: json['rcptd_lot'],
+        rcptd_qty_appr: json['sum_qty_appr'],
+        rcptd_qty_rej: json['sum_qty_rej'],
+        batch: json['rcptd_batch'],
+        shipto: jsonpo['po_ship'],
+        supplier: jsonpo['po_vend'],
+        lastapproval:
+            jsonlastappruser['name'] == {} ? '-' : jsonlastappruser['name'],
+        nextapproval:
+            jsonfirstappruser['name'] == {} ? '-' : jsonfirstappruser['name'],
+        userid: jsonfirstappruser['id'] == {} ? null : jsonfirstappruser['id'],
+        laststatus: jsonlastappr == null ? null : jsonlastappruser['name']);
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['ponbr'] = ponbr;
@@ -184,6 +205,7 @@ class Meta {
     return data;
   }
 }
+
 class MetaLinks {
   String? url;
   String? label;
@@ -205,5 +227,3 @@ class MetaLinks {
     return data;
   }
 }
-
-

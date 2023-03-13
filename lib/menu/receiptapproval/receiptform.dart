@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter_template/utils/loading.dart';
 
-
 class receiptform extends StatefulWidget {
   final String ponbr,
       rcpt_nbr,
@@ -50,9 +49,11 @@ class receiptform extends StatefulWidget {
 class _receiptform extends State<receiptform> {
   bool loading = false;
   Future<Object?> sendlaporan(String url) async {
+    print(url);
     final response = await http
         .post(Uri.parse(url))
         .timeout(const Duration(seconds: 20), onTimeout: () {
+      print('a');
       setState(() {
         ArtSweetAlert.show(
             context: context,
@@ -180,450 +181,453 @@ class _receiptform extends State<receiptform> {
   }
 
   @override
-  Widget build(BuildContext context) => loading ? const Loading() : Scaffold(
+  Widget build(BuildContext context) => loading
+      ? const Loading()
+      : Scaffold(
           body: ListView(
-        children: <Widget>[
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 0, left: 10, right: 10),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Table(
-                        border: TableBorder(
-                            horizontalInside: BorderSide(
-                                width: 1,
-                                color: Colors.blue,
-                                style: BorderStyle.solid)),
-                        children: [
-                          TableRow(children: [
-                            TableCell(
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Rcpt Nbr',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
-                                ),
-                              ),
-                            ),
-                            TableCell(
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  IdRcp.text,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
-                                ),
-                              ),
-                            ),
-                          ]),
-                          TableRow(children: [
-                            TableCell(
+          children: <Widget>[
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 0, left: 10, right: 10),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Table(
+                          border: TableBorder(
+                              horizontalInside: BorderSide(
+                                  width: 1,
+                                  color: Colors.blue,
+                                  style: BorderStyle.solid)),
+                          children: [
+                            TableRow(children: [
+                              TableCell(
                                 child: Container(
-                              height: 50,
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Po Nbr',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 14),
-                              ),
-                            )),
-                            TableCell(
-                              verticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  PO.text,
-                                  style: TextStyle(fontSize: 16),
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Rcpt Nbr',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ]),
-                          TableRow(children: [
-                            TableCell(
-                              verticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              child: Container(
+                              TableCell(
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    IdRcp.text,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                            TableRow(children: [
+                              TableCell(
+                                  child: Container(
                                 height: 50,
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  'Shipto',
+                                  'Po Nbr',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14),
                                 ),
-                              ),
-                            ),
-                            TableCell(
-                              verticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  Shipto.text,
-                                  style: TextStyle(fontSize: 16),
+                              )),
+                              TableCell(
+                                verticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    PO.text,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
                                 ),
                               ),
-                            ),
+                            ]),
+                            TableRow(children: [
+                              TableCell(
+                                verticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Shipto',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                verticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    Shipto.text,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                            TableRow(children: [
+                              TableCell(
+                                verticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Supplier',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                verticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    Supplier.text,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                            TableRow(children: [
+                              TableCell(
+                                verticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Part',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                verticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    NamaBarang.text,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                            TableRow(children: [
+                              TableCell(
+                                verticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Lot',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                verticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    NomorLot.text,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                            TableRow(children: [
+                              TableCell(
+                                verticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Batch',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                verticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    Batch.text,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                            TableRow(children: [
+                              TableCell(
+                                verticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Location',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                verticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    Loc.text,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                            TableRow(children: [
+                              TableCell(
+                                verticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Qty Arrive',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                verticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    JumlahMasuk.text,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                            TableRow(children: [
+                              TableCell(
+                                verticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Qty Approved',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                verticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    JumlahApprove.text,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                            TableRow(children: [
+                              TableCell(
+                                verticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Qty Reject',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                verticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    JumlahReject.text,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                            ]),
                           ]),
-                          TableRow(children: [
-                            TableCell(
-                              verticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Supplier',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
-                                ),
-                              ),
-                            ),
-                            TableCell(
-                              verticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  Supplier.text,
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ),
-                            ),
-                          ]),
-                          TableRow(children: [
-                            TableCell(
-                              verticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Part',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
-                                ),
-                              ),
-                            ),
-                            TableCell(
-                              verticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  NamaBarang.text,
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ),
-                            ),
-                          ]),
-                          TableRow(children: [
-                            TableCell(
-                              verticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Lot',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
-                                ),
-                              ),
-                            ),
-                            TableCell(
-                              verticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  NomorLot.text,
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ),
-                            ),
-                          ]),
-                          TableRow(children: [
-                            TableCell(
-                              verticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Batch',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
-                                ),
-                              ),
-                            ),
-                            TableCell(
-                              verticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  Batch.text,
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ),
-                            ),
-                          ]),
-                          TableRow(children: [
-                            TableCell(
-                              verticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Location',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
-                                ),
-                              ),
-                            ),
-                            TableCell(
-                              verticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  Loc.text,
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ),
-                            ),
-                          ]),
-                          TableRow(children: [
-                            TableCell(
-                              verticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Qty Arrive',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
-                                ),
-                              ),
-                            ),
-                            TableCell(
-                              verticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  JumlahMasuk.text,
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ),
-                            ),
-                          ]),
-                          TableRow(children: [
-                            TableCell(
-                              verticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Qty Approved',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
-                                ),
-                              ),
-                            ),
-                            TableCell(
-                              verticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  JumlahApprove.text,
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ),
-                            ),
-                          ]),
-                          TableRow(children: [
-                            TableCell(
-                              verticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Qty Reject',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
-                                ),
-                              ),
-                            ),
-                            TableCell(
-                              verticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              child: Container(
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  JumlahReject.text,
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ),
-                            ),
-                          ]),
-                        ]),
-                    Container(
-                      margin: EdgeInsets.only(top: 50),
-                      child: Row(children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            style:
-                                ElevatedButton.styleFrom(primary: Colors.red),
-                            child: Text('Deny'),
-                            onPressed: () {
-                              showModalBottomSheet<void>(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return Container(
-                                      height: 200,
-                                      color: Colors.red,
-                                      child: Center(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Text(
-                                                'Are you sure you want to approve Receipt ' +
-                                                    IdRcp.text +
-                                                    '?',
-                                                style: const TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 15,
-                                                    color: Colors.black)),
-                                            ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  primary: Colors.white),
-                                              child: const Text(
-                                                  'Hold this button to continue',
+                      Container(
+                        margin: EdgeInsets.only(top: 50),
+                        child: Row(children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              style:
+                                  ElevatedButton.styleFrom(primary: Colors.red),
+                              child: Text('Deny'),
+                              onPressed: () {
+                                showModalBottomSheet<void>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Container(
+                                        height: 200,
+                                        color: Colors.red,
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              Text(
+                                                  'Are you sure you want to approve Receipt ' +
+                                                      IdRcp.text +
+                                                      '?',
                                                   style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 15,
                                                       color: Colors.black)),
-                                              onPressed: () {},
-                                              onLongPress: () {
-                                                String url =
-                                                    'http://192.168.18.186:8000/api/rejectreceipt?';
-                                                url += 'idrcpt=' + IdRcp.text;
-                                                url +=
-                                                    '&userid=' + widget.userid;
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    primary: Colors.white),
+                                                child: const Text(
+                                                    'Hold this button to continue',
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 15,
+                                                        color: Colors.black)),
+                                                onPressed: () {},
+                                                onLongPress: () {
+                                                  String url =
+                                                      'http://192.168.18.186:8000/api/rejectreceipt?';
+                                                  url += 'idrcpt=' + IdRcp.text;
+                                                  url += '&userid=' +
+                                                      widget.userid;
+                                                  print(url);
                                                     print(url);
-                                                    Navigator.pop(context);
-                                                    setState(() {
-                                                      loading = true;  
-                                                    });
-                                                final urlresponse =
-                                                    sendlaporan(url);
-
-                                                
-                                              },
-                                            ),
-                                          ],
+                                                  Navigator.pop(context);
+                                                  setState(() {
+                                                    loading = true;
+                                                  });
+                                                  final urlresponse =
+                                                      sendlaporan(url);
+                                                },
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  });
-                            },
+                                      );
+                                    });
+                              },
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: ElevatedButton(
-                            child: Text('Approve'),
-                            onPressed: () {
-                              showModalBottomSheet<void>(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return Container(
-                                      height: 200,
-                                      color: Colors.blue,
-                                      child: Center(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Text(
-                                                'Are you sure you want to approve Receipt ' +
-                                                    IdRcp.text +
-                                                    '?',
-                                                style: const TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 15,
-                                                    color: Colors.white)),
-                                            ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  primary: Colors.black),
-                                              child: const Text(
-                                                  'Hold this button to continue'),
-                                              onPressed: () {},
-                                              onLongPress: () {
-                                                String url =
-                                                    'http://192.168.18.186:8000/api/approvereceipt?';
-                                                url += 'idrcpt=' + IdRcp.text;
-                                                url +=
-                                                    '&userid=' + widget.userid;
-                                                Navigator.pop(context);
-                                                    setState(() {
-                                                      loading = true;  
-                                                    });
-                                                final urlresponse =
-                                                    sendlaporan(url);
-                                                
-                                              },
-                                            ),
-                                          ],
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: ElevatedButton(
+                              child: Text('Approve'),
+                              onPressed: () {
+                                showModalBottomSheet<void>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Container(
+                                        height: 200,
+                                        color: Colors.blue,
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              Text(
+                                                  'Are you sure you want to approve Receipt ' +
+                                                      IdRcp.text +
+                                                      '?',
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 15,
+                                                      color: Colors.white)),
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    primary: Colors.black),
+                                                child: const Text(
+                                                    'Hold this button to continue'),
+                                                onPressed: () {},
+                                                onLongPress: () {
+                                                  String url =
+                                                      'http://192.168.18.186:8000/api/approvereceipt?';
+                                                  url += 'idrcpt=' + IdRcp.text;
+                                                  url += '&userid=' +
+                                                      widget.userid;
+                                                  Navigator.pop(context);
+                                                  setState(() {
+                                                    loading = true;
+                                                  });
+                                                  final urlresponse =
+                                                      sendlaporan(url);
+                                                },
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  });
-                            },
+                                      );
+                                    });
+                              },
+                            ),
                           ),
-                        ),
-                      ]),
-                    ),
-                  ]),
-            ),
-          )
-        ],
-      ));
+                        ]),
+                      ),
+                    ]),
+              ),
+            )
+          ],
+        ));
 }
