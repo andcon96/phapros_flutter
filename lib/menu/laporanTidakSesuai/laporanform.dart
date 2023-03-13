@@ -131,22 +131,61 @@ class _laporanform extends State<laporanform> {
           onStepContinue: () {
             bool isLastStep = (currentStep == getSteps().length - 1);
             if (isLastStep) {
-              String url = 'http://192.168.18.186:8000/api/submitlaporan?';
-              url += 'idrcpt=' + IdRcp.text;
-              url += '&ponbr=' + PO.text;
-              url += '&part=' + NamaBarang.text;
-              url += '&tglmasuk=' + TglMasuk.text;
-              url += '&jmlmasuk=' + JumlahMasuk.text;
-              url += '&no=' + No.text;
-              url += '&lot=' + NomorLot.text;
-              url += '&tgl=' + Tanggal.text;
-              url += '&supplier=' + Supplier.text;
-              url += '&komplain=' + Komplain.text;
-              url += '&keterangan=' + Keterangan.text;
-              url += '&komplaindetail=' + KomplainDetail.text;
-              url += '&angkutan=' + Angkutan.text;
-              url += '&nopol=' + NoPol.text;
-              final urlresponse = sendlaporan(url);
+              showModalBottomSheet<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Container(
+                      height: 200,
+                      color: Colors.amber,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                                'Are you sure you want to submit Receipt ' +
+                                    IdRcp.text +
+                                    '?',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                    color: Colors.black)),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.blue),
+                              child: const Text('Hold this button to continue',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                      color: Colors.black)),
+                              onPressed: () {},
+                              onLongPress: () {
+                                String url =
+                                    'http://192.168.18.186:8000/api/submitlaporan?';
+                                url += 'idrcpt=' + IdRcp.text;
+                                url += '&ponbr=' + PO.text;
+                                url += '&part=' + NamaBarang.text;
+                                url += '&tglmasuk=' + TglMasuk.text;
+                                url += '&jmlmasuk=' + JumlahMasuk.text;
+                                url += '&no=' + No.text;
+                                url += '&lot=' + NomorLot.text;
+                                url += '&tgl=' + Tanggal.text;
+                                url += '&supplier=' + Supplier.text;
+                                url += '&komplain=' + Komplain.text;
+                                url += '&keterangan=' + Keterangan.text;
+                                url += '&komplaindetail=' + KomplainDetail.text;
+                                url += '&angkutan=' + Angkutan.text;
+                                url += '&nopol=' + NoPol.text;
+
+                                final urlresponse = sendlaporan(url);
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  });
             } else {
               setState(() => currentStep += 1);
             }
