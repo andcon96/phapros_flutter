@@ -5,6 +5,8 @@ import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_template/menu/po/detailPO.dart';
+import 'package:flutter_template/menu/po/receiptPO.dart';
 import 'package:flutter_template/menu/po/wsaPO.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -12,7 +14,7 @@ import 'package:flutter_template/utils/styles.dart';
 import 'package:flutter_template/utils/secure_user_login.dart';
 import 'package:http/http.dart' as http;
 
-import 'poModel.dart';
+import 'model/poModel.dart';
 
 class POBrowse extends StatefulWidget {
   const POBrowse({Key? key}) : super(key: key);
@@ -423,41 +425,81 @@ class _POBrowseState extends State<POBrowse> {
                                                       Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
-                                                                .end,
+                                                                .spaceEvenly,
                                                         children: [
                                                           Ink(
                                                             decoration:
                                                                 const ShapeDecoration(
-                                                                    color: Colors
-                                                                        .blue,
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            55,
+                                                                            48,
+                                                                            107,
+                                                                            0.9),
                                                                     shape:
                                                                         CircleBorder()),
                                                             child: IconButton(
                                                               icon: const Icon(Icons
-                                                                  .remove_red_eye),
+                                                                  .remove_red_eye_sharp),
                                                               color:
                                                                   Colors.white,
                                                               onPressed:
                                                                   () async {
-                                                                // Navigator.push(
-                                                                //   context,
-                                                                //   CupertinoPageRoute(
-                                                                //       builder:
-                                                                //           (context) =>
-                                                                //               kndetail(
-                                                                //                 initial: user.initial,
-                                                                //                 custname: user.name,
-                                                                //                 module: user.moduleName,
-                                                                //                 keyword: user.keyword,
-                                                                //                 title: user.datumCase,
-                                                                //                 detail: user.caseDetails,
-                                                                //                 solution: user.solution,
-                                                                //                 attach: user.datafile,
-                                                                //               )),
-                                                                // );
+                                                                Navigator.push(
+                                                                  context,
+                                                                  CupertinoPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              podetail(
+                                                                                ponbr: user.poNbr!,
+                                                                                povend: user.poVend!,
+                                                                                orddate: user.poOrdDate!,
+                                                                                duedate: user.poDueDate!,
+                                                                                total: user.poTotal!,
+                                                                                poddetail: user.poDetails!,
+                                                                              )),
+                                                                );
                                                               },
                                                             ),
                                                           ),
+                                                          // List Receipt
+                                                          if (user
+                                                              .poListReceipt!
+                                                              .isNotEmpty)
+                                                            Ink(
+                                                              decoration: const ShapeDecoration(
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          158,
+                                                                          71,
+                                                                          132,
+                                                                          0.9),
+                                                                  shape:
+                                                                      CircleBorder()),
+                                                              child: IconButton(
+                                                                icon: const Icon(
+                                                                    Icons.book),
+                                                                color: Colors
+                                                                    .white,
+                                                                onPressed:
+                                                                    () async {
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    CupertinoPageRoute(
+                                                                        builder: (context) =>
+                                                                            PoReceipt(
+                                                                              ponbr: user.poNbr!,
+                                                                              povend: user.poVend!,
+                                                                              orddate: user.poOrdDate!,
+                                                                              duedate: user.poDueDate!,
+                                                                              total: user.poTotal!,
+                                                                              polistreceipt: user.poListReceipt!,
+                                                                            )),
+                                                                  );
+                                                                },
+                                                              ),
+                                                            ),
                                                         ],
                                                       )
                                                     ],
