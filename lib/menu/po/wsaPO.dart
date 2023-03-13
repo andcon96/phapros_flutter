@@ -5,6 +5,7 @@ import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_template/menu/po/browsePO.dart';
 import 'package:flutter_template/menu/po/createPO.dart';
 import 'package:flutter_template/menu/po/model/wsaPoModel.dart';
 import 'package:flutter_template/utils/secure_user_login.dart';
@@ -68,7 +69,13 @@ class _wsaPOState extends State<wsaPO> {
                   style: content,
                 ),
                 onPressed: () {
-                  Navigator.of(context).pop(true);
+                  // Navigator.of(context).pop(true);
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => const POBrowse(),
+                      ),
+                      (route) => route.isFirst);
+                  // Navigator.popUntil(context, (route) => route.isFirst);
                 },
               ),
             ],
