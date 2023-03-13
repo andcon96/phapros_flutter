@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
+import 'package:flutter_template/utils/loading.dart';
 
 class laporanform extends StatefulWidget {
   final String ponbr,
@@ -57,8 +58,11 @@ class _laporanform extends State<laporanform> {
   late TextEditingController NoPol;
   String rcptnbr = '';
   late String responseresult = '';
-
-  Future<http.Response> sendlaporan(String url) async {
+  bool loading = false;
+  Future<Object?> sendlaporan(String url) async {
+        
+        
+        
     final response = await http
         .post(Uri.parse(url))
         .timeout(const Duration(seconds: 20), onTimeout: () {
@@ -76,6 +80,7 @@ class _laporanform extends State<laporanform> {
 
     if (response.body == 'success') {
       Navigator.pop(context);
+      
       return ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
@@ -116,11 +121,11 @@ class _laporanform extends State<laporanform> {
         text: widget.angkutan != 'null' ? widget.angkutan : '');
     NoPol =
         TextEditingController(text: widget.nopol != 'null' ? widget.nopol : '');
-    print(widget.supplier);
+    
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) => loading ? const Loading()  :Scaffold(
         body: Stepper(
           type: StepperType.vertical,
           steps: getSteps(),
@@ -176,9 +181,13 @@ class _laporanform extends State<laporanform> {
                                 url += '&komplaindetail=' + KomplainDetail.text;
                                 url += '&angkutan=' + Angkutan.text;
                                 url += '&nopol=' + NoPol.text;
-
-                                final urlresponse = sendlaporan(url);
                                 Navigator.pop(context);
+                                setState(() {
+                                  loading = true;  
+                                });
+                                
+                                final urlresponse = sendlaporan(url);
+                                
                               },
                             ),
                           ],
@@ -332,33 +341,7 @@ class _laporanform extends State<laporanform> {
                   return null;
                 },
                 readOnly: true,
-                //   onTap: (){
-                //   showDatePicker(
-                //     context: context,
-                //     initialDate: TglMasuk.text != '' ? DateTime.parse(TglMasuk.text) : DateTime.now(),
-                //     firstDate: DateTime(2000,1),
-                //     lastDate: DateTime(2100,12),
-                //     builder: (context,picker){
-                //       return Theme(
-                //         data: ThemeData.light().copyWith(
-                //           colorScheme: ColorScheme.light(
-                //               primary: Colors.blue.shade400,
-
-                //           ),
-                //           // textButtonTheme: TextButtonThemeData(
-                //           //   style: TextButton.styleFrom(
-                //           //     textStyle: TextStyle(color: Colors.white)
-                //           //   )
-                //           // ),
-                //           // dialogBackgroundColor: Colors.white
-                //         ), child: picker!,
-                //         );
-                //     }).then((selectedDate){
-                //       if(selectedDate != null){
-                //         TglMasuk.text = DateFormat('yyyy-MM-dd').format(selectedDate).toString();
-                //       }
-                //     });
-                // },
+               
               ),
               TextFormField(
                 controller: JumlahMasuk,

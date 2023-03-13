@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
+import 'package:flutter_template/utils/loading.dart';
+
 
 class receiptform extends StatefulWidget {
   final String ponbr,
@@ -46,7 +48,8 @@ class receiptform extends StatefulWidget {
 }
 
 class _receiptform extends State<receiptform> {
-  Future<http.Response> sendlaporan(String url) async {
+  bool loading = false;
+  Future<Object?> sendlaporan(String url) async {
     final response = await http
         .post(Uri.parse(url))
         .timeout(const Duration(seconds: 20), onTimeout: () {
@@ -117,7 +120,7 @@ class _receiptform extends State<receiptform> {
   String rcptnbr = '';
   late String responseresult = '';
 
-  Future<http.Response> approvereject(String url) async {
+  Future<Object?> approvereject(String url) async {
     final response = await http
         .post(Uri.parse(url))
         .timeout(const Duration(seconds: 20), onTimeout: () {
@@ -177,7 +180,7 @@ class _receiptform extends State<receiptform> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) => loading ? const Loading() : Scaffold(
           body: ListView(
         children: <Widget>[
           Container(
@@ -543,10 +546,14 @@ class _receiptform extends State<receiptform> {
                                                 url += 'idrcpt=' + IdRcp.text;
                                                 url +=
                                                     '&userid=' + widget.userid;
+                                                    Navigator.pop(context);
+                                                    setState(() {
+                                                      loading = true;  
+                                                    });
                                                 final urlresponse =
                                                     sendlaporan(url);
 
-                                                Navigator.pop(context);
+                                                
                                               },
                                             ),
                                           ],
@@ -594,10 +601,13 @@ class _receiptform extends State<receiptform> {
                                                 url += 'idrcpt=' + IdRcp.text;
                                                 url +=
                                                     '&userid=' + widget.userid;
-
+                                                Navigator.pop(context);
+                                                    setState(() {
+                                                      loading = true;  
+                                                    });
                                                 final urlresponse =
                                                     sendlaporan(url);
-                                                Navigator.pop(context);
+                                                
                                               },
                                             ),
                                           ],
