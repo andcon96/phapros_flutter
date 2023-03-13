@@ -44,6 +44,19 @@ class _receiptbrowse extends State<receiptbrowse> {
   List<receiptModel> datapo = [];
 
   List<receiptModel> _receiptlist = [];
+
+  void Changedata() async {
+    loadfailed = true;
+    loadfailed = false;
+    final result = await getPassData(isRefresh: true, search: _textCont.text);
+    if (result) {
+      refreshController.loadComplete();
+      refreshController.refreshCompleted();
+    } else {
+      refreshController.refreshFailed();
+    }
+  }
+
   Future<bool> getPassData({bool isRefresh = false, String? search}) async {
     try {
       // if (isRefresh) {
@@ -448,8 +461,7 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                                   .remove_red_eye),
                                                               color:
                                                                   Colors.white,
-                                                              onPressed: () async {
-                                                                String refresh = await
+                                                              onPressed: () => {
                                                                 Navigator.push(
                                                                     context,
                                                                     MaterialPageRoute(
@@ -471,10 +483,7 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                                               shipto: datapo[index].shipto.toString(),
                                                                               lastapproval: datapo[index].lastapproval.toString(),
                                                                               nextapproval: datapo[index].nextapproval.toString(),
-                                                                            )));
-                                                                            if (refresh == 'refresh'){
-                                                                                setState(() {});
-                                                                            }
+                                                                            )))
                                                               },
                                                             ),
                                                           ),
@@ -514,29 +523,33 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                                         onPressed: datapo[index].laststatus.toString() !=
                                                                                 'Rejected'
                                                                             ? datapo[index].userid.toString() == userid
-                                                                                ? () => {
-                                                                                      Navigator.push(
-                                                                                          context,
-                                                                                          MaterialPageRoute(
-                                                                                              builder: (context) => receiptform(
-                                                                                                  ponbr: datapo[index].ponbr.toString(),
-                                                                                                  rcpt_nbr: datapo[index].rcpt_nbr.toString(),
-                                                                                                  rcpt_date: datapo[index].rcpt_date.toString(),
-                                                                                                  rcptd_part: datapo[index].rcptd_part.toString(),
-                                                                                                  rcptd_qty_arr: datapo[index].rcptd_qty_arr.toString(),
-                                                                                                  rcptd_lot: datapo[index].rcptd_lot.toString(),
-                                                                                                  rcptd_loc: datapo[index].rcptd_loc.toString(),
-                                                                                                  rcptd_qty_appr: datapo[index].rcptd_qty_appr.toString(),
-                                                                                                  rcptd_qty_rej: datapo[index].rcptd_qty_rej.toString(),
-                                                                                                  // angkutan: datapo[index].rcptd_loc.toString(),
-                                                                                                  // nopol: datapo[index].rcptd_lot.toString(),
-                                                                                                  supplier: datapo[index].supplier.toString(),
-                                                                                                  batch: datapo[index].batch.toString(),
-                                                                                                  shipto: datapo[index].shipto.toString(),
-                                                                                                  lastapproval: datapo[index].lastapproval.toString(),
-                                                                                                  nextapproval: datapo[index].nextapproval.toString(),
-                                                                                                  userid: userid)))
+                                                                                ? () async {
+                                                                                    String refresh = await Navigator.push(
+                                                                                        context,
+                                                                                        MaterialPageRoute(
+                                                                                            builder: (context) => receiptform(
+                                                                                                ponbr: datapo[index].ponbr.toString(),
+                                                                                                rcpt_nbr: datapo[index].rcpt_nbr.toString(),
+                                                                                                rcpt_date: datapo[index].rcpt_date.toString(),
+                                                                                                rcptd_part: datapo[index].rcptd_part.toString(),
+                                                                                                rcptd_qty_arr: datapo[index].rcptd_qty_arr.toString(),
+                                                                                                rcptd_lot: datapo[index].rcptd_lot.toString(),
+                                                                                                rcptd_loc: datapo[index].rcptd_loc.toString(),
+                                                                                                rcptd_qty_appr: datapo[index].rcptd_qty_appr.toString(),
+                                                                                                rcptd_qty_rej: datapo[index].rcptd_qty_rej.toString(),
+                                                                                                // angkutan: datapo[index].rcptd_loc.toString(),
+                                                                                                // nopol: datapo[index].rcptd_lot.toString(),
+                                                                                                supplier: datapo[index].supplier.toString(),
+                                                                                                batch: datapo[index].batch.toString(),
+                                                                                                shipto: datapo[index].shipto.toString(),
+                                                                                                lastapproval: datapo[index].lastapproval.toString(),
+                                                                                                nextapproval: datapo[index].nextapproval.toString(),
+                                                                                                userid: userid)));
+
+                                                                                    if (refresh == 'refresh') {
+                                                                                      Changedata();
                                                                                     }
+                                                                                  }
                                                                                 : null
                                                                             : null,
                                                                       )

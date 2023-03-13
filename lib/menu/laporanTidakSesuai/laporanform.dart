@@ -79,7 +79,8 @@ class _laporanform extends State<laporanform> {
     responseresult = response.body.toString();
 
     if (response.body == 'success') {
-      Navigator.pop(context);
+      
+      Navigator.pop(context,'refresh');
       
       return ArtSweetAlert.show(
           context: context,

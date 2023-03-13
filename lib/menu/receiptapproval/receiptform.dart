@@ -53,7 +53,7 @@ class _receiptform extends State<receiptform> {
     final response = await http
         .post(Uri.parse(url))
         .timeout(const Duration(seconds: 20), onTimeout: () {
-      print('a');
+      
       setState(() {
         ArtSweetAlert.show(
             context: context,
@@ -551,8 +551,7 @@ class _receiptform extends State<receiptform> {
                                                   url += 'idrcpt=' + IdRcp.text;
                                                   url += '&userid=' +
                                                       widget.userid;
-                                                  print(url);
-                                                    print(url);
+ 
                                                   Navigator.pop(context);
                                                   setState(() {
                                                     loading = true;

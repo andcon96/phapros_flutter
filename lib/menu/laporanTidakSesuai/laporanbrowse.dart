@@ -28,6 +28,7 @@ class laporanbrowse extends StatefulWidget {
 }
 
 class _laporanbrowse extends State<laporanbrowse> {
+  
   final RefreshController refreshController =
       RefreshController(initialRefresh: true);
 
@@ -41,6 +42,22 @@ class _laporanbrowse extends State<laporanbrowse> {
   bool onStart = false;
   List<laporanModel> datapo = [];
   List<laporanModel> _laporanlist = [];
+
+  void Changedata() async{
+
+        loadfailed = true;
+        loadfailed = false;
+        final result =
+                              await getPassData(isRefresh: true, search: _textCont.text);
+                          if (result) {
+                            refreshController.loadComplete();
+                            refreshController.refreshCompleted();
+                          } else {
+                            refreshController.refreshFailed();
+                          }   
+        
+    }
+  
   Future<bool> getPassData({bool isRefresh = false, String? search}) async {
     try {
       // if (isRefresh) {
@@ -86,6 +103,7 @@ class _laporanbrowse extends State<laporanbrowse> {
               laporanServices.searchdata(response.body).then((newlist) {
             setState(() {
               datapo = newlist;
+              
             });
           });
         }
@@ -216,7 +234,8 @@ class _laporanbrowse extends State<laporanbrowse> {
                           }
 
                           setState(() {
-                            overlayloading = false;
+                            overlayloading = true;
+                            
                           });
                         });
                       },
@@ -242,10 +261,10 @@ class _laporanbrowse extends State<laporanbrowse> {
                     onLoading: () async {
                       final result = await getPassData(search: _textCont.text);
                       if (result) {
-                        // print('c');
+                        
                         refreshController.loadComplete();
                       } else {
-                        // print('d');
+                        
                         refreshController.loadNoData();
                         refreshController.loadFailed();
                       }
@@ -485,8 +504,8 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                       .edit_note),
                                                               color:
                                                                   Colors.white,
-                                                              onPressed: () => {
-                                                                Navigator.push(
+                                                              onPressed: () async{
+                                                                  String refresh = await Navigator.push(
                                                                     context,
                                                                     MaterialPageRoute(
                                                                         builder: (context) =>
@@ -503,7 +522,17 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                               nopol: datapo[index].nopol.toString(),
                                                                               angkutan: datapo[index].angkutan.toString(),
                                                                               supplier: datapo[index].supplier.toString(),
-                                                                            )))
+                                                                            )));
+                                                                            
+                                                                            if(refresh == 'refresh'){
+                                                                              Changedata();
+                                                                            }
+
+                                                                            
+
+                                                                            
+
+
                                                               },
                                                             ),
                                                           ),
