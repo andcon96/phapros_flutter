@@ -5,7 +5,7 @@
 
     
    <application
-        android:label="flutter_template"
+        android:label="PO Receipt"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
