@@ -60,9 +60,6 @@ class _laporanform extends State<laporanform> {
   late String responseresult = '';
   bool loading = false;
   Future<Object?> sendlaporan(String url) async {
-        
-        
-        
     final response = await http
         .post(Uri.parse(url))
         .timeout(const Duration(seconds: 20), onTimeout: () {
@@ -79,9 +76,8 @@ class _laporanform extends State<laporanform> {
     responseresult = response.body.toString();
 
     if (response.body == 'success') {
-      
-      Navigator.pop(context,'refresh');
-      
+      Navigator.pop(context, 'refresh');
+
       return ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
@@ -122,109 +118,112 @@ class _laporanform extends State<laporanform> {
         text: widget.angkutan != 'null' ? widget.angkutan : '');
     NoPol =
         TextEditingController(text: widget.nopol != 'null' ? widget.nopol : '');
-    
   }
 
   @override
-  Widget build(BuildContext context) => loading ? const Loading()  :Scaffold(
-        body: Stepper(
-          type: StepperType.vertical,
-          steps: getSteps(),
-          currentStep: currentStep,
-          onStepTapped: (step) => setState(() => currentStep = step),
-          onStepCancel:
-              currentStep == 0 ? null : () => setState(() => currentStep -= 1),
-          onStepContinue: () {
-            bool isLastStep = (currentStep == getSteps().length - 1);
-            if (isLastStep) {
-              showModalBottomSheet<void>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Container(
-                      height: 200,
-                      color: Colors.amber,
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Text(
-                                'Are you sure you want to submit Receipt ' +
-                                    IdRcp.text +
-                                    '?',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                    color: Colors.black)),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  primary: Colors.blue),
-                              child: const Text('Hold this button to continue',
+  Widget build(BuildContext context) => loading
+      ? const Loading()
+      : Scaffold(
+          body: Stepper(
+            type: StepperType.vertical,
+            steps: getSteps(),
+            currentStep: currentStep,
+            onStepTapped: (step) => setState(() => currentStep = step),
+            onStepCancel: currentStep == 0
+                ? null
+                : () => setState(() => currentStep -= 1),
+            onStepContinue: () {
+              bool isLastStep = (currentStep == getSteps().length - 1);
+              if (isLastStep) {
+                showModalBottomSheet<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Container(
+                        height: 200,
+                        color: Colors.amber,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text(
+                                  'Are you sure you want to submit Receipt ' +
+                                      IdRcp.text +
+                                      '?',
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15,
                                       color: Colors.black)),
-                              onPressed: () {},
-                              onLongPress: () {
-                                String url =
-                                    'http://192.168.18.186:8000/api/submitlaporan?';
-                                url += 'idrcpt=' + IdRcp.text;
-                                url += '&ponbr=' + PO.text;
-                                url += '&part=' + NamaBarang.text;
-                                url += '&tglmasuk=' + TglMasuk.text;
-                                url += '&jmlmasuk=' + JumlahMasuk.text;
-                                url += '&no=' + No.text;
-                                url += '&lot=' + NomorLot.text;
-                                url += '&tgl=' + Tanggal.text;
-                                url += '&supplier=' + Supplier.text;
-                                url += '&komplain=' + Komplain.text;
-                                url += '&keterangan=' + Keterangan.text;
-                                url += '&komplaindetail=' + KomplainDetail.text;
-                                url += '&angkutan=' + Angkutan.text;
-                                url += '&nopol=' + NoPol.text;
-                                Navigator.pop(context);
-                                setState(() {
-                                  loading = true;  
-                                });
-                                
-                                final urlresponse = sendlaporan(url);
-                                
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  });
-            } else {
-              setState(() => currentStep += 1);
-            }
-          },
-          controlsBuilder: (context, ControlsDetails controls) {
-            final isLastStep = currentStep == getSteps().length - 1;
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    primary: Colors.blue),
+                                child: const Text(
+                                    'Hold this button to continue',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                        color: Colors.black)),
+                                onPressed: () {},
+                                onLongPress: () {
+                                  String url =
+                                      'http://192.168.0.3:8000/api/submitlaporan?';
+                                  url += 'idrcpt=' + IdRcp.text;
+                                  url += '&ponbr=' + PO.text;
+                                  url += '&part=' + NamaBarang.text;
+                                  url += '&tglmasuk=' + TglMasuk.text;
+                                  url += '&jmlmasuk=' + JumlahMasuk.text;
+                                  url += '&no=' + No.text;
+                                  url += '&lot=' + NomorLot.text;
+                                  url += '&tgl=' + Tanggal.text;
+                                  url += '&supplier=' + Supplier.text;
+                                  url += '&komplain=' + Komplain.text;
+                                  url += '&keterangan=' + Keterangan.text;
+                                  url +=
+                                      '&komplaindetail=' + KomplainDetail.text;
+                                  url += '&angkutan=' + Angkutan.text;
+                                  url += '&nopol=' + NoPol.text;
+                                  Navigator.pop(context);
+                                  setState(() {
+                                    loading = true;
+                                  });
 
-            return Container(
-              margin: EdgeInsets.only(top: 50),
-              child: Row(children: [
-                if (currentStep != 0)
+                                  final urlresponse = sendlaporan(url);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+              } else {
+                setState(() => currentStep += 1);
+              }
+            },
+            controlsBuilder: (context, ControlsDetails controls) {
+              final isLastStep = currentStep == getSteps().length - 1;
+
+              return Container(
+                margin: EdgeInsets.only(top: 50),
+                child: Row(children: [
+                  if (currentStep != 0)
+                    Expanded(
+                      child: ElevatedButton(
+                        child: Text('BACK'),
+                        onPressed: controls.onStepCancel,
+                      ),
+                    ),
+                  if (currentStep != 0) const SizedBox(width: 12),
                   Expanded(
                     child: ElevatedButton(
-                      child: Text('BACK'),
-                      onPressed: controls.onStepCancel,
+                      child: Text(isLastStep ? 'CONFIRM' : 'NEXT'),
+                      onPressed: controls.onStepContinue,
                     ),
                   ),
-                if (currentStep != 0) const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                    child: Text(isLastStep ? 'CONFIRM' : 'NEXT'),
-                    onPressed: controls.onStepContinue,
-                  ),
-                ),
-              ]),
-            );
-          },
-        ),
-      );
+                ]),
+              );
+            },
+          ),
+        );
   List<Step> getSteps() => [
         Step(
           state: currentStep > 0 ? StepState.complete : StepState.indexed,
@@ -333,7 +332,6 @@ class _laporanform extends State<laporanform> {
               ),
               TextFormField(
                 controller: TglMasuk,
-
                 decoration: InputDecoration(labelText: 'Tgl Masuk'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -342,7 +340,6 @@ class _laporanform extends State<laporanform> {
                   return null;
                 },
                 readOnly: true,
-               
               ),
               TextFormField(
                 controller: JumlahMasuk,

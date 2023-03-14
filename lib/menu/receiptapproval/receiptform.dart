@@ -53,7 +53,6 @@ class _receiptform extends State<receiptform> {
     final response = await http
         .post(Uri.parse(url))
         .timeout(const Duration(seconds: 20), onTimeout: () {
-      
       setState(() {
         ArtSweetAlert.show(
             context: context,
@@ -67,7 +66,7 @@ class _receiptform extends State<receiptform> {
     responseresult = response.body.toString();
 
     if (response.body == 'approve success') {
-      Navigator.pop(context,'refresh');
+      Navigator.pop(context, 'refresh');
       return ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
@@ -82,7 +81,7 @@ class _receiptform extends State<receiptform> {
               title: "Error",
               text: "Failed to Approve receipt" + IdRcp.text));
     } else if (response.body == 'reject success') {
-      Navigator.pop(context,'refresh');
+      Navigator.pop(context, 'refresh');
       return ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
@@ -138,7 +137,7 @@ class _receiptform extends State<receiptform> {
     responseresult = response.body.toString();
 
     if (response.body == 'success') {
-      Navigator.pop(context,'refresh');
+      Navigator.pop(context, 'refresh');
       return ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
@@ -547,11 +546,11 @@ class _receiptform extends State<receiptform> {
                                                 onPressed: () {},
                                                 onLongPress: () {
                                                   String url =
-                                                      'http://192.168.18.186:8000/api/rejectreceipt?';
+                                                      'http://192.168.0.3:8000/api/rejectreceipt?';
                                                   url += 'idrcpt=' + IdRcp.text;
                                                   url += '&userid=' +
                                                       widget.userid;
- 
+
                                                   Navigator.pop(context);
                                                   setState(() {
                                                     loading = true;
@@ -602,7 +601,7 @@ class _receiptform extends State<receiptform> {
                                                 onPressed: () {},
                                                 onLongPress: () {
                                                   String url =
-                                                      'http://192.168.18.186:8000/api/approvereceipt?';
+                                                      'http://192.168.0.3:8000/api/approvereceipt?';
                                                   url += 'idrcpt=' + IdRcp.text;
                                                   url += '&userid=' +
                                                       widget.userid;

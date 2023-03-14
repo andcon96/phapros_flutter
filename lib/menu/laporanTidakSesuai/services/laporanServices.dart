@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class laporanServices {
-  static String baseUrl = "http://192.168.18.186:8000/api/getpolaporan";
+  static String baseUrl = "http://192.168.0.3:8000/api/getpolaporan";
 
   static Future<List<laporanModel>> getdata() async {
     final response =
