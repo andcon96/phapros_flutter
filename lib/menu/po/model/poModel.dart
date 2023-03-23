@@ -211,7 +211,7 @@ class PoListReceipt {
   String? rcptDomain;
   String? rcptNbr;
   String? rcptStatus;
-  int? rcptUserId;
+  String? rcptUserId;
   String? rcptDate;
   String? createdAt;
   String? updatedAt;

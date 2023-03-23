@@ -496,14 +496,16 @@ class _alokasipoState extends State<alokasipo> {
 
   Future saveData() async {
     try {
-      final id = await UserSecureStorage.getUsername();
+      final nik = await UserSecureStorage.getUsername();
       final token = await UserSecureStorage.getToken();
+      final idanggota = await UserSecureStorage.getIdAnggota();
 
-      final Uri url = Uri.parse('http://192.168.18.40:8000/api/savepo');
+      final Uri url = Uri.parse('http://192.168.18.179:8000/api/savepo');
 
       final body = {
         "data": cart,
-        "user_id": id,
+        "nik": nik,
+        "id_anggota": idanggota,
 
         // Checklist
         "imrno": widget.imrno,

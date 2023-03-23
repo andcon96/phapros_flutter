@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   // ignore: non_constant_identifier_names
   Future LoginUser() async {
     final response = await http
-        .post(Uri.parse('http://192.168.18.40:8000/api/login'), body: {
+        .post(Uri.parse('http://192.168.18.179:8000/api/login'), body: {
       "nik": _userCon.text,
       "password": _passCon.text,
     }).timeout(const Duration(seconds: 20), onTimeout: () {
@@ -241,7 +241,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 .validate()) {
                                               setState(() => loading = true);
                                               LoginUser().then((value) async {
-                                                // print(value);
+                                                print(value);
                                                 if (value == null) {
                                                 } else if (value['message'] ==
                                                     "Error") {
@@ -257,9 +257,15 @@ class _LoginPageState extends State<LoginPage> {
                                                   );
                                                 } else {
                                                   await UserSecureStorage
-                                                      .setUsername(
-                                                          value['username']
+                                                      .setUsername(value['user']
+                                                              ['nik']
+                                                          .toString());
+                                                  await UserSecureStorage
+                                                      .setIdAnggota(
+                                                          value['user']
+                                                                  ['id_anggota']
                                                               .toString());
+
                                                   await UserSecureStorage
                                                       .setCustid(value['custid']
                                                           .toString());

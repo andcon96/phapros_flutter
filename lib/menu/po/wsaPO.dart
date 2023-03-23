@@ -5,6 +5,7 @@ import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_template/menu/home.dart';
 import 'package:flutter_template/menu/po/browsePO.dart';
 import 'package:flutter_template/menu/po/createPO.dart';
 import 'package:flutter_template/menu/po/model/wsaPoModel.dart';
@@ -72,7 +73,9 @@ class _wsaPOState extends State<wsaPO> {
                   // Navigator.of(context).pop(true);
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
-                        builder: (context) => const POBrowse(),
+                        builder: (context) => const NavHome(
+                          selPage: 0,
+                        ),
                       ),
                       (route) => route.isFirst);
                   // Navigator.popUntil(context, (route) => route.isFirst);
@@ -97,7 +100,7 @@ class _wsaPOState extends State<wsaPO> {
       final token = await UserSecureStorage.getToken();
 
       final Uri url =
-          Uri.parse('http://192.168.18.40:8000/api/wsapo?ponbr=$search');
+          Uri.parse('http://192.168.18.179:8000/api/wsapo?ponbr=$search');
 
       final response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: "application/json",
@@ -141,6 +144,7 @@ class _wsaPOState extends State<wsaPO> {
       }
     } on Exception catch (e) {
       setState(() => overlayLoading = false);
+      print(e);
       detailpo = [];
       ArtSweetAlert.show(
           context: context,

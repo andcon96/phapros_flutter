@@ -4,6 +4,7 @@ class UserSecureStorage {
   static const _storage = FlutterSecureStorage();
 
   static const _keyUsername = 'username';
+  static const _keyIdAnggota = 'idanggota';
   static const _keyCustid = 'custid';
   static const _keyUsercreate = 'usercreate';
   static const _keyToken = 'token';
@@ -14,6 +15,9 @@ class UserSecureStorage {
 
   static Future setUsername(String username) async =>
       await _storage.write(key: _keyUsername, value: username);
+
+  static Future setIdAnggota(String idanggota) async =>
+      await _storage.write(key: _keyIdAnggota, value: idanggota);
 
   static Future setCustid(String custid) async =>
       await _storage.write(key: _keyCustid, value: custid);
@@ -38,6 +42,9 @@ class UserSecureStorage {
 
   static Future<String?> getUsername() async =>
       await _storage.read(key: _keyUsername);
+
+  static Future<String?> getIdAnggota() async =>
+      await _storage.read(key: _keyIdAnggota);
 
   static Future<String?> getUsercreate() async =>
       await _storage.read(key: _keyUsercreate);
