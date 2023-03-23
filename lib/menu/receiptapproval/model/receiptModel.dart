@@ -89,11 +89,16 @@ class receiptModel {
         ? {}
         : jsonlastappr.isEmpty
             ? {}
+            :jsonlastappr['get_user'] == null ?
+            {}
             : jsonlastappr['get_user'];
     Map<String, dynamic> jsonfirstappr =
-        jsonmaster == null ? {} : jsonmaster['get_appr_histfirst'];
+        jsonmaster == null ? {} : jsonmaster['get_appr_histfirst'] == null ? {} : jsonmaster['get_appr_histfirst'];
     Map<String, dynamic> jsonfirstappruser =
-        jsonfirstappr == null ? {} : jsonfirstappr['get_user'];
+        jsonfirstappr == null ? {} : jsonfirstappr['get_user'] == null ? {} : jsonfirstappr['get_user'];
+        print(jsonfirstappruser);
+        print('a');
+        print(jsonfirstappr);
 
     return receiptModel(
         ponbr: jsonpo['po_nbr'],
@@ -109,11 +114,12 @@ class receiptModel {
         shipto: jsonpo['po_ship'],
         supplier: jsonpo['po_vend'],
         lastapproval:
-            jsonlastappruser['name'] == {} ? '-' : jsonlastappruser['name'],
+            jsonlastappruser == {} ? '-' : jsonlastappruser['name'],
         nextapproval:
-            jsonfirstappruser['name'] == {} ? '-' : jsonfirstappruser['name'],
+            jsonfirstappruser == {} ? '-' : jsonfirstappruser['name'],
         userid: jsonfirstappruser['id'] == {} ? null : jsonfirstappruser['id'],
         laststatus: jsonlastappr == null ? null : jsonlastappruser['name']);
+        
   }
 
   Map<String, dynamic> toJson() {

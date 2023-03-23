@@ -52,7 +52,7 @@ class _POBrowseState extends State<POBrowse> {
       final token = await UserSecureStorage.getToken();
 
       final Uri url = Uri.parse(
-          'http://192.168.18.186:8000/api/getpo?page=$currentPage&search=$search');
+          'http://192.168.18.40:8000/api/getpo?page=$currentPage&search=$search');
 
       loadfailed = false;
       final response = await http.get(url, headers: {
@@ -104,11 +104,14 @@ class _POBrowseState extends State<POBrowse> {
 
   Future init() async {
     final custid = await UserSecureStorage.getCustid();
+    final token = await UserSecureStorage.getToken();
+    print(token);
     _custId = custid!;
   }
 
   @override
   void initState() {
+    print('a');
     super.initState();
     init();
   }

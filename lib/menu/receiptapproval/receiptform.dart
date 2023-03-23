@@ -49,7 +49,7 @@ class receiptform extends StatefulWidget {
 class _receiptform extends State<receiptform> {
   bool loading = false;
   Future<Object?> sendlaporan(String url) async {
-    print(url);
+    
     final response = await http
         .post(Uri.parse(url))
         .timeout(const Duration(seconds: 20), onTimeout: () {
@@ -547,7 +547,7 @@ class _receiptform extends State<receiptform> {
                                                 onPressed: () {},
                                                 onLongPress: () {
                                                   String url =
-                                                      'http://192.168.18.186:8000/api/rejectreceipt?';
+                                                      'http://192.168.18.40:8000/api/rejectreceipt?';
                                                   url += 'idrcpt=' + IdRcp.text;
                                                   url += '&userid=' +
                                                       widget.userid;
@@ -602,7 +602,7 @@ class _receiptform extends State<receiptform> {
                                                 onPressed: () {},
                                                 onLongPress: () {
                                                   String url =
-                                                      'http://192.168.18.186:8000/api/approvereceipt?';
+                                                      'http://192.168.18.40:8000/api/approvereceipt?';
                                                   url += 'idrcpt=' + IdRcp.text;
                                                   url += '&userid=' +
                                                       widget.userid;

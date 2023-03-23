@@ -499,7 +499,7 @@ class _alokasipoState extends State<alokasipo> {
       final id = await UserSecureStorage.getUsername();
       final token = await UserSecureStorage.getToken();
 
-      final Uri url = Uri.parse('http://192.168.18.186:8000/api/savepo');
+      final Uri url = Uri.parse('http://192.168.18.40:8000/api/savepo');
 
       final body = {
         "data": cart,

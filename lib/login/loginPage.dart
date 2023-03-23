@@ -30,8 +30,8 @@ class _LoginPageState extends State<LoginPage> {
   // ignore: non_constant_identifier_names
   Future LoginUser() async {
     final response = await http
-        .post(Uri.parse('http://192.168.18.186:8000/api/login'), body: {
-      "email": _userCon.text,
+        .post(Uri.parse('http://192.168.18.40:8000/api/login'), body: {
+      "nik": _userCon.text,
       "password": _passCon.text,
     }).timeout(const Duration(seconds: 20), onTimeout: () {
       setState(() {
@@ -152,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                                   child: Column(
                                     children: [
                                       _textInput(
-                                        hint: "Email",
+                                        hint: "NIK",
                                         icon: Iconsax.sms,
                                         controller: _userCon,
                                       ),

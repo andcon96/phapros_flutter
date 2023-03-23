@@ -167,7 +167,7 @@ class _laporanform extends State<laporanform> {
                               onPressed: () {},
                               onLongPress: () {
                                 String url =
-                                    'http://192.168.18.186:8000/api/submitlaporan?';
+                                    'http://192.168.18.40:8000/api/submitlaporan?';
                                 url += 'idrcpt=' + IdRcp.text;
                                 url += '&ponbr=' + PO.text;
                                 url += '&part=' + NamaBarang.text;
