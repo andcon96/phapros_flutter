@@ -89,16 +89,19 @@ class receiptModel {
         ? {}
         : jsonlastappr.isEmpty
             ? {}
-            :jsonlastappr['get_user'] == null ?
-            {}
-            : jsonlastappr['get_user'];
-    Map<String, dynamic> jsonfirstappr =
-        jsonmaster == null ? {} : jsonmaster['get_appr_histfirst'] == null ? {} : jsonmaster['get_appr_histfirst'];
-    Map<String, dynamic> jsonfirstappruser =
-        jsonfirstappr == null ? {} : jsonfirstappr['get_user'] == null ? {} : jsonfirstappr['get_user'];
-        print(jsonfirstappruser);
-        print('a');
-        print(jsonfirstappr);
+            : jsonlastappr['get_user'] == null
+                ? {}
+                : jsonlastappr['get_user'];
+    Map<String, dynamic> jsonfirstappr = jsonmaster == null
+        ? {}
+        : jsonmaster['get_appr_histfirst'] == null
+            ? {}
+            : jsonmaster['get_appr_histfirst'];
+    Map<String, dynamic> jsonfirstappruser = jsonfirstappr == null
+        ? {}
+        : jsonfirstappr['get_user'] == null
+            ? {}
+            : jsonfirstappr['get_user'];
 
     return receiptModel(
         ponbr: jsonpo['po_nbr'],
@@ -113,13 +116,10 @@ class receiptModel {
         batch: json['rcptd_batch'],
         shipto: jsonpo['po_ship'],
         supplier: jsonpo['po_vend'],
-        lastapproval:
-            jsonlastappruser == {} ? '-' : jsonlastappruser['name'],
-        nextapproval:
-            jsonfirstappruser == {} ? '-' : jsonfirstappruser['name'],
+        lastapproval: jsonlastappruser == {} ? '-' : jsonlastappruser['nama'],
+        nextapproval: jsonfirstappruser == {} ? '-' : jsonfirstappruser['nama'],
         userid: jsonfirstappruser['id'] == {} ? null : jsonfirstappruser['id'],
-        laststatus: jsonlastappr == null ? null : jsonlastappruser['name']);
-        
+        laststatus: jsonlastappr == null ? null : jsonlastappruser['nama']);
   }
 
   Map<String, dynamic> toJson() {

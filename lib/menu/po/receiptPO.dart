@@ -36,8 +36,6 @@ class _PoReceiptState extends State<PoReceipt> {
     // TODO: implement initState
     super.initState();
     listdetail = widget.polistreceipt;
-
-    print(listdetail[0].getDetail);
   }
 
   @override
