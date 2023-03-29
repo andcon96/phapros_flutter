@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_template/menu/receiptapproval/model/receiptModel.dart';
 import 'package:http/http.dart' as http;
@@ -5,11 +7,15 @@ import 'dart:convert';
 import 'package:flutter_template/utils/secure_user_login.dart';
 
 class receiptServices {
-  static String baseUrl = "http://192.168.18.179:8000/api/getreceipt";
+  static String baseUrl = "http://192.168.18.40:8000/api/getreceipt";
 
   static Future<List<receiptModel>> getdata() async {
+    final token = await UserSecureStorage.getToken();
     final response =
-        await http.get(Uri.parse(baseUrl)).timeout(const Duration(seconds: 20));
+        await http.get(Uri.parse(baseUrl),headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: "Bearer $token"
+      }).timeout(const Duration(seconds: 20));
 
     List<receiptModel> list = parseResponse(response.body);
 

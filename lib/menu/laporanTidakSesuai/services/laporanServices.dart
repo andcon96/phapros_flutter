@@ -1,13 +1,22 @@
+import 'dart:io';
+
 import 'package:flutter_template/menu/laporanTidakSesuai/model/laporanModel.dart';
+import 'package:flutter_template/utils/secure_user_login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class laporanServices {
-  static String baseUrl = "http://192.168.18.179:8000/api/getpolaporan";
+  
+  static String baseUrl = "http://192.168.18.40:8000/api/getpolaporan";
 
   static Future<List<laporanModel>> getdata() async {
+    final token = await UserSecureStorage.getToken();
+    
     final response =
-        await http.get(Uri.parse(baseUrl)).timeout(const Duration(seconds: 20));
+        await http.get(Uri.parse(baseUrl), headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: "Bearer $token"
+      }).timeout(const Duration(seconds: 20));
 
     List<laporanModel> list = parseResponse(response.body);
 

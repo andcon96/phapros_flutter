@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_template/main.dart';
 import 'package:http/http.dart' as http;
@@ -5,6 +7,7 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter_template/utils/loading.dart';
+import 'package:flutter_template/utils/secure_user_login.dart';
 
 class receiptform extends StatefulWidget {
   final String ponbr,
@@ -49,8 +52,14 @@ class receiptform extends StatefulWidget {
 class _receiptform extends State<receiptform> {
   bool loading = false;
   Future<Object?> sendlaporan(String url) async {
+    final token = await UserSecureStorage.getToken();
+    
     final response = await http
-        .post(Uri.parse(url))
+        .post(Uri.parse(url),headers: {
+          
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: "Bearer $token"
+      })
         .timeout(const Duration(seconds: 20), onTimeout: () {
       setState(() {
         ArtSweetAlert.show(
@@ -73,6 +82,7 @@ class _receiptform extends State<receiptform> {
               title: "Success",
               text: "Success to Approve receipt " + IdRcp.text));
     } else if (response.body == 'approve failed') {
+      Navigator.pop(context, 'refresh');
       return ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
@@ -120,8 +130,13 @@ class _receiptform extends State<receiptform> {
   late String responseresult = '';
 
   Future<Object?> approvereject(String url) async {
+    final token = await UserSecureStorage.getToken();
     final response = await http
-        .post(Uri.parse(url))
+        .post(Uri.parse(url),headers: {
+          
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: "Bearer $token"
+      })
         .timeout(const Duration(seconds: 20), onTimeout: () {
       setState(() {
         ArtSweetAlert.show(
@@ -545,7 +560,7 @@ class _receiptform extends State<receiptform> {
                                                 onPressed: () {},
                                                 onLongPress: () {
                                                   String url =
-                                                      'http://192.168.18.179:8000/api/rejectreceipt?';
+                                                      'http://192.168.18.40:8000/api/rejectreceipt?';
                                                   url += 'idrcpt=' + IdRcp.text;
                                                   url += '&userid=' +
                                                       widget.userid;
@@ -600,10 +615,11 @@ class _receiptform extends State<receiptform> {
                                                 onPressed: () {},
                                                 onLongPress: () {
                                                   String url =
-                                                      'http://192.168.18.179:8000/api/approvereceipt?';
+                                                      'http://192.168.18.40:8000/api/approvereceipt?';
                                                   url += 'idrcpt=' + IdRcp.text;
                                                   url += '&userid=' +
                                                       widget.userid;
+                                                      print(url);
                                                   Navigator.pop(context);
                                                   setState(() {
                                                     loading = true;

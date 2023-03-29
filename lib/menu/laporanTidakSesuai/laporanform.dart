@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_template/main.dart';
+import 'package:flutter_template/utils/secure_user_login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
@@ -60,8 +63,14 @@ class _laporanform extends State<laporanform> {
   late String responseresult = '';
   bool loading = false;
   Future<Object?> sendlaporan(String url) async {
+    final token = await UserSecureStorage.getToken();
+    
     final response = await http
-        .post(Uri.parse(url))
+        .post(Uri.parse(url),headers: {
+          
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: "Bearer $token"
+      })
         .timeout(const Duration(seconds: 20), onTimeout: () {
       setState(() {
         ArtSweetAlert.show(
@@ -166,7 +175,7 @@ class _laporanform extends State<laporanform> {
                                 onPressed: () {},
                                 onLongPress: () {
                                   String url =
-                                      'http://192.168.0.3:8000/api/submitlaporan?';
+                                      'http://192.168.18.40:8000/api/submitlaporan?';
                                   url += 'idrcpt=' + IdRcp.text;
                                   url += '&ponbr=' + PO.text;
                                   url += '&part=' + NamaBarang.text;

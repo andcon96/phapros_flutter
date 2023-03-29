@@ -43,7 +43,7 @@ class _receiptbrowse extends State<receiptbrowse> {
   bool onStart = false;
   List<receiptModel> datapo = [];
 
-  List<receiptModel> _receiptlist = [];
+
 
   void Changedata() async {
     loadfailed = true;
@@ -71,18 +71,21 @@ class _receiptbrowse extends State<receiptbrowse> {
       final id = await UserSecureStorage.getUsername();
       final token = await UserSecureStorage.getToken();
       final usrr =
-          await UserSecureStorage.getUsername().then((String? strusername) {
+          await UserSecureStorage.getIdAnggota().then((String? strusername) {
         userid = strusername.toString();
       });
 
       final Uri url = Uri.parse(
-          'http://192.168.18.179:8000/api/getreceipt?user=' +
+          'http://192.168.18.40:8000/api/getreceipt?user=' +
               userid +
               '&rcptnbr=' +
               search.toString());
 
       loadfailed = false;
-      final response = await http.get(url).timeout(const Duration(seconds: 20),
+      final response = await http.get(url,headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: "Bearer $token"
+      }).timeout(const Duration(seconds: 20),
           onTimeout: () {
         setState(() {
           loadfailed = true;
@@ -112,7 +115,7 @@ class _receiptbrowse extends State<receiptbrowse> {
         }
 
         onStart = true;
-
+      
         setState(() {});
         return true;
       } else {
@@ -251,13 +254,13 @@ class _receiptbrowse extends State<receiptbrowse> {
                     controller: refreshController,
                     enablePullUp: true,
                     onRefresh: () async {
-                      refreshController.loadComplete();
-                      refreshController.refreshCompleted();
                       final result = await getPassData(
                           isRefresh: true, search: _textCont.text);
                       if (result) {
+                        refreshController.loadComplete();
+                        refreshController.refreshCompleted();
                       } else {
-                        // refreshController.refreshFailed();
+                        refreshController.refreshFailed();
                       }
                     },
                     onLoading: () async {
@@ -266,7 +269,7 @@ class _receiptbrowse extends State<receiptbrowse> {
                         refreshController.loadComplete();
                       } else {
                         refreshController.loadNoData();
-                        refreshController.loadFailed();
+                        // refreshController.loadFailed();
                       }
                     },
                     child: loadfailed
@@ -285,7 +288,7 @@ class _receiptbrowse extends State<receiptbrowse> {
                                 ),
                               ),
                             ))
-                        : datapo.isEmpty
+                        : datapo.isEmpty && onStart
                             ? Padding(
                                 padding: const EdgeInsets.only(
                                     top: 10, left: 10, right: 10),
@@ -301,7 +304,8 @@ class _receiptbrowse extends State<receiptbrowse> {
                                     ),
                                   ),
                                 ))
-                            : ListView.separated(
+                            : 
+                            ListView.separated(
                                 itemBuilder: (context, index) {
                                   final user = datapo[index];
                                   
@@ -462,6 +466,8 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                               color:
                                                                   Colors.white,
                                                               onPressed: () => {
+                                                                print(datapo[index].userid.toString()),
+                                                                print(userid),
                                                                 Navigator.push(
                                                                     context,
                                                                     MaterialPageRoute(

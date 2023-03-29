@@ -63,41 +63,7 @@ class _receiptview extends State<receiptview> {
   String rcptnbr = '';
   late String responseresult = '';
 
-  Future<http.Response> sendlaporan(String url) async {
-    final response = await http
-        .post(Uri.parse(url))
-        .timeout(const Duration(seconds: 20), onTimeout: () {
-      setState(() {
-        ArtSweetAlert.show(
-            context: context,
-            artDialogArgs: ArtDialogArgs(
-                type: ArtSweetAlertType.danger,
-                title: "Error",
-                text: "Failed to load data"));
-      });
-      return http.Response('Error', 500);
-    });
-    responseresult = response.body.toString();
 
-    if (response.body == 'success') {
-      Navigator.pop(context);
-      return ArtSweetAlert.show(
-          context: context,
-          artDialogArgs: ArtDialogArgs(
-              type: ArtSweetAlertType.success,
-              title: "Success",
-              text: "Success to Submit report for receipt " + IdRcp.text));
-    } else if (response.body == 'error') {
-      return ArtSweetAlert.show(
-          context: context,
-          artDialogArgs: ArtDialogArgs(
-              type: ArtSweetAlertType.danger,
-              title: "Error",
-              text: "Failed to Submit report for receipt" + IdRcp.text));
-    }
-    ;
-    return response;
-  }
 
   void initState() {
     super.initState();

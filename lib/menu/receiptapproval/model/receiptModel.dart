@@ -118,7 +118,7 @@ class receiptModel {
         supplier: jsonpo['po_vend'],
         lastapproval: jsonlastappruser == {} ? '-' : jsonlastappruser['nama'],
         nextapproval: jsonfirstappruser == {} ? '-' : jsonfirstappruser['nama'],
-        userid: jsonfirstappruser['id'] == {} ? null : jsonfirstappruser['id'],
+        userid: jsonfirstappruser['id_anggota'] == {} ? null : jsonfirstappruser['id_anggota'],
         laststatus: jsonlastappr == null ? null : jsonlastappruser['nama']);
   }
 
