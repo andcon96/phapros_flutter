@@ -292,12 +292,8 @@ class _uploadfilepoState extends State<uploadfilepo> {
         }
       }
 
-      final imageBytes = File('image.jpg').writeAsBytes(signature!);
-
-      print(imageBytes);
-
       final body = {
-        "data": widget.cart,
+        "data": jsonEncode(widget.cart),
         "nik": nik,
         "id_anggota": idanggota,
 
@@ -357,6 +353,11 @@ class _uploadfilepoState extends State<uploadfilepo> {
 
         "is_segregated": widget.angkutansegregate,
         "keterangan_is_segregated": widget.angkutanketeranganissegregated,
+
+        if (signature != null)
+          'signature': base64Encode(signature!)
+        else
+          'signature': '',
       };
 
       final stringBody =
@@ -387,7 +388,6 @@ class _uploadfilepoState extends State<uploadfilepo> {
 
       var response = await request.send();
       if (response.statusCode == 200) {
-        final result = response.stream;
         setState(() {
           loading = false;
         });
