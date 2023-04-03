@@ -67,18 +67,16 @@ class _laporanbrowse extends State<laporanbrowse> {
 
       final id = await UserSecureStorage.getUsername();
       final token = await UserSecureStorage.getToken();
-      
 
       final Uri url = Uri.parse(
-          'http://192.168.18.40:8000/api/getpolaporan?receiptnbr=' +
+          'http://192.168.18.185:8000/api/getpolaporan?receiptnbr=' +
               search.toString());
 
       loadfailed = false;
       final response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: "application/json",
         HttpHeaders.authorizationHeader: "Bearer $token"
-      }).timeout(const Duration(seconds: 20),
-          onTimeout: () {
+      }).timeout(const Duration(seconds: 20), onTimeout: () {
         setState(() {
           loadfailed = true;
           ArtSweetAlert.show(
@@ -281,7 +279,7 @@ class _laporanbrowse extends State<laporanbrowse> {
                                 ),
                               ),
                             ))
-                        : datapo.isEmpty && onStart 
+                        : datapo.isEmpty && onStart
                             ? Padding(
                                 padding: const EdgeInsets.only(
                                     top: 10, left: 10, right: 10),

@@ -5,8 +5,10 @@ import 'dart:io';
 
 import 'package:animated_floating_buttons/animated_floating_buttons.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_template/menu/po/uploadFilePO.dart';
 import 'package:flutter_template/menu/po/wsaPO.dart';
 import 'package:flutter_template/menu/po/model/wsaPoModel.dart';
 import 'package:http/http.dart' as http;
@@ -158,6 +160,25 @@ class _CartWidgetState extends State<CartWidget> {
   @override
   void initState() {
     super.initState();
+    // Assign Ulang Value kalo gagal / back
+    batch.text = widget.cart[widget.index].tLvcBatch == null
+        ? ''
+        : widget.cart[widget.index].tLvcBatch.toString();
+    lokasi.text = widget.cart[widget.index].tLvcLoc == null
+        ? ''
+        : widget.cart[widget.index].tLvcLoc.toString();
+    lot.text = widget.cart[widget.index].tLvcLot == null
+        ? ''
+        : widget.cart[widget.index].tLvcLot.toString();
+    qtydatang.text = widget.cart[widget.index].tLvdQtyDatang == null
+        ? ''
+        : widget.cart[widget.index].tLvdQtyDatang.toString();
+    qtyterima.text = widget.cart[widget.index].tLvdQtyTerima == null
+        ? ''
+        : widget.cart[widget.index].tLvdQtyTerima.toString();
+    qtyreject.text = widget.cart[widget.index].tLvdQtyReject == null
+        ? ''
+        : widget.cart[widget.index].tLvdQtyReject.toString();
   }
 
   @override
@@ -500,7 +521,7 @@ class _alokasipoState extends State<alokasipo> {
       final token = await UserSecureStorage.getToken();
       final idanggota = await UserSecureStorage.getIdAnggota();
 
-      final Uri url = Uri.parse('http://192.168.18.40:8000/api/savepo');
+      final Uri url = Uri.parse('http://192.168.18.185:8000/api/savepo');
 
       final body = {
         "data": cart,
@@ -610,6 +631,8 @@ class _alokasipoState extends State<alokasipo> {
       } else {
         setState(() {
           loading = false;
+          // print(cart);
+          // print(cart[0].tLvcBatch);
         });
         CoolAlert.show(
           context: context,
@@ -703,9 +726,71 @@ class _alokasipoState extends State<alokasipo> {
               }
 
               setState(() {
-                loading = true;
+                // loading = true;
               });
-              saveData();
+
+              Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    builder: (context) => uploadfilepo(
+                        cart: cart,
+                        selectedline: widget.selectedline,
+                        imrno: widget.imrno,
+                        arrivaldate: widget.arrivaldate,
+                        imrdate: widget.imrdate,
+                        dono: widget.dono,
+                        articleno: widget.articleno,
+                        proddate: widget.proddate,
+                        expdate: widget.expdate,
+                        manufacturer: widget.manufacturer,
+                        origincountry: widget.origincountry,
+                        certificateChecked: widget.certificateChecked,
+                        certificate: widget.certificate,
+                        msdsChecked: widget.msdsChecked,
+                        msds: widget.msds,
+                        forwarderdoChecked: widget.forwarderdoChecked,
+                        forwaderdo: widget.forwaderdo,
+                        packinglistChecked: widget.packinglistChecked,
+                        packinglist: widget.packinglist,
+                        otherdocsChecked: widget.otherdocsChecked,
+                        otherdocs: widget.otherdocs,
+                        keteranganisclean: widget.keteranganisclean,
+                        keteranganisdry: widget.keteranganisdry,
+                        keteranganisnotspilled: widget.keteranganisnotspilled,
+                        transporterno: widget.transporterno,
+                        policeno: widget.policeno,
+                        angkutanketeranganisclean:
+                            widget.angkutanketeranganisclean,
+                        angkutanketeranganisdry: widget.angkutanketeranganisdry,
+                        angkutanketeranganisnotspilled:
+                            widget.angkutanketeranganisnotspilled,
+                        angkutanketeranganissingle:
+                            widget.angkutanketeranganissingle,
+                        angkutanketeranganissegregated:
+                            widget.angkutanketeranganissegregated,
+                        sackordosChecked: widget.sackordosChecked,
+                        sackordosDamage: widget.sackordosDamage.toString(),
+                        drumorvatChecked: widget.drumorvatChecked,
+                        drumorvatDamage: widget.drumorvatDamage.toString(),
+                        palletorpetiChecked: widget.palletorpetiChecked,
+                        palletorpetiDamage:
+                            widget.palletorpetiDamage.toString(),
+                        isclean: widget.isclean.toString(),
+                        isdry: widget.isdry.toString(),
+                        isnotspilled: widget.isnotspilled.toString(),
+                        issealed: widget.issealed.toString(),
+                        ismanufacturerlabel:
+                            widget.ismanufacturerlabel.toString(),
+                        angkutanisclean: widget.angkutanisclean.toString(),
+                        angkutanisdry: widget.angkutanisdry.toString(),
+                        angkutanisnotspilled:
+                            widget.angkutanisnotspilled.toString(),
+                        angkutanissingle: widget.angkutanissingle.toString(),
+                        angkutansegregate:
+                            widget.angkutansegregate.toString())),
+              );
+
+              // saveData();
             },
           );
         },

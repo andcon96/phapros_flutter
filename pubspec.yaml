@@ -53,6 +53,7 @@ dependencies:
   animated_floating_buttons: ^0.0.2
   intl: ^0.17.0 
   sticky_headers: ^0.2.0
+  image_picker: ^0.8.7+1
 
 
 dev_dependencies:

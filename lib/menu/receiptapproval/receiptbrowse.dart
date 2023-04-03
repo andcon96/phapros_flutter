@@ -43,8 +43,6 @@ class _receiptbrowse extends State<receiptbrowse> {
   bool onStart = false;
   List<receiptModel> datapo = [];
 
-
-
   void Changedata() async {
     loadfailed = true;
     loadfailed = false;
@@ -76,17 +74,16 @@ class _receiptbrowse extends State<receiptbrowse> {
       });
 
       final Uri url = Uri.parse(
-          'http://192.168.18.40:8000/api/getreceipt?user=' +
+          'http://192.168.18.185:8000/api/getreceipt?user=' +
               userid +
               '&rcptnbr=' +
               search.toString());
 
       loadfailed = false;
-      final response = await http.get(url,headers: {
+      final response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: "application/json",
         HttpHeaders.authorizationHeader: "Bearer $token"
-      }).timeout(const Duration(seconds: 20),
-          onTimeout: () {
+      }).timeout(const Duration(seconds: 20), onTimeout: () {
         setState(() {
           loadfailed = true;
           ArtSweetAlert.show(
@@ -115,7 +112,7 @@ class _receiptbrowse extends State<receiptbrowse> {
         }
 
         onStart = true;
-      
+
         setState(() {});
         return true;
       } else {
@@ -304,11 +301,10 @@ class _receiptbrowse extends State<receiptbrowse> {
                                     ),
                                   ),
                                 ))
-                            : 
-                            ListView.separated(
+                            : ListView.separated(
                                 itemBuilder: (context, index) {
                                   final user = datapo[index];
-                                  
+
                                   return ExpandableNotifier(
                                       child: Padding(
                                     padding: const EdgeInsets.only(
@@ -466,7 +462,10 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                               color:
                                                                   Colors.white,
                                                               onPressed: () => {
-                                                                print(datapo[index].userid.toString()),
+                                                                print(datapo[
+                                                                        index]
+                                                                    .userid
+                                                                    .toString()),
                                                                 print(userid),
                                                                 Navigator.push(
                                                                     context,

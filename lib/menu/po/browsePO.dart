@@ -27,7 +27,7 @@ class POBrowse extends StatefulWidget {
 class _POBrowseState extends State<POBrowse> {
   final RefreshController refreshController =
       RefreshController(initialRefresh: true);
-    
+
   final _textCont = TextEditingController();
   String _custId = "";
 
@@ -40,7 +40,6 @@ class _POBrowseState extends State<POBrowse> {
   Future<bool> getPassData({bool isRefresh = false, String? search}) async {
     try {
       if (isRefresh) {
-        
         currentPage = 1;
       } else {
         if (currentPage > totalPage) {
@@ -53,7 +52,7 @@ class _POBrowseState extends State<POBrowse> {
       final token = await UserSecureStorage.getToken();
 
       final Uri url = Uri.parse(
-          'http://192.168.18.40:8000/api/getpo?page=$currentPage&search=$search');
+          'http://192.168.18.185:8000/api/getpo?page=$currentPage&search=$search');
 
       loadfailed = false;
       final response = await http.get(url, headers: {
@@ -82,7 +81,7 @@ class _POBrowseState extends State<POBrowse> {
         } else {
           datapo.addAll(result.data!);
         }
-        
+
         currentPage++;
 
         totalPage = result.meta?.lastPage ?? 0;
@@ -108,7 +107,7 @@ class _POBrowseState extends State<POBrowse> {
     final token = await UserSecureStorage.getToken();
     final idanggota = await UserSecureStorage.getIdAnggota();
     final username = await UserSecureStorage.getUsername();
-    
+
     _custId = custid!;
   }
 

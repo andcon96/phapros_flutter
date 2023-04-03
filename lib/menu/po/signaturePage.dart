@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_template/menu/saveSignature.dart';
+import 'package:flutter_template/menu/po/saveSignature.dart';
 // ignore: depend_on_referenced_packages
 import 'package:signature/signature.dart';
 
@@ -19,7 +19,7 @@ class _CreateSignatureState extends State<CreateSignature> {
   @override
   void initState() {
     // we initialize the signature controller
-    controller = SignatureController(penStrokeWidth: 5, penColor: Colors.white);
+    controller = SignatureController(penStrokeWidth: 5, penColor: Colors.black);
     super.initState();
   }
 
@@ -32,13 +32,13 @@ class _CreateSignatureState extends State<CreateSignature> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.teal,
+      backgroundColor: Colors.teal,
       body: Column(
         children: [
           Expanded(
             child: Signature(
               controller: controller!,
-              backgroundColor: Colors.teal,
+              backgroundColor: Colors.white,
             ),
           ),
           buttonWidgets(context)!,
@@ -102,7 +102,7 @@ class _CreateSignatureState extends State<CreateSignature> {
   }
 
   Widget? buttonWidgets(BuildContext context) => Container(
-        color: Colors.teal,
+        color: Colors.blueGrey,
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           IconButton(
               onPressed: () async {
@@ -110,12 +110,17 @@ class _CreateSignatureState extends State<CreateSignature> {
                   final signature = await exportSignature();
 
                   // ignore: use_build_context_synchronously
-                  await Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: ((context) =>
-                          ReviewSignaturePage(signature: signature!)),
-                    ),
-                  );
+                  // await Navigator.of(context).push(
+                  //   MaterialPageRoute(
+                  //     builder: ((context) =>
+                  //         ReviewSignaturePage(signature: signature!)),
+                  //   ),
+                  // );
+
+                  if (signature != null) {
+                    // ignore: use_build_context_synchronously
+                    Navigator.pop(context, signature);
+                  }
 
                   controller!.clear();
                 }
@@ -128,7 +133,7 @@ class _CreateSignatureState extends State<CreateSignature> {
                 controller!.clear();
               },
               iconSize: 40,
-              color: Colors.red,
+              color: Colors.white,
               icon: const Icon(Icons.close)),
         ]),
       );

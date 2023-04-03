@@ -15,9 +15,9 @@ class ReviewSignaturePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.teal,
+          backgroundColor: Colors.blueGrey,
           leading: IconButton(
             onPressed: () {
               Navigator.pop(context);

@@ -4,7 +4,7 @@ import 'package:flutter_template/menu/laporanTidakSesuai/laporanbrowse.dart';
 import 'package:flutter_template/menu/receiptapproval/receiptbrowse.dart';
 import 'package:flutter_template/menu/po/browsePO.dart';
 import 'package:flutter_template/menu/signature.dart';
-import 'package:flutter_template/menu/signaturePage.dart';
+import 'package:flutter_template/menu/po/signaturePage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/utils/color.dart';

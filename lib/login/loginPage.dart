@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   // ignore: non_constant_identifier_names
   Future LoginUser() async {
     final response = await http
-        .post(Uri.parse('http://192.168.18.40:8000/api/login'), body: {
+        .post(Uri.parse('http://192.168.18.185:8000/api/login'), body: {
       "nik": _userCon.text,
       "password": _passCon.text,
     }).timeout(const Duration(seconds: 20), onTimeout: () {
@@ -45,7 +45,6 @@ class _LoginPageState extends State<LoginPage> {
       });
       return http.Response('Timeout', 500);
     });
-    
 
     return json.decode(response.body);
   }

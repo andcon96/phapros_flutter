@@ -64,14 +64,11 @@ class _laporanform extends State<laporanform> {
   bool loading = false;
   Future<Object?> sendlaporan(String url) async {
     final token = await UserSecureStorage.getToken();
-    
-    final response = await http
-        .post(Uri.parse(url),headers: {
-          
-        HttpHeaders.contentTypeHeader: "application/json",
-        HttpHeaders.authorizationHeader: "Bearer $token"
-      })
-        .timeout(const Duration(seconds: 20), onTimeout: () {
+
+    final response = await http.post(Uri.parse(url), headers: {
+      HttpHeaders.contentTypeHeader: "application/json",
+      HttpHeaders.authorizationHeader: "Bearer $token"
+    }).timeout(const Duration(seconds: 20), onTimeout: () {
       setState(() {
         ArtSweetAlert.show(
             context: context,
@@ -175,7 +172,7 @@ class _laporanform extends State<laporanform> {
                                 onPressed: () {},
                                 onLongPress: () {
                                   String url =
-                                      'http://192.168.18.40:8000/api/submitlaporan?';
+                                      'http://192.168.18.185:8000/api/submitlaporan?';
                                   url += 'idrcpt=' + IdRcp.text;
                                   url += '&ponbr=' + PO.text;
                                   url += '&part=' + NamaBarang.text;
