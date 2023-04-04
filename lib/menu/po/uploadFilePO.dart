@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_template/menu/po/signaturePage.dart';
+import 'package:flutter_template/menu/po/wsaPO.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:animated_floating_buttons/animated_floating_buttons.dart';
@@ -230,32 +231,34 @@ class _uploadfilepoState extends State<uploadfilepo> {
   }
 
   Widget confirmbtn() {
-    return Container(
-      padding: EdgeInsets.only(bottom: 5),
-      child: FloatingActionButton(
-        onPressed: () {
-          CoolAlert.show(
-            context: context,
-            type: CoolAlertType.confirm,
-            text: 'Submit Data ?',
-            confirmBtnText: 'Yes',
-            cancelBtnText: 'No',
-            confirmBtnColor: Colors.green,
-            onConfirmBtnTap: () {
-              // Navigator.of(context, rootNavigator: true).pop();
-              saveData();
-              setState(() {
-                // loading = true;
-              });
-            },
+    return loading
+        ? Loading()
+        : Container(
+            padding: EdgeInsets.only(bottom: 5),
+            child: FloatingActionButton(
+              onPressed: () {
+                CoolAlert.show(
+                  context: context,
+                  type: CoolAlertType.confirm,
+                  text: 'Submit Data ?',
+                  confirmBtnText: 'Yes',
+                  cancelBtnText: 'No',
+                  confirmBtnColor: Colors.green,
+                  onConfirmBtnTap: () {
+                    Navigator.of(context, rootNavigator: true).pop();
+                    setState(() {
+                      loading = true;
+                    });
+                    saveData();
+                  },
+                );
+              },
+              heroTag: "confirmbtn",
+              tooltip: 'Confrim',
+              backgroundColor: Colors.purple,
+              child: Icon(Icons.arrow_forward),
+            ),
           );
-        },
-        heroTag: "confirmbtn",
-        tooltip: 'Confrim',
-        backgroundColor: Colors.purple,
-        child: Icon(Icons.arrow_forward),
-      ),
-    );
   }
 
   Future saveData() async {
@@ -365,40 +368,17 @@ class _uploadfilepoState extends State<uploadfilepo> {
 
       request.fields.addAll(stringBody);
 
-      // final response = await http
-      //     .post(url,
-      //         headers: {
-      //           HttpHeaders.contentTypeHeader: "application/json",
-      //           HttpHeaders.authorizationHeader: "Bearer $token"
-      //         },
-      //         body: jsonEncode(body))
-      //     .timeout(const Duration(milliseconds: 5000), onTimeout: () {
-      //   setState(() {
-      //     loading = false;
-      //     CoolAlert.show(
-      //       context: context,
-      //       type: CoolAlertType.error,
-      //       title: 'Error',
-      //       text: 'Connection Timeout',
-      //       loopAnimation: false,
-      //     );
-      //   });
-      //   return http.Response('Error', 500);
-      // });
-
       var response = await request.send();
       if (response.statusCode == 200) {
         setState(() {
           loading = false;
         });
-
         // ignore: use_build_context_synchronously
-        // Navigator.of(context).pushAndRemoveUntil(
-        //     MaterialPageRoute(
-        //       builder: (context) => wsaPO(),
-        //     ),
-        //     (route) => route.isFirst);
-
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => wsaPO(),
+            ),
+            (route) => route.isFirst);
         CoolAlert.show(
           context: context,
           type: CoolAlertType.success,

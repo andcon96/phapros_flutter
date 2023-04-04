@@ -694,7 +694,7 @@ class _alokasipoState extends State<alokasipo> {
           CoolAlert.show(
             context: context,
             type: CoolAlertType.confirm,
-            text: 'Submit Data ?',
+            text: 'Pastikan Data Sesuai, Akan Lanjut ke Menu Upload File ?',
             confirmBtnText: 'Yes',
             cancelBtnText: 'No',
             confirmBtnColor: Colors.green,
