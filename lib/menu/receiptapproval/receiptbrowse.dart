@@ -73,11 +73,10 @@ class _receiptbrowse extends State<receiptbrowse> {
         userid = strusername.toString();
       });
 
-      final Uri url = Uri.parse(
-          'http://192.168.18.185:8000/api/getreceipt?user=' +
-              userid +
-              '&rcptnbr=' +
-              search.toString());
+      final Uri url = Uri.parse('http://192.168.0.3:8000/api/getreceipt?user=' +
+          userid +
+          '&rcptnbr=' +
+          search.toString());
 
       loadfailed = false;
       final response = await http.get(url, headers: {
