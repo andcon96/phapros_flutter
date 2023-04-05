@@ -75,7 +75,7 @@ class _receiptbrowse extends State<receiptbrowse> {
       });
 
       final Uri url = Uri.parse(
-          'http://192.168.18.40:8000/api/getreceipt?user=' +
+          'http://192.168.0.3:8000/api/getreceipt?user=' +
               userid +
               '&rcptnbr=' +
               search.toString());
