@@ -7,7 +7,7 @@ import 'dart:convert';
 import 'package:flutter_template/utils/secure_user_login.dart';
 
 class receiptServices {
-  static String baseUrl = "http://192.168.0.3:8000/api/getreceipt";
+  static String baseUrl = "http://192.168.0.3:26077/api/getreceipt";
 
   static Future<List<receiptModel>> getdata() async {
     final token = await UserSecureStorage.getToken();
