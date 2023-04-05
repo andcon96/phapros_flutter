@@ -22,9 +22,7 @@ class receiptform extends StatefulWidget {
       supplier,
       batch,
       shipto,
-      lastapproval,
-      nextapproval,
-      userid;
+      domain;
   const receiptform(
       {Key? key,
       required this.ponbr,
@@ -39,9 +37,7 @@ class receiptform extends StatefulWidget {
       required this.supplier,
       required this.batch,
       required this.shipto,
-      required this.lastapproval,
-      required this.nextapproval,
-      required this.userid})
+      required this.domain})
       : super(key: key);
 
   @override
@@ -52,8 +48,11 @@ class receiptform extends StatefulWidget {
 class _receiptform extends State<receiptform> {
   bool loading = false;
   Future<Object?> sendlaporan(String url) async {
+    
     final token = await UserSecureStorage.getToken();
-
+    final id = await UserSecureStorage.getIdAnggota();
+    url += '&userid=' + id.toString();
+    
     final response = await http.post(Uri.parse(url), headers: {
       HttpHeaders.contentTypeHeader: "application/json",
       HttpHeaders.authorizationHeader: "Bearer $token"
@@ -181,10 +180,6 @@ class _receiptform extends State<receiptform> {
     Loc = TextEditingController(text: widget.rcptd_loc);
     JumlahApprove = TextEditingController(text: widget.rcptd_qty_appr);
     JumlahReject = TextEditingController(text: widget.rcptd_qty_rej);
-    lastapproval = TextEditingController(
-        text: widget.lastapproval == 'null' ? '-' : widget.lastapproval);
-    nextapproval = TextEditingController(
-        text: widget.nextapproval == 'null' ? '-' : widget.nextapproval);
   }
 
   @override
@@ -554,10 +549,9 @@ class _receiptform extends State<receiptform> {
                                                 onPressed: () {},
                                                 onLongPress: () {
                                                   String url =
-                                                      'http://192.168.18.185:8000/api/rejectreceipt?';
+                                                      'http://192.168.18.40:8000/api/rejectreceipt?';
                                                   url += 'idrcpt=' + IdRcp.text;
-                                                  url += '&userid=' +
-                                                      widget.userid;
+                                                  
 
                                                   Navigator.pop(context);
                                                   setState(() {
@@ -609,11 +603,10 @@ class _receiptform extends State<receiptform> {
                                                 onPressed: () {},
                                                 onLongPress: () {
                                                   String url =
-                                                      'http://192.168.18.185:8000/api/approvereceipt?';
+                                                      'http://192.168.18.40:8000/api/approvereceipt?';
                                                   url += 'idrcpt=' + IdRcp.text;
-                                                  url += '&userid=' +
-                                                      widget.userid;
-                                                  print(url);
+                                                  
+                                                  
                                                   Navigator.pop(context);
                                                   setState(() {
                                                     loading = true;

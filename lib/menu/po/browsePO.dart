@@ -52,7 +52,7 @@ class _POBrowseState extends State<POBrowse> {
       final token = await UserSecureStorage.getToken();
 
       final Uri url = Uri.parse(
-          'http://192.168.18.185:8000/api/getpo?page=$currentPage&search=$search');
+          'http://192.168.18.40:8000/api/getpo?page=$currentPage&search=$search');
 
       loadfailed = false;
       final response = await http.get(url, headers: {

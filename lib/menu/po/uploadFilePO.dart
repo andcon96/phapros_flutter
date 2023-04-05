@@ -267,7 +267,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
       final token = await UserSecureStorage.getToken();
       final idanggota = await UserSecureStorage.getIdAnggota();
 
-      final Uri url = Uri.parse('http://192.168.18.185:8000/api/savepo');
+      final Uri url = Uri.parse('http://192.168.18.40:8000/api/savepo');
       final request = http.MultipartRequest('POST', url);
       request.headers['Content-Type'] = 'application/json';
       request.headers['authorization'] = "Bearer $token";
