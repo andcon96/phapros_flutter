@@ -64,7 +64,8 @@ class _laporanform extends State<laporanform> {
   bool loading = false;
   Future<Object?> sendlaporan(String url) async {
     final token = await UserSecureStorage.getToken();
-
+    final username = await UserSecureStorage.getIdAnggota();
+    url += '&username=' + username.toString();
     final response = await http.post(Uri.parse(url), headers: {
       HttpHeaders.contentTypeHeader: "application/json",
       HttpHeaders.authorizationHeader: "Bearer $token"
@@ -91,6 +92,7 @@ class _laporanform extends State<laporanform> {
               title: "Success",
               text: "Success to Submit report for receipt " + IdRcp.text));
     } else if (response.body == 'error') {
+      Navigator.pop(context, 'refresh');
       return ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
@@ -172,7 +174,7 @@ class _laporanform extends State<laporanform> {
                                 onPressed: () {},
                                 onLongPress: () {
                                   String url =
-                                      'http://192.168.18.195:8000/api/submitlaporan?';
+                                      'http://192.168.0.3:26077/api/submitlaporan?';
                                   url += 'idrcpt=' + IdRcp.text;
                                   url += '&ponbr=' + PO.text;
                                   url += '&part=' + NamaBarang.text;

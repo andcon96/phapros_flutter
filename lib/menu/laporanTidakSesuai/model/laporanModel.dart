@@ -39,7 +39,7 @@ class laporanrcpt {
   }
 }
 class laporanModel{
-  String? ponbr, rcpt_nbr, rcpt_date, rcptd_part, rcptd_qty_arr, rcptd_lot, rcptd_loc, rcptd_qty_appr, rcptd_qty_rej, nopol, angkutan,supplier,komplain,keterangan,tanggal,komplaindetail,no;
+  String? ponbr, rcpt_nbr, rcpt_date, rcptd_part, rcptd_qty_arr, rcptd_lot, rcptd_loc, rcptd_qty_appr, rcptd_qty_rej, nopol, angkutan,supplier,komplain,keterangan,tanggal,komplaindetail,no,createdby;
 
   laporanModel({
     required this.ponbr, 
@@ -58,17 +58,18 @@ class laporanModel{
     required this.keterangan,
     required this.tanggal,
     required this.komplaindetail,
-    required this.no
+    required this.no,
+    required this.createdby
   });
 
   factory laporanModel.fromJson(Map<String, dynamic> json){
     Map<String, dynamic> jsonmaster = json['get_master'];
     Map<String, dynamic> jsonpo = jsonmaster['getpo'];
     Map<String, dynamic> jsonlaporan = jsonmaster['get_laporan'] == null ? {} : jsonmaster['get_laporan'];
-
+    Map<String, dynamic> jsonuser = jsonlaporan['get_user_laporan'] == null ? {} : jsonlaporan['get_user_laporan'];
     Map<String, dynamic> jsontransport = jsonmaster['get_transport'][0];
 
-    
+
     return laporanModel(
       ponbr: jsonpo['po_nbr'],
       rcpt_nbr: jsonmaster['rcpt_nbr'],
@@ -86,7 +87,8 @@ class laporanModel{
       keterangan: jsonlaporan['laporan_keterangan'] ?? '-',
       tanggal: jsonlaporan['laporan_tgl'] ?? '-',
       komplaindetail: jsonlaporan['laporan_komplaindetail'] ?? '-',
-      no: jsonlaporan['laporan_no'] ?? '-'
+      no: jsonlaporan['laporan_no'] ?? '-',
+      createdby: jsonuser['nama'] ?? '-',
     );
   }
   

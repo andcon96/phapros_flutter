@@ -29,8 +29,8 @@ class _LoginPageState extends State<LoginPage> {
 
   // ignore: non_constant_identifier_names
   Future LoginUser() async {
-    final response = await http
-        .post(Uri.parse('http://192.168.18.195:8000/api/login'), body: {
+    final response =
+        await http.post(Uri.parse('http://192.168.0.3:26077/api/login'), body: {
       "nik": _userCon.text,
       "password": _passCon.text,
     }).timeout(const Duration(seconds: 20), onTimeout: () {
@@ -241,7 +241,6 @@ class _LoginPageState extends State<LoginPage> {
                                                 .validate()) {
                                               setState(() => loading = true);
                                               LoginUser().then((value) async {
-                                                print(value);
                                                 if (value == null) {
                                                 } else if (value['message'] ==
                                                     "Error") {

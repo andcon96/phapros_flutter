@@ -34,6 +34,7 @@ class _receiptbrowse extends State<receiptbrowse> {
       RefreshController(initialRefresh: true);
 
   final _textCont = TextEditingController();
+
   String _custId = "";
 
   // int currentPage = 1;
@@ -74,7 +75,7 @@ class _receiptbrowse extends State<receiptbrowse> {
       });
 
       final Uri url = Uri.parse(
-          'http://192.168.18.195:8000/api/getreceipt?user=' +
+          'http://192.168.0.3:26077/api/getreceipt?user=' +
               userid +
               '&rcptnbr=' +
               search.toString());
@@ -462,11 +463,6 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                               color:
                                                                   Colors.white,
                                                               onPressed: () => {
-                                                                print(datapo[
-                                                                        index]
-                                                                    .userid
-                                                                    .toString()),
-                                                                print(userid),
                                                                 Navigator.push(
                                                                     context,
                                                                     MaterialPageRoute(
@@ -486,8 +482,9 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                                               supplier: datapo[index].supplier.toString(),
                                                                               batch: datapo[index].batch.toString(),
                                                                               shipto: datapo[index].shipto.toString(),
-                                                                              lastapproval: datapo[index].lastapproval.toString(),
-                                                                              nextapproval: datapo[index].nextapproval.toString(),
+                                                                              domain: datapo[index].domain.toString(),
+                                                                              status: datapo[index].status.toString(),
+                                                                              approver: datapo[index].approvedby.toString(),
                                                                             )))
                                                               },
                                                             ),
@@ -498,13 +495,13 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                           Ink(
                                                             decoration: datapo[
                                                                             index]
-                                                                        .laststatus
+                                                                        .status
                                                                         .toString() !=
-                                                                    'Rejected'
+                                                                    'rejected'
                                                                 ? datapo[index]
-                                                                            .userid
-                                                                            .toString() ==
-                                                                        userid
+                                                                            .status
+                                                                            .toString() !=
+                                                                        'finished'
                                                                     ? const ShapeDecoration(
                                                                         color: Colors
                                                                             .blue,
@@ -513,43 +510,42 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                                     : null
                                                                 : null,
                                                             child: datapo[index]
-                                                                        .laststatus
+                                                                        .status
                                                                         .toString() !=
-                                                                    'Rejected'
+                                                                    'rejected'
                                                                 ? datapo[index]
-                                                                            .userid
-                                                                            .toString() ==
-                                                                        userid
+                                                                            .status
+                                                                            .toString() !=
+                                                                        'finished'
                                                                     ? IconButton(
                                                                         icon: const Icon(
                                                                             Icons.check_circle_rounded),
                                                                         color: Colors
                                                                             .white,
-                                                                        onPressed: datapo[index].laststatus.toString() !=
-                                                                                'Rejected'
-                                                                            ? datapo[index].userid.toString() == userid
+                                                                        onPressed: datapo[index].status.toString() !=
+                                                                                'rejected'
+                                                                            ? datapo[index].status.toString() != 'finished'
                                                                                 ? () async {
                                                                                     String refresh = await Navigator.push(
                                                                                         context,
                                                                                         MaterialPageRoute(
                                                                                             builder: (context) => receiptform(
-                                                                                                ponbr: datapo[index].ponbr.toString(),
-                                                                                                rcpt_nbr: datapo[index].rcpt_nbr.toString(),
-                                                                                                rcpt_date: datapo[index].rcpt_date.toString(),
-                                                                                                rcptd_part: datapo[index].rcptd_part.toString(),
-                                                                                                rcptd_qty_arr: datapo[index].rcptd_qty_arr.toString(),
-                                                                                                rcptd_lot: datapo[index].rcptd_lot.toString(),
-                                                                                                rcptd_loc: datapo[index].rcptd_loc.toString(),
-                                                                                                rcptd_qty_appr: datapo[index].rcptd_qty_appr.toString(),
-                                                                                                rcptd_qty_rej: datapo[index].rcptd_qty_rej.toString(),
-                                                                                                // angkutan: datapo[index].rcptd_loc.toString(),
-                                                                                                // nopol: datapo[index].rcptd_lot.toString(),
-                                                                                                supplier: datapo[index].supplier.toString(),
-                                                                                                batch: datapo[index].batch.toString(),
-                                                                                                shipto: datapo[index].shipto.toString(),
-                                                                                                lastapproval: datapo[index].lastapproval.toString(),
-                                                                                                nextapproval: datapo[index].nextapproval.toString(),
-                                                                                                userid: userid)));
+                                                                                                  ponbr: datapo[index].ponbr.toString(),
+                                                                                                  rcpt_nbr: datapo[index].rcpt_nbr.toString(),
+                                                                                                  rcpt_date: datapo[index].rcpt_date.toString(),
+                                                                                                  rcptd_part: datapo[index].rcptd_part.toString(),
+                                                                                                  rcptd_qty_arr: datapo[index].rcptd_qty_arr.toString(),
+                                                                                                  rcptd_lot: datapo[index].rcptd_lot.toString(),
+                                                                                                  rcptd_loc: datapo[index].rcptd_loc.toString(),
+                                                                                                  rcptd_qty_appr: datapo[index].rcptd_qty_appr.toString(),
+                                                                                                  rcptd_qty_rej: datapo[index].rcptd_qty_rej.toString(),
+                                                                                                  // angkutan: datapo[index].rcptd_loc.toString(),
+                                                                                                  // nopol: datapo[index].rcptd_lot.toString(),
+                                                                                                  supplier: datapo[index].supplier.toString(),
+                                                                                                  batch: datapo[index].batch.toString(),
+                                                                                                  shipto: datapo[index].shipto.toString(),
+                                                                                                  domain: datapo[index].domain.toString(),
+                                                                                                )));
 
                                                                                     if (refresh == 'refresh') {
                                                                                       Changedata();

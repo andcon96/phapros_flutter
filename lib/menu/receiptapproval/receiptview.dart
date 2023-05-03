@@ -18,8 +18,9 @@ class receiptview extends StatefulWidget {
       supplier,
       batch,
       shipto,
-      lastapproval,
-      nextapproval;
+      domain,
+      status,
+      approver;
   const receiptview({
     Key? key,
     required this.ponbr,
@@ -33,9 +34,10 @@ class receiptview extends StatefulWidget {
     required this.rcptd_qty_rej,
     required this.supplier,
     required this.batch,
-    required this.shipto,
-    required this.lastapproval,
-    required this.nextapproval,
+    required this.shipto,    
+    required this.domain,
+    required this.status,
+    required this.approver,
   }) : super(key: key);
 
   @override
@@ -59,6 +61,9 @@ class _receiptview extends State<receiptview> {
   late TextEditingController nextapproval;
   late TextEditingController PO;
   late TextEditingController NomorLot;
+  late TextEditingController domain;
+  late TextEditingController approver;
+  late TextEditingController status;
 
   String rcptnbr = '';
   late String responseresult = '';
@@ -82,8 +87,9 @@ class _receiptview extends State<receiptview> {
     Loc = TextEditingController(text: widget.rcptd_loc);
     JumlahApprove = TextEditingController(text: widget.rcptd_qty_appr);
     JumlahReject = TextEditingController(text: widget.rcptd_qty_rej);
-    lastapproval = TextEditingController(text: widget.lastapproval == 'null' ? '-' : widget.lastapproval);
-    nextapproval = TextEditingController(text: widget.nextapproval == 'null' ? '-' : widget.nextapproval);
+    domain = TextEditingController(text: widget.domain);
+    status = TextEditingController(text: widget.status);
+    approver = TextEditingController(text: widget.approver);
    
   }
   @override
@@ -382,7 +388,7 @@ class _receiptview extends State<receiptview> {
                             height:50,
                             alignment: Alignment.centerLeft,
                           child: Text(
-                            'Last Approver',
+                            'Status',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 14),
                           ),
@@ -394,12 +400,11 @@ class _receiptview extends State<receiptview> {
                             height:50,
                             alignment: Alignment.centerLeft,
                           child: Text(
-                            lastapproval.text,
+                            status.text,
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
                         ),
-                        
                       ]),
                       TableRow(children: [
                         TableCell(
@@ -408,7 +413,7 @@ class _receiptview extends State<receiptview> {
                             height:50,
                             alignment: Alignment.centerLeft,
                           child: Text(
-                            'Next Approval',
+                            'Approved By',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 14),
                           ),
@@ -420,7 +425,7 @@ class _receiptview extends State<receiptview> {
                             height:50,
                             alignment: Alignment.centerLeft,
                           child: Text(
-                            nextapproval.text,
+                            approver.text,
                             style: TextStyle(fontSize: 16),
                           ),
                         ),

@@ -22,7 +22,8 @@ class laporanview extends StatefulWidget {
       komplain,
       keterangan,
       komplaindetail,
-      tanggal;
+      tanggal,
+      createdby;
   const laporanview({
     Key? key,
     required this.ponbr,
@@ -41,7 +42,8 @@ class laporanview extends StatefulWidget {
     required this.keterangan,
     required this.tanggal,
     required this.komplaindetail,
-    required this.komplain 
+    required this.komplain ,
+    required this.createdby,
   }) : super(key: key);
 
   @override
@@ -65,6 +67,7 @@ class _laporanview extends State<laporanview> {
   late TextEditingController NomorLot;
   late TextEditingController Angkutan;
   late TextEditingController NoPol;
+  late TextEditingController createdby;
   String rcptnbr = '';
   late String responseresult = '';
 
@@ -92,6 +95,8 @@ class _laporanview extends State<laporanview> {
         text: widget.angkutan != 'null' ? widget.angkutan : '');
     NoPol =
         TextEditingController(text: widget.nopol != 'null' ? widget.nopol : '');
+    createdby =
+        TextEditingController(text: widget.createdby != 'null' ? widget.createdby : '');
   }
 
   @override
@@ -453,6 +458,31 @@ class _laporanview extends State<laporanview> {
                             alignment: Alignment.centerLeft,
                           child: Text(
                             NoPol.text,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                        ),
+                      ]),
+                      TableRow(children: [
+                        TableCell(
+                          verticalAlignment: TableCellVerticalAlignment.middle,
+                          child: Container(
+                            height:50,
+                            alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Created By',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 14),
+                          ),
+                          ),
+                        ),
+                        TableCell(
+                          verticalAlignment: TableCellVerticalAlignment.middle, 
+                          child: Container(
+                            height:50,
+                            alignment: Alignment.centerLeft,
+                          child: Text(
+                            createdby.text,
                             style: TextStyle(fontSize: 16),
                           ),
                         ),

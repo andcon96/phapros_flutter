@@ -149,7 +149,7 @@ class _wsaPOState extends State<wsaPO> {
       final token = await UserSecureStorage.getToken();
 
       final Uri url =
-          Uri.parse('http://192.168.18.195:8000/api/wsapo?ponbr=$search');
+          Uri.parse('http://192.168.0.3:26077/api/wsapo?ponbr=$search');
 
       final response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: "application/json",
