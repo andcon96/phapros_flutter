@@ -69,7 +69,7 @@ class _laporanbrowse extends State<laporanbrowse> {
       final token = await UserSecureStorage.getToken();
 
       final Uri url = Uri.parse(
-          'http://192.168.0.3:8000/api/getpolaporan?receiptnbr=' +
+          'http://192.168.18.195:8000/api/getpolaporan?receiptnbr=' +
               search.toString());
 
       loadfailed = false;

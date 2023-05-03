@@ -52,7 +52,7 @@ class _POBrowseState extends State<POBrowse> {
       final token = await UserSecureStorage.getToken();
 
       final Uri url = Uri.parse(
-          'http://192.168.0.3:8000/api/getpo?page=$currentPage&search=$search');
+          'http://192.168.18.195:8000/api/getpo?page=$currentPage&search=$search');
 
       loadfailed = false;
       final response = await http.get(url, headers: {
@@ -253,7 +253,7 @@ class _POBrowseState extends State<POBrowse> {
                                 ),
                               ),
                             ))
-                        : datapo.isEmpty && onStart
+                        : datapo.isEmpty
                             ? Padding(
                                 padding: const EdgeInsets.only(
                                     top: 10, left: 10, right: 10),
@@ -263,10 +263,15 @@ class _POBrowseState extends State<POBrowse> {
                                   shape: BeveledRectangleBorder(
                                       borderRadius: BorderRadius.circular(5)),
                                   child: ListTile(
-                                    title: Text(
-                                      "No Data Available",
-                                      style: content,
-                                    ),
+                                    title: onStart
+                                        ? Text(
+                                            "Please Search Data",
+                                            style: content,
+                                          )
+                                        : Text(
+                                            "No Data Available",
+                                            style: content,
+                                          ),
                                   ),
                                 ))
                             : ListView.separated(

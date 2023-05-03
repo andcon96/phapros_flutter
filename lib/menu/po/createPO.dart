@@ -15,11 +15,11 @@ import 'package:intl/intl.dart';
 // ignore: camel_case_types
 class createpo extends StatefulWidget {
   final List<Data> selectedline;
+  final List<dynamic> listLocation;
 
-  const createpo({
-    Key? key,
-    required this.selectedline,
-  }) : super(key: key);
+  const createpo(
+      {Key? key, required this.selectedline, required this.listLocation})
+      : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -66,6 +66,12 @@ class _createpoState extends State<createpo> {
     itemname.text = widget.selectedline[0].tLvcPartDesc ?? '';
     supplier.text =
         '${widget.selectedline[0].tLvcVend} - ${widget.selectedline[0].tLvcVendDesc}';
+
+    final now = DateTime.now();
+
+    arrivaldate.text = DateFormat('yyyy-MM-dd').format(now);
+    imrdate.text = DateFormat('yyyy-MM-dd').format(now);
+    manufacturer.text = widget.selectedline[0].tLvcManufacturer ?? '';
   }
 
   @override
@@ -174,7 +180,7 @@ class _createpoState extends State<createpo> {
               const SizedBox(
                 height: 8,
               ),
-              TextField(
+              TextFormField(
                   controller: arrivaldate,
                   readOnly: true,
                   decoration: InputDecoration(
@@ -1015,6 +1021,21 @@ class _createpoState extends State<createpo> {
                                     _activeStepIndex += 1;
                                   });
                                 } else {
+                                  if (transporterno.text == '') {
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.warning,
+                                        text:
+                                            'Transporter No. tidak boleh kosong');
+                                    return;
+                                  }
+                                  if (policeno.text == '') {
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.warning,
+                                        text: 'Police No. tidak boleh kosong');
+                                    return;
+                                  }
                                   CoolAlert.show(
                                     context: context,
                                     type: CoolAlertType.confirm,
@@ -1031,6 +1052,8 @@ class _createpoState extends State<createpo> {
                                             builder: (context) => alokasipo(
                                                 selectedline:
                                                     widget.selectedline,
+                                                listLocation:
+                                                    widget.listLocation,
                                                 imrno: imrno.text,
                                                 arrivaldate: arrivaldate.text,
                                                 imrdate: imrdate.text,

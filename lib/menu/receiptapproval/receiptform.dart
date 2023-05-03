@@ -554,7 +554,7 @@ class _receiptform extends State<receiptform> {
                                                 onPressed: () {},
                                                 onLongPress: () {
                                                   String url =
-                                                      'http://192.168.0.3:8000/api/rejectreceipt?';
+                                                      'http://192.168.18.195:8000/api/rejectreceipt?';
                                                   url += 'idrcpt=' + IdRcp.text;
                                                   url += '&userid=' +
                                                       widget.userid;
@@ -609,7 +609,7 @@ class _receiptform extends State<receiptform> {
                                                 onPressed: () {},
                                                 onLongPress: () {
                                                   String url =
-                                                      'http://192.168.0.3:8000/api/approvereceipt?';
+                                                      'http://192.168.18.195:8000/api/approvereceipt?';
                                                   url += 'idrcpt=' + IdRcp.text;
                                                   url += '&userid=' +
                                                       widget.userid;

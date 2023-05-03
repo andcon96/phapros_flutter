@@ -5,6 +5,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_template/menu/laporanTidakSesuai/laporanform.dart';
 import 'package:flutter_template/menu/po/signaturePage.dart';
 import 'package:flutter_template/menu/po/wsaPO.dart';
 import 'package:image_picker/image_picker.dart';
@@ -267,7 +268,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
       final token = await UserSecureStorage.getToken();
       final idanggota = await UserSecureStorage.getIdAnggota();
 
-      final Uri url = Uri.parse('http://192.168.0.3:8000/api/savepo');
+      final Uri url = Uri.parse('http://192.168.18.195:8000/api/savepo');
       final request = http.MultipartRequest('POST', url);
       request.headers['Content-Type'] = 'application/json';
       request.headers['authorization'] = "Bearer $token";
@@ -369,30 +370,99 @@ class _uploadfilepoState extends State<uploadfilepo> {
       request.fields.addAll(stringBody);
 
       var response = await request.send();
+      final responsedata = await http.Response.fromStream(response);
       if (response.statusCode == 200) {
         setState(() {
           loading = false;
         });
-        // ignore: use_build_context_synchronously
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (context) => wsaPO(),
-            ),
-            (route) => route.isFirst);
-        CoolAlert.show(
-          context: context,
-          type: CoolAlertType.success,
-          title: 'Sukses',
-          text: 'Data berhasil dikrim',
-          loopAnimation: false,
-        );
+
+        var cart = widget.cart;
+        var flg = 0; // 1 => Ada Qty Reject, kasi opsi ke Form Reject.
+        for (var data in cart) {
+          var qtyReject = int.parse(data.tLvdQtyReject ?? '0');
+
+          if (qtyReject > 0) {
+            flg = 1;
+          }
+        }
+
+        if (flg == 0) {
+          // ignore: use_build_context_synchronously
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (context) => wsaPO(),
+              ),
+              (route) => route.isFirst);
+          CoolAlert.show(
+            context: context,
+            type: CoolAlertType.success,
+            title: 'Sukses',
+            text: 'Data berhasil dikrim',
+            loopAnimation: false,
+          );
+        } else {
+          // Konfirmasi user untuk ke Form tidak sesuai.
+          CoolAlert.show(
+              context: context,
+              type: CoolAlertType.confirm,
+              text: 'Data Berhasil Disimpan, Lanjut ke Form Ketidaksesuaian ?',
+              confirmBtnText: 'Yes',
+              cancelBtnText: 'No',
+              confirmBtnColor: Colors.green,
+              onConfirmBtnTap: () {
+                Navigator.of(context, rootNavigator: true).pop();
+
+                var datareceipt = jsonDecode(responsedata.body)['datareceipt'];
+                // print(datareceipt['get_transport'][0]['rcptt_transporter_no']);
+                // ignore: use_build_context_synchronously
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => laporanform(
+                        ponbr: datareceipt['getpo']['po_nbr'].toString(),
+                        rcpt_nbr: datareceipt['rcpt_nbr'].toString(),
+                        rcpt_date: datareceipt['rcpt_date'].toString(),
+                        rcptd_part: datareceipt['get_detail_reject']
+                                ['rcptd_part']
+                            .toString(),
+                        rcptd_qty_arr: datareceipt['get_detail_reject']
+                                ['rcptd_qty_arr']
+                            .toString(),
+                        rcptd_lot: datareceipt['get_detail_reject']['rcptd_lot']
+                            .toString(),
+                        rcptd_loc: datareceipt['get_detail_reject']['rcptd_loc']
+                            .toString(),
+                        rcptd_qty_appr: datareceipt['get_detail_reject']
+                                ['rcptd_qty_appr']
+                            .toString(),
+                        rcptd_qty_rej: datareceipt['get_detail_reject']
+                                ['rcptd_qty_rej']
+                            .toString(),
+                        nopol: datareceipt['get_transport'][0]
+                                ['rcptt_police_no']
+                            .toString(),
+                        angkutan: datareceipt['get_transport'][0]
+                                ['rcptt_transporter_no']
+                            .toString(),
+                        supplier: datareceipt['getpo']['po_vend'].toString(),
+                      ),
+                    ),
+                    (route) => route.isFirst);
+              },
+              onCancelBtnTap: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => wsaPO(),
+                    ),
+                    (route) => route.isFirst);
+              });
+        }
+
         return true;
       } else {
         setState(() {
           loading = false;
-          // print(cart);
-          // print(cart[0].tLvcBatch);
         });
+        print(responsedata.body);
         CoolAlert.show(
           context: context,
           type: CoolAlertType.error,

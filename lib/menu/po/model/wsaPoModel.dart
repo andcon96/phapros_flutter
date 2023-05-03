@@ -57,6 +57,7 @@ class Data {
   String? tLvdQtyReject;
   String? tLvdQtyTerima;
   bool? tIsSaved;
+  String? tLvcManufacturer;
 
   Data(
       {this.tLvcNbr,
@@ -85,7 +86,8 @@ class Data {
       this.tLvdQtyDatang,
       this.tLvdQtyReject,
       this.tLvdQtyTerima,
-      this.tIsSaved});
+      this.tIsSaved,
+      this.tLvcManufacturer});
 
   Data.fromJson(Map<String, dynamic> json) {
     tLvcNbr = json['t_lvc_nbr'];
@@ -115,6 +117,7 @@ class Data {
     tLvdQtyReject = json['t_lvd_qty_reject'];
     tLvdQtyTerima = json['t_lvd_qty_terima'];
     tIsSaved = json['t_is_saved'];
+    tLvcManufacturer = json['t_lvc_manufacturer'];
   }
 
   Map<String, dynamic> toJson() {
@@ -146,6 +149,7 @@ class Data {
     data['t_lvd_qty_reject'] = tLvdQtyReject;
     data['t_lvd_qty_terima'] = tLvdQtyTerima;
     data['t_is_saved'] = tIsSaved;
+    data['t_lvc_manufacturer'] = tLvcManufacturer;
     return data;
   }
 }
