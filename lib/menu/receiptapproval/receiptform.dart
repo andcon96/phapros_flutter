@@ -92,14 +92,14 @@ class _receiptform extends State<receiptform> {
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.success,
               title: "Success",
-              text: "Success to Reject receipt " + IdRcp.text));
+              text: "Success to Unapprove receipt " + IdRcp.text));
     } else if (response.body == 'approve failed') {
       return ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.danger,
               title: "Error",
-              text: "Failed to Reject receipt" + IdRcp.text));
+              text: "Failed to Unapprove receipt" + IdRcp.text));
     }
     ;
 
@@ -513,7 +513,7 @@ class _receiptform extends State<receiptform> {
                             child: ElevatedButton(
                               style:
                                   ElevatedButton.styleFrom(primary: Colors.red),
-                              child: Text('Deny'),
+                              child: Text('Unapprove'),
                               onPressed: () {
                                 showModalBottomSheet<void>(
                                     context: context,
@@ -528,7 +528,7 @@ class _receiptform extends State<receiptform> {
                                             mainAxisSize: MainAxisSize.min,
                                             children: <Widget>[
                                               Text(
-                                                  'Are you sure you want to approve Receipt ' +
+                                                  'Are you sure you want to Unapprove Receipt ' +
                                                       IdRcp.text +
                                                       '?',
                                                   style: const TextStyle(
@@ -549,7 +549,7 @@ class _receiptform extends State<receiptform> {
                                                 onPressed: () {},
                                                 onLongPress: () {
                                                   String url =
-                                                      'http://192.168.0.3:26077/api/rejectreceipt?';
+                                                      'http://192.168.18.40:8000/api/rejectreceipt?';
                                                   url += 'idrcpt=' + IdRcp.text;
                                                   
 
@@ -603,7 +603,7 @@ class _receiptform extends State<receiptform> {
                                                 onPressed: () {},
                                                 onLongPress: () {
                                                   String url =
-                                                      'http://192.168.0.3:26077/api/approvereceipt?';
+                                                      'http://192.168.18.40:8000/api/approvereceipt?';
                                                   url += 'idrcpt=' + IdRcp.text;
                                                   
                                                   

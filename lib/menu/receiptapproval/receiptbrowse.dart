@@ -20,6 +20,7 @@ import 'package:http/http.dart' as http;
 
 // import 'poModel.dart';
 String userid = '';
+String canapprove = '';
 
 class receiptbrowse extends StatefulWidget {
   const receiptbrowse({Key? key}) : super(key: key);
@@ -69,13 +70,17 @@ class _receiptbrowse extends State<receiptbrowse> {
 
       final id = await UserSecureStorage.getUsername();
       final token = await UserSecureStorage.getToken();
+      final canaccessweb = await UserSecureStorage.getCanApprove().then((String? strcanapprove){
+        canapprove = strcanapprove.toString();
+      });
+      
       final usrr =
           await UserSecureStorage.getIdAnggota().then((String? strusername) {
         userid = strusername.toString();
       });
 
       final Uri url = Uri.parse(
-          'http://192.168.0.3:26077/api/getreceipt?user=' +
+          'http://192.168.18.40:8000/api/getreceipt?user=' +
               userid +
               '&rcptnbr=' +
               search.toString());
@@ -510,7 +515,8 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                                             CircleBorder())
                                                                     : null
                                                                 : null,
-                                                            child: datapo[index]
+                                                            child: canapprove != '0' ?
+                                                             datapo[index]
                                                                         .status
                                                                         .toString() !=
                                                                     'rejected'
@@ -556,7 +562,8 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                                             : null,
                                                                       )
                                                                     : null
-                                                                : null,
+                                                                : null
+                                                                :null,
                                                           )
                                                         ],
                                                       )

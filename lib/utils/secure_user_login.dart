@@ -12,6 +12,7 @@ class UserSecureStorage {
   static const _keyEmail = 'email';
   static const _keyRole = 'role';
   static const _keyCust = 'cust';
+  static const _keyAppr = 'approve';
 
   static Future setUsername(String username) async =>
       await _storage.write(key: _keyUsername, value: username);
@@ -39,6 +40,12 @@ class UserSecureStorage {
 
   static Future setCust(String cust) async =>
       await _storage.write(key: _keyCust, value: cust);
+
+  static Future setCanApprove(String approve) async =>
+      await _storage.write(key: _keyAppr, value: approve);
+  
+  static Future<String?> getCanApprove() async =>
+      await _storage.read(key: _keyAppr);
 
   static Future<String?> getUsername() async =>
       await _storage.read(key: _keyUsername);
