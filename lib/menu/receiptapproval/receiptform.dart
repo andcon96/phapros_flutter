@@ -48,11 +48,10 @@ class receiptform extends StatefulWidget {
 class _receiptform extends State<receiptform> {
   bool loading = false;
   Future<Object?> sendlaporan(String url) async {
-    
     final token = await UserSecureStorage.getToken();
     final id = await UserSecureStorage.getIdAnggota();
     url += '&userid=' + id.toString();
-    
+
     final response = await http.post(Uri.parse(url), headers: {
       HttpHeaders.contentTypeHeader: "application/json",
       HttpHeaders.authorizationHeader: "Bearer $token"
@@ -551,7 +550,6 @@ class _receiptform extends State<receiptform> {
                                                   String url =
                                                       'http://192.168.18.40:8000/api/rejectreceipt?';
                                                   url += 'idrcpt=' + IdRcp.text;
-                                                  
 
                                                   Navigator.pop(context);
                                                   setState(() {
@@ -605,8 +603,7 @@ class _receiptform extends State<receiptform> {
                                                   String url =
                                                       'http://192.168.18.40:8000/api/approvereceipt?';
                                                   url += 'idrcpt=' + IdRcp.text;
-                                                  
-                                                  
+
                                                   Navigator.pop(context);
                                                   setState(() {
                                                     loading = true;

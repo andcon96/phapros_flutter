@@ -94,13 +94,64 @@ class _wsaPOState extends State<wsaPO> {
   List<Data> detailpo = [];
   List<Data> selectedDetailPO = [];
 
+  List<dynamic> listLocation = [];
+
+  Future<bool> getLocation() async {
+    try {
+      final token = await UserSecureStorage.getToken();
+
+      final Uri url = Uri.parse('http://192.168.18.195:8000/api/wsaloc');
+
+      final response = await http.get(url, headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: "Bearer $token"
+      }).timeout(const Duration(milliseconds: 5000), onTimeout: () {
+        setState(() {
+          ArtSweetAlert.show(
+              context: context,
+              artDialogArgs: ArtDialogArgs(
+                  type: ArtSweetAlertType.danger,
+                  title: "Error",
+                  text: "Failed to load data"));
+        });
+        return http.Response('Error', 500);
+      });
+
+      if (response.statusCode == 200) {
+        setState(() {
+          listLocation = json.decode(response.body)['data'];
+        });
+
+        getWsaPO(_textCont.text);
+
+        return true;
+      } else {
+        ArtSweetAlert.show(
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+                type: ArtSweetAlertType.danger,
+                title: "Error",
+                text: "Could not get Location Data"));
+        return false;
+      }
+    } on Exception catch (e) {
+      ArtSweetAlert.show(
+          context: context,
+          artDialogArgs: ArtDialogArgs(
+              type: ArtSweetAlertType.danger,
+              title: "Error",
+              text: "Error Load Data"));
+      return false;
+    }
+  }
+
   Future<bool> getWsaPO(String? search) async {
     try {
       setState(() => overlayLoading = true);
       final token = await UserSecureStorage.getToken();
 
       final Uri url =
-          Uri.parse('http://192.168.0.3:26077/api/wsapo?ponbr=$search');
+          Uri.parse('http://192.168.18.195:8000/api/wsapo?ponbr=$search');
 
       final response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: "application/json",
@@ -126,7 +177,6 @@ class _wsaPOState extends State<wsaPO> {
       });
       if (response.statusCode == 200) {
         notSearch = false;
-        // print(response.body);
         final result = WsaPOFromJson(response.body);
         detailpo = result.data!;
 
@@ -144,7 +194,6 @@ class _wsaPOState extends State<wsaPO> {
       }
     } on Exception catch (e) {
       setState(() => overlayLoading = false);
-      print(e);
       detailpo = [];
       ArtSweetAlert.show(
           context: context,
@@ -227,7 +276,7 @@ class _wsaPOState extends State<wsaPO> {
                                           textInputAction:
                                               TextInputAction.search,
                                           onSubmitted: (value) {
-                                            getWsaPO(_textCont.text);
+                                            getLocation();
                                           },
                                           style: const TextStyle(
                                               fontFamily: 'Poppins',
@@ -310,6 +359,7 @@ class _wsaPOState extends State<wsaPO> {
                                           user.tLvcVendDesc ?? '',
                                           user.tIsSelected ?? false,
                                           user.tLvcUm ?? '',
+                                          user.tLvcManufacturer ?? '',
                                           index);
                                     },
                                     separatorBuilder: (context, index) =>
@@ -353,8 +403,8 @@ class _wsaPOState extends State<wsaPO> {
                                   context,
                                   CupertinoPageRoute(
                                       builder: (context) => createpo(
-                                            selectedline: selectedDetailPO,
-                                          )),
+                                          selectedline: selectedDetailPO,
+                                          listLocation: listLocation)),
                                 );
                         },
                         backgroundColor: Colors.purple,
@@ -386,6 +436,7 @@ class _wsaPOState extends State<wsaPO> {
       String vendordesc,
       bool isSelected,
       String um,
+      String manufacturer,
       int index) {
     return ListTile(
       // ignore: prefer_const_constructors
@@ -435,7 +486,8 @@ class _wsaPOState extends State<wsaPO> {
                 tLvcVendDesc: vendordesc,
                 tLvdQtyord: qtyord,
                 tLvcUm: um,
-                tLvdPrice: price));
+                tLvdPrice: price,
+                tLvcManufacturer: manufacturer));
           } else if (detailpo[index].tIsSelected == false) {
             selectedDetailPO.removeWhere(
                 (element) => element.tLviLine == detailpo[index].tLviLine);

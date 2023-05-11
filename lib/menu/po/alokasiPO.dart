@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:animated_floating_buttons/animated_floating_buttons.dart';
+import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -106,9 +107,6 @@ class _DetailPOState extends State<DetailPO> {
                         .where((line) => line.tLviLine == value)
                         .toList();
 
-                    // print(selecteddata[0].tLvcUm);
-                    // print(widget.cartItem.tLviLine);
-
                     widget.cartItem.tLvcUm = selecteddata[0].tLvcUm.toString();
 
                     _um.text = selecteddata[0].tLvcUm.toString();
@@ -133,15 +131,136 @@ class _DetailPOState extends State<DetailPO> {
   }
 }
 
+// Dropdown Lokasi
+class DropdownLocation extends StatefulWidget {
+  Data cartItem;
+  List<dynamic> listLocation;
+  DropdownLocation({required this.cartItem, required this.listLocation});
+  @override
+  _DropdownLocationState createState() => _DropdownLocationState();
+}
+
+class _DropdownLocationState extends State<DropdownLocation> {
+  String dropdownValue = '';
+  List<dynamic> listLocation = [];
+
+  // Future<bool> getLocation() async {
+  //   try {
+  //     final token = await UserSecureStorage.getToken();
+
+  //     final Uri url = Uri.parse('http://192.168.18.195:8000/api/wsaloc');
+
+  //     final response = await http.get(url, headers: {
+  //       HttpHeaders.contentTypeHeader: "application/json",
+  //       HttpHeaders.authorizationHeader: "Bearer $token"
+  //     }).timeout(const Duration(milliseconds: 5000), onTimeout: () {
+  //       setState(() {
+  //         ArtSweetAlert.show(
+  //             context: context,
+  //             artDialogArgs: ArtDialogArgs(
+  //                 type: ArtSweetAlertType.danger,
+  //                 title: "Error",
+  //                 text: "Failed to load data"));
+  //       });
+  //       return http.Response('Error', 500);
+  //     });
+
+  //     if (response.statusCode == 200) {
+  //       setState(() {
+  //         listLocation = json.decode(response.body)['data'];
+  //         dropdownValue = listLocation[0]['t_site_loc'] ?? '';
+  //         widget.cartItem.tLvcLoc = dropdownValue;
+  //       });
+
+  //       return true;
+  //     } else {
+  //       ArtSweetAlert.show(
+  //           context: context,
+  //           artDialogArgs: ArtDialogArgs(
+  //               type: ArtSweetAlertType.danger,
+  //               title: "Error",
+  //               text: "Could not get Location Data"));
+  //       return false;
+  //     }
+  //   } on Exception catch (e) {
+  //     ArtSweetAlert.show(
+  //         context: context,
+  //         artDialogArgs: ArtDialogArgs(
+  //             type: ArtSweetAlertType.danger,
+  //             title: "Error",
+  //             text: "Error Load Location"));
+  //     return false;
+  //   }
+  // }
+
+  @override
+  void initState() {
+    super.initState();
+    // print(widget.listLocation);
+    dropdownValue = widget.listLocation[0]['t_site_loc'] ?? '';
+    // getLocation();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+          color: Color.fromARGB(255, 157, 154, 154),
+          width: 1.0,
+        ),
+        borderRadius: BorderRadius.all(
+          Radius.circular(5),
+        ),
+      ),
+      child: DropdownButtonHideUnderline(
+          child: DropdownButton(
+              itemHeight: 60,
+              hint: Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: TextField(
+                  decoration: InputDecoration(
+                      hintText: 'Select Location',
+                      border: InputBorder.none,
+                      labelText: 'Select Location'),
+                ),
+              ),
+              value: dropdownValue,
+              // ignore: prefer_const_literals_to_create_immutables
+              items: widget.listLocation.map((value) {
+                return DropdownMenuItem(
+                    value: "${value['t_site_loc']}".toString(),
+                    child: SizedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Text("${value['t_loc_desc']}"),
+                      ),
+                    ));
+              }).toList(),
+              isExpanded: true,
+              icon: Icon(Icons.arrow_drop_down),
+              onChanged: (value) {
+                setState(() {
+                  dropdownValue = value ?? '';
+                  widget.cartItem.tLvcLoc = value;
+                });
+              })),
+    );
+  }
+}
+
 // Card + Panggil Drop Down
 class CartWidget extends StatefulWidget {
   List<Data> cart;
+  List<dynamic> listLocation;
   int index;
   VoidCallback callback;
   List<Data> listLine;
 
   CartWidget(
       {required this.cart,
+      required this.listLocation,
       required this.index,
       required this.listLine,
       required this.callback});
@@ -156,6 +275,8 @@ class _CartWidgetState extends State<CartWidget> {
   TextEditingController qtydatang = TextEditingController();
   TextEditingController qtyterima = TextEditingController();
   TextEditingController qtyreject = TextEditingController();
+  TextEditingController qtyper = TextEditingController();
+  int _sum = 0;
 
   @override
   void initState() {
@@ -174,7 +295,7 @@ class _CartWidgetState extends State<CartWidget> {
         ? ''
         : widget.cart[widget.index].tLvdQtyDatang.toString();
     qtyterima.text = widget.cart[widget.index].tLvdQtyTerima == null
-        ? ''
+        ? '0'
         : widget.cart[widget.index].tLvdQtyTerima.toString();
     qtyreject.text = widget.cart[widget.index].tLvdQtyReject == null
         ? ''
@@ -187,7 +308,7 @@ class _CartWidgetState extends State<CartWidget> {
       padding: EdgeInsets.all(10),
       child: Container(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-          height: 600,
+          height: 700,
           width: double.maxFinite,
           child: Card(
             elevation: 5,
@@ -215,13 +336,17 @@ class _CartWidgetState extends State<CartWidget> {
               SizedBox(
                 height: 8,
               ),
-              TextField(
-                readOnly: widget.cart[widget.index].tIsSaved!,
-                controller: lokasi,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Location',
-                ),
+              // TextField(
+              //   readOnly: widget.cart[widget.index].tIsSaved!,
+              //   controller: lokasi,
+              //   decoration: const InputDecoration(
+              //     border: OutlineInputBorder(),
+              //     labelText: 'Location',
+              //   ),
+              // ),
+              DropdownLocation(
+                cartItem: widget.cart[widget.index],
+                listLocation: widget.listLocation,
               ),
               // ignore: prefer_const_constructors
               SizedBox(
@@ -233,6 +358,17 @@ class _CartWidgetState extends State<CartWidget> {
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Lot',
+                ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              TextField(
+                controller: qtyper,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Qty Per Package',
                 ),
               ),
               // ignore: prefer_const_constructors
@@ -247,6 +383,13 @@ class _CartWidgetState extends State<CartWidget> {
                   border: OutlineInputBorder(),
                   labelText: 'Qty Datang',
                 ),
+                onChanged: (value) {
+                  setState(() {
+                    _sum = (int.tryParse(value) ?? 0) -
+                        (int.tryParse(qtyreject.text) ?? 0);
+                    qtyterima.text = _sum.toString();
+                  });
+                },
               ),
               // ignore: prefer_const_constructors
               SizedBox(
@@ -260,13 +403,20 @@ class _CartWidgetState extends State<CartWidget> {
                   border: OutlineInputBorder(),
                   labelText: 'Qty Reject',
                 ),
+                onChanged: (value) {
+                  setState(() {
+                    _sum = (int.tryParse(qtydatang.text) ?? 0) -
+                        (int.tryParse(value) ?? 0);
+                    qtyterima.text = _sum.toString();
+                  });
+                },
               ),
               // ignore: prefer_const_constructors
               SizedBox(
                 height: 8,
               ),
               TextField(
-                readOnly: widget.cart[widget.index].tIsSaved!,
+                readOnly: true,
                 controller: qtyterima,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
@@ -283,6 +433,7 @@ class _CartWidgetState extends State<CartWidget> {
                           icon: Icon(Icons.check),
                           onPressed: () {
                             setState(() {
+                              // print(widget.cart[widget.index].tLvcLoc);
                               CoolAlert.show(
                                 context: context,
                                 type: CoolAlertType.confirm,
@@ -333,8 +484,8 @@ class _CartWidgetState extends State<CartWidget> {
                                   }
                                   widget.cart[widget.index].tLvcBatch =
                                       batch.text;
-                                  widget.cart[widget.index].tLvcLoc =
-                                      lokasi.text;
+                                  // widget.cart[widget.index].tLvcLoc =
+                                  //     lokasi.text;
                                   widget.cart[widget.index].tLvcLot = lot.text;
                                   widget.cart[widget.index].tLvdQtyDatang =
                                       qtydatang.text;
@@ -342,6 +493,8 @@ class _CartWidgetState extends State<CartWidget> {
                                       qtyreject.text;
                                   widget.cart[widget.index].tLvdQtyTerima =
                                       qtyterima.text;
+                                  widget.cart[widget.index].tlvdQtyPerPackage =
+                                      qtyper.text;
                                   widget.cart[widget.index].tIsSaved = true;
                                   widget.callback();
 
@@ -386,57 +539,60 @@ class _CartWidgetState extends State<CartWidget> {
 // State Utama
 class alokasipo extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
-  alokasipo({
-    Key? key,
-    required this.selectedline,
-    required this.imrno,
-    required this.arrivaldate,
-    required this.imrdate,
-    required this.dono,
-    required this.articleno,
-    required this.proddate,
-    required this.expdate,
-    required this.manufacturer,
-    required this.origincountry,
-    required this.certificateChecked,
-    required this.certificate,
-    required this.msdsChecked,
-    required this.msds,
-    required this.forwarderdoChecked,
-    required this.forwaderdo,
-    required this.packinglistChecked,
-    required this.packinglist,
-    required this.otherdocsChecked,
-    required this.otherdocs,
-    required this.keteranganisclean,
-    required this.keteranganisdry,
-    required this.keteranganisnotspilled,
-    required this.transporterno,
-    required this.policeno,
-    required this.angkutanketeranganisclean,
-    required this.angkutanketeranganisdry,
-    required this.angkutanketeranganisnotspilled,
-    required this.angkutanketeranganissingle,
-    required this.sackordosChecked,
-    required this.sackordosDamage,
-    required this.drumorvatChecked,
-    required this.drumorvatDamage,
-    required this.palletorpetiChecked,
-    required this.palletorpetiDamage,
-    required this.isclean,
-    required this.isdry,
-    required this.isnotspilled,
-    required this.issealed,
-    required this.ismanufacturerlabel,
-    required this.angkutanisclean,
-    required this.angkutanisdry,
-    required this.angkutanisnotspilled,
-    required this.angkutanissingle,
-    required this.angkutansegregate,
-    required this.angkutanketeranganissegregated,
-  }) : super(key: key);
+  alokasipo(
+      {Key? key,
+      required this.selectedline,
+      required this.listLocation,
+      required this.imrno,
+      required this.arrivaldate,
+      required this.imrdate,
+      required this.dono,
+      required this.articleno,
+      required this.proddate,
+      required this.expdate,
+      required this.manufacturer,
+      required this.origincountry,
+      required this.certificateChecked,
+      required this.certificate,
+      required this.msdsChecked,
+      required this.msds,
+      required this.forwarderdoChecked,
+      required this.forwaderdo,
+      required this.packinglistChecked,
+      required this.packinglist,
+      required this.otherdocsChecked,
+      required this.otherdocs,
+      required this.keteranganisclean,
+      required this.keteranganisdry,
+      required this.keteranganisnotspilled,
+      required this.transporterno,
+      required this.policeno,
+      required this.angkutanketeranganisclean,
+      required this.angkutanketeranganisdry,
+      required this.angkutanketeranganisnotspilled,
+      required this.angkutanketeranganissingle,
+      required this.sackordosChecked,
+      required this.sackordosDamage,
+      required this.drumorvatChecked,
+      required this.drumorvatDamage,
+      required this.palletorpetiChecked,
+      required this.palletorpetiDamage,
+      required this.isclean,
+      required this.isdry,
+      required this.isnotspilled,
+      required this.issealed,
+      required this.ismanufacturerlabel,
+      required this.angkutanisclean,
+      required this.angkutanisdry,
+      required this.angkutanisnotspilled,
+      required this.angkutanissingle,
+      required this.angkutansegregate,
+      required this.angkutanketeranganissegregated,
+      required this.angkutancatatan})
+      : super(key: key);
 
   final List<Data> selectedline;
+  final List<dynamic> listLocation;
   final String imrno;
   final String arrivaldate;
   final String imrdate;
@@ -486,6 +642,7 @@ class alokasipo extends StatefulWidget {
 
   final String angkutansegregate;
   final String angkutanketeranganissegregated;
+  final String angkutancatatan;
 
   final bool sackordosChecked;
   final bool drumorvatChecked;
@@ -500,6 +657,7 @@ class alokasipo extends StatefulWidget {
 
 class _alokasipoState extends State<alokasipo> {
   List<Data> cart = [];
+  List<dynamic> listLocation = [];
   final GlobalKey<AnimatedFloatingActionButtonState> key =
       GlobalKey<AnimatedFloatingActionButtonState>();
 
@@ -513,6 +671,7 @@ class _alokasipoState extends State<alokasipo> {
   @override
   void initState() {
     super.initState();
+    listLocation = widget.listLocation;
   }
 
   Future saveData() async {
@@ -521,7 +680,7 @@ class _alokasipoState extends State<alokasipo> {
       final token = await UserSecureStorage.getToken();
       final idanggota = await UserSecureStorage.getIdAnggota();
 
-      final Uri url = Uri.parse('http://192.168.0.3:26077/api/savepo');
+      final Uri url = Uri.parse('http://192.168.18.195:8000/api/savepo');
 
       final body = {
         "data": cart,
@@ -786,8 +945,8 @@ class _alokasipoState extends State<alokasipo> {
                         angkutanisnotspilled:
                             widget.angkutanisnotspilled.toString(),
                         angkutanissingle: widget.angkutanissingle.toString(),
-                        angkutansegregate:
-                            widget.angkutansegregate.toString())),
+                        angkutansegregate: widget.angkutansegregate.toString(),
+                        angkutancatatan: widget.angkutancatatan)),
               );
 
               // saveData();
@@ -845,6 +1004,7 @@ class _alokasipoState extends State<alokasipo> {
                                             (BuildContext ctxt, int index) {
                                           return CartWidget(
                                               listLine: widget.selectedline,
+                                              listLocation: widget.listLocation,
                                               cart: cart,
                                               index: index,
                                               callback: refresh);

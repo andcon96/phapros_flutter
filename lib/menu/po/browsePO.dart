@@ -36,6 +36,8 @@ class _POBrowseState extends State<POBrowse> {
   bool loadfailed = false;
   bool overlayloading = false;
   bool onStart = false;
+  bool isEmpty = false;
+  bool hasSearch = false;
   List<Data> datapo = [];
   Future<bool> getPassData({bool isRefresh = false, String? search}) async {
     try {
@@ -52,7 +54,7 @@ class _POBrowseState extends State<POBrowse> {
       final token = await UserSecureStorage.getToken();
 
       final Uri url = Uri.parse(
-          'http://192.168.0.3:26077/api/getpo?page=$currentPage&search=$search');
+          'http://192.168.18.195:8000/api/getpo?page=$currentPage&search=$search');
 
       loadfailed = false;
       final response = await http.get(url, headers: {
@@ -74,6 +76,14 @@ class _POBrowseState extends State<POBrowse> {
 
       if (response.statusCode == 200) {
         final result = purchaseOrderFromJson(response.body);
+        if (result.data!.length == 0) {
+          isEmpty = true;
+        }
+
+        if (search != '') {
+          hasSearch = true;
+        }
+
         onStart = true;
 
         if (isRefresh) {
@@ -253,7 +263,7 @@ class _POBrowseState extends State<POBrowse> {
                                 ),
                               ),
                             ))
-                        : datapo.isEmpty && onStart
+                        : datapo.isEmpty
                             ? Padding(
                                 padding: const EdgeInsets.only(
                                     top: 10, left: 10, right: 10),
@@ -263,10 +273,15 @@ class _POBrowseState extends State<POBrowse> {
                                   shape: BeveledRectangleBorder(
                                       borderRadius: BorderRadius.circular(5)),
                                   child: ListTile(
-                                    title: Text(
-                                      "No Data Available",
-                                      style: content,
-                                    ),
+                                    title: onStart && isEmpty && hasSearch
+                                        ? Text(
+                                            "No Data Available",
+                                            style: content,
+                                          )
+                                        : Text(
+                                            "Search Data By Number / Vendor",
+                                            style: content,
+                                          ),
                                   ),
                                 ))
                             : ListView.separated(
@@ -330,7 +345,7 @@ class _POBrowseState extends State<POBrowse> {
                                                                           title,
                                                                     ),
                                                                     Text(
-                                                                      'Vendor : ${user.poVend}',
+                                                                      'Vendor : ${user.poVend} - ${user.poVendDesc}',
                                                                       softWrap:
                                                                           true,
                                                                       style:
@@ -349,7 +364,7 @@ class _POBrowseState extends State<POBrowse> {
                                                         ],
                                                       )),
                                                   collapsed: Text(
-                                                    'Total : ${user.poTotal}',
+                                                    '',
                                                     softWrap: true,
                                                     style: content,
                                                     maxLines: 2,
@@ -361,6 +376,19 @@ class _POBrowseState extends State<POBrowse> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: <Widget>[
+                                                      Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 10),
+                                                          child: Text(
+                                                            'Vendor : ${user.poVend} - ${user.poVendDesc} ',
+                                                            style: content,
+                                                            softWrap: true,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .fade,
+                                                          )),
                                                       Padding(
                                                           padding:
                                                               const EdgeInsets
@@ -413,19 +441,19 @@ class _POBrowseState extends State<POBrowse> {
                                                                 TextOverflow
                                                                     .fade,
                                                           )),
-                                                      Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 10),
-                                                          child: Text(
-                                                            'Total: ${user.poTotal}',
-                                                            style: content,
-                                                            softWrap: true,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .fade,
-                                                          )),
+                                                      // Padding(
+                                                      //     padding:
+                                                      //         const EdgeInsets
+                                                      //                 .only(
+                                                      //             bottom: 10),
+                                                      //     child: Text(
+                                                      //       'Total: ${user.poTotal}',
+                                                      //       style: content,
+                                                      //       softWrap: true,
+                                                      //       overflow:
+                                                      //           TextOverflow
+                                                      //               .fade,
+                                                      //     )),
                                                       Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment

@@ -49,6 +49,7 @@ class Data {
   String? poShip;
   String? poSite;
   String? poVend;
+  String? poVendDesc;
   String? poOrdDate;
   String? poDueDate;
   String? poCurr;
@@ -66,6 +67,7 @@ class Data {
       this.poShip,
       this.poSite,
       this.poVend,
+      this.poVendDesc,
       this.poOrdDate,
       this.poDueDate,
       this.poCurr,
@@ -83,6 +85,7 @@ class Data {
     poShip = json['po_ship'];
     poSite = json['po_site'];
     poVend = json['po_vend'];
+    poVendDesc = json['po_vend_desc'];
     poOrdDate = json['po_ord_date'];
     poDueDate = json['po_due_date'];
     // ignore: void_checks
@@ -120,6 +123,7 @@ class Data {
     data['po_ship'] = poShip;
     data['po_site'] = poSite;
     data['po_vend'] = poVend;
+    data['po_vend_desc'] = poVendDesc;
     data['po_ord_date'] = poOrdDate;
     data['po_due_date'] = poDueDate;
     data['po_curr'] = poCurr;

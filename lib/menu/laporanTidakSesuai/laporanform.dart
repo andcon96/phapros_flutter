@@ -49,7 +49,7 @@ class _laporanform extends State<laporanform> {
   late TextEditingController No;
   late TextEditingController Tanggal;
   late TextEditingController Supplier;
-  late TextEditingController Komplain; 
+  late TextEditingController Komplain;
   late TextEditingController Keterangan;
   late TextEditingController NamaBarang;
   late TextEditingController TglMasuk;

@@ -56,7 +56,9 @@ class Data {
   String? tLvdQtyDatang;
   String? tLvdQtyReject;
   String? tLvdQtyTerima;
+  String? tlvdQtyPerPackage;
   bool? tIsSaved;
+  String? tLvcManufacturer;
 
   Data(
       {this.tLvcNbr,
@@ -85,7 +87,9 @@ class Data {
       this.tLvdQtyDatang,
       this.tLvdQtyReject,
       this.tLvdQtyTerima,
-      this.tIsSaved});
+      this.tlvdQtyPerPackage,
+      this.tIsSaved,
+      this.tLvcManufacturer});
 
   Data.fromJson(Map<String, dynamic> json) {
     tLvcNbr = json['t_lvc_nbr'];
@@ -114,7 +118,9 @@ class Data {
     tLvdQtyDatang = json['t_lvd_qty_datang'];
     tLvdQtyReject = json['t_lvd_qty_reject'];
     tLvdQtyTerima = json['t_lvd_qty_terima'];
+    tlvdQtyPerPackage = json['t_lvd_qty_per_package'];
     tIsSaved = json['t_is_saved'];
+    tLvcManufacturer = json['t_lvc_manufacturer'];
   }
 
   Map<String, dynamic> toJson() {
@@ -145,7 +151,9 @@ class Data {
     data['t_lvd_qty_datang'] = tLvdQtyDatang;
     data['t_lvd_qty_reject'] = tLvdQtyReject;
     data['t_lvd_qty_terima'] = tLvdQtyTerima;
+    data['t_lvd_qty_per_package'] = tlvdQtyPerPackage;
     data['t_is_saved'] = tIsSaved;
+    data['t_lvc_manufacturer'] = tLvcManufacturer;
     return data;
   }
 }

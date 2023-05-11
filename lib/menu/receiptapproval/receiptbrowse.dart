@@ -35,7 +35,7 @@ class _receiptbrowse extends State<receiptbrowse> {
       RefreshController(initialRefresh: true);
 
   final _textCont = TextEditingController();
-  
+
   String _custId = "";
 
   // int currentPage = 1;
@@ -468,7 +468,6 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                               color:
                                                                   Colors.white,
                                                               onPressed: () => {
-                                                              
                                                                 Navigator.push(
                                                                     context,
                                                                     MaterialPageRoute(
@@ -537,21 +536,21 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                                                         context,
                                                                                         MaterialPageRoute(
                                                                                             builder: (context) => receiptform(
-                                                                                                ponbr: datapo[index].ponbr.toString(),
-                                                                                                rcpt_nbr: datapo[index].rcpt_nbr.toString(),
-                                                                                                rcpt_date: datapo[index].rcpt_date.toString(),
-                                                                                                rcptd_part: datapo[index].rcptd_part.toString(),
-                                                                                                rcptd_qty_arr: datapo[index].rcptd_qty_arr.toString(),
-                                                                                                rcptd_lot: datapo[index].rcptd_lot.toString(),
-                                                                                                rcptd_loc: datapo[index].rcptd_loc.toString(),
-                                                                                                rcptd_qty_appr: datapo[index].rcptd_qty_appr.toString(),
-                                                                                                rcptd_qty_rej: datapo[index].rcptd_qty_rej.toString(),
-                                                                                                // angkutan: datapo[index].rcptd_loc.toString(),
-                                                                                                // nopol: datapo[index].rcptd_lot.toString(),
-                                                                                                supplier: datapo[index].supplier.toString(),
-                                                                                                batch: datapo[index].batch.toString(),
-                                                                                                shipto: datapo[index].shipto.toString(),
-                                                                                                domain: datapo[index].domain.toString(),
+                                                                                                  ponbr: datapo[index].ponbr.toString(),
+                                                                                                  rcpt_nbr: datapo[index].rcpt_nbr.toString(),
+                                                                                                  rcpt_date: datapo[index].rcpt_date.toString(),
+                                                                                                  rcptd_part: datapo[index].rcptd_part.toString(),
+                                                                                                  rcptd_qty_arr: datapo[index].rcptd_qty_arr.toString(),
+                                                                                                  rcptd_lot: datapo[index].rcptd_lot.toString(),
+                                                                                                  rcptd_loc: datapo[index].rcptd_loc.toString(),
+                                                                                                  rcptd_qty_appr: datapo[index].rcptd_qty_appr.toString(),
+                                                                                                  rcptd_qty_rej: datapo[index].rcptd_qty_rej.toString(),
+                                                                                                  // angkutan: datapo[index].rcptd_loc.toString(),
+                                                                                                  // nopol: datapo[index].rcptd_lot.toString(),
+                                                                                                  supplier: datapo[index].supplier.toString(),
+                                                                                                  batch: datapo[index].batch.toString(),
+                                                                                                  shipto: datapo[index].shipto.toString(),
+                                                                                                  domain: datapo[index].domain.toString(),
                                                                                                 )));
 
                                                                                     if (refresh == 'refresh') {
