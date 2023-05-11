@@ -287,6 +287,7 @@ class _POBrowseState extends State<POBrowse> {
                             : ListView.separated(
                                 itemBuilder: (context, index) {
                                   final user = datapo[index];
+                                  final details = user.poDetails;
 
                                   return ExpandableNotifier(
                                       child: Padding(
@@ -363,13 +364,54 @@ class _POBrowseState extends State<POBrowse> {
                                                           ),
                                                         ],
                                                       )),
-                                                  collapsed: Text(
-                                                    '',
-                                                    softWrap: true,
-                                                    style: content,
-                                                    maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                                  collapsed: Column(
+                                                    children: [
+                                                      Text(
+                                                        'List Item',
+                                                        style: title,
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 12,
+                                                      ),
+                                                      Text(
+                                                        'Item Part - Qty Order',
+                                                        style: title,
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 8,
+                                                      ),
+                                                      ListView.builder(
+                                                        shrinkWrap: true,
+                                                        physics:
+                                                            NeverScrollableScrollPhysics(),
+                                                        itemCount:
+                                                            details!.length,
+                                                        itemBuilder:
+                                                            (BuildContext
+                                                                    context,
+                                                                int index) {
+                                                          final detail =
+                                                              details[index];
+
+                                                          return Column(
+                                                            children: [
+                                                              Text(
+                                                                '${detail.podPart} - ${detail.podQtyOrd}',
+                                                                softWrap: true,
+                                                                style: content,
+                                                                maxLines: 2,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 8,
+                                                              )
+                                                            ],
+                                                          );
+                                                        },
+                                                      ),
+                                                    ],
                                                   ),
                                                   expanded: Column(
                                                     crossAxisAlignment:
