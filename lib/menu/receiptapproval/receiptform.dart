@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter_template/utils/loading.dart';
 import 'package:flutter_template/utils/secure_user_login.dart';
+import 'package:flutter_template/utils/globalurl.dart' as globals;
 
 class receiptform extends StatefulWidget {
   final String ponbr,
@@ -548,7 +549,7 @@ class _receiptform extends State<receiptform> {
                                                 onPressed: () {},
                                                 onLongPress: () {
                                                   String url =
-                                                      'http://192.168.18.40:8000/api/rejectreceipt?';
+                                                      '${globals.globalurl}/rejectreceipt?';
                                                   url += 'idrcpt=' + IdRcp.text;
 
                                                   Navigator.pop(context);
@@ -601,7 +602,7 @@ class _receiptform extends State<receiptform> {
                                                 onPressed: () {},
                                                 onLongPress: () {
                                                   String url =
-                                                      'http://192.168.18.40:8000/api/approvereceipt?';
+                                                      '${globals.globalurl}/approvereceipt?';
                                                   url += 'idrcpt=' + IdRcp.text;
 
                                                   Navigator.pop(context);

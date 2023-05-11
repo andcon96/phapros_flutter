@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter_template/utils/loading.dart';
+import 'package:flutter_template/utils/globalurl.dart' as globals;
 
 class laporanform extends StatefulWidget {
   final String ponbr,
@@ -174,7 +175,7 @@ class _laporanform extends State<laporanform> {
                                 onPressed: () {},
                                 onLongPress: () {
                                   String url =
-                                      'http://192.168.18.40:8000/api/submitlaporan?';
+                                      '${globals.globalurl}/submitlaporan?';
                                   url += 'idrcpt=' + IdRcp.text;
                                   url += '&ponbr=' + PO.text;
                                   url += '&part=' + NamaBarang.text;

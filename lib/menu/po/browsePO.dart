@@ -13,7 +13,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_template/utils/styles.dart';
 import 'package:flutter_template/utils/secure_user_login.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:flutter_template/utils/globalurl.dart' as globals;
 import 'model/poModel.dart';
 
 class POBrowse extends StatefulWidget {
@@ -54,7 +54,7 @@ class _POBrowseState extends State<POBrowse> {
       final token = await UserSecureStorage.getToken();
 
       final Uri url = Uri.parse(
-          'http://192.168.18.195:8000/api/getpo?page=$currentPage&search=$search');
+          '${globals.globalurl}/getpo?page=$currentPage&search=$search');
 
       loadfailed = false;
       final response = await http.get(url, headers: {

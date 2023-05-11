@@ -15,6 +15,7 @@ import 'package:flutter_template/utils/secure_user_login.dart';
 import 'package:flutter_template/menu/receiptapproval/services/receiptServices.dart';
 import 'package:flutter_template/menu/receiptapproval/receiptform.dart';
 import 'package:flutter_template/utils/secure_user_login.dart';
+import 'package:flutter_template/utils/globalurl.dart' as globals;
 
 import 'package:http/http.dart' as http;
 
@@ -80,7 +81,7 @@ class _receiptbrowse extends State<receiptbrowse> {
       });
 
       final Uri url = Uri.parse(
-          'http://192.168.18.40:8000/api/getreceipt?user=' +
+          '${globals.globalurl}/getreceipt?user=' +
               userid +
               '&rcptnbr=' +
               search.toString());
