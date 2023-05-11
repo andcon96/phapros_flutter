@@ -72,6 +72,8 @@ class _createpoState extends State<createpo> {
     arrivaldate.text = DateFormat('yyyy-MM-dd').format(now);
     imrdate.text = DateFormat('yyyy-MM-dd').format(now);
     manufacturer.text = widget.selectedline[0].tLvcManufacturer ?? '';
+
+    print(widget.listLocation);
   }
 
   @override
@@ -119,6 +121,7 @@ class _createpoState extends State<createpo> {
   TextEditingController angkutanketeranganissingle = TextEditingController();
   TextEditingController angkutanketeranganissegregated =
       TextEditingController();
+  TextEditingController angkutancatatan = TextEditingController();
 
   // Step 6
   String? _currline;
@@ -754,6 +757,13 @@ class _createpoState extends State<createpo> {
                 controller: policeno,
               ),
               const SizedBox(
+                height: 8,
+              ),
+              _textInput(
+                hint: "Catatan",
+                controller: angkutancatatan,
+              ),
+              const SizedBox(
                 height: 20,
               ),
               const Text(
@@ -1122,7 +1132,8 @@ class _createpoState extends State<createpo> {
                                                 angkutanisdry: _angkutanisdry.toString(),
                                                 angkutanisnotspilled: _angkutanisnotspilled.toString(),
                                                 angkutanissingle: _angkutanissingle.toString(),
-                                                angkutansegregate: _angkutansegregate.toString())),
+                                                angkutansegregate: _angkutansegregate.toString(),
+                                                angkutancatatan: angkutancatatan.text)),
                                       );
                                       // Navigator.push(
                                       //   context,

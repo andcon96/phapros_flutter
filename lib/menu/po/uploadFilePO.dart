@@ -74,6 +74,7 @@ class uploadfilepo extends StatefulWidget {
     required this.angkutanissingle,
     required this.angkutansegregate,
     required this.angkutanketeranganissegregated,
+    required this.angkutancatatan,
   }) : super(key: key);
 
   final List<Data> cart;
@@ -127,6 +128,7 @@ class uploadfilepo extends StatefulWidget {
 
   final String angkutansegregate;
   final String angkutanketeranganissegregated;
+  final String angkutancatatan;
 
   final bool sackordosChecked;
   final bool drumorvatChecked;
@@ -268,7 +270,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
       final token = await UserSecureStorage.getToken();
       final idanggota = await UserSecureStorage.getIdAnggota();
 
-      final Uri url = Uri.parse('http://192.168.0.3:26077/api/savepo');
+      final Uri url = Uri.parse('http://192.168.18.195:8000/api/savepo');
       final request = http.MultipartRequest('POST', url);
       request.headers['Content-Type'] = 'application/json';
       request.headers['authorization'] = "Bearer $token";
@@ -357,6 +359,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
 
         "is_segregated": widget.angkutansegregate,
         "keterangan_is_segregated": widget.angkutanketeranganissegregated,
+        "angkutan_catatan": widget.angkutancatatan,
 
         if (signature != null)
           'signature': base64Encode(signature!)
@@ -413,6 +416,11 @@ class _uploadfilepoState extends State<uploadfilepo> {
                 Navigator.of(context, rootNavigator: true).pop();
 
                 var datareceipt = jsonDecode(responsedata.body)['datareceipt'];
+                var totalArrival =
+                    jsonDecode(responsedata.body)['totalArrival'];
+                var totalApprove =
+                    jsonDecode(responsedata.body)['totalApprove'];
+                var totalReject = jsonDecode(responsedata.body)['totalReject'];
                 // print(datareceipt['get_transport'][0]['rcptt_transporter_no']);
                 // ignore: use_build_context_synchronously
                 Navigator.of(context).pushAndRemoveUntil(
@@ -421,22 +429,18 @@ class _uploadfilepoState extends State<uploadfilepo> {
                         ponbr: datareceipt['getpo']['po_nbr'].toString(),
                         rcpt_nbr: datareceipt['rcpt_nbr'].toString(),
                         rcpt_date: datareceipt['rcpt_date'].toString(),
-                        rcptd_part: datareceipt['get_detail_reject']
+                        rcptd_part: datareceipt['get_detail_reject'][0]
                                 ['rcptd_part']
                             .toString(),
-                        rcptd_qty_arr: datareceipt['get_detail_reject']
-                                ['rcptd_qty_arr']
+                        rcptd_qty_arr: totalArrival.toString(),
+                        rcptd_lot: datareceipt['get_detail_reject'][0]
+                                ['rcptd_lot']
                             .toString(),
-                        rcptd_lot: datareceipt['get_detail_reject']['rcptd_lot']
+                        rcptd_loc: datareceipt['get_detail_reject'][0]
+                                ['rcptd_loc']
                             .toString(),
-                        rcptd_loc: datareceipt['get_detail_reject']['rcptd_loc']
-                            .toString(),
-                        rcptd_qty_appr: datareceipt['get_detail_reject']
-                                ['rcptd_qty_appr']
-                            .toString(),
-                        rcptd_qty_rej: datareceipt['get_detail_reject']
-                                ['rcptd_qty_rej']
-                            .toString(),
+                        rcptd_qty_appr: totalApprove.toString(),
+                        rcptd_qty_rej: totalReject.toString(),
                         nopol: datareceipt['get_transport'][0]
                                 ['rcptt_police_no']
                             .toString(),

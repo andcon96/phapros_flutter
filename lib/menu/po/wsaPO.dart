@@ -122,6 +122,8 @@ class _wsaPOState extends State<wsaPO> {
           listLocation = json.decode(response.body)['data'];
         });
 
+        getWsaPO(_textCont.text);
+
         return true;
       } else {
         ArtSweetAlert.show(
@@ -138,7 +140,7 @@ class _wsaPOState extends State<wsaPO> {
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.danger,
               title: "Error",
-              text: "Error Load Location"));
+              text: "Error Load Data"));
       return false;
     }
   }
@@ -149,7 +151,7 @@ class _wsaPOState extends State<wsaPO> {
       final token = await UserSecureStorage.getToken();
 
       final Uri url =
-          Uri.parse('http://192.168.0.3:26077/api/wsapo?ponbr=$search');
+          Uri.parse('http://192.168.18.195:8000/api/wsapo?ponbr=$search');
 
       final response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: "application/json",
@@ -275,7 +277,6 @@ class _wsaPOState extends State<wsaPO> {
                                               TextInputAction.search,
                                           onSubmitted: (value) {
                                             getLocation();
-                                            getWsaPO(_textCont.text);
                                           },
                                           style: const TextStyle(
                                               fontFamily: 'Poppins',

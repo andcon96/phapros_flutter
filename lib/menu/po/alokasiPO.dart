@@ -275,6 +275,7 @@ class _CartWidgetState extends State<CartWidget> {
   TextEditingController qtydatang = TextEditingController();
   TextEditingController qtyterima = TextEditingController();
   TextEditingController qtyreject = TextEditingController();
+  TextEditingController qtyper = TextEditingController();
   int _sum = 0;
 
   @override
@@ -307,7 +308,7 @@ class _CartWidgetState extends State<CartWidget> {
       padding: EdgeInsets.all(10),
       child: Container(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-          height: 600,
+          height: 700,
           width: double.maxFinite,
           child: Card(
             elevation: 5,
@@ -357,6 +358,17 @@ class _CartWidgetState extends State<CartWidget> {
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Lot',
+                ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              TextField(
+                controller: qtyper,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Qty Per Package',
                 ),
               ),
               // ignore: prefer_const_constructors
@@ -481,6 +493,8 @@ class _CartWidgetState extends State<CartWidget> {
                                       qtyreject.text;
                                   widget.cart[widget.index].tLvdQtyTerima =
                                       qtyterima.text;
+                                  widget.cart[widget.index].tlvdQtyPerPackage =
+                                      qtyper.text;
                                   widget.cart[widget.index].tIsSaved = true;
                                   widget.callback();
 
@@ -573,7 +587,8 @@ class alokasipo extends StatefulWidget {
       required this.angkutanisnotspilled,
       required this.angkutanissingle,
       required this.angkutansegregate,
-      required this.angkutanketeranganissegregated})
+      required this.angkutanketeranganissegregated,
+      required this.angkutancatatan})
       : super(key: key);
 
   final List<Data> selectedline;
@@ -627,6 +642,7 @@ class alokasipo extends StatefulWidget {
 
   final String angkutansegregate;
   final String angkutanketeranganissegregated;
+  final String angkutancatatan;
 
   final bool sackordosChecked;
   final bool drumorvatChecked;
@@ -664,7 +680,7 @@ class _alokasipoState extends State<alokasipo> {
       final token = await UserSecureStorage.getToken();
       final idanggota = await UserSecureStorage.getIdAnggota();
 
-      final Uri url = Uri.parse('http://192.168.0.3:26077/api/savepo');
+      final Uri url = Uri.parse('http://192.168.18.195:8000/api/savepo');
 
       final body = {
         "data": cart,
@@ -929,8 +945,8 @@ class _alokasipoState extends State<alokasipo> {
                         angkutanisnotspilled:
                             widget.angkutanisnotspilled.toString(),
                         angkutanissingle: widget.angkutanissingle.toString(),
-                        angkutansegregate:
-                            widget.angkutansegregate.toString())),
+                        angkutansegregate: widget.angkutansegregate.toString(),
+                        angkutancatatan: widget.angkutancatatan)),
               );
 
               // saveData();
