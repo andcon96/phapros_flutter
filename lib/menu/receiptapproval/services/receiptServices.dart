@@ -5,9 +5,9 @@ import 'package:flutter_template/menu/receiptapproval/model/receiptModel.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_template/utils/secure_user_login.dart';
-
+import 'package:flutter_template/utils/globalurl.dart' as globals;
 class receiptServices {
-  static String baseUrl = "http://192.168.0.3:26077/api/getreceipt";
+  static String baseUrl = '${globals.globalurl}/getreceipt';
 
   static Future<List<receiptModel>> getdata() async {
     final token = await UserSecureStorage.getToken();

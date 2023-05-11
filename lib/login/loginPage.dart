@@ -11,6 +11,7 @@ import 'package:flutter_template/utils/styles.dart';
 import 'package:flutter_template/utils/secure_user_login.dart';
 import 'package:http/http.dart' as http;
 import 'package:cool_alert/cool_alert.dart';
+import 'package:flutter_template/utils/globalurl.dart' as globals;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
   // ignore: non_constant_identifier_names
   Future LoginUser() async {
     final response =
-        await http.post(Uri.parse('http://192.168.0.3:26077/api/login'), body: {
+        await http.post(Uri.parse('${globals.globalurl}/login'), body: {
       "nik": _userCon.text,
       "password": _passCon.text,
     }).timeout(const Duration(seconds: 20), onTimeout: () {
@@ -45,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
       });
       return http.Response('Timeout', 500);
     });
-
+    
     return json.decode(response.body);
   }
 
@@ -258,6 +259,13 @@ class _LoginPageState extends State<LoginPage> {
                                                   await UserSecureStorage
                                                       .setUsername(value['user']
                                                               ['nik']
+                                                          .toString());
+                                                  await UserSecureStorage
+                                                      .setCanApprove(value
+                                                              ['user_approver']
+                                                          .toString());
+                                                          print(value
+                                                              ['user_approver']
                                                           .toString());
                                                   await UserSecureStorage
                                                       .setIdAnggota(

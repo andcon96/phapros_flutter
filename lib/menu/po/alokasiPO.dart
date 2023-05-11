@@ -14,7 +14,7 @@ import 'package:flutter_template/menu/po/wsaPO.dart';
 import 'package:flutter_template/menu/po/model/wsaPoModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:loading_overlay/loading_overlay.dart';
-
+import 'package:flutter_template/utils/globalurl.dart' as globals;
 import '../../utils/loading.dart';
 import '../../utils/secure_user_login.dart';
 import '../../utils/styles.dart';
@@ -148,7 +148,7 @@ class _DropdownLocationState extends State<DropdownLocation> {
   //   try {
   //     final token = await UserSecureStorage.getToken();
 
-  //     final Uri url = Uri.parse('http://192.168.18.195:8000/api/wsaloc');
+  //     final Uri url = Uri.parse('${globals.globalurl}/wsaloc');
 
   //     final response = await http.get(url, headers: {
   //       HttpHeaders.contentTypeHeader: "application/json",
@@ -680,7 +680,7 @@ class _alokasipoState extends State<alokasipo> {
       final token = await UserSecureStorage.getToken();
       final idanggota = await UserSecureStorage.getIdAnggota();
 
-      final Uri url = Uri.parse('http://192.168.18.195:8000/api/savepo');
+      final Uri url = Uri.parse('${globals.globalurl}/savepo');
 
       final body = {
         "data": cart,

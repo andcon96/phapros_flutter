@@ -16,7 +16,7 @@ import 'package:flutter_template/utils/loading.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:http/http.dart' as http;
 import 'package:cool_alert/cool_alert.dart';
-
+import 'package:flutter_template/utils/globalurl.dart' as globals;
 // ignore: camel_case_types
 class wsaPO extends StatefulWidget {
   const wsaPO({Key? key}) : super(key: key);
@@ -100,7 +100,7 @@ class _wsaPOState extends State<wsaPO> {
     try {
       final token = await UserSecureStorage.getToken();
 
-      final Uri url = Uri.parse('http://192.168.18.195:8000/api/wsaloc');
+      final Uri url = Uri.parse('${globals.globalurl}/wsaloc');
 
       final response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: "application/json",
@@ -151,7 +151,7 @@ class _wsaPOState extends State<wsaPO> {
       final token = await UserSecureStorage.getToken();
 
       final Uri url =
-          Uri.parse('http://192.168.18.195:8000/api/wsapo?ponbr=$search');
+          Uri.parse('${globals.globalurl}/wsapo?ponbr=$search');
 
       final response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: "application/json",

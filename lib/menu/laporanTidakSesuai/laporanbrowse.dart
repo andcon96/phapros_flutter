@@ -14,6 +14,7 @@ import 'package:flutter_template/utils/styles.dart';
 import 'package:flutter_template/utils/secure_user_login.dart';
 import 'package:flutter_template/menu/laporanTidakSesuai/services/laporanServices.dart';
 import 'package:flutter_template/menu/laporanTidakSesuai/laporanform.dart';
+import 'package:flutter_template/utils/globalurl.dart' as globals;
 
 import 'package:http/http.dart' as http;
 
@@ -69,7 +70,7 @@ class _laporanbrowse extends State<laporanbrowse> {
       final token = await UserSecureStorage.getToken();
 
       final Uri url = Uri.parse(
-          'http://192.168.0.3:26077/api/getpolaporan?receiptnbr=' +
+          '${globals.globalurl}/getpolaporan?receiptnbr=' +
               search.toString());
 
       loadfailed = false;

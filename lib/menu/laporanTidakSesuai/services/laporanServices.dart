@@ -4,9 +4,10 @@ import 'package:flutter_template/menu/laporanTidakSesuai/model/laporanModel.dart
 import 'package:flutter_template/utils/secure_user_login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_template/utils/globalurl.dart' as globals;
 
 class laporanServices {
-  static String baseUrl = "http://192.168.0.3:26077/api/getpolaporan";
+  static String baseUrl = '${globals.globalurl}/getpolaporan';
 
   static Future<List<laporanModel>> getdata() async {
     final token = await UserSecureStorage.getToken();
