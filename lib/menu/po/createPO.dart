@@ -1,16 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_template/menu/po/alokasiPO.dart';
 import 'package:flutter_template/menu/po/model/wsaPoModel.dart';
+import 'package:flutter_template/utils/secure_user_login.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:flutter_template/utils/loading.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
+import 'package:flutter_template/utils/globalurl.dart' as globals;
+import 'package:http/http.dart' as http;
 
 // ignore: camel_case_types
 class createpo extends StatefulWidget {
@@ -29,6 +33,10 @@ class createpo extends StatefulWidget {
 // ignore: camel_case_types
 class _createpoState extends State<createpo> {
   final _formKey = GlobalKey<FormState>();
+
+  var listPrefix = [];
+  var valueprefix = '';
+  int totalpengiriman = 1; // 1 karena perlu + 1 untuk nomor IMR Berikut.
 
   // Step 3
   bool _certificateChecked = false;
@@ -59,6 +67,83 @@ class _createpoState extends State<createpo> {
   String? _angkutanissingle;
   String? _angkutansegregate;
 
+  Future<bool> getPrefixIMR() async {
+    try {
+      final token = await UserSecureStorage.getToken();
+
+      final Uri url = Uri.parse('${globals.globalurl}/getprefiximr');
+
+      final response = await http.get(url, headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: "Bearer $token"
+      }).timeout(const Duration(milliseconds: 5000), onTimeout: () {
+        setState(() {
+          ArtSweetAlert.show(
+              context: context,
+              artDialogArgs: ArtDialogArgs(
+                  type: ArtSweetAlertType.danger,
+                  title: "Error",
+                  text: "Failed to load data"));
+        });
+        return http.Response('Error', 500);
+      });
+
+      if (response.statusCode == 200) {
+        // Value & Isi Dropdown
+        final result = jsonDecode(response.body);
+
+        final body = result['data'];
+
+        valueprefix = body[0]['pin_prefix'] + '|' + body[0]['pin_rn'];
+        listPrefix = body;
+
+        // Cek Tahun berjalan & tahun RN
+        DateTime now = DateTime.now();
+        int currentYear = now.year % 100;
+        var oldyear = int.parse(body[0]['pin_rn'].substring(0, 2));
+
+        // Hitung Total Pengiriman tahun berjalan
+        for (var element in listPrefix) {
+          if (int.parse(element['pin_rn'].substring(0, 2)) == currentYear) {
+            String rn = element['pin_rn'].substring(2);
+            int numericRn = int.parse(rn);
+            totalpengiriman += numericRn;
+          }
+        }
+
+        // Cek Nomor RN per Prefix per Tahun
+        var newrn = '01';
+        if (oldyear == currentYear) {
+          var oldrn = int.parse(body[0]['pin_rn'].substring(2));
+          newrn = (oldrn + 1).toString().padLeft(2, '0');
+        }
+
+        var prefix = body[0]['pin_prefix'];
+        var totalrn = totalpengiriman.toString().padLeft(3, '0');
+
+        var fullimr = prefix + '/' + newrn + '/' + totalrn;
+        imrno.text = fullimr;
+        return true;
+      } else {
+        ArtSweetAlert.show(
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+                type: ArtSweetAlertType.danger,
+                title: "Error",
+                text: "PO Number Not Found"));
+        return false;
+      }
+    } on Exception catch (e) {
+      ArtSweetAlert.show(
+          context: context,
+          artDialogArgs: ArtDialogArgs(
+              type: ArtSweetAlertType.danger,
+              title: "Error",
+              text: "No Internet"));
+      return false;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -73,7 +158,7 @@ class _createpoState extends State<createpo> {
     imrdate.text = DateFormat('yyyy-MM-dd').format(now);
     manufacturer.text = widget.selectedline[0].tLvcManufacturer ?? '';
 
-    print(widget.listLocation);
+    getPrefixIMR();
   }
 
   @override
@@ -169,7 +254,87 @@ class _createpoState extends State<createpo> {
           title: const Text('Checklist'),
           content: Column(
             children: [
-              _textInput(
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  border: Border.all(
+                    color: Color.fromARGB(255, 157, 154, 154),
+                    width: 1.0,
+                  ),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(5),
+                  ),
+                ),
+                child: DropdownButtonHideUnderline(
+                    child: DropdownButton(
+                        itemHeight: 60,
+                        hint: const Padding(
+                          padding: EdgeInsets.only(left: 15),
+                          child: TextField(
+                            decoration: InputDecoration(
+                                hintText: 'Select Prefix',
+                                border: InputBorder.none,
+                                labelText: 'Select Prefix'),
+                          ),
+                        ),
+                        value: valueprefix,
+                        // ignore: prefer_const_literals_to_create_immutables
+                        items: listPrefix.map((value) {
+                          return DropdownMenuItem(
+                              value: '${value['pin_prefix']}|${value['pin_rn']}'
+                                  .toString(),
+                              child: SizedBox(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 15),
+                                  child: Text(
+                                      "Prefix : ${value['pin_prefix']}, Running Number : ${value['pin_rn']}"),
+                                ),
+                              ));
+                        }).toList(),
+                        isExpanded: true,
+                        icon: const Icon(Icons.arrow_drop_down),
+                        onChanged: (value) {
+                          setState(() {
+                            valueprefix = value!;
+                            totalpengiriman = 1;
+                            List<String> parts = value.split('|');
+
+                            // Cek Tahun berjalan & tahun RN
+                            DateTime now = DateTime.now();
+                            int currentYear = now.year % 100;
+                            var oldyear = int.parse(parts[1].substring(0, 2));
+
+                            // Hitung Total Pengiriman tahun berjalan
+                            for (var element in listPrefix) {
+                              if (int.parse(
+                                      element['pin_rn'].substring(0, 2)) ==
+                                  currentYear) {
+                                String rn = element['pin_rn'].substring(2);
+                                int numericRn = int.parse(rn);
+                                totalpengiriman += numericRn;
+                              }
+                            }
+
+                            // Cek Nomor RN per Prefix per Tahun
+                            var newrn = '01';
+                            if (oldyear == currentYear) {
+                              var oldrn = int.parse(parts[1].substring(2));
+                              newrn = (oldrn + 1).toString().padLeft(2, '0');
+                            }
+
+                            var prefix = parts[0];
+                            var totalrn =
+                                totalpengiriman.toString().padLeft(3, '0');
+
+                            var fullimr = prefix + '/' + newrn + '/' + totalrn;
+                            imrno.text = fullimr;
+                          });
+                        })),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              _textInputReadonly(
                 hint: "IMR No.",
                 controller: imrno,
               ),

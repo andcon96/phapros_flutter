@@ -5,6 +5,7 @@ import 'package:flutter_template/menu/receiptapproval/receiptbrowse.dart';
 import 'package:flutter_template/menu/po/browsePO.dart';
 import 'package:flutter_template/menu/signature.dart';
 import 'package:flutter_template/menu/po/signaturePage.dart';
+import 'package:flutter_template/menu/user/userprof.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/utils/color.dart';
@@ -92,7 +93,7 @@ class _NavHomeState extends State<NavHome> with SingleTickerProviderStateMixin {
         onWillPop: _willPopCallback,
         child: DefaultTabController(
           initialIndex: widget.selPage,
-          length: 3,
+          length: 4,
           child: Scaffold(
               // drawer: NavDrawer(),
               // appBar: apptab(),
@@ -103,6 +104,7 @@ class _NavHomeState extends State<NavHome> with SingleTickerProviderStateMixin {
                   POBrowse(),
                   laporanbrowse(),
                   receiptbrowse(),
+                  userProf()
                   // const Center(child: const Text('Content of Tab 4')),
                   // SignaturePage(),
                   // CreateSignature(),
@@ -146,6 +148,13 @@ class _NavHomeState extends State<NavHome> with SingleTickerProviderStateMixin {
                         icon: Icon(Iconsax.clipboard_export),
                         iconMargin: EdgeInsets.only(bottom: 5),
                         text: "Approve Receipt"),
+                    const Tab(
+                      icon: Icon(
+                        Iconsax.user,
+                      ),
+                      iconMargin: EdgeInsets.only(bottom: 5),
+                      text: "User",
+                    ),
                     // const Tab(
                     //     icon: Icon(Iconsax.archive_book),
                     //     iconMargin: EdgeInsets.only(bottom: 5),

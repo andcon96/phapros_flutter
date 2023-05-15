@@ -157,6 +157,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
   @override
   void initState() {
     super.initState();
+    print(widget.imrno);
   }
 
   final ImagePicker imgpicker = ImagePicker();
@@ -453,6 +454,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
                     (route) => route.isFirst);
               },
               onCancelBtnTap: () {
+                Navigator.of(context, rootNavigator: true).pop();
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                       builder: (context) => wsaPO(),
