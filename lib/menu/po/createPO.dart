@@ -206,7 +206,10 @@ class _createpoState extends State<createpo> {
   TextEditingController angkutanketeranganissingle = TextEditingController();
   TextEditingController angkutanketeranganissegregated =
       TextEditingController();
+  // Tambahan User
   TextEditingController angkutancatatan = TextEditingController();
+  TextEditingController kelembapan = TextEditingController();
+  TextEditingController suhu = TextEditingController();
 
   // Step 6
   String? _currline;
@@ -922,13 +925,6 @@ class _createpoState extends State<createpo> {
                 controller: policeno,
               ),
               const SizedBox(
-                height: 8,
-              ),
-              _textInput(
-                hint: "Catatan",
-                controller: angkutancatatan,
-              ),
-              const SizedBox(
                 height: 20,
               ),
               const Text(
@@ -1154,6 +1150,36 @@ class _createpoState extends State<createpo> {
           ),
         ),
         Step(
+            state:
+                _activeStepIndex <= 4 ? StepState.editing : StepState.complete,
+            isActive: _activeStepIndex >= 4,
+            title: const Text('Catatan'),
+            content: Column(
+              children: [
+                _textInput(
+                  hint: "Kelembapan",
+                  controller: kelembapan,
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                _textInput(
+                  hint: "Suhu",
+                  controller: suhu,
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                _textInput(
+                  hint: "Catatan",
+                  controller: angkutancatatan,
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+              ],
+            )),
+        Step(
             state: StepState.complete,
             isActive: _activeStepIndex >= 5,
             title: const Text('Detail Alokasi'),
@@ -1298,7 +1324,9 @@ class _createpoState extends State<createpo> {
                                                 angkutanisnotspilled: _angkutanisnotspilled.toString(),
                                                 angkutanissingle: _angkutanissingle.toString(),
                                                 angkutansegregate: _angkutansegregate.toString(),
-                                                angkutancatatan: angkutancatatan.text)),
+                                                angkutancatatan: angkutancatatan.text,
+                                                kelembapan: kelembapan.text,
+                                                suhu: suhu.text)),
                                       );
                                       // Navigator.push(
                                       //   context,

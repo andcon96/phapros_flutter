@@ -75,6 +75,8 @@ class uploadfilepo extends StatefulWidget {
     required this.angkutansegregate,
     required this.angkutanketeranganissegregated,
     required this.angkutancatatan,
+    required this.kelembapan,
+    required this.suhu,
   }) : super(key: key);
 
   final List<Data> cart;
@@ -129,6 +131,8 @@ class uploadfilepo extends StatefulWidget {
   final String angkutansegregate;
   final String angkutanketeranganissegregated;
   final String angkutancatatan;
+  final String kelembapan;
+  final String suhu;
 
   final bool sackordosChecked;
   final bool drumorvatChecked;
@@ -361,6 +365,8 @@ class _uploadfilepoState extends State<uploadfilepo> {
         "is_segregated": widget.angkutansegregate,
         "keterangan_is_segregated": widget.angkutanketeranganissegregated,
         "angkutan_catatan": widget.angkutancatatan,
+        "kelembapan": widget.kelembapan,
+        "suhu": widget.suhu,
 
         if (signature != null)
           'signature': base64Encode(signature!)
