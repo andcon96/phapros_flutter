@@ -54,7 +54,58 @@ class receiptModel {
       rcptd_qty_rej,
       approvedby,
       domain,
-      status;
+      status,
+      imrnbr,
+      articlenbr,
+      imrdate,
+      arrivaldate,
+      proddate,
+      expdate,
+      manufacturer,
+      country,
+      iscertofanalys,
+      certofanalys,
+      ismsds,
+      msds,
+      isforwarderdo,
+      forwarderdo,
+      ispackinglist,
+      packinglist,
+      isotherdocs,
+      otherdocs,
+      kemasansacdos,
+      kemasansacdosdesc,
+      kemasandrumvat,
+      kemasandrumvatdesc,
+      kemasanpalletpeti,
+      kemasanpalletpetidesc,
+      isclean,
+      iscleandesc,
+      isdry,
+      isdrydesc,
+      isnotspilled,
+      isnotspilleddesc,
+      issealed,
+      ismanufacturerlabel,
+      transporttransporterno,
+      transportpoliceno,
+      transportisclean,
+      transportiscleandesc,
+      transportisdry,
+      transportisdrydesc,
+      transportisnotspilled,
+      transportisnotspilleddesc,
+      transportispositionsingle,
+      transportispositionsingledesc,
+      transportissegregated,
+      transportissegregateddesc,
+      transportangkutancatatan,
+      transportkelembapan,
+      transportsuhu
+
+      ;
+
+    
 
   int? userid;
   receiptModel({
@@ -72,7 +123,54 @@ class receiptModel {
     required this.rcptd_qty_rej,
     required this.approvedby,
     required this.domain,
-    required this.status
+    required this.status,
+    required this.imrnbr,
+    required this.articlenbr,
+    required this.imrdate,
+    required this.arrivaldate,
+    required this.proddate,
+    required this.expdate,
+    required this.manufacturer,
+    required this.country,
+    required this.iscertofanalys,
+    required this.certofanalys,
+    required this.ismsds,
+    required this.msds,
+    required this.isforwarderdo,
+    required this.forwarderdo,
+    required this.ispackinglist,
+    required this.packinglist,
+    required this.isotherdocs,
+    required this.otherdocs,
+    required this.kemasansacdos,
+    required this.kemasansacdosdesc,
+    required this.kemasandrumvat,
+    required this.kemasandrumvatdesc,
+    required this.kemasanpalletpeti,
+    required this.kemasanpalletpetidesc,
+    required this.isclean,
+    required this.iscleandesc,
+    required this.isdry,
+    required this.isdrydesc,
+    required this.isnotspilled,
+    required this.isnotspilleddesc,
+    required this.issealed,
+    required this.ismanufacturerlabel,
+    required this.transporttransporterno,
+    required this.transportpoliceno,
+    required this.transportisclean,
+    required this.transportiscleandesc,
+    required this.transportisdry,
+    required this.transportisdrydesc,
+    required this.transportisnotspilled,
+    required this.transportisnotspilleddesc,
+    required this.transportispositionsingle,
+    required this.transportispositionsingledesc,
+    required this.transportissegregated,
+    required this.transportissegregateddesc,
+    required this.transportangkutancatatan,
+    required this.transportkelembapan,
+    required this.transportsuhu
     
     
   });
@@ -81,6 +179,10 @@ class receiptModel {
     Map<String, dynamic> jsonmaster = json['get_master'];
 
     Map<String, dynamic> jsonpo = jsonmaster == null ? {} : jsonmaster['getpo'];
+    Map<String, dynamic> jsontransport = jsonmaster == null ? {} : jsonmaster['get_transport'];
+    Map<String, dynamic> jsonchecklist = jsonmaster == null ? {} : jsonmaster['get_checklist'];
+    Map<String, dynamic> jsondocument = jsonmaster == null ? {} : jsonmaster['get_document'];
+    Map<String, dynamic> jsonkemasan = jsonmaster == null ? {} : jsonmaster['get_kemasan'];
     Map<String, dynamic> jsongetappr = jsonmaster == null
         ? {}
         : jsonmaster['get_appr'] == null
@@ -95,7 +197,7 @@ class receiptModel {
                 ? {}
                 : jsongetappr['get_user'];
  
-
+  
     return receiptModel(
         ponbr: jsonpo['po_nbr'],
         rcpt_nbr: jsonmaster['rcpt_nbr'],
@@ -112,7 +214,53 @@ class receiptModel {
         approvedby: jsongetappruser == {} ? '-' : jsongetappruser['nama'],
         domain:  jsonmaster['rcpt_domain'],
         status: jsonmaster['rcpt_status'],
-        
+        imrnbr: jsonchecklist['rcptc_imr_nbr'],
+        articlenbr:jsonchecklist['rcptc_article_nbr'],
+        imrdate:jsonchecklist['rcptc_imr_date'].toString(),
+        arrivaldate:jsonchecklist['rcptc_arrival_date'].toString(),
+        proddate:jsonchecklist['rcptc_prod_date'].toString(),
+        expdate:jsonchecklist['rcptc_exp_date'].toString(),
+        manufacturer:jsonchecklist['rcptc_manufacturer'],
+        country:jsonchecklist['rcptc_country'],
+        iscertofanalys:jsondocument['rcptdoc_is_certofanalys'].toString(),
+        certofanalys:jsondocument['rcptdoc_certofanalys'],
+        ismsds:jsondocument['rcptdoc_is_msds'].toString(),
+        msds:jsondocument['rcptdoc_msds'],
+        isforwarderdo:jsondocument['rcptdoc_is_forwarderdo'].toString(),
+        forwarderdo:jsondocument['rcptdoc_forwarderdo'],
+        ispackinglist:jsondocument['rcptdoc_is_packinglist'].toString(),
+        packinglist:jsondocument['rcptdoc_packinglist'],
+        isotherdocs:jsondocument['rcptdoc_is_otherdocs'].toString(),
+        otherdocs:jsondocument['rcptdoc_otherdocs'],
+        kemasansacdos:jsonkemasan['rcptk_kemasan_sacdos'].toString(),
+        kemasansacdosdesc:jsonkemasan['rcptk_kemasan_sacdos_desc'],
+        kemasandrumvat:jsonkemasan['rcptk_kemasan_drumvat'].toString(),
+        kemasandrumvatdesc:jsonkemasan['rcptk_kemasan_drumvat_desc'],
+        kemasanpalletpeti:jsonkemasan['rcptk_kemasan_palletpeti'].toString(),
+        kemasanpalletpetidesc:jsonkemasan['rcptk_kemasan_palletpeti_desc'],
+        isclean:jsonkemasan['rcptk_is_clean'].toString(),
+        iscleandesc:jsonkemasan['rcptk_is_clean_desc'],
+        isdry:jsonkemasan['rcptk_is_dry'].toString(),
+        isdrydesc:jsonkemasan['rcptk_is_dry_desc'],
+        isnotspilled:jsonkemasan['rcptk_is_not_spilled'].toString(),
+        isnotspilleddesc:jsonkemasan['rcptk_is_not_spilled_desc'],
+        issealed:jsonkemasan['rcptk_is_sealed'].toString(),
+        ismanufacturerlabel:jsonkemasan['rcptk_is_manufacturer_label'].toString(),
+        transporttransporterno:jsontransport['rcptt_transporter_no'],
+        transportpoliceno:jsontransport['rcptt_police_no'],
+        transportisclean:jsontransport['rcptt_is_clean'].toString(),
+        transportiscleandesc:jsontransport['rcptt_is_clean_desc'],
+        transportisdry:jsontransport['rcptt_is_dry'].toString(),
+        transportisdrydesc:jsontransport['rcptt_is_dry_desc'],
+        transportisnotspilled:jsontransport['rcptt_is_not_spilled'].toString(),
+        transportisnotspilleddesc:jsontransport['rcptt_is_not_spilled_desc'],
+        transportispositionsingle:jsontransport['rcptt_is_position_single'].toString(),
+        transportispositionsingledesc:jsontransport['rcptt_is_position_single_desc'],
+        transportissegregated:jsontransport['rcptt_is_segregated'].toString(),
+        transportissegregateddesc:jsontransport['rcptt_is_segregated_desc'],
+        transportangkutancatatan:jsontransport['rcptt_angkutan_catatan'],
+        transportkelembapan:jsontransport['rcptt_kelembapan'],
+        transportsuhu:jsontransport['rcptt_suhu']
         
     );
   }

@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_template/main.dart';
 import 'package:flutter_template/utils/secure_user_login.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter_template/utils/loading.dart';
 import 'package:flutter_template/utils/globalurl.dart' as globals;
+import '../../utils/styles.dart';
 
 class laporanform extends StatefulWidget {
   final String ponbr,
@@ -63,46 +65,172 @@ class _laporanform extends State<laporanform> {
   String rcptnbr = '';
   late String responseresult = '';
   bool loading = false;
-  Future<Object?> sendlaporan(String url) async {
-    final token = await UserSecureStorage.getToken();
-    final username = await UserSecureStorage.getIdAnggota();
-    url += '&username=' + username.toString();
-    final response = await http.post(Uri.parse(url), headers: {
-      HttpHeaders.contentTypeHeader: "application/json",
-      HttpHeaders.authorizationHeader: "Bearer $token"
-    }).timeout(const Duration(seconds: 20), onTimeout: () {
+  late List<XFile>? imagesname;
+  late List<XFile>? imagesdata;
+  late List<XFile>? images;
+  XFile? imagefromphoto;
+  List<XFile> imagefiles = [];
+  List<File> imagesPath = [];
+  DateTime now = DateTime.now();
+  
+  Future pickImage() async {
+    images = await ImagePicker().pickMultiImage();
+
+    if (images!.isNotEmpty) {
+      // Process selected images
+
+      for (var image in images!) {
+        imagesPath.add(File(image.path));
+        imagefiles.add(image);
+        // Do something with the selected image
+      }
+      setState(() {});
+    } else if (images!.isEmpty) {
+      // Display error message
+
       setState(() {
         ArtSweetAlert.show(
             context: context,
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.danger,
                 title: "Error",
-                text: "Failed to load data"));
+                text: "Mohon pilih foto"));
       });
-      return http.Response('Error', 500);
-    });
-    responseresult = response.body.toString();
+    }
+    // await ImagePicker().pickImage(maxImages:3);
+  }
 
-    if (response.body == 'success') {
-      Navigator.pop(context, 'refresh');
+  Future takeImage() async {
+    imagefromphoto = await ImagePicker().pickImage(source: ImageSource.camera);
 
-      return ArtSweetAlert.show(
-          context: context,
-          artDialogArgs: ArtDialogArgs(
-              type: ArtSweetAlertType.success,
-              title: "Success",
-              text: "Success to Submit report for receipt " + IdRcp.text));
-    } else if (response.body == 'error') {
-      Navigator.pop(context, 'refresh');
-      return ArtSweetAlert.show(
+    if (imagefromphoto != null) {
+      imagefiles.add(imagefromphoto!);
+      imagesPath.add(File(imagefromphoto!.path));
+
+      // Process selected images
+
+      setState(() {});
+    } else if (imagefromphoto == null) {
+      // Display error message
+
+      setState(() {
+        ArtSweetAlert.show(
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+                type: ArtSweetAlertType.danger,
+                title: "Error",
+                text: "Mohon pilih foto"));
+      });
+    }
+  }
+
+  Future<Object?> sendlaporan(String url) async {
+    final token = await UserSecureStorage.getToken();
+    final username = await UserSecureStorage.getIdAnggota();
+    url += '&username=' + username.toString();
+    
+    final Uri uri = Uri.parse(url);
+      final request = http.MultipartRequest('POST', uri);
+      request.headers['Content-Type'] = 'application/json';
+      request.headers['authorization'] = "Bearer $token";
+
+      for (var image in imagesPath) {
+        if (image.existsSync()) {
+          // Check if the file exists
+          // Check if the file is an image file
+          if (image.path.endsWith('.jpg') ||
+              image.path.endsWith('.jpeg') ||
+              image.path.endsWith('.png')) {
+            // Check if the file size is less than 10MB
+            if (image.lengthSync() <= 10 * 1024 * 1024) {
+              request.files.add(
+                await http.MultipartFile.fromPath('images[]', image.path),
+              );
+            } else {
+              print('Image size exceeds 10MB: ${image.path}');
+            }
+          } else {
+            print('File is not an image: ${image.path}');
+          }
+        } else {
+          print('File does not exist: ${image.path}');
+        }
+      }
+      var response = await request.send();
+      print(request.files);
+      final responsedata = await http.Response.fromStream(response);
+      if (response.statusCode == 200) {
+        if(responsedata.body == 'error'){
+          Navigator.pop(context, 'refresh');
+          return ArtSweetAlert.show(
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+                type: ArtSweetAlertType.danger,
+                title: "Error",
+                text: "Failed to Submit report for receipt" + IdRcp.text));
+        }
+        else{
+          Navigator.pop(context, 'refresh');
+
+          return ArtSweetAlert.show(
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+                type: ArtSweetAlertType.success,
+                title: "Success",
+                text: "Success to Submit report for receipt " + IdRcp.text));
+
+        }
+        
+        
+
+      }
+      else{
+ 
+        return ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.danger,
               title: "Error",
               text: "Failed to Submit report for receipt" + IdRcp.text));
-    }
-    ;
-    return response;
+        
+      }
+      // return response;
+    // final response = await http.post(Uri.parse(url), headers: {
+    //   HttpHeaders.contentTypeHeader: "application/json",
+    //   HttpHeaders.authorizationHeader: "Bearer $token"
+    // }).timeout(const Duration(seconds: 20), onTimeout: () {
+    //   setState(() {
+    //     ArtSweetAlert.show(
+    //         context: context,
+    //         artDialogArgs: ArtDialogArgs(
+    //             type: ArtSweetAlertType.danger,
+    //             title: "Error",
+    //             text: "Failed to load data"));
+    //   });
+    //   return http.Response('Error', 500);
+    // });
+    // responseresult = response.body.toString();
+
+    // if (response.body == 'success') {
+    //   Navigator.pop(context, 'refresh');
+
+    //   return ArtSweetAlert.show(
+    //       context: context,
+    //       artDialogArgs: ArtDialogArgs(
+    //           type: ArtSweetAlertType.success,
+    //           title: "Success",
+    //           text: "Success to Submit report for receipt " + IdRcp.text));
+    // } else if (response.body == 'error') {
+    //   Navigator.pop(context, 'refresh');
+    //   return ArtSweetAlert.show(
+    //       context: context,
+    //       artDialogArgs: ArtDialogArgs(
+    //           type: ArtSweetAlertType.danger,
+    //           title: "Error",
+    //           text: "Failed to Submit report for receipt" + IdRcp.text));
+    // }
+    // ;
+    // return response;
   }
 
   void initState() {
@@ -116,7 +244,7 @@ class _laporanform extends State<laporanform> {
     PO = TextEditingController(text: widget.ponbr);
     NomorLot = TextEditingController(text: widget.rcptd_lot);
     No = TextEditingController();
-    Tanggal = TextEditingController();
+    Tanggal = TextEditingController(text:DateFormat('yyyy-MM-dd').format(now));
     Supplier = TextEditingController(
         text: widget.supplier != 'null' ? widget.supplier : '');
     Komplain = TextEditingController();
@@ -191,6 +319,7 @@ class _laporanform extends State<laporanform> {
                                       '&komplaindetail=' + KomplainDetail.text;
                                   url += '&angkutan=' + Angkutan.text;
                                   url += '&nopol=' + NoPol.text;
+                                  
                                   Navigator.pop(context);
                                   setState(() {
                                     loading = true;
@@ -212,11 +341,13 @@ class _laporanform extends State<laporanform> {
               final isLastStep = currentStep == getSteps().length - 1;
 
               return Container(
-                margin: EdgeInsets.only(top: 50),
+                margin: EdgeInsets.only(top: 50, right: 40),
                 child: Row(children: [
                   if (currentStep != 0)
                     Expanded(
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            minimumSize: Size(100, 40)),
                         child: Text('BACK'),
                         onPressed: controls.onStepCancel,
                       ),
@@ -254,39 +385,38 @@ class _laporanform extends State<laporanform> {
               TextFormField(
                 controller: Tanggal,
                 decoration: InputDecoration(labelText: 'Tanggal'),
-                // initialValue: DateTime.parse(widget.rcpt_date).toString(),
                 readOnly: true,
-                onTap: () {
-                  showDatePicker(
-                      context: context,
-                      initialDate: Tanggal != ''
-                          ? DateTime.parse(widget.rcpt_date)
-                          : DateTime.now(),
-                      firstDate: DateTime(2000, 1),
-                      lastDate: DateTime(2100, 12),
-                      builder: (context, picker) {
-                        return Theme(
-                          data: ThemeData.light().copyWith(
-                            colorScheme: ColorScheme.light(
-                              primary: Colors.blue.shade400,
-                            ),
-                            // textButtonTheme: TextButtonThemeData(
-                            //   style: TextButton.styleFrom(
-                            //     textStyle: TextStyle(color: Colors.white)
-                            //   )
-                            // ),
-                            // dialogBackgroundColor: Colors.white
-                          ),
-                          child: picker!,
-                        );
-                      }).then((selectedDate) {
-                    if (selectedDate != null) {
-                      Tanggal.text = DateFormat('yyyy-MM-dd')
-                          .format(selectedDate)
-                          .toString();
-                    }
-                  });
-                },
+                // onTap: () {
+                //   showDatePicker(
+                //       context: context,
+                //       initialDate: Tanggal != ''
+                //           ? DateTime.parse(widget.rcpt_date)
+                //           : DateTime.now(),
+                //       firstDate: DateTime(2000, 1),
+                //       lastDate: DateTime(2100, 12),
+                //       builder: (context, picker) {
+                //         return Theme(
+                //           data: ThemeData.light().copyWith(
+                //             colorScheme: ColorScheme.light(
+                //               primary: Colors.blue.shade400,
+                //             ),
+                //             // textButtonTheme: TextButtonThemeData(
+                //             //   style: TextButton.styleFrom(
+                //             //     textStyle: TextStyle(color: Colors.white)
+                //             //   )
+                //             // ),
+                //             // dialogBackgroundColor: Colors.white
+                //           ),
+                //           child: picker!,
+                //         );
+                //       }).then((selectedDate) {
+                //     if (selectedDate != null) {
+                //       Tanggal.text = DateFormat('yyyy-MM-dd')
+                //           .format(selectedDate)
+                //           .toString();
+                //     }
+                //   });
+                // },
               ),
               TextFormField(
                 controller: Supplier,
@@ -425,247 +555,380 @@ class _laporanform extends State<laporanform> {
           title: Text('Complete'),
           content: Column(children: <Widget>[
             Table(
-                border: TableBorder.all(color: Colors.transparent),
-                children: [
-                  TableRow(children: [
-                    Container(
+              border: TableBorder.all(color: Colors.transparent),
+              children: [
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'ID RCP',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      IdRcp.text,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
                       height: 50,
                       child: Text(
-                        'ID RCP',
+                        'No',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                      )),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      No.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        IdRcp.text,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Tanggal',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                        height: 50,
-                        child: Text(
-                          'No',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14),
-                        )),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        No.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      Tanggal.text,
+                      style: TextStyle(fontSize: 16),
+                      
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Tanggal',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Supplier',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        Tanggal.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      Supplier.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Supplier',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Komplain',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        Supplier.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      Komplain.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Komplain',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Keterangan',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        Komplain.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      Keterangan.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Keterangan',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Nama Barang',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        Keterangan.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      NamaBarang.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Nama Barang',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Tanggal Masuk',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        NamaBarang.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      TglMasuk.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Tanggal Masuk',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Jumlah Masuk',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        TglMasuk.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      JumlahMasuk.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Jumlah Masuk',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Komplain',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        JumlahMasuk.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      KomplainDetail.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Komplain',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'PO',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        KomplainDetail.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      PO.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'PO',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Nomor Lot',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        PO.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      NomorLot.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Nomor Lot',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Angkutan',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        NomorLot.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      Angkutan.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Angkutan',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Nomor Polisi',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        Angkutan.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      NoPol.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Nomor Polisi',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      'Foto',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        NoPol.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    alignment: Alignment.topCenter,
+                    child: Text(''),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    alignment: Alignment.centerLeft,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.orange[400],
+                          minimumSize: Size(100, 50)),
+                      child: const Text('Gallery',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: Colors.black)),
+                      onPressed: () => pickImage(),
                     ),
-                  ]),
-                ])
+                  ),
+                  Container(
+                    height: 50,
+                    alignment: Alignment.centerLeft,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.yellow[300],
+                          minimumSize: Size(100, 50)),
+                      child: const Text('Take Photo',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: Colors.black)),
+                      onPressed: () => takeImage(),
+                    ),
+                  ),
+                ]),
+              ],
+            ),
+            imagefiles != []
+                ? Container(
+                    margin: EdgeInsets.only(top: 50, right: 40),
+                    child: Wrap(
+                      children: imagefiles.map((imageone) {
+                        return InkWell(
+                            onTap: () {
+                              showModalBottomSheet<void>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Container(
+                                        height: 200,
+                                        color: Colors.yellow,
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              Text(
+                                                  'Yakin ingin menghilangkan foto ini?'
+                                                      
+                                                      ,
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 15,
+                                                      color: Colors.black)),
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    primary: Colors.white),
+                                                child: const Text(
+                                                    'tekan tombol ini untuk menghilangkan foto',
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 15,
+                                                        color: Colors.black)),
+                                                onPressed: () {
+                                                  imagefiles.remove(imageone);
+                                                  Navigator.pop(context);
+                                                  ArtSweetAlert.show(
+                                                  context: context,
+                                                  artDialogArgs: ArtDialogArgs(
+                                                      type: ArtSweetAlertType.success,
+                                                      title: "Success",
+                                                      text: "Foto berhasil dihilangkan"));
+                                                  setState(() {});
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    });
+                              
+                              
+                              
+                              setState(() {});
+                            },
+                            child: Card(
+                              child: Container(
+                                height: 100,
+                                width: 100,
+                                child: Image.file(File(imageone.path)),
+                              ),
+                            ));
+                      }).toList(),
+                    ))
+                : Padding(
+                    padding: const EdgeInsets.only(top: 10, right: 30),
+                    child: Card(
+                      elevation: 5,
+                      shadowColor: Colors.purpleAccent,
+                      shape: BeveledRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      child: ListTile(
+                        title: Text(
+                          "No Picture(s) Selected",
+                          style: content,
+                        ),
+                      ),
+                    )),
           ]),
         ),
       ];

@@ -23,7 +23,7 @@ class receiptServices {
 
   static Future<List<receiptModel>> searchdata(String response) async {
     List<receiptModel> list = parseResponse(response);
-
+    
     return list;
   }
 

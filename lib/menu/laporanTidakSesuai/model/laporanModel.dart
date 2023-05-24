@@ -67,7 +67,7 @@ class laporanModel{
     Map<String, dynamic> jsonpo = jsonmaster['getpo'];
     Map<String, dynamic> jsonlaporan = jsonmaster['get_laporan'] == null ? {} : jsonmaster['get_laporan'];
     Map<String, dynamic> jsonuser = jsonlaporan['get_user_laporan'] == null ? {} : jsonlaporan['get_user_laporan'];
-    Map<String, dynamic> jsontransport = jsonmaster['get_transport'][0];
+    Map<String, dynamic> jsontransport = jsonmaster['get_transport'];
 
 
     return laporanModel(

@@ -908,7 +908,7 @@ class _createpoState extends State<createpo> {
           ),
         ),
         Step(
-          state: StepState.complete,
+          state: _activeStepIndex <= 4 ? StepState.editing : StepState.complete,
           isActive: _activeStepIndex >= 4,
           title: const Text('Angkutan'),
           content: Column(
@@ -1151,8 +1151,8 @@ class _createpoState extends State<createpo> {
         ),
         Step(
             state:
-                _activeStepIndex <= 4 ? StepState.editing : StepState.complete,
-            isActive: _activeStepIndex >= 4,
+                _activeStepIndex <= 5 ? StepState.editing : StepState.complete,
+            isActive: _activeStepIndex >= 5,
             title: const Text('Catatan'),
             content: Column(
               children: [
@@ -1180,8 +1180,8 @@ class _createpoState extends State<createpo> {
               ],
             )),
         Step(
-            state: StepState.complete,
-            isActive: _activeStepIndex >= 5,
+            state: _activeStepIndex <= 6 ? StepState.editing : StepState.complete,
+            isActive: _activeStepIndex >= 6,
             title: const Text('Detail Alokasi'),
             content: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

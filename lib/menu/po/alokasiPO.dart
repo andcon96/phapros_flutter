@@ -123,7 +123,7 @@ class _DetailPOState extends State<DetailPO> {
           readOnly: true,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
-            labelText: 'Batch / Lot',
+            labelText: 'UM',
           ),
         )
       ],

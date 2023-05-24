@@ -85,7 +85,8 @@ class _receiptbrowse extends State<receiptbrowse> {
               userid +
               '&rcptnbr=' +
               search.toString());
-
+              
+print(token);
       loadfailed = false;
       final response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: "application/json",
@@ -103,7 +104,7 @@ class _receiptbrowse extends State<receiptbrowse> {
         });
         return http.Response('Error', 500);
       });
-
+      
       if (response.statusCode == 200) {
         if (response.body == '') {
           setState(() {
@@ -456,45 +457,45 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                             MainAxisAlignment
                                                                 .end,
                                                         children: [
-                                                          Ink(
-                                                            decoration:
-                                                                const ShapeDecoration(
-                                                                    color: Colors
-                                                                        .blue,
-                                                                    shape:
-                                                                        CircleBorder()),
-                                                            child: IconButton(
-                                                              icon: const Icon(Icons
-                                                                  .remove_red_eye),
-                                                              color:
-                                                                  Colors.white,
-                                                              onPressed: () => {
-                                                                Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                        builder: (context) =>
-                                                                            receiptview(
-                                                                              ponbr: datapo[index].ponbr.toString(),
-                                                                              rcpt_nbr: datapo[index].rcpt_nbr.toString(),
-                                                                              rcpt_date: datapo[index].rcpt_date.toString(),
-                                                                              rcptd_part: datapo[index].rcptd_part.toString(),
-                                                                              rcptd_qty_arr: datapo[index].rcptd_qty_arr.toString(),
-                                                                              rcptd_lot: datapo[index].rcptd_lot.toString(),
-                                                                              rcptd_loc: datapo[index].rcptd_loc.toString(),
-                                                                              rcptd_qty_appr: datapo[index].rcptd_qty_appr.toString(),
-                                                                              rcptd_qty_rej: datapo[index].rcptd_qty_rej.toString(),
-                                                                              // angkutan: datapo[index].rcptd_loc.toString(),
-                                                                              // nopol: datapo[index].rcptd_lot.toString(),
-                                                                              supplier: datapo[index].supplier.toString(),
-                                                                              batch: datapo[index].batch.toString(),
-                                                                              shipto: datapo[index].shipto.toString(),
-                                                                              domain: datapo[index].domain.toString(),
-                                                                              status: datapo[index].status.toString(),
-                                                                              approver: datapo[index].approvedby.toString(),
-                                                                            )))
-                                                              },
-                                                            ),
-                                                          ),
+                                                          // Ink(
+                                                          //   decoration:
+                                                          //       const ShapeDecoration(
+                                                          //           color: Colors
+                                                          //               .blue,
+                                                          //           shape:
+                                                          //               CircleBorder()),
+                                                          //   child: IconButton(
+                                                          //     icon: const Icon(Icons
+                                                          //         .remove_red_eye),
+                                                          //     color:
+                                                          //         Colors.white,
+                                                          //     onPressed: () => {
+                                                          //       Navigator.push(
+                                                          //           context,
+                                                          //           MaterialPageRoute(
+                                                          //               builder: (context) =>
+                                                          //                   receiptview(
+                                                          //                     ponbr: datapo[index].ponbr.toString(),
+                                                          //                     rcpt_nbr: datapo[index].rcpt_nbr.toString(),
+                                                          //                     rcpt_date: datapo[index].rcpt_date.toString(),
+                                                          //                     rcptd_part: datapo[index].rcptd_part.toString(),
+                                                          //                     rcptd_qty_arr: datapo[index].rcptd_qty_arr.toString(),
+                                                          //                     rcptd_lot: datapo[index].rcptd_lot.toString(),
+                                                          //                     rcptd_loc: datapo[index].rcptd_loc.toString(),
+                                                          //                     rcptd_qty_appr: datapo[index].rcptd_qty_appr.toString(),
+                                                          //                     rcptd_qty_rej: datapo[index].rcptd_qty_rej.toString(),
+                                                          //                     // angkutan: datapo[index].rcptd_loc.toString(),
+                                                          //                     // nopol: datapo[index].rcptd_lot.toString(),
+                                                          //                     supplier: datapo[index].supplier.toString(),
+                                                          //                     batch: datapo[index].batch.toString(),
+                                                          //                     shipto: datapo[index].shipto.toString(),
+                                                          //                     domain: datapo[index].domain.toString(),
+                                                          //                     status: datapo[index].status.toString(),
+                                                          //                     approver: datapo[index].approvedby.toString(),
+                                                          //                   )))
+                                                          //     },
+                                                          //   ),
+                                                          // ),
                                                           SizedBox(
                                                             width: 6,
                                                           ),
@@ -552,6 +553,53 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                                                                   batch: datapo[index].batch.toString(),
                                                                                                   shipto: datapo[index].shipto.toString(),
                                                                                                   domain: datapo[index].domain.toString(),
+                                                                                                  imrnbr: datapo[index].imrnbr.toString(),
+                                                                                                  articlenbr: datapo[index].articlenbr.toString(),
+                                                                                                  imrdate: datapo[index].imrdate.toString(),
+                                                                                                  arrivaldate: datapo[index].arrivaldate.toString(),
+                                                                                                  proddate: datapo[index].proddate.toString(),
+                                                                                                  expdate: datapo[index].expdate.toString(),
+                                                                                                  manufacturer: datapo[index].manufacturer.toString(),
+                                                                                                  country: datapo[index].country.toString(),
+                                                                                                  iscertofanalys: datapo[index].iscertofanalys.toString(),
+                                                                                                  certofanalys: datapo[index].certofanalys.toString(),
+                                                                                                  ismsds: datapo[index].ismsds.toString(),
+                                                                                                  msds: datapo[index].msds.toString(),
+                                                                                                  isforwarderdo: datapo[index].isforwarderdo.toString(),
+                                                                                                  forwarderdo: datapo[index].forwarderdo.toString(),
+                                                                                                  ispackinglist: datapo[index].ispackinglist.toString(),
+                                                                                                  packinglist: datapo[index].packinglist.toString(),
+                                                                                                  isotherdocs: datapo[index].isotherdocs.toString(),
+                                                                                                  otherdocs: datapo[index].otherdocs.toString(),
+                                                                                                  kemasansacdos: datapo[index].kemasansacdos.toString(),
+                                                                                                  kemasansacdosdesc: datapo[index].kemasansacdosdesc.toString(),
+                                                                                                  kemasandrumvat: datapo[index].kemasandrumvat.toString(),
+                                                                                                  kemasandrumvatdesc: datapo[index].kemasandrumvatdesc.toString(),
+                                                                                                  kemasanpalletpeti: datapo[index].kemasanpalletpeti.toString(),
+                                                                                                  kemasanpalletpetidesc: datapo[index].kemasanpalletpetidesc.toString(),
+                                                                                                  isclean: datapo[index].isclean.toString(),
+                                                                                                  iscleandesc: datapo[index].iscleandesc.toString(),
+                                                                                                  isdry: datapo[index].isdry.toString(),
+                                                                                                  isdrydesc: datapo[index].isdrydesc.toString(),
+                                                                                                  isnotspilled: datapo[index].isnotspilled.toString(),
+                                                                                                  isnotspilleddesc: datapo[index].isnotspilleddesc.toString(),
+                                                                                                  issealed: datapo[index].issealed.toString(),
+                                                                                                  ismanufacturerlabel: datapo[index].ismanufacturerlabel.toString(),
+                                                                                                  transporttransporterno: datapo[index].transporttransporterno.toString(),
+                                                                                                  transportpoliceno: datapo[index].transportpoliceno.toString(),
+                                                                                                  transportisclean: datapo[index].transportisclean.toString(),
+                                                                                                  transportiscleandesc: datapo[index].transportiscleandesc.toString(),
+                                                                                                  transportisdry: datapo[index].transportisdry.toString(),
+                                                                                                  transportisdrydesc: datapo[index].transportisdrydesc.toString(),
+                                                                                                  transportisnotspilled: datapo[index].transportisnotspilled.toString(),
+                                                                                                  transportisnotspilleddesc: datapo[index].transportisnotspilleddesc.toString(),
+                                                                                                  transportispositionsingle: datapo[index].transportispositionsingle.toString(),
+                                                                                                  transportispositionsingledesc: datapo[index].transportispositionsingledesc.toString(),
+                                                                                                  transportissegregated: datapo[index].transportissegregated.toString(),
+                                                                                                  transportissegregateddesc: datapo[index].transportissegregateddesc.toString(),
+                                                                                                  transportangkutancatatan: datapo[index].transportangkutancatatan.toString(),
+                                                                                                  transportkelembapan: datapo[index].transportkelembapan.toString(),
+                                                                                                  transportsuhu: datapo[index].transportsuhu.toString()
                                                                                                 )));
 
                                                                                     if (refresh == 'refresh') {
