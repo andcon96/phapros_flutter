@@ -4,15 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_template/main.dart';
 import 'package:flutter_template/utils/secure_user_login.dart';
 import 'package:http/http.dart' as http;
-// import 'package:image_picker/image_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter_template/utils/loading.dart';
 import 'package:flutter_template/utils/globalurl.dart' as globals;
 import '../../utils/styles.dart';
-
-import 'package:advance_image_picker/advance_image_picker.dart';
 
 class laporanform extends StatefulWidget {
   final String ponbr,
@@ -67,23 +65,29 @@ class _laporanform extends State<laporanform> {
   String rcptnbr = '';
   late String responseresult = '';
   bool loading = false;
-  // late List<XFile>? imagesname;
-  // late List<XFile>? imagesdata;
-  // late List<XFile>? images;
-  // XFile? imagefromphoto;
-  // List<XFile> imagefiles = [];
+  late List<XFile>? imagesname;
+  late List<XFile>? imagesdata;
+  late List<XFile>? images;
+  XFile? imagefromphoto;
+  List<XFile> imagefiles = [];
   List<File> imagesPath = [];
-
-  List<ImageObject> imagefiles = [];
-  List<ImageObject>? imagefilesroot = [];
   DateTime now = DateTime.now();
-  //comment dummy
+  
   Future pickImage() async {
-    imagefilesroot = await Navigator.of(context)
-        .push(PageRouteBuilder(pageBuilder: (context, animation, __) {
-      return const ImagePicker(maxCount: 5);
-    }));
-    if (imagefilesroot?.isEmpty ?? true) {
+    images = await ImagePicker().pickMultiImage();
+
+    if (images!.isNotEmpty) {
+      // Process selected images
+
+      for (var image in images!) {
+        imagesPath.add(File(image.path));
+        imagefiles.add(image);
+        // Do something with the selected image
+      }
+      setState(() {});
+    } else if (images!.isEmpty) {
+      // Display error message
+
       setState(() {
         ArtSweetAlert.show(
             context: context,
@@ -92,37 +96,32 @@ class _laporanform extends State<laporanform> {
                 title: "Error",
                 text: "Mohon pilih foto"));
       });
-    } else {
-      imagefiles = imagefilesroot!;
-      imagesPath = [];
-      for (var image in imagefiles) {
-        imagesPath.add(File(image.originalPath));
-      }
-      setState(() {});
     }
-
-    // if (imagefiles!.isNotEmpty) {
-    //   // Process selected images
-
-    //   for (var image in imagefiles!) {
-    //     imagesPath.add(File(image.path));
-    //     imagefiles.add(image);
-    //     // Do something with the selected image
-    //   }
-    //   setState(() {});
-    // } else if (images!.isEmpty) {
-    //   // Display error message
-
-    //   setState(() {
-    //     ArtSweetAlert.show(
-    //         context: context,
-    //         artDialogArgs: ArtDialogArgs(
-    //             type: ArtSweetAlertType.danger,
-    //             title: "Error",
-    //             text: "Mohon pilih foto"));
-    //   });
-    // }
     // await ImagePicker().pickImage(maxImages:3);
+  }
+
+  Future takeImage() async {
+    imagefromphoto = await ImagePicker().pickImage(source: ImageSource.camera);
+
+    if (imagefromphoto != null) {
+      imagefiles.add(imagefromphoto!);
+      imagesPath.add(File(imagefromphoto!.path));
+
+      // Process selected images
+
+      setState(() {});
+    } else if (imagefromphoto == null) {
+      // Display error message
+
+      setState(() {
+        ArtSweetAlert.show(
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+                type: ArtSweetAlertType.danger,
+                title: "Error",
+                text: "Mohon pilih foto"));
+      });
+    }
   }
 
   // Future takeImage() async {
@@ -148,9 +147,6 @@ class _laporanform extends State<laporanform> {
   //     });
   //   }
   // }
-  onBackPressed() {
-    return 'back';
-  }
 
   Future<Object?> sendlaporan(String url) async {
     final token = await UserSecureStorage.getToken();
@@ -278,161 +274,72 @@ class _laporanform extends State<laporanform> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    WillPopScope(
-      onWillPop: () async {
-        onBackPressed(); // Action to perform on back pressed
-        return false;
-      },
-      child: Scaffold(),
-    );
-    // Setup image picker configs
-    final configs = ImagePickerConfigs();
-    // AppBar text color
-    configs.appBarTextColor = Colors.white;
-    configs.appBarBackgroundColor = Colors.black;
-    // Disable select images from album
-    configs.albumPickerModeEnabled = true;
-    // Only use front camera for capturing
-    // configs.cameraLensDirection = 0;
-    // Translate function
-    configs.translateFunc = (name, value) => Intl.message(value, name: name);
-    // Disable edit function, then add other edit control instead
-    configs.adjustFeatureEnabled = false;
-    configs.externalImageEditors['external_image_editor_1'] = EditorParams(
-        title: 'external_image_editor_1',
-        icon: Icons.edit_rounded,
-        onEditorEvent: (
-                {required BuildContext context,
-                required File file,
-                required String title,
-                int maxWidth = 1080,
-                int maxHeight = 1920,
-                int compressQuality = 90,
-                ImagePickerConfigs? configs}) async =>
-            Navigator.of(context).push(MaterialPageRoute(
-                fullscreenDialog: true,
-                builder: (context) => ImageEdit(
-                    file: file,
-                    title: title,
-                    maxWidth: maxWidth,
-                    maxHeight: maxHeight,
-                    configs: configs))));
-
-    // configs.externalImageEditors['external_image_editor_2'] = EditorParams(
-    //     title: 'external_image_editor_2',
-    //     icon: Icons.edit_attributes,
-    //     onEditorEvent: (
-    //             {required BuildContext context,
-    //             required File file,
-    //             required String title,
-    //             int maxWidth = 1080,
-    //             int maxHeight = 1920,
-    //             int compressQuality = 90,
-    //             ImagePickerConfigs? configs}) async =>
-    //         Navigator.of(context).push(MaterialPageRoute(
-    //             fullscreenDialog: true,
-    //             builder: (context) => ImageSticker(
-    //                 file: file,
-    //                 title: title,
-    //                 maxWidth: maxWidth,
-    //                 maxHeight: maxHeight,
-    //                 configs: configs))));
-
-    // Example about label detection & OCR extraction feature.
-    // You can use Google ML Kit or TensorflowLite for this purpose
-    configs.labelDetectFunc = (String path) async {
-      return <DetectObject>[
-        DetectObject(label: 'dummy1', confidence: 0.75),
-        DetectObject(label: 'dummy2', confidence: 0.75),
-        DetectObject(label: 'dummy3', confidence: 0.75)
-      ];
-    };
-    configs.ocrExtractFunc =
-        (String path, {bool? isCloudService = false}) async {
-      if (isCloudService!) {
-        return 'Cloud dummy ocr text';
-      } else {
-        return 'Dummy ocr text';
-      }
-    };
-
-    // Example about custom stickers
-    configs.customStickerOnly = true;
-    configs.customStickers = [
-      'assets/icon/cus1.png',
-      'assets/icon/cus2.png',
-      'assets/icon/cus3.png',
-      'assets/icon/cus4.png',
-      'assets/icon/cus5.png'
-    ];
-
-    return loading
-        ? const Loading()
-        : Scaffold(
-            body: Stepper(
-              type: StepperType.vertical,
-              steps: getSteps(),
-              currentStep: currentStep,
-              onStepTapped: (step) => setState(() => currentStep = step),
-              onStepCancel: currentStep == 0
-                  ? null
-                  : () => setState(() => currentStep -= 1),
-              onStepContinue: () {
-                bool isLastStep = (currentStep == getSteps().length - 1);
-                if (isLastStep) {
-                  showModalBottomSheet<void>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return Container(
-                          height: 200,
-                          color: Colors.amber,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Text(
-                                    'Are you sure you want to submit Receipt ' +
-                                        IdRcp.text +
-                                        '?',
+  Widget build(BuildContext context) => loading
+      ? const Loading()
+      : Scaffold(
+          body: Stepper(
+            type: StepperType.vertical,
+            steps: getSteps(),
+            currentStep: currentStep,
+            onStepTapped: (step) => setState(() => currentStep = step),
+            onStepCancel: currentStep == 0
+                ? null
+                : () => setState(() => currentStep -= 1),
+            onStepContinue: () {
+              bool isLastStep = (currentStep == getSteps().length - 1);
+              if (isLastStep) {
+                showModalBottomSheet<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Container(
+                        height: 200,
+                        color: Colors.amber,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text(
+                                  'Anda yakin ingin submit Receipt ' +
+                                      IdRcp.text +
+                                      '?',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                      color: Colors.black)),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    primary: Colors.blue),
+                                child: const Text(
+                                    'Tekan tahan tombol untuk melanjutkan',
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15,
                                         color: Colors.black)),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Colors.blue),
-                                  child: const Text(
-                                      'Hold this button to continue',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15,
-                                          color: Colors.black)),
-                                  onPressed: () {},
-                                  onLongPress: () {
-                                    String url =
-                                        '${globals.globalurl}/submitlaporan?';
-                                    url += 'idrcpt=' + IdRcp.text;
-                                    url += '&ponbr=' + PO.text;
-                                    url += '&part=' + NamaBarang.text;
-                                    url += '&tglmasuk=' + TglMasuk.text;
-                                    url += '&jmlmasuk=' + JumlahMasuk.text;
-                                    url += '&no=' + No.text;
-                                    url += '&lot=' + NomorLot.text;
-                                    url += '&tgl=' + Tanggal.text;
-                                    url += '&supplier=' + Supplier.text;
-                                    url += '&komplain=' + Komplain.text;
-                                    url += '&keterangan=' + Keterangan.text;
-                                    url += '&komplaindetail=' +
-                                        KomplainDetail.text;
-                                    url += '&angkutan=' + Angkutan.text;
-                                    url += '&nopol=' + NoPol.text;
-
-                                    Navigator.pop(context);
-                                    setState(() {
-                                      loading = true;
-                                    });
+                                onPressed: () {},
+                                onLongPress: () {
+                                  String url =
+                                      '${globals.globalurl}/submitlaporan?';
+                                  url += 'idrcpt=' + IdRcp.text;
+                                  url += '&ponbr=' + PO.text;
+                                  url += '&part=' + NamaBarang.text;
+                                  url += '&tglmasuk=' + TglMasuk.text;
+                                  url += '&jmlmasuk=' + JumlahMasuk.text;
+                                  url += '&no=' + No.text;
+                                  url += '&lot=' + NomorLot.text;
+                                  url += '&tgl=' + Tanggal.text;
+                                  url += '&supplier=' + Supplier.text;
+                                  url += '&komplain=' + Komplain.text;
+                                  url += '&keterangan=' + Keterangan.text;
+                                  url +=
+                                      '&komplaindetail=' + KomplainDetail.text;
+                                  url += '&angkutan=' + Angkutan.text;
+                                  url += '&nopol=' + NoPol.text;
+                                  
+                                  Navigator.pop(context);
+                                  setState(() {
+                                    loading = true;
+                                  });
 
                                     final urlresponse = sendlaporan(url);
                                   },
@@ -449,32 +356,30 @@ class _laporanform extends State<laporanform> {
               controlsBuilder: (context, ControlsDetails controls) {
                 final isLastStep = currentStep == getSteps().length - 1;
 
-                return Container(
-                  margin: EdgeInsets.only(top: 50, right: 40),
-                  child: Row(children: [
-                    if (currentStep != 0)
-                      Expanded(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              minimumSize: Size(100, 40)),
-                          child: Text('BACK'),
-                          onPressed: controls.onStepCancel,
-                        ),
-                      ),
-                    if (currentStep != 0) const SizedBox(width: 12),
+              return Container(
+                margin: EdgeInsets.only(top: 50, right: 40),
+                child: Row(children: [
+                  if (currentStep != 0)
                     Expanded(
                       child: ElevatedButton(
-                        child: Text(isLastStep ? 'CONFIRM' : 'NEXT'),
-                        onPressed: controls.onStepContinue,
+                        style: ElevatedButton.styleFrom(
+                            minimumSize: Size(100, 40)),
+                        child: Text('BACK'),
+                        onPressed: controls.onStepCancel,
                       ),
                     ),
-                  ]),
-                );
-              },
-            ),
-          );
-  }
-
+                  if (currentStep != 0) const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      child: Text(isLastStep ? 'CONFIRM' : 'NEXT'),
+                      onPressed: controls.onStepContinue,
+                    ),
+                  ),
+                ]),
+              );
+            },
+          ),
+        );
   List<Step> getSteps() => [
         Step(
           state: currentStep > 0 ? StepState.complete : StepState.indexed,
@@ -666,263 +571,264 @@ class _laporanform extends State<laporanform> {
           title: Text('Complete'),
           content: Column(children: <Widget>[
             Table(
-                border: TableBorder.all(color: Colors.transparent),
-                children: [
-                  TableRow(children: [
-                    Container(
+              border: TableBorder.all(color: Colors.transparent),
+              children: [
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'ID RCP',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      IdRcp.text,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
                       height: 50,
                       child: Text(
-                        'ID RCP',
+                        'No',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                      )),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      No.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        IdRcp.text,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Tanggal',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                        height: 50,
-                        child: Text(
-                          'No',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14),
-                        )),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        No.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      Tanggal.text,
+                      style: TextStyle(fontSize: 16),
+                      
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Tanggal',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Supplier',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        Tanggal.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      Supplier.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Supplier',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Komplain',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        Supplier.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      Komplain.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Komplain',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Keterangan',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        Komplain.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      Keterangan.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Keterangan',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Nama Barang',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        Keterangan.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      NamaBarang.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Nama Barang',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Tanggal Masuk',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        NamaBarang.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      TglMasuk.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Tanggal Masuk',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Jumlah Masuk',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        TglMasuk.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      JumlahMasuk.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Jumlah Masuk',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Komplain',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        JumlahMasuk.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      KomplainDetail.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Komplain',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'PO',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        KomplainDetail.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      PO.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'PO',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Nomor Lot',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        PO.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      NomorLot.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Nomor Lot',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Angkutan',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        NomorLot.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      Angkutan.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Angkutan',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'Nomor Polisi',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        Angkutan.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      NoPol.text,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      child: Text(
-                        'Nomor Polisi',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      'Foto',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    Container(
-                      height: 50,
-                      child: Text(
-                        NoPol.text,
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      height: 50,
-                      alignment: Alignment.topRight,
-                      child: Text(
-                        'Foto',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Container(
-                      height: 50,
-                      alignment: Alignment.topCenter,
-                      child: Text(''),
-                    ),
-                  ]),
-                  // TableRow(children: [
+                  ),
+                  Container(
+                    height: 50,
+                    alignment: Alignment.topCenter,
+                    child: Text(''),
+                  ),
+                ]),
+                // TableRow(children: [
                   // Container(
                   //   height: 50,
                   //   alignment: Alignment.centerLeft,
@@ -953,24 +859,25 @@ class _laporanform extends State<laporanform> {
                   //     onPressed: () => takeImage(),
                   //   ),
                   // ),
-                  // ]),
-                  // ],
-                ]),
-            Container(
-              height: 50,
-              alignment: Alignment.centerLeft,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.orange[400], minimumSize: Size(270, 50)),
-                child: const Text('Pick Images',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                        color: Colors.black)),
-                onPressed: () => pickImage(),
-              ),
-            ),
-            (imagefiles?.isNotEmpty == true && imagefiles != [])
+                // ]),
+              // ],
+          ]),
+          Container(
+                    height: 50,
+                    alignment: Alignment.centerLeft,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.orange[400],
+                          minimumSize: Size(270, 50)),
+                      child: const Text('Pick Images',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: Colors.black)),
+                      onPressed: () => pickImage(),
+                    ),
+                  ),
+            (imagefiles?.isNotEmpty == true && imagefiles != [] )
                 ? Container(
                     margin: EdgeInsets.only(top: 50, right: 40),
                     child: Wrap(
@@ -1031,13 +938,13 @@ class _laporanform extends State<laporanform> {
                               child: Container(
                                 height: 100,
                                 width: 100,
-                                child: Image.file(File(imageone.originalPath)),
+                                child: Image.file(File(imageone.path)),
                               ),
                             ));
                       }).toList(),
                     ))
                 : Padding(
-                    padding: const EdgeInsets.only(top: 10, right: 34),
+                    padding: const EdgeInsets.only(top: 10, right: 30),
                     child: Card(
                       elevation: 5,
                       shadowColor: Colors.purpleAccent,

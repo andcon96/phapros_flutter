@@ -1318,7 +1318,7 @@ Widget _textInputReadonly({controller, hint}) {
                                             mainAxisSize: MainAxisSize.min,
                                             children: <Widget>[
                                               Text(
-                                                  'Are you sure you want to Unapprove Receipt ' +
+                                                  'Anda yakin ingin Unapprove Receipt ' +
                                                       IdRcp.text +
                                                       '?',
                                                   style: const TextStyle(
@@ -1330,7 +1330,7 @@ Widget _textInputReadonly({controller, hint}) {
                                                 style: ElevatedButton.styleFrom(
                                                     primary: Colors.white),
                                                 child: const Text(
-                                                    'Hold this button to continue',
+                                                    'Tekan tahan tombol untuk melanjutkan',
                                                     style: const TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -1376,7 +1376,7 @@ Widget _textInputReadonly({controller, hint}) {
                                             mainAxisSize: MainAxisSize.min,
                                             children: <Widget>[
                                               Text(
-                                                  'Are you sure you want to approve Receipt ' +
+                                                  'Anda yakin ingin Approve Receipt ' +
                                                       IdRcp.text +
                                                       '?',
                                                   style: const TextStyle(
@@ -1388,7 +1388,7 @@ Widget _textInputReadonly({controller, hint}) {
                                                 style: ElevatedButton.styleFrom(
                                                     primary: Colors.black),
                                                 child: const Text(
-                                                    'Hold this button to continue'),
+                                                    'Tekan tahan tombol untuk melanjutkan'),
                                                 onPressed: () {},
                                                 onLongPress: () {
                                                   String url =
