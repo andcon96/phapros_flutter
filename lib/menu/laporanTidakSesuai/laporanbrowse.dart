@@ -502,7 +502,7 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                   Colors.white,
                                                               onPressed:
                                                                   () async {
-                                                                String refresh =
+                                                                String? refresh =
                                                                     await Navigator.push(
                                                                         context,
                                                                         MaterialPageRoute(
