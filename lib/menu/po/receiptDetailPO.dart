@@ -146,7 +146,7 @@ class _receiptdetailState extends State<receiptdetail> {
                                   const SizedBox(
                                     height: 4,
                                   ),
-                                  Text('Batcg : ${listdetail[i].rcptdBatch}'),
+                                  Text('Batch : ${listdetail[i].rcptdBatch}'),
                                   const SizedBox(
                                     height: 8,
                                   ),

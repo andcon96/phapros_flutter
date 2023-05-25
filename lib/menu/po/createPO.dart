@@ -36,6 +36,8 @@ class _createpoState extends State<createpo> {
 
   var listPrefix = [];
   var valueprefix = '';
+  var rnItem = '';
+  var itemcode = '';
   int totalpengiriman = 1; // 1 karena perlu + 1 untuk nomor IMR Berikut.
 
   // Step 3
@@ -70,8 +72,9 @@ class _createpoState extends State<createpo> {
   Future<bool> getPrefixIMR() async {
     try {
       final token = await UserSecureStorage.getToken();
-
-      final Uri url = Uri.parse('${globals.globalurl}/getprefiximr');
+      itemcode = widget.selectedline[0].tLvcPart.toString();
+      final Uri url =
+          Uri.parse('${globals.globalurl}/getprefiximr?item=$itemcode');
 
       final response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: "application/json",
@@ -87,21 +90,23 @@ class _createpoState extends State<createpo> {
         });
         return http.Response('Error', 500);
       });
-
       if (response.statusCode == 200) {
         // Value & Isi Dropdown
         final result = jsonDecode(response.body);
 
         final body = result['data'];
+        final prefixitem = result['prefixitem'];
 
         valueprefix = body[0]['pin_prefix'] + '|' + body[0]['pin_rn'];
+        rnItem = prefixitem['item_rn'] ?? '000000';
+
         listPrefix = body;
 
         // Cek Tahun berjalan & tahun RN
         DateTime now = DateTime.now();
         int currentYear = now.year % 100;
         var oldyear = int.parse(body[0]['pin_rn'].substring(0, 2));
-
+        var oldyearItem = int.parse(rnItem.substring(0, 2));
         // Hitung Total Pengiriman tahun berjalan
         for (var element in listPrefix) {
           if (int.parse(element['pin_rn'].substring(0, 2)) == currentYear) {
@@ -112,16 +117,23 @@ class _createpoState extends State<createpo> {
         }
 
         // Cek Nomor RN per Prefix per Tahun
-        var newrn = '01';
+        var newrn = '001';
         if (oldyear == currentYear) {
           var oldrn = int.parse(body[0]['pin_rn'].substring(2));
-          newrn = (oldrn + 1).toString().padLeft(2, '0');
+          newrn = (oldrn + 1).toString().padLeft(3, '0'); // 2 Jadi 3
+        }
+        var newrnItem = '01';
+        if (oldyearItem == currentYear) {
+          var oldrnItem = int.parse(rnItem.substring(2));
+          newrnItem = (oldrnItem + 1).toString().padLeft(2, '0');
         }
 
         var prefix = body[0]['pin_prefix'];
         var totalrn = totalpengiriman.toString().padLeft(3, '0');
 
-        var fullimr = prefix + '/' + newrn + '/' + totalrn;
+        // var fullimr = prefix + '/' + newrn + '/' + totalrn;
+
+        var fullimr = '$prefix/$newrnItem/$newrn';
         imrno.text = fullimr;
         return true;
       } else {
@@ -298,6 +310,7 @@ class _createpoState extends State<createpo> {
                         icon: const Icon(Icons.arrow_drop_down),
                         onChanged: (value) {
                           setState(() {
+                            print(rnItem);
                             valueprefix = value!;
                             totalpengiriman = 1;
                             List<String> parts = value.split('|');
@@ -306,6 +319,7 @@ class _createpoState extends State<createpo> {
                             DateTime now = DateTime.now();
                             int currentYear = now.year % 100;
                             var oldyear = int.parse(parts[1].substring(0, 2));
+                            var oldyearItem = int.parse(rnItem.substring(0, 2));
 
                             // Hitung Total Pengiriman tahun berjalan
                             for (var element in listPrefix) {
@@ -320,16 +334,25 @@ class _createpoState extends State<createpo> {
 
                             // Cek Nomor RN per Prefix per Tahun
                             var newrn = '01';
+                            var newrnItem = '01';
                             if (oldyear == currentYear) {
                               var oldrn = int.parse(parts[1].substring(2));
-                              newrn = (oldrn + 1).toString().padLeft(2, '0');
+                              newrn = (oldrn + 1)
+                                  .toString()
+                                  .padLeft(3, '0'); // 2 Jadi 3
+                            }
+                            if (oldyearItem == currentYear) {
+                              var oldrnItem = int.parse(rnItem.substring(2));
+                              newrnItem =
+                                  (oldrnItem + 1).toString().padLeft(2, '0');
                             }
 
                             var prefix = parts[0];
                             var totalrn =
                                 totalpengiriman.toString().padLeft(3, '0');
 
-                            var fullimr = prefix + '/' + newrn + '/' + totalrn;
+                            // var fullimr = prefix + '/' + newrn + '/' + totalrn;
+                            var fullimr = '$prefix/$newrnItem/$newrn';
                             imrno.text = fullimr;
                           });
                         })),
@@ -1180,7 +1203,8 @@ class _createpoState extends State<createpo> {
               ],
             )),
         Step(
-            state: _activeStepIndex <= 6 ? StepState.editing : StepState.complete,
+            state:
+                _activeStepIndex <= 6 ? StepState.editing : StepState.complete,
             isActive: _activeStepIndex >= 6,
             title: const Text('Detail Alokasi'),
             content: Column(
@@ -1326,7 +1350,8 @@ class _createpoState extends State<createpo> {
                                                 angkutansegregate: _angkutansegregate.toString(),
                                                 angkutancatatan: angkutancatatan.text,
                                                 kelembapan: kelembapan.text,
-                                                suhu: suhu.text)),
+                                                suhu: suhu.text,
+                                                itemcode: itemcode)),
                                       );
                                       // Navigator.push(
                                       //   context,
