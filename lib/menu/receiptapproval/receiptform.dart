@@ -827,7 +827,7 @@ Widget _textInputReadonly({controller, hint}) {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Dry'),
+                      title: const Text('Kering'),
                       leading: Radio(
                         value: '1',
                         groupValue: _isdry,
@@ -837,7 +837,7 @@ Widget _textInputReadonly({controller, hint}) {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Wet'),
+                      title: const Text('Basah'),
                       leading: Radio(
                         value: '0',
                         groupValue: _isdry,
@@ -857,7 +857,7 @@ Widget _textInputReadonly({controller, hint}) {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Not Spilled'),
+                      title: const Text('Tidak Tumpah'),
                       leading: Radio(
                         value: '1',
                         groupValue: _isnotspilled,
@@ -867,7 +867,7 @@ Widget _textInputReadonly({controller, hint}) {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Spilled'),
+                      title: const Text('Tumpah'),
                       leading: Radio(
                         value: '0',
                         groupValue: _isnotspilled,
@@ -898,7 +898,7 @@ Widget _textInputReadonly({controller, hint}) {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Intact'),
+                      title: const Text('Utuh'),
                       leading: Radio(
                         value: '1',
                         groupValue: _issealed,
@@ -908,7 +908,7 @@ Widget _textInputReadonly({controller, hint}) {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Broken'),
+                      title: const Text('Rusak'),
                       leading: Radio(
                         value: '0',
                         groupValue: _issealed,
@@ -934,7 +934,7 @@ Widget _textInputReadonly({controller, hint}) {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Intact'),
+                      title: const Text('Utuh'),
                       leading: Radio(
                         value: '1',
                         groupValue: _ismanufacturerlabel,
@@ -944,7 +944,7 @@ Widget _textInputReadonly({controller, hint}) {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Broken'),
+                      title: const Text('Rusak'),
                       leading: Radio(
                         value: '0',
                         groupValue: _ismanufacturerlabel,
@@ -990,7 +990,7 @@ Widget _textInputReadonly({controller, hint}) {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Clean'),
+                      title: const Text('Bersih'),
                       leading: Radio(
                         value: '1',
                         groupValue: _angkutanisclean,
@@ -1000,7 +1000,7 @@ Widget _textInputReadonly({controller, hint}) {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Dirty'),
+                      title: const Text('Kotor'),
                       leading: Radio(
                         value: '0',
                         groupValue: _angkutanisclean,
@@ -1020,7 +1020,7 @@ Widget _textInputReadonly({controller, hint}) {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Dry'),
+                      title: const Text('Kering'),
                       leading: Radio(
                         value: '1',
                         groupValue: _angkutanisdry,
@@ -1030,7 +1030,7 @@ Widget _textInputReadonly({controller, hint}) {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Wet'),
+                      title: const Text('Basah'),
                       leading: Radio(
                         value: '0',
                         groupValue: _angkutanisdry,
@@ -1050,7 +1050,7 @@ Widget _textInputReadonly({controller, hint}) {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Not Spilled'),
+                      title: const Text('Tidak Tumpah'),
                       leading: Radio(
                         value: '1',
                         groupValue: _angkutanisnotspilled,
@@ -1060,7 +1060,7 @@ Widget _textInputReadonly({controller, hint}) {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Spilled'),
+                      title: const Text('Tumpah'),
                       leading: Radio(
                         value: '0',
                         groupValue: _angkutanisnotspilled,
@@ -1079,7 +1079,7 @@ Widget _textInputReadonly({controller, hint}) {
                 height: 20,
               ),
               const Text(
-                'Material Position',
+                'Posisi Material',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -1101,7 +1101,7 @@ Widget _textInputReadonly({controller, hint}) {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Combination'),
+                      title: const Text('Gabungan'),
                       leading: Radio(
                         value: '0',
                         groupValue: _angkutanissingle,
@@ -1120,7 +1120,7 @@ Widget _textInputReadonly({controller, hint}) {
                 height: 20,
               ),
               const Text(
-                'Clear Segregation',
+                'Segresi Jelas',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -1131,7 +1131,7 @@ Widget _textInputReadonly({controller, hint}) {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Yes'),
+                      title: const Text('Ya'),
                       leading: Radio(
                         value: '1',
                         groupValue: _angkutansegregate,
@@ -1141,7 +1141,7 @@ Widget _textInputReadonly({controller, hint}) {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('No'),
+                      title: const Text('Tidak'),
                       leading: Radio(
                         value: '0',
                         groupValue: _angkutansegregate,
@@ -1325,7 +1325,7 @@ Widget _textInputReadonly({controller, hint}) {
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 15,
-                                                      color: Colors.black)),
+                                                      color: Colors.white)),
                                               ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
                                                     primary: Colors.white),

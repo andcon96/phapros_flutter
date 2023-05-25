@@ -463,31 +463,7 @@ class _laporanview extends State<laporanview> {
                         ),
                         ),
                       ]),
-                      TableRow(children: [
-                        TableCell(
-                          verticalAlignment: TableCellVerticalAlignment.middle,
-                          child: Container(
-                            height:50,
-                            alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Created By',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 14),
-                          ),
-                          ),
-                        ),
-                        TableCell(
-                          verticalAlignment: TableCellVerticalAlignment.middle, 
-                          child: Container(
-                            height:50,
-                            alignment: Alignment.centerLeft,
-                          child: Text(
-                            createdby.text,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        ),
-                      ]),
+                      
                     ])
               ]),
             ),
