@@ -23,9 +23,9 @@ import '../../utils/secure_user_login.dart';
 import '../../utils/styles.dart';
 
 // State Utama
-class uploadfilepo extends StatefulWidget {
+class uploadfilepoold extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
-  uploadfilepo({
+  uploadfilepoold({
     Key? key,
     required this.cart,
     required this.selectedline,
@@ -142,10 +142,10 @@ class uploadfilepo extends StatefulWidget {
   final String palletorpetiDamage;
 
   @override
-  _uploadfilepoState createState() => _uploadfilepoState();
+  _uploadfilepooldState createState() => _uploadfilepooldState();
 }
 
-class _uploadfilepoState extends State<uploadfilepo> {
+class _uploadfilepooldState extends State<uploadfilepoold> {
   final GlobalKey<AnimatedFloatingActionButtonState> key =
       GlobalKey<AnimatedFloatingActionButtonState>();
 
@@ -161,7 +161,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
   @override
   void initState() {
     super.initState();
-    print(widget.imrno);
+    
   }
 
   final ImagePicker imgpicker = ImagePicker();

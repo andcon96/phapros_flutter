@@ -75,7 +75,7 @@ class _laporanform extends State<laporanform> {
   List<File> imagesPath = [];
   
   List<ImageObject> imagefiles = [];
-  List<ImageObject> imagefilesroot = [];
+  List<ImageObject>? imagefilesroot = [];
   DateTime now = DateTime.now();
   
   Future pickImage() async {
@@ -95,7 +95,7 @@ class _laporanform extends State<laporanform> {
 
     }
     else  {
-      imagefiles = imagefilesroot;
+      imagefiles = imagefilesroot!;
       imagesPath = [];
       for (var image in imagefiles) {
         imagesPath.add(File(image.originalPath));
@@ -1044,7 +1044,7 @@ class _laporanform extends State<laporanform> {
                       }).toList(),
                     ))
                 : Padding(
-                    padding: const EdgeInsets.only(top: 10, right: 30),
+                    padding: const EdgeInsets.only(top: 10, right: 34),
                     child: Card(
                       elevation: 5,
                       shadowColor: Colors.purpleAccent,
