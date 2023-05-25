@@ -396,7 +396,7 @@ class _laporanform extends State<laporanform> {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Text(
-                                  'Are you sure you want to submit Receipt ' +
+                                  'Anda yakin ingin submit Receipt ' +
                                       IdRcp.text +
                                       '?',
                                   style: const TextStyle(
@@ -407,7 +407,7 @@ class _laporanform extends State<laporanform> {
                                 style: ElevatedButton.styleFrom(
                                     primary: Colors.blue),
                                 child: const Text(
-                                    'Hold this button to continue',
+                                    'Tekan tahan tombol untuk melanjutkan',
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15,

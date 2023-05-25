@@ -540,7 +540,7 @@ class _receiptform extends State<receiptform> {
                                                 style: ElevatedButton.styleFrom(
                                                     primary: Colors.white),
                                                 child: const Text(
-                                                    'Hold this button to continue',
+                                                    'Tekan tahan tombol untuk melanjutkan',
                                                     style: const TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -598,7 +598,7 @@ class _receiptform extends State<receiptform> {
                                                 style: ElevatedButton.styleFrom(
                                                     primary: Colors.black),
                                                 child: const Text(
-                                                    'Hold this button to continue'),
+                                                    'Tekan tahan tombol untuk melanjutkan'),
                                                 onPressed: () {},
                                                 onLongPress: () {
                                                   String url =
