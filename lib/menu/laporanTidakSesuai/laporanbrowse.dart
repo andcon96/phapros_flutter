@@ -70,8 +70,7 @@ class _laporanbrowse extends State<laporanbrowse> {
       final token = await UserSecureStorage.getToken();
 
       final Uri url = Uri.parse(
-          '${globals.globalurl}/getpolaporan?receiptnbr=' +
-              search.toString());
+          '${globals.globalurl}/getpolaporan?receiptnbr=' + search.toString());
 
       loadfailed = false;
       final response = await http.get(url, headers: {
@@ -502,7 +501,8 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                   Colors.white,
                                                               onPressed:
                                                                   () async {
-                                                                String refresh =
+                                                                String?
+                                                                    refresh =
                                                                     await Navigator.push(
                                                                         context,
                                                                         MaterialPageRoute(

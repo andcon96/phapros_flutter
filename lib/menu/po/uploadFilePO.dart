@@ -25,59 +25,60 @@ import '../../utils/styles.dart';
 // State Utama
 class uploadfilepo extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
-  uploadfilepo({
-    Key? key,
-    required this.cart,
-    required this.selectedline,
-    required this.imrno,
-    required this.arrivaldate,
-    required this.imrdate,
-    required this.dono,
-    required this.articleno,
-    required this.proddate,
-    required this.expdate,
-    required this.manufacturer,
-    required this.origincountry,
-    required this.certificateChecked,
-    required this.certificate,
-    required this.msdsChecked,
-    required this.msds,
-    required this.forwarderdoChecked,
-    required this.forwaderdo,
-    required this.packinglistChecked,
-    required this.packinglist,
-    required this.otherdocsChecked,
-    required this.otherdocs,
-    required this.keteranganisclean,
-    required this.keteranganisdry,
-    required this.keteranganisnotspilled,
-    required this.transporterno,
-    required this.policeno,
-    required this.angkutanketeranganisclean,
-    required this.angkutanketeranganisdry,
-    required this.angkutanketeranganisnotspilled,
-    required this.angkutanketeranganissingle,
-    required this.sackordosChecked,
-    required this.sackordosDamage,
-    required this.drumorvatChecked,
-    required this.drumorvatDamage,
-    required this.palletorpetiChecked,
-    required this.palletorpetiDamage,
-    required this.isclean,
-    required this.isdry,
-    required this.isnotspilled,
-    required this.issealed,
-    required this.ismanufacturerlabel,
-    required this.angkutanisclean,
-    required this.angkutanisdry,
-    required this.angkutanisnotspilled,
-    required this.angkutanissingle,
-    required this.angkutansegregate,
-    required this.angkutanketeranganissegregated,
-    required this.angkutancatatan,
-    required this.kelembapan,
-    required this.suhu,
-  }) : super(key: key);
+  uploadfilepo(
+      {Key? key,
+      required this.cart,
+      required this.selectedline,
+      required this.imrno,
+      required this.arrivaldate,
+      required this.imrdate,
+      required this.dono,
+      required this.articleno,
+      required this.proddate,
+      required this.expdate,
+      required this.manufacturer,
+      required this.origincountry,
+      required this.certificateChecked,
+      required this.certificate,
+      required this.msdsChecked,
+      required this.msds,
+      required this.forwarderdoChecked,
+      required this.forwaderdo,
+      required this.packinglistChecked,
+      required this.packinglist,
+      required this.otherdocsChecked,
+      required this.otherdocs,
+      required this.keteranganisclean,
+      required this.keteranganisdry,
+      required this.keteranganisnotspilled,
+      required this.transporterno,
+      required this.policeno,
+      required this.angkutanketeranganisclean,
+      required this.angkutanketeranganisdry,
+      required this.angkutanketeranganisnotspilled,
+      required this.angkutanketeranganissingle,
+      required this.sackordosChecked,
+      required this.sackordosDamage,
+      required this.drumorvatChecked,
+      required this.drumorvatDamage,
+      required this.palletorpetiChecked,
+      required this.palletorpetiDamage,
+      required this.isclean,
+      required this.isdry,
+      required this.isnotspilled,
+      required this.issealed,
+      required this.ismanufacturerlabel,
+      required this.angkutanisclean,
+      required this.angkutanisdry,
+      required this.angkutanisnotspilled,
+      required this.angkutanissingle,
+      required this.angkutansegregate,
+      required this.angkutanketeranganissegregated,
+      required this.angkutancatatan,
+      required this.kelembapan,
+      required this.suhu,
+      required this.itemcode})
+      : super(key: key);
 
   final List<Data> cart;
   final List<Data> selectedline;
@@ -133,6 +134,7 @@ class uploadfilepo extends StatefulWidget {
   final String angkutancatatan;
   final String kelembapan;
   final String suhu;
+  final String itemcode;
 
   final bool sackordosChecked;
   final bool drumorvatChecked;
@@ -161,7 +163,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
   @override
   void initState() {
     super.initState();
-    
+    print(widget.imrno);
   }
 
   final ImagePicker imgpicker = ImagePicker();
@@ -238,10 +240,11 @@ class _uploadfilepoState extends State<uploadfilepo> {
 
       setState(() {
         CoolAlert.show(
-            context: context,
+          context: context,
           type: CoolAlertType.error,
-          text: 'Foto tidak terambil',
-          title: 'Error');
+          text: 'Mohon pilih foto',
+          title: 'Error'
+          );
       });
     }
   }
@@ -418,6 +421,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
         "angkutan_catatan": widget.angkutancatatan,
         "kelembapan": widget.kelembapan,
         "suhu": widget.suhu,
+        "itemcode": widget.itemcode,
 
         if (signature != null)
           'signature': base64Encode(signature!)
@@ -499,7 +503,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
                             .toString(),
                         rcptd_qty_appr: totalApprove.toString(),
                         rcptd_qty_rej: totalReject.toString(),
-                        nopol: datareceipt['get_transport'][0]
+                        nopol: datareceipt['get_transport']
                                 ['rcptt_police_no']
                             .toString(),
                         angkutan: datareceipt['get_transport'][0]
@@ -525,7 +529,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
         setState(() {
           loading = false;
         });
-        print(responsedata.body);
+        
         CoolAlert.show(
           context: context,
           type: CoolAlertType.error,

@@ -591,7 +591,8 @@ class alokasipo extends StatefulWidget {
       required this.angkutanketeranganissegregated,
       required this.angkutancatatan,
       required this.kelembapan,
-      required this.suhu})
+      required this.suhu,
+      required this.itemcode})
       : super(key: key);
 
   final List<Data> selectedline;
@@ -648,6 +649,7 @@ class alokasipo extends StatefulWidget {
   final String angkutancatatan;
   final String kelembapan;
   final String suhu;
+  final String itemcode;
 
   final bool sackordosChecked;
   final bool drumorvatChecked;
@@ -953,7 +955,8 @@ class _alokasipoState extends State<alokasipo> {
                         angkutansegregate: widget.angkutansegregate.toString(),
                         angkutancatatan: widget.angkutancatatan,
                         kelembapan: widget.kelembapan,
-                        suhu: widget.suhu)),
+                        suhu: widget.suhu,
+                        itemcode: widget.itemcode)),
               );
 
               // saveData();

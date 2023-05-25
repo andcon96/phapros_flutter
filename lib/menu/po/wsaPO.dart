@@ -17,6 +17,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:http/http.dart' as http;
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter_template/utils/globalurl.dart' as globals;
+
 // ignore: camel_case_types
 class wsaPO extends StatefulWidget {
   const wsaPO({Key? key}) : super(key: key);
@@ -98,6 +99,7 @@ class _wsaPOState extends State<wsaPO> {
 
   Future<bool> getLocation() async {
     try {
+      setState(() => overlayLoading = true);
       final token = await UserSecureStorage.getToken();
 
       final Uri url = Uri.parse('${globals.globalurl}/wsaloc');
@@ -107,6 +109,7 @@ class _wsaPOState extends State<wsaPO> {
         HttpHeaders.authorizationHeader: "Bearer $token"
       }).timeout(const Duration(milliseconds: 5000), onTimeout: () {
         setState(() {
+          overlayLoading = false;
           ArtSweetAlert.show(
               context: context,
               artDialogArgs: ArtDialogArgs(
@@ -126,6 +129,9 @@ class _wsaPOState extends State<wsaPO> {
 
         return true;
       } else {
+        setState(() {
+          overlayLoading = false;
+        });
         ArtSweetAlert.show(
             context: context,
             artDialogArgs: ArtDialogArgs(
@@ -135,6 +141,9 @@ class _wsaPOState extends State<wsaPO> {
         return false;
       }
     } on Exception catch (e) {
+      setState(() {
+        overlayLoading = false;
+      });
       ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
@@ -147,11 +156,9 @@ class _wsaPOState extends State<wsaPO> {
 
   Future<bool> getWsaPO(String? search) async {
     try {
-      setState(() => overlayLoading = true);
       final token = await UserSecureStorage.getToken();
 
-      final Uri url =
-          Uri.parse('${globals.globalurl}/wsapo?ponbr=$search');
+      final Uri url = Uri.parse('${globals.globalurl}/wsapo?ponbr=$search');
 
       final response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: "application/json",

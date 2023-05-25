@@ -124,77 +124,93 @@ class _laporanform extends State<laporanform> {
     }
   }
 
+  // Future takeImage() async {
+  //   imagefromphoto = await ImagePicker().pickImage(source: ImageSource.camera);
+
+  //   if (imagefromphoto != null) {
+  //     imagefiles.add(imagefromphoto!);
+  //     imagesPath.add(File(imagefromphoto!.path));
+
+  //     // Process selected images
+
+  //     setState(() {});
+  //   } else if (imagefromphoto == null) {
+  //     // Display error message
+
+  //     setState(() {
+  //       ArtSweetAlert.show(
+  //           context: context,
+  //           artDialogArgs: ArtDialogArgs(
+  //               type: ArtSweetAlertType.danger,
+  //               title: "Error",
+  //               text: "Mohon pilih foto"));
+  //     });
+  //   }
+  // }
+
   Future<Object?> sendlaporan(String url) async {
     final token = await UserSecureStorage.getToken();
     final username = await UserSecureStorage.getIdAnggota();
     url += '&username=' + username.toString();
-    
-    final Uri uri = Uri.parse(url);
-      final request = http.MultipartRequest('POST', uri);
-      request.headers['Content-Type'] = 'application/json';
-      request.headers['authorization'] = "Bearer $token";
 
-      for (var image in imagesPath) {
-        if (image.existsSync()) {
-          // Check if the file exists
-          // Check if the file is an image file
-          if (image.path.endsWith('.jpg') ||
-              image.path.endsWith('.jpeg') ||
-              image.path.endsWith('.png')) {
-            // Check if the file size is less than 10MB
-            if (image.lengthSync() <= 10 * 1024 * 1024) {
-              request.files.add(
-                await http.MultipartFile.fromPath('images[]', image.path),
-              );
-            } else {
-              print('Image size exceeds 10MB: ${image.path}');
-            }
+    final Uri uri = Uri.parse(url);
+    final request = http.MultipartRequest('POST', uri);
+    request.headers['Content-Type'] = 'application/json';
+    request.headers['authorization'] = "Bearer $token";
+
+    for (var image in imagesPath) {
+      if (image.existsSync()) {
+        // Check if the file exists
+        // Check if the file is an image file
+        if (image.path.endsWith('.jpg') ||
+            image.path.endsWith('.jpeg') ||
+            image.path.endsWith('.png')) {
+          // Check if the file size is less than 10MB
+          if (image.lengthSync() <= 10 * 1024 * 1024) {
+            request.files.add(
+              await http.MultipartFile.fromPath('images[]', image.path),
+            );
           } else {
-            print('File is not an image: ${image.path}');
+            print('Image size exceeds 10MB: ${image.path}');
           }
         } else {
-          print('File does not exist: ${image.path}');
+          print('File is not an image: ${image.path}');
         }
+      } else {
+        print('File does not exist: ${image.path}');
       }
-      var response = await request.send();
-      print(request.files);
-      final responsedata = await http.Response.fromStream(response);
-      if (response.statusCode == 200) {
-        if(responsedata.body == 'error'){
-          Navigator.pop(context, 'refresh');
-          return ArtSweetAlert.show(
+    }
+    var response = await request.send();
+
+    final responsedata = await http.Response.fromStream(response);
+    if (response.statusCode == 200) {
+      if (responsedata.body == 'error') {
+        Navigator.pop(context, 'refresh');
+        return ArtSweetAlert.show(
             context: context,
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.danger,
                 title: "Error",
                 text: "Failed to Submit report for receipt" + IdRcp.text));
-        }
-        else{
-          Navigator.pop(context, 'refresh');
+      } else {
+        Navigator.pop(context, 'refresh');
 
-          return ArtSweetAlert.show(
+        return ArtSweetAlert.show(
             context: context,
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.success,
                 title: "Success",
                 text: "Success to Submit report for receipt " + IdRcp.text));
-
-        }
-        
-        
-
       }
-      else{
- 
-        return ArtSweetAlert.show(
+    } else {
+      return ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.danger,
               title: "Error",
               text: "Failed to Submit report for receipt" + IdRcp.text));
-        
-      }
-      // return response;
+    }
+    // return response;
     // final response = await http.post(Uri.parse(url), headers: {
     //   HttpHeaders.contentTypeHeader: "application/json",
     //   HttpHeaders.authorizationHeader: "Bearer $token"
@@ -244,7 +260,7 @@ class _laporanform extends State<laporanform> {
     PO = TextEditingController(text: widget.ponbr);
     NomorLot = TextEditingController(text: widget.rcptd_lot);
     No = TextEditingController();
-    Tanggal = TextEditingController(text:DateFormat('yyyy-MM-dd').format(now));
+    Tanggal = TextEditingController(text: DateFormat('yyyy-MM-dd').format(now));
     Supplier = TextEditingController(
         text: widget.supplier != 'null' ? widget.supplier : '');
     Komplain = TextEditingController();
@@ -325,20 +341,20 @@ class _laporanform extends State<laporanform> {
                                     loading = true;
                                   });
 
-                                  final urlresponse = sendlaporan(url);
-                                },
-                              ),
-                            ],
+                                    final urlresponse = sendlaporan(url);
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    });
-              } else {
-                setState(() => currentStep += 1);
-              }
-            },
-            controlsBuilder: (context, ControlsDetails controls) {
-              final isLastStep = currentStep == getSteps().length - 1;
+                        );
+                      });
+                } else {
+                  setState(() => currentStep += 1);
+                }
+              },
+              controlsBuilder: (context, ControlsDetails controls) {
+                final isLastStep = currentStep == getSteps().length - 1;
 
               return Container(
                 margin: EdgeInsets.only(top: 50, right: 40),
@@ -812,15 +828,48 @@ class _laporanform extends State<laporanform> {
                     child: Text(''),
                   ),
                 ]),
-                TableRow(children: [
-                  Container(
+                // TableRow(children: [
+                  // Container(
+                  //   height: 50,
+                  //   alignment: Alignment.centerLeft,
+                  //   child: ElevatedButton(
+                  //     style: ElevatedButton.styleFrom(
+                  //         primary: Colors.orange[400],
+                  //         minimumSize: Size(100, 50)),
+                  //     child: const Text('Pick Images',
+                  //         style: const TextStyle(
+                  //             fontWeight: FontWeight.bold,
+                  //             fontSize: 15,
+                  //             color: Colors.black)),
+                  //     onPressed: () => pickImage(),
+                  //   ),
+                  // ),
+                  // Container(
+                  //   height: 50,
+                  //   alignment: Alignment.centerLeft,
+                  //   child: ElevatedButton(
+                  //     style: ElevatedButton.styleFrom(
+                  //         primary: Colors.yellow[300],
+                  //         minimumSize: Size(100, 50)),
+                  //     child: const Text('Take Photo',
+                  //         style: const TextStyle(
+                  //             fontWeight: FontWeight.bold,
+                  //             fontSize: 15,
+                  //             color: Colors.black)),
+                  //     onPressed: () => takeImage(),
+                  //   ),
+                  // ),
+                // ]),
+              // ],
+          ]),
+          Container(
                     height: 50,
                     alignment: Alignment.centerLeft,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           primary: Colors.orange[400],
-                          minimumSize: Size(100, 50)),
-                      child: const Text('Gallery',
+                          minimumSize: Size(270, 50)),
+                      child: const Text('Pick Images',
                           style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
@@ -828,25 +877,7 @@ class _laporanform extends State<laporanform> {
                       onPressed: () => pickImage(),
                     ),
                   ),
-                  Container(
-                    height: 50,
-                    alignment: Alignment.centerLeft,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.yellow[300],
-                          minimumSize: Size(100, 50)),
-                      child: const Text('Take Photo',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              color: Colors.black)),
-                      onPressed: () => takeImage(),
-                    ),
-                  ),
-                ]),
-              ],
-            ),
-            imagefiles != []
+            (imagefiles?.isNotEmpty == true && imagefiles != [] )
                 ? Container(
                     margin: EdgeInsets.only(top: 50, right: 40),
                     child: Wrap(
@@ -854,56 +885,53 @@ class _laporanform extends State<laporanform> {
                         return InkWell(
                             onTap: () {
                               showModalBottomSheet<void>(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Container(
-                                        height: 200,
-                                        color: Colors.yellow,
-                                        child: Center(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              Text(
-                                                  'Yakin ingin menghilangkan foto ini?'
-                                                      
-                                                      ,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Container(
+                                      height: 200,
+                                      color: Colors.yellow,
+                                      child: Center(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Text(
+                                                'Yakin ingin menghilangkan foto ini?',
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15,
+                                                    color: Colors.black)),
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  primary: Colors.white),
+                                              child: const Text(
+                                                  'tekan tombol ini untuk menghilangkan foto',
                                                   style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 15,
                                                       color: Colors.black)),
-                                              ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                    primary: Colors.white),
-                                                child: const Text(
-                                                    'tekan tombol ini untuk menghilangkan foto',
-                                                    style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 15,
-                                                        color: Colors.black)),
-                                                onPressed: () {
-                                                  imagefiles.remove(imageone);
-                                                  Navigator.pop(context);
-                                                  ArtSweetAlert.show(
-                                                  context: context,
-                                                  artDialogArgs: ArtDialogArgs(
-                                                      type: ArtSweetAlertType.success,
-                                                      title: "Success",
-                                                      text: "Foto berhasil dihilangkan"));
-                                                  setState(() {});
-                                                },
-                                              ),
-                                            ],
-                                          ),
+                                              onPressed: () {
+                                                imagefiles.remove(imageone);
+                                                Navigator.pop(context);
+                                                ArtSweetAlert.show(
+                                                    context: context,
+                                                    artDialogArgs: ArtDialogArgs(
+                                                        type: ArtSweetAlertType
+                                                            .success,
+                                                        title: "Success",
+                                                        text:
+                                                            "Foto berhasil dihilangkan"));
+                                                setState(() {});
+                                              },
+                                            ),
+                                          ],
                                         ),
-                                      );
-                                    });
-                              
-                              
-                              
+                                      ),
+                                    );
+                                  });
+
                               setState(() {});
                             },
                             child: Card(
