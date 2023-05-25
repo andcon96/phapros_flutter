@@ -142,7 +142,7 @@ class _createpoState extends State<createpo> {
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.danger,
                 title: "Error",
-                text: "PO Number Not Found"));
+                text: "Nomor PO Tidak Terdaftar"));
         return false;
       }
     } on Exception catch (e) {
@@ -151,7 +151,7 @@ class _createpoState extends State<createpo> {
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.danger,
               title: "Error",
-              text: "No Internet"));
+              text: "Tidak ada Internet"));
       return false;
     }
   }
@@ -243,14 +243,14 @@ class _createpoState extends State<createpo> {
           content: Column(
             children: [
               _textInputReadonly(
-                hint: "Item No.",
+                hint: "Kode Barang",
                 controller: itemno,
               ),
               const SizedBox(
                 height: 8,
               ),
               _textInputReadonly(
-                hint: "Item Name",
+                hint: "Nama Barang",
                 controller: itemname,
               ),
               const SizedBox(
@@ -287,9 +287,9 @@ class _createpoState extends State<createpo> {
                           padding: EdgeInsets.only(left: 15),
                           child: TextField(
                             decoration: InputDecoration(
-                                hintText: 'Select Prefix',
+                                hintText: 'Pilih Prefix',
                                 border: InputBorder.none,
-                                labelText: 'Select Prefix'),
+                                labelText: 'Pilih Prefix'),
                           ),
                         ),
                         value: valueprefix,
@@ -302,7 +302,7 @@ class _createpoState extends State<createpo> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 15),
                                   child: Text(
-                                      "Prefix : ${value['pin_prefix']}, Running Number : ${value['pin_rn']}"),
+                                      "Prefix : ${value['pin_prefix']}, Nomor Berjalan : ${value['pin_rn']}"),
                                 ),
                               ));
                         }).toList(),
@@ -397,7 +397,7 @@ class _createpoState extends State<createpo> {
                       },
                     ),
                     border: const OutlineInputBorder(),
-                    labelText: 'Arrival Date',
+                    labelText: 'Tanggal Kedatangan',
                   )),
               const SizedBox(
                 height: 8,
@@ -425,7 +425,7 @@ class _createpoState extends State<createpo> {
                       },
                     ),
                     border: const OutlineInputBorder(),
-                    labelText: 'IMR Date',
+                    labelText: 'Tanggal IMR',
                   )),
               const SizedBox(
                 height: 8,
@@ -453,7 +453,7 @@ class _createpoState extends State<createpo> {
                       },
                     ),
                     border: const OutlineInputBorder(),
-                    labelText: 'Production Date',
+                    labelText: 'Tanggal Produksi',
                   )),
               const SizedBox(
                 height: 8,
@@ -481,20 +481,20 @@ class _createpoState extends State<createpo> {
                       },
                     ),
                     border: const OutlineInputBorder(),
-                    labelText: 'Expiration Date',
+                    labelText: 'Tanggal Kadarluasa',
                   )),
               const SizedBox(
                 height: 8,
               ),
               _textInput(
-                hint: "Manufacturer",
+                hint: "Pabrik",
                 controller: manufacturer,
               ),
               const SizedBox(
                 height: 8,
               ),
               _textInput(
-                hint: "Country",
+                hint: "Negara",
                 controller: origincountry,
               ),
             ],
@@ -620,7 +620,7 @@ class _createpoState extends State<createpo> {
                 Column(
                   children: [
                     RadioListTile(
-                      title: Text("Damage"),
+                      title: Text("Rusak"),
                       value: "Damage",
                       groupValue: _sackordosDamage,
                       onChanged: (value) {
@@ -630,7 +630,7 @@ class _createpoState extends State<createpo> {
                       },
                     ),
                     RadioListTile(
-                      title: Text("Undamage"),
+                      title: Text("Tidak Rusak"),
                       value: "Undamage",
                       groupValue: _sackordosDamage,
                       onChanged: (value) {
@@ -658,7 +658,7 @@ class _createpoState extends State<createpo> {
                 Column(
                   children: [
                     RadioListTile(
-                      title: Text("Damage"),
+                      title: Text("Rusak"),
                       value: "Damage",
                       groupValue: _drumorvatDamage,
                       onChanged: (value) {
@@ -668,7 +668,7 @@ class _createpoState extends State<createpo> {
                       },
                     ),
                     RadioListTile(
-                      title: Text("Undamage"),
+                      title: Text("Tidak Rusak"),
                       value: "Undamage",
                       groupValue: _drumorvatDamage,
                       onChanged: (value) {
@@ -696,7 +696,7 @@ class _createpoState extends State<createpo> {
                 Column(
                   children: [
                     RadioListTile(
-                      title: Text("Damage"),
+                      title: Text("Rusak"),
                       value: "Damage",
                       groupValue: _palletorpetiDamage,
                       onChanged: (value) {
@@ -706,7 +706,7 @@ class _createpoState extends State<createpo> {
                       },
                     ),
                     RadioListTile(
-                      title: Text("Undamage"),
+                      title: Text("Tidak Rusak"),
                       value: "Undamage",
                       groupValue: _palletorpetiDamage,
                       onChanged: (value) {
@@ -718,7 +718,7 @@ class _createpoState extends State<createpo> {
                   ],
                 ),
               const Text(
-                'Condition',
+                'Kondisi',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -730,7 +730,7 @@ class _createpoState extends State<createpo> {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Clean'),
+                      title: const Text('Bersih'),
                       leading: Radio(
                         value: '1',
                         groupValue: _isclean,
@@ -744,7 +744,7 @@ class _createpoState extends State<createpo> {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Dirty'),
+                      title: const Text('Kotor'),
                       leading: Radio(
                         value: '0',
                         groupValue: _isclean,
@@ -768,7 +768,7 @@ class _createpoState extends State<createpo> {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Dry'),
+                      title: const Text('Kering'),
                       leading: Radio(
                         value: '1',
                         groupValue: _isdry,
@@ -782,7 +782,7 @@ class _createpoState extends State<createpo> {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Wet'),
+                      title: const Text('Basah'),
                       leading: Radio(
                         value: '0',
                         groupValue: _isdry,
@@ -806,7 +806,7 @@ class _createpoState extends State<createpo> {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Not Spilled'),
+                      title: const Text('Tidak Tumpah'),
                       leading: Radio(
                         value: '1',
                         groupValue: _isnotspilled,
@@ -820,7 +820,7 @@ class _createpoState extends State<createpo> {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Spilled'),
+                      title: const Text('Tumpah'),
                       leading: Radio(
                         value: '0',
                         groupValue: _isnotspilled,
@@ -843,7 +843,7 @@ class _createpoState extends State<createpo> {
                 height: 12,
               ),
               const Text(
-                'Seal',
+                'Segel',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -855,7 +855,7 @@ class _createpoState extends State<createpo> {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Intact'),
+                      title: const Text('Utuh'),
                       leading: Radio(
                         value: '1',
                         groupValue: _issealed,
@@ -869,7 +869,7 @@ class _createpoState extends State<createpo> {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Broken'),
+                      title: const Text('Rusak'),
                       leading: Radio(
                         value: '0',
                         groupValue: _issealed,
@@ -887,7 +887,7 @@ class _createpoState extends State<createpo> {
                 height: 12,
               ),
               const Text(
-                'Manufacturer Label',
+                'Label Pabrik',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -899,7 +899,7 @@ class _createpoState extends State<createpo> {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Intact'),
+                      title: const Text('Utuh'),
                       leading: Radio(
                         value: '1',
                         groupValue: _ismanufacturerlabel,
@@ -913,7 +913,7 @@ class _createpoState extends State<createpo> {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Broken'),
+                      title: const Text('Rusak'),
                       leading: Radio(
                         value: '0',
                         groupValue: _ismanufacturerlabel,
@@ -937,21 +937,21 @@ class _createpoState extends State<createpo> {
           content: Column(
             children: [
               _textInput(
-                hint: "Transporter No.",
+                hint: "No Transporter",
                 controller: transporterno,
               ),
               const SizedBox(
                 height: 8,
               ),
               _textInput(
-                hint: "Police No.",
+                hint: "No Polis",
                 controller: policeno,
               ),
               const SizedBox(
                 height: 20,
               ),
               const Text(
-                'Condition',
+                'Kondisi',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -963,7 +963,7 @@ class _createpoState extends State<createpo> {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Clean'),
+                      title: const Text('Bersih'),
                       leading: Radio(
                         value: '1',
                         groupValue: _angkutanisclean,
@@ -977,7 +977,7 @@ class _createpoState extends State<createpo> {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Dirty'),
+                      title: const Text('Kotor'),
                       leading: Radio(
                         value: '0',
                         groupValue: _angkutanisclean,
@@ -1001,7 +1001,7 @@ class _createpoState extends State<createpo> {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Dry'),
+                      title: const Text('Kering'),
                       leading: Radio(
                         value: '1',
                         groupValue: _angkutanisdry,
@@ -1015,7 +1015,7 @@ class _createpoState extends State<createpo> {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Wet'),
+                      title: const Text('Basah'),
                       leading: Radio(
                         value: '0',
                         groupValue: _angkutanisdry,
@@ -1039,7 +1039,7 @@ class _createpoState extends State<createpo> {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Not Spilled'),
+                      title: const Text('Tidak Tumpah'),
                       leading: Radio(
                         value: '1',
                         groupValue: _angkutanisnotspilled,
@@ -1053,7 +1053,7 @@ class _createpoState extends State<createpo> {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Spilled'),
+                      title: const Text('Tumpah'),
                       leading: Radio(
                         value: '0',
                         groupValue: _angkutanisnotspilled,
@@ -1076,7 +1076,7 @@ class _createpoState extends State<createpo> {
                 height: 20,
               ),
               const Text(
-                'Material Position',
+                'Posisi Material',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -1102,7 +1102,7 @@ class _createpoState extends State<createpo> {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Combination'),
+                      title: const Text('Kombinasi'),
                       leading: Radio(
                         value: '0',
                         groupValue: _angkutanissingle,
@@ -1136,7 +1136,7 @@ class _createpoState extends State<createpo> {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Yes'),
+                      title: const Text('Ya'),
                       leading: Radio(
                         value: '1',
                         groupValue: _angkutansegregate,
@@ -1150,7 +1150,7 @@ class _createpoState extends State<createpo> {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('No'),
+                      title: const Text('Tidak'),
                       leading: Radio(
                         value: '0',
                         groupValue: _angkutansegregate,
@@ -1387,7 +1387,7 @@ class _createpoState extends State<createpo> {
                                         onPressed: controls.onStepContinue,
                                         child: (isLastStep)
                                             ? const Text('Detail')
-                                            : const Text('Next'),
+                                            : const Text('Berikut'),
                                       ),
                                     ),
                                     const SizedBox(
@@ -1397,7 +1397,7 @@ class _createpoState extends State<createpo> {
                                       Expanded(
                                         child: ElevatedButton(
                                           onPressed: controls.onStepCancel,
-                                          child: const Text('Back'),
+                                          child: const Text('Kembali'),
                                         ),
                                       )
                                   ],

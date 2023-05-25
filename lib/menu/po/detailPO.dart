@@ -85,7 +85,7 @@ class _podetailState extends State<podetail> {
                   elevation: 2,
                   child: ListTile(
                     title: Text(
-                      'No Detail Available',
+                      'Tidak ada Data Detail',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontFamily: 'Poppins'),
                     ),
@@ -113,7 +113,7 @@ class _podetailState extends State<podetail> {
                             title: Text(
                                 '${listdetail[i].podPart!} - ${listdetail[i].podPartDesc ?? ''}'),
                             subtitle: Text(
-                                'Qty Order : ${listdetail[i].podQtyOrd}, Qty Open : ${double.parse(listdetail[i].podQtyOrd!) - double.parse(listdetail[i].podQtyRcvd!)}'),
+                                'Qty Pesan : ${listdetail[i].podQtyOrd}, Qty Open : ${double.parse(listdetail[i].podQtyOrd!) - double.parse(listdetail[i].podQtyRcvd!)}'),
                             // trailing: Icon(Icons.food_bank),
                           ),
                         ),

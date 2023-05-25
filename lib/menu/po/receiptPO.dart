@@ -57,17 +57,20 @@ class _PoReceiptState extends State<PoReceipt> {
                 height: 5,
               ),
               const Divider(),
-              _textInfo(
-                  data: widget.ponbr, title: 'PO Number', panjang: 100.00),
+              _textInfo(data: widget.ponbr, title: 'No PO', panjang: 100.00),
               const Divider(),
               _textInfo(
                   data: widget.povend, title: 'PO Vendor', panjang: 100.00),
               const Divider(),
               _textInfo(
-                  data: widget.orddate, title: 'Order Date', panjang: 200.00),
+                  data: widget.orddate,
+                  title: 'Tanggal Pesan',
+                  panjang: 200.00),
               const Divider(),
               _textInfo(
-                  data: widget.duedate, title: 'Due Date', panjang: 100.00),
+                  data: widget.duedate,
+                  title: 'Tanggal Jatuh Tempo',
+                  panjang: 100.00),
               const Divider(),
               _textInfo(data: widget.total, title: 'Total', panjang: 100.00),
               const Divider(),
@@ -84,7 +87,7 @@ class _PoReceiptState extends State<PoReceipt> {
                   elevation: 2,
                   child: ListTile(
                     title: Text(
-                      'No Detail Available',
+                      'Tidak ada Data Detail',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontFamily: 'Poppins'),
                     ),
@@ -110,7 +113,7 @@ class _PoReceiptState extends State<PoReceipt> {
                               ),
                             ),
                             title:
-                                Text('Receipt No : ${listdetail[i].rcptNbr}'),
+                                Text('No Receipt : ${listdetail[i].rcptNbr}'),
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -122,7 +125,7 @@ class _PoReceiptState extends State<PoReceipt> {
                                   height: 8,
                                 ),
                                 Text(
-                                    'Approval Status : ${listdetail[i].getIsOngoinApproval!.isEmpty ? 'Not Started' : 'On Going'}'),
+                                    'Status Approval : ${listdetail[i].getIsOngoinApproval!.isEmpty ? 'Not Started' : 'On Going'}'),
                                 const SizedBox(
                                   height: 8,
                                 ),

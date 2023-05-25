@@ -68,7 +68,7 @@ class _POBrowseState extends State<POBrowse> {
               artDialogArgs: ArtDialogArgs(
                   type: ArtSweetAlertType.danger,
                   title: "Error",
-                  text: "Failed to load data"));
+                  text: "Gagalmemuat data"));
           refreshController.refreshFailed();
         });
         return http.Response('Error', 500);
@@ -107,7 +107,7 @@ class _POBrowseState extends State<POBrowse> {
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.danger,
               title: "Error",
-              text: "No Internet"));
+              text: "Tidak Ada Internet"));
       return false;
     }
   }
@@ -258,7 +258,7 @@ class _POBrowseState extends State<POBrowse> {
                                   borderRadius: BorderRadius.circular(5)),
                               child: ListTile(
                                 title: Text(
-                                  "Load Data Failed, Scroll Up to Retry",
+                                  "Gagal memuat Data, Scroll Keatas to Coba Lagi",
                                   style: content,
                                 ),
                               ),
@@ -275,11 +275,11 @@ class _POBrowseState extends State<POBrowse> {
                                   child: ListTile(
                                     title: onStart && isEmpty && hasSearch
                                         ? Text(
-                                            "No Data Available",
+                                            "Tidak ada Data",
                                             style: content,
                                           )
                                         : Text(
-                                            "Search Data By Number / Vendor",
+                                            "Cari Data berdasarkan Nomor PO / Vendor",
                                             style: content,
                                           ),
                                   ),
@@ -341,7 +341,7 @@ class _POBrowseState extends State<POBrowse> {
                                                                           .start,
                                                                   children: [
                                                                     Text(
-                                                                      "PO Number: ${user.poNbr}",
+                                                                      "PO No.: ${user.poNbr}",
                                                                       style:
                                                                           title,
                                                                     ),
@@ -367,14 +367,14 @@ class _POBrowseState extends State<POBrowse> {
                                                   collapsed: Column(
                                                     children: [
                                                       Text(
-                                                        'List Item',
+                                                        'List Barang',
                                                         style: title,
                                                       ),
                                                       const SizedBox(
                                                         height: 12,
                                                       ),
                                                       Text(
-                                                        'Item Part - Qty Order',
+                                                        'Kode Barang - Jumlah Pesan',
                                                         style: title,
                                                       ),
                                                       const SizedBox(
@@ -437,7 +437,7 @@ class _POBrowseState extends State<POBrowse> {
                                                                       .only(
                                                                   bottom: 10),
                                                           child: Text(
-                                                            'Ship To : ${user.poShip} ',
+                                                            'Tujuan : ${user.poShip} ',
                                                             style: content,
                                                             softWrap: true,
                                                             overflow:
@@ -450,7 +450,7 @@ class _POBrowseState extends State<POBrowse> {
                                                                       .only(
                                                                   bottom: 10),
                                                           child: Text(
-                                                            'Order Date : ${user.poOrdDate}',
+                                                            'Tanggal Pesan : ${user.poOrdDate}',
                                                             style: content,
                                                             softWrap: true,
                                                             overflow:
@@ -463,7 +463,7 @@ class _POBrowseState extends State<POBrowse> {
                                                                       .only(
                                                                   bottom: 10),
                                                           child: Text(
-                                                            'Due Date : ${user.poDueDate}',
+                                                            'Tanggal Jatuh Tempo : ${user.poDueDate}',
                                                             style: content,
                                                             softWrap: true,
                                                             overflow:
@@ -476,7 +476,7 @@ class _POBrowseState extends State<POBrowse> {
                                                                       .only(
                                                                   bottom: 10),
                                                           child: Text(
-                                                            'Currency : ${user.poCurr ?? ''}',
+                                                            'Mata Uang : ${user.poCurr ?? ''}',
                                                             style: content,
                                                             softWrap: true,
                                                             overflow:

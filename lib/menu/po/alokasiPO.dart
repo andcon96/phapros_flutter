@@ -817,7 +817,7 @@ class _alokasipoState extends State<alokasipo> {
         context: context,
         type: CoolAlertType.error,
         title: 'Error',
-        text: 'No Internet',
+        text: 'Tidak Ada Internet',
         loopAnimation: false,
       );
       return false;
@@ -845,7 +845,7 @@ class _alokasipoState extends State<alokasipo> {
           setState(() {});
         },
         heroTag: "addbtn",
-        tooltip: 'Add Data',
+        tooltip: 'Tambah Data',
         backgroundColor: Colors.purple,
         child: Icon(Icons.add),
       ),
@@ -964,7 +964,7 @@ class _alokasipoState extends State<alokasipo> {
           );
         },
         heroTag: "confirmbtn",
-        tooltip: 'Confrim',
+        tooltip: 'Konfirmasi',
         backgroundColor: Colors.purple,
         child: Icon(Icons.arrow_forward),
       ),
@@ -995,7 +995,7 @@ class _alokasipoState extends State<alokasipo> {
                                     borderRadius: BorderRadius.circular(5)),
                                 child: ListTile(
                                   title: Text(
-                                    "Click the button to add new data",
+                                    "Klik Tombol Add untuk Menambah Data",
                                     style: content,
                                   ),
                                 ),

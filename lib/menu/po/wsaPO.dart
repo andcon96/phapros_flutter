@@ -51,14 +51,14 @@ class _wsaPOState extends State<wsaPO> {
                   const SizedBox(
                     height: 5,
                   ),
-                  Text('Changes will not be saved', style: subTitle)
+                  Text('Perubahan tidak akan disimpan', style: subTitle)
                 ],
               ),
             ),
             actions: <Widget>[
               TextButton(
                 child: Text(
-                  'NO',
+                  'Tidak',
                   style: content,
                 ),
                 onPressed: () {
@@ -67,7 +67,7 @@ class _wsaPOState extends State<wsaPO> {
               ),
               TextButton(
                 child: Text(
-                  'YES',
+                  'Ya',
                   style: content,
                 ),
                 onPressed: () {
@@ -115,7 +115,7 @@ class _wsaPOState extends State<wsaPO> {
               artDialogArgs: ArtDialogArgs(
                   type: ArtSweetAlertType.danger,
                   title: "Error",
-                  text: "Failed to load data"));
+                  text: "Gagal memuat Data"));
         });
         return http.Response('Error', 500);
       });
@@ -137,7 +137,7 @@ class _wsaPOState extends State<wsaPO> {
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.danger,
                 title: "Error",
-                text: "Could not get Location Data"));
+                text: "Gagal memuat Data Lokasi"));
         return false;
       }
     } on Exception catch (e) {
@@ -149,7 +149,7 @@ class _wsaPOState extends State<wsaPO> {
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.danger,
               title: "Error",
-              text: "Error Load Data"));
+              text: "Gagal Memuat Data"));
       return false;
     }
   }
@@ -196,7 +196,7 @@ class _wsaPOState extends State<wsaPO> {
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.danger,
                 title: "Error",
-                text: "PO Number Not Found"));
+                text: "Nomor PO Tidak Terdaftar"));
         return false;
       }
     } on Exception catch (e) {
@@ -207,7 +207,7 @@ class _wsaPOState extends State<wsaPO> {
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.danger,
               title: "Error",
-              text: "No Internet"));
+              text: "Tidak ada Internet"));
       return false;
     }
   }
@@ -258,14 +258,14 @@ class _wsaPOState extends State<wsaPO> {
                                         CrossAxisAlignment.stretch,
                                     children: <Widget>[
                                       Text(
-                                        "Search PO",
+                                        "Cari Nomor PO",
                                         style: titleForm,
                                       ),
                                       const SizedBox(
                                         height: 5,
                                       ),
                                       Text(
-                                        "Please find based on PO Number.",
+                                        "Mohon mencari menggunakan Nomor PO.",
                                         style: subTitleForm,
                                       ),
                                       const Padding(
@@ -290,7 +290,7 @@ class _wsaPOState extends State<wsaPO> {
                                               color: Colors.black87,
                                               fontSize: 15),
                                           decoration: InputDecoration(
-                                              hintText: 'Search',
+                                              hintText: 'Cari',
                                               hintStyle: const TextStyle(
                                                   fontFamily: 'Poppins',
                                                   color: Colors.grey,
@@ -335,7 +335,7 @@ class _wsaPOState extends State<wsaPO> {
                                         borderRadius: BorderRadius.circular(5)),
                                     child: ListTile(
                                       title: Text(
-                                        "No Data Available",
+                                        "Tidak ada Data",
                                         style: content,
                                       ),
                                     ),
@@ -390,7 +390,8 @@ class _wsaPOState extends State<wsaPO> {
                                 context: context,
                                 type: CoolAlertType.error,
                                 title: 'Error',
-                                text: 'Cannot choose different Part Code',
+                                text:
+                                    'Tidak boleh menggunakan Kode Item berbeda',
                                 loopAnimation: false,
                               );
                               return;
@@ -403,7 +404,7 @@ class _wsaPOState extends State<wsaPO> {
                                   context: context,
                                   type: CoolAlertType.error,
                                   title: 'Error',
-                                  text: 'Please Select Data',
+                                  text: 'Silahkan pilih Data',
                                   loopAnimation: false,
                                 )
                               : Navigator.push(
@@ -455,13 +456,13 @@ class _wsaPOState extends State<wsaPO> {
         ),
       ),
       title: Text(
-        'Line : $line, Part : $part - $partdesc',
+        'Line : $line, Barang : $part - $partdesc',
         style: const TextStyle(
           fontWeight: FontWeight.w500,
         ),
       ),
       subtitle: Text(
-          'Qty Order : ${double.parse(qtyord)}, Qty Open : ${double.parse(qtyord) - double.parse(qtyrcvd)} , Price: $price'),
+          'Qty Pesan : ${double.parse(qtyord)}, Qty Open : ${double.parse(qtyord) - double.parse(qtyrcvd)} , Price: $price'),
       trailing: double.parse(qtyord) - double.parse(qtyrcvd) <= 0
           ? null
           : isSelected

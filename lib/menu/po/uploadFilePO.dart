@@ -242,7 +242,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
           });
         },
         heroTag: "ttdbtn",
-        tooltip: 'Add Data',
+        tooltip: 'Tambah Data',
         backgroundColor: Colors.purple,
         child: Icon(Icons.approval_sharp),
       ),
@@ -259,7 +259,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
           setState(() {});
         },
         heroTag: "addbtn",
-        tooltip: 'Add Data',
+        tooltip: 'Tambah Data',
         backgroundColor: Colors.purple,
         child: Icon(Icons.camera_alt),
       ),
@@ -290,7 +290,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
                 );
               },
               heroTag: "confirmbtn",
-              tooltip: 'Confrim',
+              tooltip: 'Konfirmasi',
               backgroundColor: Colors.purple,
               child: Icon(Icons.arrow_forward),
             ),
@@ -520,7 +520,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
         context: context,
         type: CoolAlertType.error,
         title: 'Error',
-        text: 'No Internet',
+        text: 'Tidak ada Internet',
         loopAnimation: false,
       );
       return false;
@@ -626,7 +626,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
                       style: titleForm,
                     ),
                     Divider(),
-                    Text("Picked Files:"),
+                    Text("Daftar Foto:"),
                     Divider(),
                     imagefiles != null
                         ? Wrap(
@@ -652,7 +652,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
                                   borderRadius: BorderRadius.circular(5)),
                               child: ListTile(
                                 title: Text(
-                                  "No Picture(s) Selected",
+                                  "Belum Ada Foto yang Dipilih",
                                   style: content,
                                 ),
                               ),
@@ -676,7 +676,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
                                 borderRadius: BorderRadius.circular(5)),
                             child: ListTile(
                               title: Text(
-                                "No Signature",
+                                "Belum ada Tanda Tangan",
                                 style: content,
                               ),
                             ),

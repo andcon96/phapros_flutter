@@ -67,13 +67,11 @@ class _receiptdetailState extends State<receiptdetail> {
                   data: widget.povend, title: 'PO Vendor', panjang: 100.00),
               const Divider(),
               _textInfo(
-                  data: widget.receiptno,
-                  title: 'Receipt Number',
-                  panjang: 100.00),
+                  data: widget.receiptno, title: 'No Receipt', panjang: 100.00),
               const Divider(),
               _textInfo(
                   data: widget.receiptstatus.toString().kapital(),
-                  title: 'Receipt Status',
+                  title: 'Status Receipt',
                   panjang: 100.00),
               const Divider(),
               _textInfo(
@@ -89,7 +87,7 @@ class _receiptdetailState extends State<receiptdetail> {
                   elevation: 2,
                   child: ListTile(
                     title: Text(
-                      'No Detail Available',
+                      'Tidak ada Data Detail',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontFamily: 'Poppins'),
                     ),
@@ -137,7 +135,7 @@ class _receiptdetailState extends State<receiptdetail> {
                                   const SizedBox(
                                     height: 4,
                                   ),
-                                  Text('Location : ${listdetail[i].rcptdLoc}'),
+                                  Text('Lokasi : ${listdetail[i].rcptdLoc}'),
                                   const SizedBox(
                                     height: 4,
                                   ),
