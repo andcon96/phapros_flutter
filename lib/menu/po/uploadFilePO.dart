@@ -170,6 +170,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
   List<XFile>? imagefiles;
   List<File> imagesPath = [];
   chooseimages() async{
+    print('a');
     bool? isCamera = await showDialog(
     context: context,
     builder: (context) => AlertDialog(
@@ -178,7 +179,9 @@ class _uploadfilepoState extends State<uploadfilepo> {
         children: [
           ElevatedButton(
             onPressed: () {
+              print('a');
               takeImages();
+              
             },
             child: Text("Camera"),
           ),
@@ -187,6 +190,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
           ),
           ElevatedButton(
             onPressed: () {
+              print('b');
               openImages();
             },
             child: Text("gallery "),
@@ -231,7 +235,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
     if (pickedfiles != null) {
       imagefiles?.add(pickedfiles!);
       imagesPath.add(File(pickedfiles!.path));
-
+      print('a');
       // Process selected images
 
       setState(() {});
