@@ -170,7 +170,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
   final ImagePicker imgpicker = ImagePicker();
   // List<XFile>? imagefiles;
   List<ImageObject> imagefiles = [];
-  List<ImageObject> imagefilesroot = [];
+  List<ImageObject>? imagefilesroot = [];
   List<File> imagesPath = [];
   openImages() async{
     
@@ -189,7 +189,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
       });
     }
     else  {
-      imagefiles = imagefilesroot;
+      imagefiles = imagefilesroot!;
       imagesPath = [];
       for (var image in imagefiles) {
         imagesPath.add(File(image.originalPath));
