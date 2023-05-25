@@ -169,44 +169,43 @@ class _uploadfilepoState extends State<uploadfilepo> {
   final ImagePicker imgpicker = ImagePicker();
   List<XFile> imagefiles = [];
   List<File> imagesPath = [];
-  chooseimages() async{
+  chooseimages() async {
     print('a');
     bool? isCamera = await showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              print('a');
-              takeImages();
-              
-            },
-            child: Text("Camera"),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              print('b');
-              openImages();
-            },
-            child: Text("gallery "),
-          ),
-        ],
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                print('a');
+                takeImages();
+              },
+              child: Text("Camera"),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                print('b');
+                openImages();
+              },
+              child: Text("gallery "),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
+    );
   }
   // openImages() async {
-    
+
   //   try {
   //     var pickedfiles = await imgpicker.pickMultiImage();
   //     //you can use ImageCourse.camera for Camera capture
   //     if (pickedfiles != null) {
-        
+
   //       for (var image in pickedfiles) {
   //         imagefiles?.add(image);
   //         imagesPath.add(File(image.path));
@@ -236,7 +235,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
   //     imagefiles?.add(pickedfiles!);
   //     print(imagefiles);
   //     imagesPath.add(File(pickedfiles!.path));
-      
+
   //     // Process selected images
 
   //     setState(() {});
@@ -272,20 +271,20 @@ class _uploadfilepoState extends State<uploadfilepo> {
     } else if (images!.isEmpty) {
       // Display error message
 
-     setState(() {
+      setState(() {
         CoolAlert.show(
-          context: context,
-          type: CoolAlertType.error,
-          text: 'Mohon pilih foto',
-          title: 'Error'
-          );
+            context: context,
+            type: CoolAlertType.error,
+            text: 'Mohon pilih foto',
+            title: 'Error');
       });
     }
     // await ImagePicker().pickImage(maxImages:3);
   }
 
   Future takeImages() async {
-    var imagefromphoto = await ImagePicker().pickImage(source: ImageSource.camera);
+    var imagefromphoto =
+        await ImagePicker().pickImage(source: ImageSource.camera);
 
     if (imagefromphoto != null) {
       imagefiles!.add(imagefromphoto!);
@@ -297,13 +296,12 @@ class _uploadfilepoState extends State<uploadfilepo> {
     } else if (imagefromphoto == null) {
       // Display error message
 
-     setState(() {
+      setState(() {
         CoolAlert.show(
-          context: context,
-          type: CoolAlertType.error,
-          text: 'Mohon pilih foto',
-          title: 'Error'
-          );
+            context: context,
+            type: CoolAlertType.error,
+            text: 'Mohon pilih foto',
+            title: 'Error');
       });
     }
   }
@@ -563,8 +561,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
                             .toString(),
                         rcptd_qty_appr: totalApprove.toString(),
                         rcptd_qty_rej: totalReject.toString(),
-                        nopol: datareceipt['get_transport']
-                                ['rcptt_police_no']
+                        nopol: datareceipt['get_transport']['rcptt_police_no']
                             .toString(),
                         angkutan: datareceipt['get_transport'][0]
                                 ['rcptt_transporter_no']
@@ -589,7 +586,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
         setState(() {
           loading = false;
         });
-        
+
         CoolAlert.show(
           context: context,
           type: CoolAlertType.error,
@@ -621,132 +618,143 @@ class _uploadfilepoState extends State<uploadfilepo> {
         : Scaffold(
             body: SafeArea(
               child: LoadingOverlay(
-                isLoading: loading,
-                opacity: 0.8,
-                progressIndicator:
-                    SpinKitFadingCube(color: Colors.purple[300], size: 70.0),
-                color: Colors.grey[100],
-                child: Column(
-                  children: [
-                    Divider(),
-                    Text(
-                      "Upload Image & Tanda Tangan Driver",
-                      style: titleForm,
-                    ),
-                    Divider(),
-                    Text("Daftar Foto:"),
-                    Divider(),
-                    imagefiles != null
-                        ? 
-                        Container(
-                    margin: EdgeInsets.only(top: 50, right: 40),
-                    child: Wrap(
-                      children: imagefiles.map((imageone) {
-                        return InkWell(
-                            onTap: () {
-                              showModalBottomSheet<void>(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Container(
-                                        height: 200,
-                                        color: Colors.purple,
-                                        child: Center(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              Text(
-                                                  'Yakin ingin menghilangkan foto ini?'
-                                                      
-                                                      ,
-                                                  style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 15,
-                                                      color: Colors.white)),
-                                              ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                    primary: Colors.white),
-                                                child: const Text(
-                                                    'tekan tombol ini untuk menghilangkan foto',
-                                                    style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 15,
-                                                        color: Colors.black)),
-                                                onPressed: () {
-                                                  imagefiles.remove(imageone);
-                                                  Navigator.pop(context);
-                                                    CoolAlert.show(
-                                                      context: context,
-                                                      type: CoolAlertType.success,
-                                                      text: 'Foto berhasil dihilangkan',
-                                                      title: 'Success');
+                  isLoading: loading,
+                  opacity: 0.8,
+                  progressIndicator:
+                      SpinKitFadingCube(color: Colors.purple[300], size: 70.0),
+                  color: Colors.grey[100],
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Divider(),
+                        Text(
+                          "Upload Image & Tanda Tangan Driver",
+                          style: titleForm,
+                        ),
+                        Divider(),
+                        Text("Daftar Foto:"),
+                        Divider(),
+                        imagefiles != null
+                            ? Container(
+                                margin: EdgeInsets.only(top: 50, right: 40),
+                                child: Wrap(
+                                  children: imagefiles.map((imageone) {
+                                    return InkWell(
+                                        onTap: () {
+                                          showModalBottomSheet<void>(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return Container(
+                                                  height: 200,
+                                                  color: Colors.purple,
+                                                  child: Center(
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        Text(
+                                                            'Yakin ingin menghilangkan foto ini?',
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 15,
+                                                                color: Colors
+                                                                    .white)),
+                                                        ElevatedButton(
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                                  primary: Colors
+                                                                      .white),
+                                                          child: const Text(
+                                                              'tekan tombol ini untuk menghilangkan foto',
+                                                              style: const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 15,
+                                                                  color: Colors
+                                                                      .black)),
+                                                          onPressed: () {
+                                                            imagefiles.remove(
+                                                                imageone);
+                                                            Navigator.pop(
+                                                                context);
+                                                            CoolAlert.show(
+                                                                context:
+                                                                    context,
+                                                                type:
+                                                                    CoolAlertType
+                                                                        .success,
+                                                                text:
+                                                                    'Foto berhasil dihilangkan',
+                                                                title:
+                                                                    'Success');
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              });
 
-                                                },
-                                              ),
-                                            ],
+                                          setState(() {});
+                                        },
+                                        child: Card(
+                                          child: Container(
+                                            height: 100,
+                                            width: 100,
+                                            child:
+                                                Image.file(File(imageone.path)),
                                           ),
-                                        ),
-                                      );
-                                    });
-                              
-                              
-                              
-                              setState(() {});
-                            },
-                            child: Card(
-                              child: Container(
-                                height: 100,
-                                width: 100,
-                                child: Image.file(File(imageone.path)),
-                              ),
-                            ));
-                      }).toList(),
-                    ))
-                        : Padding(
-                            padding: const EdgeInsets.only(
-                                top: 10, left: 10, right: 10),
-                            child: Card(
-                              elevation: 5,
-                              shadowColor: Colors.purpleAccent,
-                              shape: BeveledRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: ListTile(
-                                title: Text(
-                                  "Belum Ada Foto yang Dipilih",
-                                  style: content,
+                                        ));
+                                  }).toList(),
+                                ))
+                            : Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10, left: 10, right: 10),
+                                child: Card(
+                                  elevation: 5,
+                                  shadowColor: Colors.purpleAccent,
+                                  shape: BeveledRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5)),
+                                  child: ListTile(
+                                    title: Text(
+                                      "Belum Ada Foto yang Dipilih",
+                                      style: content,
+                                    ),
+                                  ),
+                                )),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Divider(),
+                        Text("Tanda Tangan Driver"),
+                        Divider(),
+                        if (signature != null)
+                          Image.memory(signature!)
+                        else
+                          Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 10, left: 10, right: 10),
+                              child: Card(
+                                elevation: 5,
+                                shadowColor: Colors.purpleAccent,
+                                shape: BeveledRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: ListTile(
+                                  title: Text(
+                                    "Belum ada Tanda Tangan",
+                                    style: content,
+                                  ),
                                 ),
-                              ),
-                            )),
-                    SizedBox(
-                      height: 40,
+                              )),
+                      ],
                     ),
-                    Divider(),
-                    Text("Tanda Tangan Driver"),
-                    Divider(),
-                    if (signature != null)
-                      Image.memory(signature!)
-                    else
-                      Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10, left: 10, right: 10),
-                          child: Card(
-                            elevation: 5,
-                            shadowColor: Colors.purpleAccent,
-                            shape: BeveledRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                            child: ListTile(
-                              title: Text(
-                                "Belum ada Tanda Tangan",
-                                style: content,
-                              ),
-                            ),
-                          )),
-                  ],
-                ),
-              ),
+                  )),
             ),
             floatingActionButton: AnimatedFloatingActionButton(
                 fabButtons: [
