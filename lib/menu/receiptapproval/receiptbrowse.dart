@@ -86,7 +86,7 @@ class _receiptbrowse extends State<receiptbrowse> {
               '&rcptnbr=' +
               search.toString());
               
-print(token);
+
       loadfailed = false;
       final response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: "application/json",

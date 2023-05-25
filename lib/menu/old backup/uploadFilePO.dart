@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_template/menu/laporanTidakSesuai/laporanform.dart';
 import 'package:flutter_template/menu/po/signaturePage.dart';
 import 'package:flutter_template/menu/po/wsaPO.dart';
-// import 'package:image_picker/image_picker.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:animated_floating_buttons/animated_floating_buttons.dart';
 import 'package:cool_alert/cool_alert.dart';
@@ -21,9 +21,6 @@ import 'package:flutter_template/utils/globalurl.dart' as globals;
 import '../../utils/loading.dart';
 import '../../utils/secure_user_login.dart';
 import '../../utils/styles.dart';
-
-import 'package:advance_image_picker/advance_image_picker.dart';
-import 'package:intl/intl.dart';
 
 // State Utama
 class uploadfilepo extends StatefulWidget {
@@ -168,61 +165,59 @@ class _uploadfilepoState extends State<uploadfilepo> {
   }
 
   final ImagePicker imgpicker = ImagePicker();
-  // List<XFile>? imagefiles;
-  List<ImageObject> imagefiles = [];
-  List<ImageObject> imagefilesroot = [];
+  List<XFile>? imagefiles;
   List<File> imagesPath = [];
-  openImages() async{
-    
-    imagefilesroot = await Navigator.of(context)
-              .push(PageRouteBuilder(pageBuilder: (context, animation, __) {
-            return const ImagePicker(maxCount: 5);
-    }));
-    if (imagefilesroot?.isEmpty ?? true) {
-      setState(() {
+  openImages() async {
+    bool? isCamera = await showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            child: Text("Camera"),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: Text("gallery "),
+          ),
+        ],
+      ),
+    ),
+  );
+    try {
+      var pickedfiles = await imgpicker.pickMultiImage();
+      //you can use ImageCourse.camera for Camera capture
+      if (pickedfiles != null) {
+        imagefiles = pickedfiles;
+        for (var image in pickedfiles) {
+          imagesPath.add(File(image.path));
+        }
+        // print(imagesPath);
+        setState(() {});
+      } else {
         CoolAlert.show(
+            context: context,
+            type: CoolAlertType.error,
+            text: 'No Image Selected',
+            title: 'Error');
+      }
+    } catch (e) {
+      CoolAlert.show(
           context: context,
           type: CoolAlertType.error,
-          text: 'Mohon pilih foto',
-          title: 'Error'
-          );
-      });
-    }
-    else  {
-      imagefiles = imagefilesroot;
-      imagesPath = [];
-      for (var image in imagefiles) {
-        imagesPath.add(File(image.originalPath));
-      }
-        setState(() {});
+          text: 'Terdapat Error ketika upload foto',
+          title: 'Error');
     }
   }
-  // openImages() async {
-  //   try {
-  //     var pickedfiles = await imgpicker.pickMultiImage();
-  //     //you can use ImageCourse.camera for Camera capture
-  //     if (pickedfiles != null) {
-  //       imagefiles = pickedfiles;
-  //       for (var image in pickedfiles) {
-  //         imagesPath.add(File(image.path));
-  //       }
-  //       // print(imagesPath);
-  //       setState(() {});
-  //     } else {
-  //       CoolAlert.show(
-  //           context: context,
-  //           type: CoolAlertType.error,
-  //           text: 'No Image Selected',
-  //           title: 'Error');
-  //     }
-  //   } catch (e) {
-  //     CoolAlert.show(
-  //         context: context,
-  //         type: CoolAlertType.error,
-  //         text: 'Terdapat Error ketika upload foto',
-  //         title: 'Error');
-  //   }
-  // }
 
   Widget ttdbtn() {
     return Container(
@@ -478,10 +473,10 @@ class _uploadfilepoState extends State<uploadfilepo> {
                             .toString(),
                         rcptd_qty_appr: totalApprove.toString(),
                         rcptd_qty_rej: totalReject.toString(),
-                        nopol: datareceipt['get_transport']
+                        nopol: datareceipt['get_transport'][0]
                                 ['rcptt_police_no']
                             .toString(),
-                        angkutan: datareceipt['get_transport']
+                        angkutan: datareceipt['get_transport'][0]
                                 ['rcptt_transporter_no']
                             .toString(),
                         supplier: datareceipt['getpo']['po_vend'].toString(),
@@ -504,7 +499,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
         setState(() {
           loading = false;
         });
-        
+        print(responsedata.body);
         CoolAlert.show(
           context: context,
           type: CoolAlertType.error,
@@ -531,85 +526,6 @@ class _uploadfilepoState extends State<uploadfilepo> {
 
   @override
   Widget build(BuildContext context) {
-        // Setup image picker configs
-    final configs = ImagePickerConfigs();
-    // AppBar text color
-    configs.appBarTextColor = Colors.white;
-    configs.appBarBackgroundColor = Colors.black;
-    // Disable select images from album
-    // configs.albumPickerModeEnabled = false;
-    // Only use front camera for capturing
-    // configs.cameraLensDirection = 0;
-    // Translate function
-    configs.translateFunc = (name, value) => Intl.message(value, name: name);
-    // Disable edit function, then add other edit control instead
-    configs.adjustFeatureEnabled = false;
-    configs.externalImageEditors['external_image_editor_1'] = EditorParams(
-        title: 'external_image_editor_1',
-        icon: Icons.edit_rounded,
-        onEditorEvent: (
-                {required BuildContext context,
-                required File file,
-                required String title,
-                int maxWidth = 1080,
-                int maxHeight = 1920,
-                int compressQuality = 90,
-                ImagePickerConfigs? configs}) async =>
-            Navigator.of(context).push(MaterialPageRoute(
-                fullscreenDialog: true,
-                builder: (context) => ImageEdit(
-                    file: file,
-                    title: title,
-                    maxWidth: maxWidth,
-                    maxHeight: maxHeight,
-                    configs: configs))));
-    configs.externalImageEditors['external_image_editor_2'] = EditorParams(
-        title: 'external_image_editor_2',
-        icon: Icons.edit_attributes,
-        onEditorEvent: (
-                {required BuildContext context,
-                required File file,
-                required String title,
-                int maxWidth = 1080,
-                int maxHeight = 1920,
-                int compressQuality = 90,
-                ImagePickerConfigs? configs}) async =>
-            Navigator.of(context).push(MaterialPageRoute(
-                fullscreenDialog: true,
-                builder: (context) => ImageSticker(
-                    file: file,
-                    title: title,
-                    maxWidth: maxWidth,
-                    maxHeight: maxHeight,
-                    configs: configs))));
-
-    // Example about label detection & OCR extraction feature.
-    // You can use Google ML Kit or TensorflowLite for this purpose
-    configs.labelDetectFunc = (String path) async {
-      return <DetectObject>[
-        DetectObject(label: 'dummy1', confidence: 0.75),
-        DetectObject(label: 'dummy2', confidence: 0.75),
-        DetectObject(label: 'dummy3', confidence: 0.75)
-      ];
-    };
-    configs.ocrExtractFunc =
-        (String path, {bool? isCloudService = false}) async {
-      if (isCloudService!) {
-        return 'Cloud dummy ocr text';
-      } else {
-        return 'Dummy ocr text';
-      }
-    };
-
-    // Example about custom stickers
-    configs.customStickerOnly = true;
-    configs.customStickers = [
-      'assets/icon/cus1.png',
-      'assets/icon/cus2.png',
-      'assets/icon/cus3.png',
-      'assets/icon/cus4.png',
-      'assets/icon/cus5.png'
-    ];
     return loading
         ? Loading()
         : Scaffold(
@@ -638,7 +554,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
                                 child: Container(
                                   height: 100,
                                   width: 100,
-                                  child: Image.file(File(imageone.originalPath)),
+                                  child: Image.file(File(imageone.path)),
                                 ),
                               ));
                             }).toList(),

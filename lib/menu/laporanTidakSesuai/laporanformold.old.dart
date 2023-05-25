@@ -4,15 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_template/main.dart';
 import 'package:flutter_template/utils/secure_user_login.dart';
 import 'package:http/http.dart' as http;
-// import 'package:image_picker/image_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter_template/utils/loading.dart';
 import 'package:flutter_template/utils/globalurl.dart' as globals;
 import '../../utils/styles.dart';
-
-import 'package:advance_image_picker/advance_image_picker.dart';
 
 class laporanform extends StatefulWidget {
   final String ponbr,
@@ -67,23 +65,29 @@ class _laporanform extends State<laporanform> {
   String rcptnbr = '';
   late String responseresult = '';
   bool loading = false;
-  // late List<XFile>? imagesname;
-  // late List<XFile>? imagesdata;
-  // late List<XFile>? images;
-  // XFile? imagefromphoto;
-  // List<XFile> imagefiles = [];
+  late List<XFile>? imagesname;
+  late List<XFile>? imagesdata;
+  late List<XFile>? images;
+  XFile? imagefromphoto;
+  List<XFile> imagefiles = [];
   List<File> imagesPath = [];
-  
-  List<ImageObject> imagefiles = [];
-  List<ImageObject> imagefilesroot = [];
   DateTime now = DateTime.now();
   
   Future pickImage() async {
-    imagefilesroot = await Navigator.of(context)
-              .push(PageRouteBuilder(pageBuilder: (context, animation, __) {
-            return const ImagePicker(maxCount: 5);
-              }));
-    if (imagefilesroot?.isEmpty ?? true) {
+    images = await ImagePicker().pickMultiImage();
+
+    if (images!.isNotEmpty) {
+      // Process selected images
+
+      for (var image in images!) {
+        imagesPath.add(File(image.path));
+        imagefiles.add(image);
+        // Do something with the selected image
+      }
+      setState(() {});
+    } else if (images!.isEmpty) {
+      // Display error message
+
       setState(() {
         ArtSweetAlert.show(
             context: context,
@@ -92,66 +96,33 @@ class _laporanform extends State<laporanform> {
                 title: "Error",
                 text: "Mohon pilih foto"));
       });
-
     }
-    else  {
-      imagefiles = imagefilesroot;
-      imagesPath = [];
-      for (var image in imagefiles) {
-        imagesPath.add(File(image.originalPath));
-      }
-        setState(() {});
-    }
-
-    
-
-    // if (imagefiles!.isNotEmpty) {
-    //   // Process selected images
-
-    //   for (var image in imagefiles!) {
-    //     imagesPath.add(File(image.path));
-    //     imagefiles.add(image);
-    //     // Do something with the selected image
-    //   }
-    //   setState(() {});
-    // } else if (images!.isEmpty) {
-    //   // Display error message
-
-    //   setState(() {
-    //     ArtSweetAlert.show(
-    //         context: context,
-    //         artDialogArgs: ArtDialogArgs(
-    //             type: ArtSweetAlertType.danger,
-    //             title: "Error",
-    //             text: "Mohon pilih foto"));
-    //   });
-    // }
     // await ImagePicker().pickImage(maxImages:3);
   }
 
-  // Future takeImage() async {
-  //   imagefromphoto = await ImagePicker().pickImage(source: ImageSource.camera);
+  Future takeImage() async {
+    imagefromphoto = await ImagePicker().pickImage(source: ImageSource.camera);
 
-  //   if (imagefromphoto != null) {
-  //     imagefiles.add(imagefromphoto!);
-  //     imagesPath.add(File(imagefromphoto!.path));
+    if (imagefromphoto != null) {
+      imagefiles.add(imagefromphoto!);
+      imagesPath.add(File(imagefromphoto!.path));
 
-  //     // Process selected images
+      // Process selected images
 
-  //     setState(() {});
-  //   } else if (imagefromphoto == null) {
-  //     // Display error message
+      setState(() {});
+    } else if (imagefromphoto == null) {
+      // Display error message
 
-  //     setState(() {
-  //       ArtSweetAlert.show(
-  //           context: context,
-  //           artDialogArgs: ArtDialogArgs(
-  //               type: ArtSweetAlertType.danger,
-  //               title: "Error",
-  //               text: "Mohon pilih foto"));
-  //     });
-  //   }
-  // }
+      setState(() {
+        ArtSweetAlert.show(
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+                type: ArtSweetAlertType.danger,
+                title: "Error",
+                text: "Mohon pilih foto"));
+      });
+    }
+  }
 
   Future<Object?> sendlaporan(String url) async {
     final token = await UserSecureStorage.getToken();
@@ -287,90 +258,7 @@ class _laporanform extends State<laporanform> {
   }
 
   @override
-  Widget build(BuildContext context) { 
-
-    // Setup image picker configs
-    final configs = ImagePickerConfigs();
-    // AppBar text color
-    configs.appBarTextColor = Colors.white;
-    configs.appBarBackgroundColor = Colors.black;
-    // Disable select images from album
-    configs.albumPickerModeEnabled = true;
-    // Only use front camera for capturing
-    // configs.cameraLensDirection = 0;
-    // Translate function
-    configs.translateFunc = (name, value) => Intl.message(value, name: name);
-    // Disable edit function, then add other edit control instead
-    configs.adjustFeatureEnabled = false;
-    configs.externalImageEditors['external_image_editor_1'] = EditorParams(
-        title: 'external_image_editor_1',
-        icon: Icons.edit_rounded,
-        onEditorEvent: (
-                {required BuildContext context,
-                required File file,
-                required String title,
-                int maxWidth = 1080,
-                int maxHeight = 1920,
-                int compressQuality = 90,
-                ImagePickerConfigs? configs}) async =>
-            Navigator.of(context).push(MaterialPageRoute(
-                fullscreenDialog: true,
-                builder: (context) => ImageEdit(
-                    file: file,
-                    title: title,
-                    maxWidth: maxWidth,
-                    maxHeight: maxHeight,
-                    configs: configs))));
-
-    // configs.externalImageEditors['external_image_editor_2'] = EditorParams(
-    //     title: 'external_image_editor_2',
-    //     icon: Icons.edit_attributes,
-    //     onEditorEvent: (
-    //             {required BuildContext context,
-    //             required File file,
-    //             required String title,
-    //             int maxWidth = 1080,
-    //             int maxHeight = 1920,
-    //             int compressQuality = 90,
-    //             ImagePickerConfigs? configs}) async =>
-    //         Navigator.of(context).push(MaterialPageRoute(
-    //             fullscreenDialog: true,
-    //             builder: (context) => ImageSticker(
-    //                 file: file,
-    //                 title: title,
-    //                 maxWidth: maxWidth,
-    //                 maxHeight: maxHeight,
-    //                 configs: configs))));
-
-    // Example about label detection & OCR extraction feature.
-    // You can use Google ML Kit or TensorflowLite for this purpose
-    configs.labelDetectFunc = (String path) async {
-      return <DetectObject>[
-        DetectObject(label: 'dummy1', confidence: 0.75),
-        DetectObject(label: 'dummy2', confidence: 0.75),
-        DetectObject(label: 'dummy3', confidence: 0.75)
-      ];
-    };
-    configs.ocrExtractFunc =
-        (String path, {bool? isCloudService = false}) async {
-      if (isCloudService!) {
-        return 'Cloud dummy ocr text';
-      } else {
-        return 'Dummy ocr text';
-      }
-    };
-
-    // Example about custom stickers
-    configs.customStickerOnly = true;
-    configs.customStickers = [
-      'assets/icon/cus1.png',
-      'assets/icon/cus2.png',
-      'assets/icon/cus3.png',
-      'assets/icon/cus4.png',
-      'assets/icon/cus5.png'
-    ];
-
-    return loading
+  Widget build(BuildContext context) => loading
       ? const Loading()
       : Scaffold(
           body: Stepper(
@@ -476,7 +364,6 @@ class _laporanform extends State<laporanform> {
             },
           ),
         );
-  }
   List<Step> getSteps() => [
         Step(
           state: currentStep > 0 ? StepState.complete : StepState.indexed,
@@ -925,48 +812,15 @@ class _laporanform extends State<laporanform> {
                     child: Text(''),
                   ),
                 ]),
-                // TableRow(children: [
-                  // Container(
-                  //   height: 50,
-                  //   alignment: Alignment.centerLeft,
-                  //   child: ElevatedButton(
-                  //     style: ElevatedButton.styleFrom(
-                  //         primary: Colors.orange[400],
-                  //         minimumSize: Size(100, 50)),
-                  //     child: const Text('Pick Images',
-                  //         style: const TextStyle(
-                  //             fontWeight: FontWeight.bold,
-                  //             fontSize: 15,
-                  //             color: Colors.black)),
-                  //     onPressed: () => pickImage(),
-                  //   ),
-                  // ),
-                  // Container(
-                  //   height: 50,
-                  //   alignment: Alignment.centerLeft,
-                  //   child: ElevatedButton(
-                  //     style: ElevatedButton.styleFrom(
-                  //         primary: Colors.yellow[300],
-                  //         minimumSize: Size(100, 50)),
-                  //     child: const Text('Take Photo',
-                  //         style: const TextStyle(
-                  //             fontWeight: FontWeight.bold,
-                  //             fontSize: 15,
-                  //             color: Colors.black)),
-                  //     onPressed: () => takeImage(),
-                  //   ),
-                  // ),
-                // ]),
-              // ],
-          ]),
-          Container(
+                TableRow(children: [
+                  Container(
                     height: 50,
                     alignment: Alignment.centerLeft,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           primary: Colors.orange[400],
-                          minimumSize: Size(270, 50)),
-                      child: const Text('Pick Images',
+                          minimumSize: Size(100, 50)),
+                      child: const Text('Gallery',
                           style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
@@ -974,7 +828,25 @@ class _laporanform extends State<laporanform> {
                       onPressed: () => pickImage(),
                     ),
                   ),
-            (imagefiles?.isNotEmpty == true && imagefiles != [] )
+                  Container(
+                    height: 50,
+                    alignment: Alignment.centerLeft,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.yellow[300],
+                          minimumSize: Size(100, 50)),
+                      child: const Text('Take Photo',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: Colors.black)),
+                      onPressed: () => takeImage(),
+                    ),
+                  ),
+                ]),
+              ],
+            ),
+            imagefiles != []
                 ? Container(
                     margin: EdgeInsets.only(top: 50, right: 40),
                     child: Wrap(
@@ -1038,7 +910,7 @@ class _laporanform extends State<laporanform> {
                               child: Container(
                                 height: 100,
                                 width: 100,
-                                child: Image.file(File(imageone.originalPath)),
+                                child: Image.file(File(imageone.path)),
                               ),
                             ));
                       }).toList(),
