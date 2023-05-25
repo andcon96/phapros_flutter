@@ -167,7 +167,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
   }
 
   final ImagePicker imgpicker = ImagePicker();
-  List<XFile>? imagefiles;
+  List<XFile> imagefiles = [];
   List<File> imagesPath = [];
   chooseimages() async{
     print('a');
@@ -200,49 +200,104 @@ class _uploadfilepoState extends State<uploadfilepo> {
     ),
   );
   }
-  openImages() async {
+  // openImages() async {
     
-    try {
-      var pickedfiles = await imgpicker.pickMultiImage();
-      //you can use ImageCourse.camera for Camera capture
-      if (pickedfiles != null) {
+  //   try {
+  //     var pickedfiles = await imgpicker.pickMultiImage();
+  //     //you can use ImageCourse.camera for Camera capture
+  //     if (pickedfiles != null) {
         
-        for (var image in pickedfiles) {
-          imagefiles?.add(image);
-          imagesPath.add(File(image.path));
-        }
-        // print(imagesPath);
-        setState(() {});
-      } else {
-        CoolAlert.show(
-            context: context,
-            type: CoolAlertType.error,
-            text: 'No Image Selected',
-            title: 'Error');
+  //       for (var image in pickedfiles) {
+  //         imagefiles?.add(image);
+  //         imagesPath.add(File(image.path));
+  //       }
+  //       // print(imagesPath);
+  //       setState(() {});
+  //     } else {
+  //       CoolAlert.show(
+  //           context: context,
+  //           type: CoolAlertType.error,
+  //           text: 'No Image Selected',
+  //           title: 'Error');
+  //     }
+  //   } catch (e) {
+  //     CoolAlert.show(
+  //         context: context,
+  //         type: CoolAlertType.error,
+  //         text: 'Terdapat Error ketika upload foto',
+  //         title: 'Error');
+  //   }
+  // }
+
+  // Future takeImages() async {
+  //   var pickedfiles = await ImagePicker().pickImage(source: ImageSource.camera);
+
+  //   if (pickedfiles != null) {
+  //     imagefiles?.add(pickedfiles!);
+  //     print(imagefiles);
+  //     imagesPath.add(File(pickedfiles!.path));
+      
+  //     // Process selected images
+
+  //     setState(() {});
+  //   } else if (pickedfiles == null) {
+  //     // Display error message
+
+  //     setState(() {
+  //       CoolAlert.show(
+  //         context: context,
+  //         type: CoolAlertType.error,
+  //         text: 'Mohon pilih foto',
+  //         title: 'Error'
+  //         );
+  //     });
+  //   }
+  //   else{
+  //     print('c');
+  //   }
+  // }
+
+  Future openImages() async {
+    var images = await ImagePicker().pickMultiImage();
+
+    if (images!.isNotEmpty) {
+      // Process selected images
+
+      for (var image in images!) {
+        imagesPath.add(File(image.path));
+        imagefiles!.add(image);
+        // Do something with the selected image
       }
-    } catch (e) {
-      CoolAlert.show(
+      setState(() {});
+    } else if (images!.isEmpty) {
+      // Display error message
+
+     setState(() {
+        CoolAlert.show(
           context: context,
           type: CoolAlertType.error,
-          text: 'Terdapat Error ketika upload foto',
-          title: 'Error');
+          text: 'Mohon pilih foto',
+          title: 'Error'
+          );
+      });
     }
+    // await ImagePicker().pickImage(maxImages:3);
   }
 
   Future takeImages() async {
-    var pickedfiles = await ImagePicker().pickImage(source: ImageSource.camera);
+    var imagefromphoto = await ImagePicker().pickImage(source: ImageSource.camera);
 
-    if (pickedfiles != null) {
-      imagefiles?.add(pickedfiles!);
-      imagesPath.add(File(pickedfiles!.path));
-      print('a');
+    if (imagefromphoto != null) {
+      imagefiles!.add(imagefromphoto!);
+      imagesPath.add(File(imagefromphoto!.path));
+
       // Process selected images
 
       setState(() {});
-    } else if (pickedfiles == null) {
+    } else if (imagefromphoto == null) {
       // Display error message
 
-      setState(() {
+     setState(() {
         CoolAlert.show(
           context: context,
           type: CoolAlertType.error,
@@ -252,6 +307,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
       });
     }
   }
+
   Widget ttdbtn() {
     return Container(
       padding: EdgeInsets.only(bottom: 5),
@@ -581,10 +637,11 @@ class _uploadfilepoState extends State<uploadfilepo> {
                     Text("Daftar Foto:"),
                     Divider(),
                     imagefiles != null
-                        ? Container(
+                        ? 
+                        Container(
                     margin: EdgeInsets.only(top: 50, right: 40),
                     child: Wrap(
-                      children: imagefiles!.map((imageone) {
+                      children: imagefiles.map((imageone) {
                         return InkWell(
                             onTap: () {
                               showModalBottomSheet<void>(
@@ -619,15 +676,14 @@ class _uploadfilepoState extends State<uploadfilepo> {
                                                         fontSize: 15,
                                                         color: Colors.black)),
                                                 onPressed: () {
-                                                  imagefiles!.remove(imageone);
+                                                  imagefiles.remove(imageone);
                                                   Navigator.pop(context);
-                                                  CoolAlert.show(
-                                                    context: context,
-                                                    type: CoolAlertType.success,
-                                                    text: 'Foto berhasil dihilangkan',
-                                                    title: 'Success');
-      
-                                                  setState(() {});
+                                                    CoolAlert.show(
+                                                      context: context,
+                                                      type: CoolAlertType.success,
+                                                      text: 'Foto berhasil dihilangkan',
+                                                      title: 'Success');
+
                                                 },
                                               ),
                                             ],

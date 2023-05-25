@@ -797,7 +797,7 @@ Widget _textInputReadonly({controller, hint}) {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Clean'),
+                      title: const Text('Bersih'),
                       leading: Radio(
                         value: '1',
                         groupValue: _isclean,
@@ -807,7 +807,7 @@ Widget _textInputReadonly({controller, hint}) {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Dirty'),
+                      title: const Text('Kotor'),
                       leading: Radio(
                         value: '0',
                         groupValue: _isclean,
