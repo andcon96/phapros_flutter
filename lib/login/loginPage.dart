@@ -34,20 +34,41 @@ class _LoginPageState extends State<LoginPage> {
         await http.post(Uri.parse('${globals.globalurl}/login'), body: {
       "nik": _userCon.text,
       "password": _passCon.text,
-    }).timeout(const Duration(seconds: 20), onTimeout: () {
-      setState(() {
-        loading = false;
-        ArtSweetAlert.show(
+    }).timeout(const Duration(seconds: 5), onTimeout: () 
+    {
+      
+      // setState(() {
+      //   loading = false;
+      //   ArtSweetAlert.show(
+      //       context: context,
+      //       artDialogArgs: ArtDialogArgs(
+      //           type: ArtSweetAlertType.danger,
+      //           title: "Error",
+      //           text: "Failed to login, Error"));
+      // });
+      return http.Response('Timeout', 500);
+    }
+    
+    );
+    
+    if(response.statusCode == 200){
+          return json.decode(response.body);
+    }
+    else{
+        setState(() {
+          loading = false;
+          ArtSweetAlert.show(
             context: context,
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.danger,
                 title: "Error",
-                text: "Failed to login"));
-      });
-      return http.Response('Timeout', 500);
-    });
+                text: "Failed to login, Error " + response.statusCode.toString()));
+        });
+      
+    }
+
     
-    return json.decode(response.body);
+
   }
 
   bool loading = false;
@@ -243,6 +264,8 @@ class _LoginPageState extends State<LoginPage> {
                                               setState(() => loading = true);
                                               LoginUser().then((value) async {
                                                 if (value == null) {
+                                                  setState(
+                                                      () => loading = false);
                                                 } else if (value['message'] ==
                                                     "Error") {
                                                   setState(
