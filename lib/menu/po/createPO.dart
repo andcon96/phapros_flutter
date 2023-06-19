@@ -97,6 +97,8 @@ class _createpoState extends State<createpo> {
         final body = result['data'];
         final prefixitem = result['prefixitem'];
 
+        // print(prefixitem);
+
         valueprefix = body[0]['pin_prefix'] + '|' + body[0]['pin_rn'];
         rnItem = prefixitem['item_rn'] ?? '000000';
 
@@ -169,6 +171,7 @@ class _createpoState extends State<createpo> {
     arrivaldate.text = DateFormat('yyyy-MM-dd').format(now);
     imrdate.text = DateFormat('yyyy-MM-dd').format(now);
     manufacturer.text = widget.selectedline[0].tLvcManufacturer ?? '';
+    origincountry.text = widget.selectedline[0].tLvcCountry ?? '';
 
     getPrefixIMR();
   }
@@ -310,7 +313,7 @@ class _createpoState extends State<createpo> {
                         icon: const Icon(Icons.arrow_drop_down),
                         onChanged: (value) {
                           setState(() {
-                            print(rnItem);
+                            // print(rnItem);
                             valueprefix = value!;
                             totalpengiriman = 1;
                             List<String> parts = value.split('|');

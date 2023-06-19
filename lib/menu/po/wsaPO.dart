@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:art_sweetalert/art_sweetalert.dart';
@@ -115,14 +116,17 @@ class _wsaPOState extends State<wsaPO> {
               artDialogArgs: ArtDialogArgs(
                   type: ArtSweetAlertType.danger,
                   title: "Error",
-                  text: "Gagal memuat Data"));
+                  text: "Time Out, Gagal memuat Data Lokasi"));
         });
         return http.Response('Error', 500);
       });
 
       if (response.statusCode == 200) {
         setState(() {
-          listLocation = json.decode(response.body)['data'];
+          // log(response.body);
+          // final responseBody = utf8.decode(response.bodyBytes);
+          listLocation = jsonDecode(response.body)['data'];
+          // print(responseBody);
         });
 
         getWsaPO(_textCont.text);
@@ -131,6 +135,7 @@ class _wsaPOState extends State<wsaPO> {
       } else {
         setState(() {
           overlayLoading = false;
+          print(response.body);
         });
         ArtSweetAlert.show(
             context: context,
@@ -143,6 +148,7 @@ class _wsaPOState extends State<wsaPO> {
     } on Exception catch (e) {
       setState(() {
         overlayLoading = false;
+        print(e);
       });
       ArtSweetAlert.show(
           context: context,
@@ -367,6 +373,7 @@ class _wsaPOState extends State<wsaPO> {
                                           user.tIsSelected ?? false,
                                           user.tLvcUm ?? '',
                                           user.tLvcManufacturer ?? '',
+                                          user.tLvcCountry ?? '',
                                           index);
                                     },
                                     separatorBuilder: (context, index) =>
@@ -445,6 +452,7 @@ class _wsaPOState extends State<wsaPO> {
       bool isSelected,
       String um,
       String manufacturer,
+      String country,
       int index) {
     return ListTile(
       // ignore: prefer_const_constructors
@@ -495,7 +503,8 @@ class _wsaPOState extends State<wsaPO> {
                 tLvdQtyord: qtyord,
                 tLvcUm: um,
                 tLvdPrice: price,
-                tLvcManufacturer: manufacturer));
+                tLvcManufacturer: manufacturer,
+                tLvcCountry: country));
           } else if (detailpo[index].tIsSelected == false) {
             selectedDetailPO.removeWhere(
                 (element) => element.tLviLine == detailpo[index].tLviLine);

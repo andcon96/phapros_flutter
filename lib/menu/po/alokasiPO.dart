@@ -282,7 +282,14 @@ class _CartWidgetState extends State<CartWidget> {
   @override
   void initState() {
     super.initState();
-    // Assign Ulang Value kalo gagal / back
+
+    // Assign Ulang Value kalo gagal / back + Tambah Lot 19 Jun 23
+    var datalot = widget.cart[widget.index].tIMRNo.toString();
+    if (widget.index > 0) {
+      var newlot = String.fromCharCode(widget.index + 64);
+      datalot = '$datalot - $newlot';
+    }
+
     batch.text = widget.cart[widget.index].tLvcBatch == null
         ? ''
         : widget.cart[widget.index].tLvcBatch.toString();
@@ -290,7 +297,7 @@ class _CartWidgetState extends State<CartWidget> {
         ? ''
         : widget.cart[widget.index].tLvcLoc.toString();
     lot.text = widget.cart[widget.index].tLvcLot == null
-        ? ''
+        ? datalot
         : widget.cart[widget.index].tLvcLot.toString();
     qtydatang.text = widget.cart[widget.index].tLvdQtyDatang == null
         ? ''
@@ -841,6 +848,8 @@ class _alokasipoState extends State<alokasipo> {
               tLviLine: widget.selectedline[0].tLviLine,
               tLvcPart: widget.selectedline[0].tLvcPart,
               tLvcPartDesc: widget.selectedline[0].tLvcPartDesc,
+              tLvcLoc: widget.listLocation[0]['t_site_loc'],
+              tIMRNo: widget.imrno,
               tIsSaved: false));
           setState(() {});
         },

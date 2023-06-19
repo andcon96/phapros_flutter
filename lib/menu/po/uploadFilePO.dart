@@ -163,14 +163,12 @@ class _uploadfilepoState extends State<uploadfilepo> {
   @override
   void initState() {
     super.initState();
-    print(widget.imrno);
   }
 
   final ImagePicker imgpicker = ImagePicker();
   List<XFile> imagefiles = [];
   List<File> imagesPath = [];
   chooseimages() async {
-    print('a');
     bool? isCamera = await showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -179,7 +177,6 @@ class _uploadfilepoState extends State<uploadfilepo> {
           children: [
             ElevatedButton(
               onPressed: () {
-                print('a');
                 takeImages();
               },
               child: Text("Camera"),
@@ -189,7 +186,6 @@ class _uploadfilepoState extends State<uploadfilepo> {
             ),
             ElevatedButton(
               onPressed: () {
-                print('b');
                 openImages();
               },
               child: Text("gallery "),
@@ -563,7 +559,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
                         rcptd_qty_rej: totalReject.toString(),
                         nopol: datareceipt['get_transport']['rcptt_police_no']
                             .toString(),
-                        angkutan: datareceipt['get_transport'][0]
+                        angkutan: datareceipt['get_transport']
                                 ['rcptt_transporter_no']
                             .toString(),
                         supplier: datareceipt['getpo']['po_vend'].toString(),
