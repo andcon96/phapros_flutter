@@ -180,11 +180,13 @@ class _receiptform extends State<receiptform> {
   
 
   final children = <Widget>[];
-  Future<void> getPassData({String? search}) async {
+  final childrendetail = <Widget>[];
+  
+  Future<void> getFoto({String? search}) async {
     final token = await UserSecureStorage.getToken();
     final id = await UserSecureStorage.getIdAnggota();
     final Uri url = Uri.parse(
-          '${globals.globalurl}/getreceiptdetail?rcptnbr=' +
+          '${globals.globalurl}/getreceiptfoto?rcptnbr=' +
               search.toString());
 
 
@@ -222,6 +224,104 @@ class _receiptform extends State<receiptform> {
               )
             ),
           );
+        });
+      }
+  }
+
+  Future<void> getDetail({String? search}) async {
+    final token = await UserSecureStorage.getToken();
+    final id = await UserSecureStorage.getIdAnggota();
+    final Uri url = Uri.parse(
+          '${globals.globalurl}/getreceiptdetail?rcptnbr=' +
+              search.toString());
+
+
+    final response = await http.get(url, headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: "Bearer $token"
+      }).timeout(const Duration(seconds: 20), onTimeout: () {
+        setState(() {
+          
+          ArtSweetAlert.show(
+              context: context,
+              artDialogArgs: ArtDialogArgs(
+                  type: ArtSweetAlertType.danger,
+                  title: "Error",
+                  text: "Failed to load data"));
+          
+        });
+        return http.Response('Error', 500);
+      });
+      List<dynamic>? responseresult = json.decode(response.body);
+      
+      if(responseresult != []){
+        responseresult?.asMap().forEach((index,element) {
+          childrendetail.addAll([
+            _textInput(
+                  hint: "Line",
+                  controller: TextEditingController(text: element['rcptd_line'].toString()),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                _textInput(
+                  hint: "Part",
+                  controller: TextEditingController(text: element['rcptd_part']),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                _textInput(
+                  hint: "Qty Datang",
+                  controller: TextEditingController(text: element['rcptd_qty_arr']),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                
+                _textInput(
+                  hint: "Qty Reject",
+                  controller: TextEditingController(text: element['rcptd_qty_rej']),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                _textInput(
+                  hint: "Qty Approve",
+                  controller: TextEditingController(text: element['rcptd_qty_appr']),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                _textInput(
+                  hint: "Location",
+                  controller: TextEditingController(text: element['rcptd_loc']),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                _textInput(
+                  hint: "Lot",
+                  controller: TextEditingController(text: element['rcptd_lot']),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                _textInput(
+                  hint: "Batch",
+                  controller: TextEditingController(text: element['rcptd_batch']),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                _textInput(
+                  hint: "Site",
+                  controller: TextEditingController(text: element['rcptd_site']),
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+          ]);
         });
       }
   }
@@ -419,7 +519,8 @@ class _receiptform extends State<receiptform> {
   void initState() {
     super.initState();
     String rcptnumber = widget.rcpt_nbr;
-    getPassData(search: rcptnumber);
+    getFoto(search: rcptnumber);
+    getDetail(search: rcptnumber);
     IdRcp = TextEditingController(text: widget.rcpt_nbr);
     NamaBarang = TextEditingController(
         text: widget.rcptd_part != 'null' ? widget.rcptd_part : '');
@@ -1226,9 +1327,16 @@ Widget _textInputReadonly({controller, hint}) {
                 ),
               ],
             )),
-            Step(
+          Step(
             state: _activeStepIndex <= 7 ? StepState.editing : StepState.complete,
             isActive: _activeStepIndex >= 7,
+            title: const Text('Detail Alokasi'),
+            content: Column(
+              children: childrendetail
+            )),
+            Step(
+            state: _activeStepIndex <= 8 ? StepState.editing : StepState.complete,
+            isActive: _activeStepIndex >= 8,
             title: const Text('Foto'),
             content: Wrap(
             children: children
