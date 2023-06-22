@@ -284,10 +284,10 @@ class _CartWidgetState extends State<CartWidget> {
     super.initState();
 
     // Assign Ulang Value kalo gagal / back + Tambah Lot 19 Jun 23
-    var datalot = widget.cart[widget.index].tIMRNo.toString();
+    var datalot = widget.cart[widget.index].tIMRNo.toString().substring(3, 12);
     if (widget.index > 0) {
       var newlot = String.fromCharCode(widget.index + 64);
-      datalot = '$datalot - $newlot';
+      datalot = '$datalot$newlot';
     }
 
     batch.text = widget.cart[widget.index].tLvcBatch == null

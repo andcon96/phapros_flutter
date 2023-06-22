@@ -135,7 +135,7 @@ class _createpoState extends State<createpo> {
 
         // var fullimr = prefix + '/' + newrn + '/' + totalrn;
 
-        var fullimr = '$prefix/$newrnItem/$newrn';
+        var fullimr = '$prefix.$currentYear/$newrnItem/$newrn';
         imrno.text = fullimr;
         return true;
       } else {
@@ -355,7 +355,9 @@ class _createpoState extends State<createpo> {
                                 totalpengiriman.toString().padLeft(3, '0');
 
                             // var fullimr = prefix + '/' + newrn + '/' + totalrn;
-                            var fullimr = '$prefix/$newrnItem/$newrn';
+                            // var fullimr = '$prefix/$newrnItem/$newrn';
+                            var fullimr =
+                                '$prefix.$currentYear/$newrnItem/$newrn';
                             imrno.text = fullimr;
                           });
                         })),
