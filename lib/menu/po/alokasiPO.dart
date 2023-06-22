@@ -144,62 +144,17 @@ class DropdownLocation extends StatefulWidget {
 class _DropdownLocationState extends State<DropdownLocation> {
   String dropdownValue = '';
   List<dynamic> listLocation = [];
-
-  // Future<bool> getLocation() async {
-  //   try {
-  //     final token = await UserSecureStorage.getToken();
-
-  //     final Uri url = Uri.parse('${globals.globalurl}/wsaloc');
-
-  //     final response = await http.get(url, headers: {
-  //       HttpHeaders.contentTypeHeader: "application/json",
-  //       HttpHeaders.authorizationHeader: "Bearer $token"
-  //     }).timeout(const Duration(milliseconds: 5000), onTimeout: () {
-  //       setState(() {
-  //         ArtSweetAlert.show(
-  //             context: context,
-  //             artDialogArgs: ArtDialogArgs(
-  //                 type: ArtSweetAlertType.danger,
-  //                 title: "Error",
-  //                 text: "Failed to load data"));
-  //       });
-  //       return http.Response('Error', 500);
-  //     });
-
-  //     if (response.statusCode == 200) {
-  //       setState(() {
-  //         listLocation = json.decode(response.body)['data'];
-  //         dropdownValue = listLocation[0]['t_site_loc'] ?? '';
-  //         widget.cartItem.tLvcLoc = dropdownValue;
-  //       });
-
-  //       return true;
-  //     } else {
-  //       ArtSweetAlert.show(
-  //           context: context,
-  //           artDialogArgs: ArtDialogArgs(
-  //               type: ArtSweetAlertType.danger,
-  //               title: "Error",
-  //               text: "Could not get Location Data"));
-  //       return false;
-  //     }
-  //   } on Exception catch (e) {
-  //     ArtSweetAlert.show(
-  //         context: context,
-  //         artDialogArgs: ArtDialogArgs(
-  //             type: ArtSweetAlertType.danger,
-  //             title: "Error",
-  //             text: "Error Load Location"));
-  //     return false;
-  //   }
-  // }
+  bool _isInitial = false;
 
   @override
   void initState() {
     super.initState();
-    // print(widget.listLocation);
-    dropdownValue = widget.listLocation[0]['t_site_loc'] ?? '';
-    // getLocation();
+    print(widget.cartItem.tLvcLoc);
+    if (!_isInitial) {
+      // dropdownValue = widget.listLocation[0]['t_site_loc'] ?? '';
+      dropdownValue = widget.cartItem.tLvcLoc ?? '';
+      _isInitial = true;
+    }
   }
 
   @override
