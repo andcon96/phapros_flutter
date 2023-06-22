@@ -689,6 +689,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
                                                                     'Foto berhasil dihilangkan',
                                                                 title:
                                                                     'Success');
+                                                            setState(() {});
                                                           },
                                                         ),
                                                       ],
