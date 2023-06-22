@@ -119,10 +119,10 @@ class _createpoState extends State<createpo> {
         }
 
         // Cek Nomor RN per Prefix per Tahun
-        var newrn = '001';
+        var newrn = '0001';
         if (oldyear == currentYear) {
           var oldrn = int.parse(body[0]['pin_rn'].substring(2));
-          newrn = (oldrn + 1).toString().padLeft(3, '0'); // 2 Jadi 3
+          newrn = (oldrn + 1).toString().padLeft(4, '0'); // 2 Jadi 3
         }
         var newrnItem = '01';
         if (oldyearItem == currentYear) {
@@ -131,7 +131,7 @@ class _createpoState extends State<createpo> {
         }
 
         var prefix = body[0]['pin_prefix'];
-        var totalrn = totalpengiriman.toString().padLeft(3, '0');
+        var totalrn = totalpengiriman.toString().padLeft(4, '0');
 
         // var fullimr = prefix + '/' + newrn + '/' + totalrn;
 
@@ -336,13 +336,13 @@ class _createpoState extends State<createpo> {
                             }
 
                             // Cek Nomor RN per Prefix per Tahun
-                            var newrn = '01';
+                            var newrn = '0001';
                             var newrnItem = '01';
                             if (oldyear == currentYear) {
                               var oldrn = int.parse(parts[1].substring(2));
                               newrn = (oldrn + 1)
                                   .toString()
-                                  .padLeft(3, '0'); // 2 Jadi 3
+                                  .padLeft(4, '0'); // 2 Jadi 3
                             }
                             if (oldyearItem == currentYear) {
                               var oldrnItem = int.parse(rnItem.substring(2));
@@ -352,7 +352,7 @@ class _createpoState extends State<createpo> {
 
                             var prefix = parts[0];
                             var totalrn =
-                                totalpengiriman.toString().padLeft(3, '0');
+                                totalpengiriman.toString().padLeft(4, '0');
 
                             // var fullimr = prefix + '/' + newrn + '/' + totalrn;
                             // var fullimr = '$prefix/$newrnItem/$newrn';
