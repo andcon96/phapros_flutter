@@ -947,6 +947,7 @@ class _alokasipoState extends State<alokasipo> {
               tLvcPartDesc: widget.selectedline[0].tLvcPartDesc,
               tLvcLoc: widget.listLocation[0]['t_site_loc'],
               tLvcExpDetailDate: widget.expdate,
+              tLvcManuDetailDate: widget.proddate,
               tIMRNo: widget.imrno,
               tIsSaved: false));
           setState(() {});
