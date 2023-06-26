@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/login/loginPage.dart';
+import 'package:flutter_template/menu/laporanTidakSesuai/laporanbrowse.dart';
 import 'package:flutter_template/menu/user/changepass.dart';
 import 'package:flutter_template/menu/user/myacc.dart';
 import 'package:flutter_template/menu/user/profmenu.dart';

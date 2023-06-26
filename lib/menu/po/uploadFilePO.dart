@@ -5,6 +5,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_template/menu/home.dart';
 import 'package:flutter_template/menu/laporanTidakSesuai/laporanform.dart';
 import 'package:flutter_template/menu/po/signaturePage.dart';
 import 'package:flutter_template/menu/po/wsaPO.dart';
@@ -532,6 +533,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
                 Navigator.of(context, rootNavigator: true).pop();
 
                 var datareceipt = jsonDecode(responsedata.body)['datareceipt'];
+                String receiptnbr = datareceipt['rcpt_nbr'].toString();
                 var totalArrival =
                     jsonDecode(responsedata.body)['totalArrival'];
                 var totalApprove =
@@ -539,30 +541,39 @@ class _uploadfilepoState extends State<uploadfilepo> {
                 var totalReject = jsonDecode(responsedata.body)['totalReject'];
                 // print(datareceipt['get_transport'][0]['rcptt_transporter_no']);
                 // ignore: use_build_context_synchronously
+                // Navigator.of(context).pushAndRemoveUntil(
+                //     MaterialPageRoute(
+                //       builder: (context) => laporanform(
+                //         ponbr: datareceipt['getpo']['po_nbr'].toString(),
+                //         rcpt_nbr: datareceipt['rcpt_nbr'].toString(),
+                //         rcpt_date: datareceipt['rcpt_date'].toString(),
+                //         rcptd_part: datareceipt['get_detail_reject'][0]
+                //                 ['rcptd_part']
+                //             .toString(),
+                //         rcptd_qty_arr: totalArrival.toString(),
+                //         rcptd_lot: datareceipt['get_detail_reject'][0]
+                //                 ['rcptd_lot']
+                //             .toString(),
+                //         rcptd_loc: datareceipt['get_detail_reject'][0]
+                //                 ['rcptd_loc']
+                //             .toString(),
+                //         rcptd_qty_appr: totalApprove.toString(),
+                //         rcptd_qty_rej: totalReject.toString(),
+                //         nopol: datareceipt['get_transport']['rcptt_police_no']
+                //             .toString(),
+                //         angkutan: datareceipt['get_transport']
+                //                 ['rcptt_transporter_no']
+                //             .toString(),
+                //         supplier: datareceipt['getpo']['po_vend'].toString(),
+                //       ),
+                //     ),
+                //     (route) => route.isFirst);
+
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                      builder: (context) => laporanform(
-                        ponbr: datareceipt['getpo']['po_nbr'].toString(),
-                        rcpt_nbr: datareceipt['rcpt_nbr'].toString(),
-                        rcpt_date: datareceipt['rcpt_date'].toString(),
-                        rcptd_part: datareceipt['get_detail_reject'][0]
-                                ['rcptd_part']
-                            .toString(),
-                        rcptd_qty_arr: totalArrival.toString(),
-                        rcptd_lot: datareceipt['get_detail_reject'][0]
-                                ['rcptd_lot']
-                            .toString(),
-                        rcptd_loc: datareceipt['get_detail_reject'][0]
-                                ['rcptd_loc']
-                            .toString(),
-                        rcptd_qty_appr: totalApprove.toString(),
-                        rcptd_qty_rej: totalReject.toString(),
-                        nopol: datareceipt['get_transport']['rcptt_police_no']
-                            .toString(),
-                        angkutan: datareceipt['get_transport']
-                                ['rcptt_transporter_no']
-                            .toString(),
-                        supplier: datareceipt['getpo']['po_vend'].toString(),
+                      builder: (context) => NavHome(
+                        selPage: 1,
+                        searchvalue: receiptnbr,
                       ),
                     ),
                     (route) => route.isFirst);

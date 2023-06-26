@@ -21,7 +21,11 @@ import 'package:http/http.dart' as http;
 // import 'poModel.dart';
 
 class laporanbrowse extends StatefulWidget {
-  const laporanbrowse({Key? key}) : super(key: key);
+  final String searchdefault;
+
+  const laporanbrowse({Key? key, required this.searchdefault})
+      : super(key: key);
+  // const laporanbrowse({Key? key}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -131,6 +135,7 @@ class _laporanbrowse extends State<laporanbrowse> {
   @override
   void initState() {
     super.initState();
+    _textCont.text = widget.searchdefault;
     _getData();
     init();
   }

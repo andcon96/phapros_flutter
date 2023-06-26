@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 // ignore: non_constant_identifier_names
 WsaPO WsaPOFromJson(String str) => WsaPO.fromJson(json.decode(str));
@@ -61,6 +62,10 @@ class Data {
   String? tLvcManufacturer;
   String? tLvcCountry;
   String? tIMRNo;
+  String? tLvdOngoingQtyrcvd;
+  String? tLvdOngoingQtyarr;
+  String? tLvcExpDetailDate;
+  String? tLvcManuDetailDate;
 
   Data(
       {this.tLvcNbr,
@@ -93,7 +98,11 @@ class Data {
       this.tIsSaved,
       this.tLvcManufacturer,
       this.tLvcCountry,
-      this.tIMRNo});
+      this.tIMRNo,
+      this.tLvdOngoingQtyrcvd,
+      this.tLvdOngoingQtyarr,
+      this.tLvcExpDetailDate,
+      this.tLvcManuDetailDate});
 
   Data.fromJson(Map<String, dynamic> json) {
     tLvcNbr = json['t_lvc_nbr'];
@@ -127,6 +136,10 @@ class Data {
     tLvcManufacturer = json['t_lvc_manufacturer'];
     tLvcCountry = json['t_lvc_country'];
     tIMRNo = json['t_lvc_imrno'];
+    tLvdOngoingQtyrcvd = json['t_lvd_ongoing_qtyrcvd'];
+    tLvdOngoingQtyarr = json['t_lvd_ongoing_qtyarr'];
+    tLvcExpDetailDate = json['t_lvc_exp_detail_date'];
+    tLvcManuDetailDate = json['t_lvc_manu_detail_date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -162,6 +175,10 @@ class Data {
     data['t_lvc_manufacturer'] = tLvcManufacturer;
     data['t_lvc_country'] = tLvcCountry;
     data['t_lvc_imrno'] = tIMRNo;
+    data['t_lvd_ongoing_qtyrcvd'] = tLvdOngoingQtyrcvd;
+    data['t_lvd_ongoing_qtyarr'] = tLvdOngoingQtyarr;
+    data['t_lvc_exp_detail_date'] = tLvcExpDetailDate;
+    data['t_lvc_manu_detail_date'] = tLvcManuDetailDate;
     return data;
   }
 }

@@ -77,6 +77,7 @@ class _wsaPOState extends State<wsaPO> {
                       MaterialPageRoute(
                         builder: (context) => const NavHome(
                           selPage: 0,
+                          searchvalue: '',
                         ),
                       ),
                       (route) => route.isFirst);
@@ -374,6 +375,8 @@ class _wsaPOState extends State<wsaPO> {
                                           user.tLvcUm ?? '',
                                           user.tLvcManufacturer ?? '',
                                           user.tLvcCountry ?? '',
+                                          user.tLvdOngoingQtyarr ?? '',
+                                          user.tLvdOngoingQtyrcvd ?? '',
                                           index);
                                     },
                                     separatorBuilder: (context, index) =>
@@ -453,6 +456,8 @@ class _wsaPOState extends State<wsaPO> {
       String um,
       String manufacturer,
       String country,
+      String arrivalongoing,
+      String receiptongoing,
       int index) {
     return ListTile(
       // ignore: prefer_const_constructors
@@ -470,7 +475,7 @@ class _wsaPOState extends State<wsaPO> {
         ),
       ),
       subtitle: Text(
-          'Qty Pesan : ${double.parse(qtyord)}, Qty Open : ${double.parse(qtyord) - double.parse(qtyrcvd)} , Price: $price'),
+          'Qty Pesan : ${double.parse(qtyord)}, Qty Open : ${double.parse(qtyord) - double.parse(qtyrcvd)} , Price: $price, Qty Ongoing Android : $receiptongoing'),
       trailing: double.parse(qtyord) - double.parse(qtyrcvd) <= 0
           ? null
           : isSelected
@@ -504,7 +509,9 @@ class _wsaPOState extends State<wsaPO> {
                 tLvcUm: um,
                 tLvdPrice: price,
                 tLvcManufacturer: manufacturer,
-                tLvcCountry: country));
+                tLvcCountry: country,
+                tLvdOngoingQtyarr: arrivalongoing,
+                tLvdOngoingQtyrcvd: receiptongoing));
           } else if (detailpo[index].tIsSelected == false) {
             selectedDetailPO.removeWhere(
                 (element) => element.tLviLine == detailpo[index].tLviLine);
