@@ -75,7 +75,7 @@ class _laporanbrowse extends State<laporanbrowse> {
 
       final Uri url = Uri.parse(
           '${globals.globalurl}/getpolaporan?receiptnbr=' + search.toString());
-
+      print(url);
       loadfailed = false;
       final response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: "application/json",
@@ -391,7 +391,6 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: <Widget>[
-                                                      
                                                       Padding(
                                                           padding:
                                                               const EdgeInsets
@@ -405,7 +404,7 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                 TextOverflow
                                                                     .fade,
                                                           )),
-                                                          Padding(
+                                                      Padding(
                                                           padding:
                                                               const EdgeInsets
                                                                       .only(
@@ -465,28 +464,27 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                 Navigator.push(
                                                                     context,
                                                                     MaterialPageRoute(
-                                                                        builder: (context) =>
-                                                                            laporanview(
-                                                                              ponbr: datapo[index].ponbr.toString(),
-                                                                              rcpt_nbr: datapo[index].rcpt_nbr.toString(),
-                                                                              rcpt_date: datapo[index].rcpt_date.toString(),
-                                                                              rcptd_part: datapo[index].rcptd_part.toString(),
-                                                                              rcptd_qty_arr: datapo[index].rcptd_qty_arr.toString(),
-                                                                              rcptd_lot: datapo[index].rcptd_lot.toString(),
-                                                                              rcptd_loc: datapo[index].rcptd_loc.toString(),
-                                                                              rcptd_qty_appr: datapo[index].rcptd_qty_appr.toString(),
-                                                                              rcptd_qty_rej: datapo[index].rcptd_qty_rej.toString(),
-                                                                              nopol: datapo[index].nopol.toString(),
-                                                                              angkutan: datapo[index].angkutan.toString(),
-                                                                              supplier: datapo[index].supplier.toString(),
-                                                                              no: datapo[index].no.toString(),
-                                                                              komplain: datapo[index].komplain.toString(),
-                                                                              keterangan: datapo[index].keterangan.toString(),
-                                                                              tanggal: datapo[index].tanggal.toString(),
-                                                                              komplaindetail: datapo[index].komplaindetail.toString(),
-                                                                              createdby: datapo[index].createdby.toString(),
-                                                                              batch:datapo[index].rcptd_batch.toString()
-                                                                            )))
+                                                                        builder: (context) => laporanview(
+                                                                            ponbr:
+                                                                                datapo[index].ponbr.toString(),
+                                                                            rcpt_nbr: datapo[index].rcpt_nbr.toString(),
+                                                                            rcpt_date: datapo[index].rcpt_date.toString(),
+                                                                            rcptd_part: datapo[index].rcptd_part.toString(),
+                                                                            rcptd_qty_arr: datapo[index].rcptd_qty_arr.toString(),
+                                                                            rcptd_lot: datapo[index].rcptd_lot.toString(),
+                                                                            rcptd_loc: datapo[index].rcptd_loc.toString(),
+                                                                            rcptd_qty_appr: datapo[index].rcptd_qty_appr.toString(),
+                                                                            rcptd_qty_rej: datapo[index].rcptd_qty_rej.toString(),
+                                                                            nopol: datapo[index].nopol.toString(),
+                                                                            angkutan: datapo[index].angkutan.toString(),
+                                                                            supplier: datapo[index].supplier.toString(),
+                                                                            no: datapo[index].no.toString(),
+                                                                            komplain: datapo[index].komplain.toString(),
+                                                                            keterangan: datapo[index].keterangan.toString(),
+                                                                            tanggal: datapo[index].tanggal.toString(),
+                                                                            komplaindetail: datapo[index].komplaindetail.toString(),
+                                                                            createdby: datapo[index].createdby.toString(),
+                                                                            batch: datapo[index].rcptd_batch.toString())))
                                                               },
                                                             ),
                                                           ),
@@ -514,9 +512,10 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                         context,
                                                                         MaterialPageRoute(
                                                                             builder: (context) => laporanform(
-                                                                                  ponbr: datapo[index].ponbr.toString(),                                                                                  
+                                                                                  ponbr: datapo[index].ponbr.toString(),
                                                                                   rcpt_nbr: datapo[index].rcpt_nbr.toString(),
                                                                                   rcpt_imr: datapo[index].rcptd_imr.toString(),
+                                                                                  batch: datapo[index].rcptd_batch.toString(),
                                                                                   rcpt_date: datapo[index].rcpt_date.toString(),
                                                                                   rcptd_part: datapo[index].rcptd_part.toString(),
                                                                                   rcptd_qty_arr: datapo[index].rcptd_qty_arr.toString(),

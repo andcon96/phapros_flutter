@@ -145,11 +145,8 @@ class AboutPage extends StatelessWidget {
   final String tag;
   final String photourl;
 
-  AboutPage({
-    required this.tag, 
-    required this.photourl
-  });
- 
+  AboutPage({required this.tag, required this.photourl});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,182 +159,176 @@ class AboutPage extends StatelessWidget {
             Navigator.pop(context);
           },
           child: Hero(
-            tag: tag,
-            child: 
-                  Image.network('${globals.globalurlphoto}'+photourl)),
-          
+              tag: tag,
+              child: Image.network('${globals.globalurlphoto}' + photourl)),
         ),
       ),
     );
   }
 }
+
 class _receiptform extends State<receiptform> {
   bool loading = false;
   var listPrefix = [];
   var valueprefix = '';
   int totalpengiriman = 1; // 1 karena perlu + 1 untuk nomor IMR Berikut.
   List<String>? imagefiles = [];
-  
 
   final children = <Widget>[];
   final childrendetail = <Widget>[];
-  
+
   Future<void> getFoto({String? search}) async {
     final token = await UserSecureStorage.getToken();
     final id = await UserSecureStorage.getIdAnggota();
     final Uri url = Uri.parse(
-          '${globals.globalurl}/getreceiptfoto?rcptnbr=' +
-              search.toString());
-
+        '${globals.globalurl}/getreceiptfoto?rcptnbr=' + search.toString());
 
     final response = await http.get(url, headers: {
-        HttpHeaders.contentTypeHeader: "application/json",
-        HttpHeaders.authorizationHeader: "Bearer $token"
-      }).timeout(const Duration(seconds: 20), onTimeout: () {
-        setState(() {
-          
-          ArtSweetAlert.show(
-              context: context,
-              artDialogArgs: ArtDialogArgs(
-                  type: ArtSweetAlertType.danger,
-                  title: "Error",
-                  text: "Failed to load data"));
-          
-        });
-        return http.Response('Error', 500);
+      HttpHeaders.contentTypeHeader: "application/json",
+      HttpHeaders.authorizationHeader: "Bearer $token"
+    }).timeout(const Duration(seconds: 20), onTimeout: () {
+      setState(() {
+        ArtSweetAlert.show(
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+                type: ArtSweetAlertType.danger,
+                title: "Error",
+                text: "Failed to load data"));
       });
-      List<dynamic>? responseresult = json.decode(response.body);
-      
-      if(responseresult != []){
-        responseresult?.asMap().forEach((index,element) {
-          children.add(
-            new InkWell(
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => new AboutPage(tag: index.toString(),photourl: element['rcptfu_path']))
-              ), 
+      return http.Response('Error', 500);
+    });
+    List<dynamic>? responseresult = json.decode(response.body);
+
+    if (responseresult != []) {
+      responseresult?.asMap().forEach((index, element) {
+        children.add(
+          new InkWell(
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => new AboutPage(
+                      tag: index.toString(),
+                      photourl: element['rcptfu_path']))),
               child: Card(
                 child: Container(
-                  height: 100,
-                  width: 100,
-                  child: Hero(tag: index.toString(),child:Image.network('${globals.globalurlphoto}'+element['rcptfu_path']))
-                ),
-              )
-            ),
-          );
-        });
-      }
+                    height: 100,
+                    width: 100,
+                    child: Hero(
+                        tag: index.toString(),
+                        child: Image.network('${globals.globalurlphoto}' +
+                            element['rcptfu_path']))),
+              )),
+        );
+      });
+    }
   }
 
   Future<void> getDetail({String? search}) async {
     final token = await UserSecureStorage.getToken();
     final id = await UserSecureStorage.getIdAnggota();
     final Uri url = Uri.parse(
-          '${globals.globalurl}/getreceiptdetail?rcptnbr=' +
-              search.toString());
-
+        '${globals.globalurl}/getreceiptdetail?rcptnbr=' + search.toString());
 
     final response = await http.get(url, headers: {
-        HttpHeaders.contentTypeHeader: "application/json",
-        HttpHeaders.authorizationHeader: "Bearer $token"
-      }).timeout(const Duration(seconds: 20), onTimeout: () {
-        setState(() {
-          
-          ArtSweetAlert.show(
-              context: context,
-              artDialogArgs: ArtDialogArgs(
-                  type: ArtSweetAlertType.danger,
-                  title: "Error",
-                  text: "Failed to load data"));
-          
-        });
-        return http.Response('Error', 500);
+      HttpHeaders.contentTypeHeader: "application/json",
+      HttpHeaders.authorizationHeader: "Bearer $token"
+    }).timeout(const Duration(seconds: 20), onTimeout: () {
+      setState(() {
+        ArtSweetAlert.show(
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+                type: ArtSweetAlertType.danger,
+                title: "Error",
+                text: "Failed to load data"));
       });
-      List<dynamic>? responseresult = json.decode(response.body);
-      
-      if(responseresult != []){
-        responseresult?.asMap().forEach((index,element) {
-          childrendetail.addAll([
-            _textInput(
-                  hint: "Line",
-                  controller: TextEditingController(text: element['rcptd_line'].toString()),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                _textInput(
-                  hint: "Part",
-                  controller: TextEditingController(text: element['rcptd_part'] + ' -- ' + element['item_desc'] ),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                _textInput(
-                  hint: "Qty Datang",
-                  controller: TextEditingController(text: element['rcptd_qty_arr']),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                
-                _textInput(
-                  hint: "Qty Reject",
-                  controller: TextEditingController(text: element['rcptd_qty_rej']),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                _textInput(
-                  hint: "Qty Approve",
-                  controller: TextEditingController(text: element['rcptd_qty_appr']),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                _textInput(
-                  hint: "Location",
-                  controller: TextEditingController(text: element['rcptd_loc']),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                _textInput(
-                  hint: "Lot",
-                  controller: TextEditingController(text: element['rcptd_lot']),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                _textInput(
-                  hint: "Batch",
-                  controller: TextEditingController(text: element['rcptd_batch']),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                _textInput(
-                  hint: "Expired Date",
-                  controller: TextEditingController(text: element['rcptd_exp_date']),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                _textInput(
-                  hint: "Manufacture Date",
-                  controller: TextEditingController(text: element['rcptd_manu_date']),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                // _textInput(
-                //   hint: "Site",
-                //   controller: TextEditingController(text: element['rcptd_site']),
-                // ),
-                const SizedBox(
-                  height: 50,
-                ),
-          ]);
-        });
-      }
+      return http.Response('Error', 500);
+    });
+    List<dynamic>? responseresult = json.decode(response.body);
+
+    if (responseresult != []) {
+      responseresult?.asMap().forEach((index, element) {
+        childrendetail.addAll([
+          _textInput(
+            hint: "Line",
+            controller:
+                TextEditingController(text: element['rcptd_line'].toString()),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          _textInput(
+            hint: "Part",
+            controller: TextEditingController(
+                text: element['rcptd_part'] + ' -- ' + element['item_desc']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          _textInput(
+            hint: "Qty Datang",
+            controller: TextEditingController(text: element['rcptd_qty_arr']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+
+          _textInput(
+            hint: "Qty Reject",
+            controller: TextEditingController(text: element['rcptd_qty_rej']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          _textInput(
+            hint: "Qty Approve",
+            controller: TextEditingController(text: element['rcptd_qty_appr']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          _textInput(
+            hint: "Location",
+            controller: TextEditingController(text: element['rcptd_loc']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          _textInput(
+            hint: "Lot",
+            controller: TextEditingController(text: element['rcptd_lot']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          _textInput(
+            hint: "Batch",
+            controller: TextEditingController(text: element['rcptd_batch']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          _textInput(
+            hint: "Expired Date",
+            controller: TextEditingController(text: element['rcptd_exp_date']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          _textInput(
+            hint: "Manufacture Date",
+            controller: TextEditingController(text: element['rcptd_manu_date']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          // _textInput(
+          //   hint: "Site",
+          //   controller: TextEditingController(text: element['rcptd_site']),
+          // ),
+          const SizedBox(
+            height: 50,
+          ),
+        ]);
+      });
+    }
   }
 
   Future<Object?> sendlaporan(String url) async {
@@ -397,7 +388,7 @@ class _receiptform extends State<receiptform> {
 
     return response;
   }
-  
+
   int currentStep = 0;
   late TextEditingController IdRcp;
   late TextEditingController Batch;
@@ -415,8 +406,8 @@ class _receiptform extends State<receiptform> {
   late TextEditingController NomorLot;
 
   // Step 1
-  late TextEditingController receiptno; 
-  late TextEditingController pono ;
+  late TextEditingController receiptno;
+  late TextEditingController pono;
   late TextEditingController supplier;
   // Step 2
   late TextEditingController perfix;
@@ -435,8 +426,8 @@ class _receiptform extends State<receiptform> {
   late TextEditingController forwaderdo;
   late TextEditingController packinglist;
   late TextEditingController otherdocs;
- 
-   // Step 4
+
+  // Step 4
   late TextEditingController keteranganisclean;
   late TextEditingController keteranganisdry;
   late TextEditingController keteranganisnotspilled;
@@ -484,9 +475,9 @@ class _receiptform extends State<receiptform> {
   String? _angkutanissingle;
   String? _angkutansegregate;
   //end
-  
+
   int _activeStepIndex = 0;
-  
+
   bool overlayloading = false;
 
   String rcptnbr = '';
@@ -550,46 +541,82 @@ class _receiptform extends State<receiptform> {
     JumlahApprove = TextEditingController(text: widget.rcptd_qty_appr);
     JumlahReject = TextEditingController(text: widget.rcptd_qty_rej);
 
-
     // Step 1
     receiptno = TextEditingController(text: widget.rcpt_nbr);
     pono = TextEditingController(text: widget.ponbr);
     supplier = TextEditingController();
     // Step 2
-    perfix = TextEditingController(text:widget.imrnbr);
-    imrno = TextEditingController(text:widget.imrnbr);
-    arrivaldate = TextEditingController(text: widget.arrivaldate == 'null' ? '' : widget.arrivaldate);
-    imrdate = TextEditingController(text: widget.imrdate == 'null' ? '' : widget.imrdate);
+    perfix = TextEditingController(text: widget.imrnbr);
+    imrno = TextEditingController(text: widget.imrnbr);
+    arrivaldate = TextEditingController(
+        text: widget.arrivaldate == 'null' ? '' : widget.arrivaldate);
+    imrdate = TextEditingController(
+        text: widget.imrdate == 'null' ? '' : widget.imrdate);
     dono = TextEditingController();
-    articleno = TextEditingController(text:widget.articlenbr == 'null' ? '' : widget.articlenbr);
-    proddate = TextEditingController(text: widget.proddate == 'null' ? '' : widget.proddate);
-    expdate = TextEditingController(text: widget.expdate == 'null' ? '' : widget.expdate);
-    manufacturer = TextEditingController(text: widget.manufacturer == 'null' ? '' : widget.manufacturer);
-    origincountry = TextEditingController(text: widget.country == 'null' ? '' : widget.country);
+    articleno = TextEditingController(
+        text: widget.articlenbr == 'null' ? '' : widget.articlenbr);
+    proddate = TextEditingController(
+        text: widget.proddate == 'null' ? '' : widget.proddate);
+    expdate = TextEditingController(
+        text: widget.expdate == 'null' ? '' : widget.expdate);
+    manufacturer = TextEditingController(
+        text: widget.manufacturer == 'null' ? '' : widget.manufacturer);
+    origincountry = TextEditingController(
+        text: widget.country == 'null' ? '' : widget.country);
     // Step 3
-    certificate = TextEditingController(text: widget.certofanalys == 'null' ? '': widget.certofanalys);
-    msds = TextEditingController(text:widget.msds == 'null' ? '': widget.msds);
-    forwaderdo = TextEditingController(text: widget.forwarderdo == 'null' ? '': widget.forwarderdo);
-    packinglist = TextEditingController(text:widget.packinglist == 'null' ? '': widget.packinglist);
-    otherdocs = TextEditingController(text:widget.otherdocs == 'null' ? '': widget.otherdocs);
+    certificate = TextEditingController(
+        text: widget.certofanalys == 'null' ? '' : widget.certofanalys);
+    msds =
+        TextEditingController(text: widget.msds == 'null' ? '' : widget.msds);
+    forwaderdo = TextEditingController(
+        text: widget.forwarderdo == 'null' ? '' : widget.forwarderdo);
+    packinglist = TextEditingController(
+        text: widget.packinglist == 'null' ? '' : widget.packinglist);
+    otherdocs = TextEditingController(
+        text: widget.otherdocs == 'null' ? '' : widget.otherdocs);
 
     // Step 4
-    keteranganisclean = TextEditingController(text: widget.iscleandesc == 'null' ? '': widget.iscleandesc);
-    keteranganisdry = TextEditingController(text:widget.isdrydesc == 'null' ? '': widget.isdrydesc);
-    keteranganisnotspilled = TextEditingController(text:widget.isnotspilleddesc == 'null' ? '': widget.isnotspilleddesc);
+    keteranganisclean = TextEditingController(
+        text: widget.iscleandesc == 'null' ? '' : widget.iscleandesc);
+    keteranganisdry = TextEditingController(
+        text: widget.isdrydesc == 'null' ? '' : widget.isdrydesc);
+    keteranganisnotspilled = TextEditingController(
+        text: widget.isnotspilleddesc == 'null' ? '' : widget.isnotspilleddesc);
 
     // Step 5
-    transporterno = TextEditingController(text:widget.transporttransporterno);
-    policeno = TextEditingController(text:widget.transportpoliceno);
-    angkutanketeranganisclean = TextEditingController(text:widget.transportiscleandesc == 'null' ? '': widget.transportiscleandesc);
-    angkutanketeranganisdry = TextEditingController(text:widget.transportisdrydesc == 'null' ? '': widget.transportisdrydesc);
-    angkutanketeranganisnotspilled = TextEditingController(text:widget.transportisnotspilleddesc == 'null' ? '': widget.transportisnotspilleddesc);
-    angkutanketeranganissingle = TextEditingController(text:widget.transportispositionsingledesc == 'null' ? '': widget.transportispositionsingledesc);
-    angkutanketeranganissegregated = TextEditingController(text:widget.transportissegregateddesc == 'null' ? '': widget.transportissegregateddesc);
+    transporterno = TextEditingController(text: widget.transporttransporterno);
+    policeno = TextEditingController(text: widget.transportpoliceno);
+    angkutanketeranganisclean = TextEditingController(
+        text: widget.transportiscleandesc == 'null'
+            ? ''
+            : widget.transportiscleandesc);
+    angkutanketeranganisdry = TextEditingController(
+        text: widget.transportisdrydesc == 'null'
+            ? ''
+            : widget.transportisdrydesc);
+    angkutanketeranganisnotspilled = TextEditingController(
+        text: widget.transportisnotspilleddesc == 'null'
+            ? ''
+            : widget.transportisnotspilleddesc);
+    angkutanketeranganissingle = TextEditingController(
+        text: widget.transportispositionsingledesc == 'null'
+            ? ''
+            : widget.transportispositionsingledesc);
+    angkutanketeranganissegregated = TextEditingController(
+        text: widget.transportissegregateddesc == 'null'
+            ? ''
+            : widget.transportissegregateddesc);
     // Tambahan User
-    angkutancatatan = TextEditingController(text:widget.transportangkutancatatan == 'null' ? '': widget.transportangkutancatatan);
-    kelembapan = TextEditingController(text:widget.transportkelembapan == 'null' ? '': widget.transportkelembapan);
-    suhu = TextEditingController(text:widget.transportsuhu == 'null' ? '': widget.transportsuhu);
+    angkutancatatan = TextEditingController(
+        text: widget.transportangkutancatatan == 'null'
+            ? ''
+            : widget.transportangkutancatatan);
+    kelembapan = TextEditingController(
+        text: widget.transportkelembapan == 'null'
+            ? ''
+            : widget.transportkelembapan);
+    suhu = TextEditingController(
+        text: widget.transportsuhu == 'null' ? '' : widget.transportsuhu);
 
     _certificateChecked = int.parse(widget.iscertofanalys) == 1 ? true : false;
     _msdsChecked = int.parse(widget.ismsds) == 1 ? true : false;
@@ -598,8 +625,9 @@ class _receiptform extends State<receiptform> {
     _otherdocsChecked = int.parse(widget.isotherdocs) == 1 ? true : false;
     _sackordosChecked = int.parse(widget.kemasansacdos) == 1 ? true : false;
     _drumorvatChecked = int.parse(widget.kemasandrumvat) == 1 ? true : false;
-    _palletorpetiChecked = int.parse(widget.kemasanpalletpeti) == 1 ? true : false;
-    
+    _palletorpetiChecked =
+        int.parse(widget.kemasanpalletpeti) == 1 ? true : false;
+
     _drumorvatDamage = widget.kemasandrumvatdesc;
     _sackordosDamage = widget.kemasansacdosdesc;
     _palletorpetiDamage = widget.kemasanpalletpetidesc;
@@ -616,37 +644,33 @@ class _receiptform extends State<receiptform> {
     _angkutanisnotspilled = widget.transportisnotspilled;
     _angkutanissingle = widget.transportispositionsingle;
     _angkutansegregate = widget.transportissegregated;
-
   }
 
   // Step 6
   String? _currline;
   // List<dynamic>? _currline;
 
-
-
   Widget _textInput({controller, hint}) {
-  return TextField(
-    controller: controller,
-    readOnly: true,
-    decoration: InputDecoration(
-      border: const OutlineInputBorder(),
-      labelText: hint,
-      
-    ),
-  );
-}
+    return TextField(
+      controller: controller,
+      readOnly: true,
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(),
+        labelText: hint,
+      ),
+    );
+  }
 
-Widget _textInputReadonly({controller, hint}) {
-  return TextField(
-    readOnly: true,
-    controller: controller,
-    decoration: InputDecoration(
-      border: const OutlineInputBorder(),
-      labelText: hint,
-    ),
-  );
-}
+  Widget _textInputReadonly({controller, hint}) {
+    return TextField(
+      readOnly: true,
+      controller: controller,
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(),
+        labelText: hint,
+      ),
+    );
+  }
 
   List<Step> stepList() => [
         Step(
@@ -666,7 +690,6 @@ Widget _textInputReadonly({controller, hint}) {
                 hint: "Po No",
                 controller: pono,
               ),
-              
             ],
           ),
         ),
@@ -676,7 +699,6 @@ Widget _textInputReadonly({controller, hint}) {
           title: const Text('Checklist'),
           content: Column(
             children: [
-              
               _textInputReadonly(
                 hint: "IMR No.",
                 controller: imrno,
@@ -695,11 +717,9 @@ Widget _textInputReadonly({controller, hint}) {
                 hint: "Arrival Date",
                 controller: arrivaldate,
               ),
-
               const SizedBox(
                 height: 8,
               ),
-              
               _textInputReadonly(
                 hint: "IMR Date",
                 controller: imrdate,
@@ -711,22 +731,16 @@ Widget _textInputReadonly({controller, hint}) {
                 hint: "Production Date",
                 controller: proddate,
               ),
-              
               const SizedBox(
                 height: 8,
               ),
-
               _textInput(
                 hint: "Expiration Date",
                 controller: expdate,
               ),
-              
               const SizedBox(
                 height: 8,
               ),
-
-              
-              
               _textInput(
                 hint: "Manufacturer",
                 controller: manufacturer,
@@ -924,10 +938,7 @@ Widget _textInputReadonly({controller, hint}) {
                     child: ListTile(
                       title: const Text('Kotor'),
                       leading: Radio(
-                        value: '0',
-                        groupValue: _isclean,
-                        onChanged: null
-                      ),
+                          value: '0', groupValue: _isclean, onChanged: null),
                     ),
                   ),
                 ],
@@ -1305,7 +1316,8 @@ Widget _textInputReadonly({controller, hint}) {
               ],
             )),
         Step(
-            state: _activeStepIndex <= 6 ? StepState.editing : StepState.complete,
+            state:
+                _activeStepIndex <= 6 ? StepState.editing : StepState.complete,
             isActive: _activeStepIndex >= 6,
             title: const Text('Kesimpulan Alokasi'),
             content: Column(
@@ -1324,7 +1336,6 @@ Widget _textInputReadonly({controller, hint}) {
                 const SizedBox(
                   height: 8,
                 ),
-                
                 _textInput(
                   hint: "Qty Reject",
                   controller: JumlahReject,
@@ -1341,22 +1352,18 @@ Widget _textInputReadonly({controller, hint}) {
                 ),
               ],
             )),
-          Step(
-            state: _activeStepIndex <= 7 ? StepState.editing : StepState.complete,
+        Step(
+            state:
+                _activeStepIndex <= 7 ? StepState.editing : StepState.complete,
             isActive: _activeStepIndex >= 7,
             title: const Text('Detail Alokasi'),
-            content: Column(
-              children: childrendetail
-            )),
-            Step(
-            state: _activeStepIndex <= 8 ? StepState.editing : StepState.complete,
+            content: Column(children: childrendetail)),
+        Step(
+            state:
+                _activeStepIndex <= 8 ? StepState.editing : StepState.complete,
             isActive: _activeStepIndex >= 8,
             title: const Text('Foto'),
-            content: Wrap(
-            children: children
-            ))
-                
-            
+            content: Wrap(children: children))
       ];
   @override
   Widget build(BuildContext context) => loading
@@ -1372,51 +1379,42 @@ Widget _textInputReadonly({controller, hint}) {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Stepper(
-                        controlsBuilder:(context, details) {
+                        controlsBuilder: (context, details) {
                           return Row(
                             children: <Widget>[
-                              TextButton(
-                                onPressed: null, 
-                                child: Text('')
-                                ),
-                                TextButton(
-                                onPressed: null, 
-                                child: Text('')
-                                ),
-                                
+                              TextButton(onPressed: null, child: Text('')),
+                              TextButton(onPressed: null, child: Text('')),
                             ],
                           );
                         },
-                              physics: const ClampingScrollPhysics(),
-                              type: StepperType.vertical,
-                              currentStep: _activeStepIndex,
-                              steps: stepList(),
-                              // onStepContinue: () {
-                              //   if (_activeStepIndex <
-                              //       (stepList().length - 1)) {
-                              //     setState(() {
-                              //       _activeStepIndex += 1;
-                              //     });
-                              //   } else {
-                                  
-                                  
-          
-                              //   }
-                              // },
-                              // onStepCancel: () {
-                              //   if (_activeStepIndex == 0) {
-                              //     return;
-                              //   }
+                        physics: const ClampingScrollPhysics(),
+                        type: StepperType.vertical,
+                        currentStep: _activeStepIndex,
+                        steps: stepList(),
+                        // onStepContinue: () {
+                        //   if (_activeStepIndex <
+                        //       (stepList().length - 1)) {
+                        //     setState(() {
+                        //       _activeStepIndex += 1;
+                        //     });
+                        //   } else {
 
-                              //   setState(() {
-                              //     _activeStepIndex -= 1;
-                              //   });
-                              // },
-                              onStepTapped: (int index) {
-                                setState(() {
-                                  _activeStepIndex = index;
-                                });
-                              },
+                        //   }
+                        // },
+                        // onStepCancel: () {
+                        //   if (_activeStepIndex == 0) {
+                        //     return;
+                        //   }
+
+                        //   setState(() {
+                        //     _activeStepIndex -= 1;
+                        //   });
+                        // },
+                        onStepTapped: (int index) {
+                          setState(() {
+                            _activeStepIndex = index;
+                          });
+                        },
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 50),
