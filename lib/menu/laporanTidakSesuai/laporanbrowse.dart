@@ -379,7 +379,7 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                         ],
                                                       )),
                                                   collapsed: Text(
-                                                    'Location : ${user.rcptd_loc ?? ""}',
+                                                    'Lot : ${user.rcptd_lot ?? ""}',
                                                     softWrap: true,
                                                     style: content,
                                                     maxLines: 2,
@@ -391,19 +391,7 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: <Widget>[
-                                                      Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 10),
-                                                          child: Text(
-                                                            'Location : ${user.rcptd_loc ?? ""} ',
-                                                            style: content,
-                                                            softWrap: true,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .fade,
-                                                          )),
+                                                      
                                                       Padding(
                                                           padding:
                                                               const EdgeInsets
@@ -417,13 +405,13 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                 TextOverflow
                                                                     .fade,
                                                           )),
-                                                      Padding(
+                                                          Padding(
                                                           padding:
                                                               const EdgeInsets
                                                                       .only(
                                                                   bottom: 10),
                                                           child: Text(
-                                                            'Order Date : ${user.rcpt_date ?? ""}',
+                                                            'Batch : ${user.rcptd_batch ?? ""} ',
                                                             style: content,
                                                             softWrap: true,
                                                             overflow:
@@ -436,7 +424,20 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                       .only(
                                                                   bottom: 10),
                                                           child: Text(
-                                                            'Due Date : ${user.rcpt_date ?? ""}',
+                                                            'Qty Masuk : ${user.rcptd_qty_arr ?? ""}',
+                                                            style: content,
+                                                            softWrap: true,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .fade,
+                                                          )),
+                                                      Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 10),
+                                                          child: Text(
+                                                            'Qty Reject : ${user.rcptd_qty_rej ?? ""}',
                                                             style: content,
                                                             softWrap: true,
                                                             overflow:
@@ -512,8 +513,9 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                         context,
                                                                         MaterialPageRoute(
                                                                             builder: (context) => laporanform(
-                                                                                  ponbr: datapo[index].ponbr.toString(),
+                                                                                  ponbr: datapo[index].ponbr.toString(),                                                                                  
                                                                                   rcpt_nbr: datapo[index].rcpt_nbr.toString(),
+                                                                                  rcpt_imr: datapo[index].rcptd_imr.toString(),
                                                                                   rcpt_date: datapo[index].rcpt_date.toString(),
                                                                                   rcptd_part: datapo[index].rcptd_part.toString(),
                                                                                   rcptd_qty_arr: datapo[index].rcptd_qty_arr.toString(),
