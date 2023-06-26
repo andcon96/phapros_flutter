@@ -177,7 +177,7 @@ class receiptModel {
 
   factory receiptModel.fromJson(Map<String, dynamic> json) {
     Map<String, dynamic> jsonmaster = json['get_master'];
-
+    Map<String, dynamic> jsonitem = json['get_item'];
     Map<String, dynamic> jsonpo = jsonmaster == null ? {} : jsonmaster['getpo'];
     Map<String, dynamic> jsontransport = jsonmaster == null ? {} : jsonmaster['get_transport'];
     Map<String, dynamic> jsonchecklist = jsonmaster == null ? {} : jsonmaster['get_checklist'];
@@ -202,7 +202,7 @@ class receiptModel {
         ponbr: jsonpo['po_nbr'],
         rcpt_nbr: jsonmaster['rcpt_nbr'],
         rcpt_date: jsonmaster['rcpt_date'],
-        rcptd_part: json['rcptd_part'],
+        rcptd_part: json['rcptd_part'] + ' -- ' + jsonitem['item_desc'],
         rcptd_loc: json['rcptd_loc'],
         rcptd_qty_arr: json['sum_qty_arr'],
         rcptd_lot: json['rcptd_lot'],

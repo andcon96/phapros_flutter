@@ -314,6 +314,20 @@ class _receiptform extends State<receiptform> {
                 const SizedBox(
                   height: 8,
                 ),
+                _textInput(
+                  hint: "Expired Date",
+                  controller: TextEditingController(text: element['rcptd_exp_date']),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                _textInput(
+                  hint: "Manufacture Date",
+                  controller: TextEditingController(text: element['rcptd_manu_date']),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
                 // _textInput(
                 //   hint: "Site",
                 //   controller: TextEditingController(text: element['rcptd_site']),

@@ -26,7 +26,8 @@ class laporanview extends StatefulWidget {
       keterangan,
       komplaindetail,
       tanggal,
-      createdby;
+      createdby,
+      batch;
   const laporanview({
     Key? key,
     required this.ponbr,
@@ -47,6 +48,7 @@ class laporanview extends StatefulWidget {
     required this.komplaindetail,
     required this.komplain ,
     required this.createdby,
+    required this.batch,
   }) : super(key: key);
 
   @override
@@ -110,15 +112,13 @@ class _laporanview extends State<laporanview> {
   final children = <Widget>[];
   final childrendetail = <Widget>[];
   
-  Future<void> getFoto({String? search}) async {
+  Future<void> getFoto({String? search, String? batch, String? lot}) async {
     final token = await UserSecureStorage.getToken();
     final id = await UserSecureStorage.getIdAnggota();
     final Uri url = Uri.parse(
           '${globals.globalurl}/getlaporanfoto?rcptnbr=' +
-              search.toString());
-print(token);
-print(id);
-print(url);
+              search.toString() + '&batch=' + batch.toString() + '&lot=' + lot.toString()
+              );
 
     final response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: "application/json",
@@ -165,7 +165,9 @@ print(url);
   void initState() {
     super.initState();
     String rcptnumber = widget.rcpt_nbr;
-    getFoto(search: rcptnumber);
+    String s_batch = widget.batch;
+    String s_lot = widget.rcptd_lot;
+    getFoto(search: rcptnumber, batch: s_batch,lot: s_lot);
     IdRcp = TextEditingController(text: widget.rcpt_nbr);
     NamaBarang = TextEditingController(
         text: widget.rcptd_part != 'null' ? widget.rcptd_part : '');

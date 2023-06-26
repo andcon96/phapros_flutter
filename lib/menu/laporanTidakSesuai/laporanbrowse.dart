@@ -485,6 +485,7 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                               tanggal: datapo[index].tanggal.toString(),
                                                                               komplaindetail: datapo[index].komplaindetail.toString(),
                                                                               createdby: datapo[index].createdby.toString(),
+                                                                              batch:datapo[index].rcptd_batch.toString()
                                                                             )))
                                                               },
                                                             ),
