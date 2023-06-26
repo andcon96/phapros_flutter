@@ -14,6 +14,8 @@ import 'package:flutter_template/menu/po/uploadFilePO.dart';
 import 'package:flutter_template/menu/po/wsaPO.dart';
 import 'package:flutter_template/menu/po/model/wsaPoModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:iconsax/iconsax.dart';
+import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:flutter_template/utils/globalurl.dart' as globals;
 import '../../utils/loading.dart';
@@ -232,11 +234,40 @@ class _CartWidgetState extends State<CartWidget> {
   TextEditingController qtyterima = TextEditingController();
   TextEditingController qtyreject = TextEditingController();
   TextEditingController qtyper = TextEditingController();
+  TextEditingController expdetdate = TextEditingController();
+  TextEditingController manudetdate = TextEditingController();
+  DateTime selectedExpDate = DateTime.now();
+  DateTime selectedManuDate = DateTime.now();
   int _sum = 0;
 
   @override
   void initState() {
     super.initState();
+
+    final now = DateTime.now();
+    // Expiration Date
+    final dataexpdet = widget.cart[0].tLvcExpDetailDate;
+    late String? newexpdet;
+
+    if (dataexpdet != null && dataexpdet.isNotEmpty) {
+      newexpdet = widget.cart[0].tLvcExpDetailDate;
+    } else {
+      newexpdet = DateFormat('yyyy-MM-dd').format(now).toString();
+    }
+    expdetdate.text = newexpdet!;
+    selectedExpDate = DateTime.parse(newexpdet);
+
+    // Manufacturer Date
+    final datamanudet = widget.cart[0].tLvcManuDetailDate;
+    late String? newmanudate;
+
+    if (datamanudet != null && datamanudet.isNotEmpty) {
+      newmanudate = widget.cart[0].tLvcManuDetailDate;
+    } else {
+      newmanudate = DateFormat('yyyy-MM-dd').format(now).toString();
+    }
+    manudetdate.text = newmanudate!;
+    selectedManuDate = DateTime.parse(newmanudate);
 
     // Assign Ulang Value kalo gagal / back + Tambah Lot 19 Jun 23
     var datalot = widget.cart[widget.index].tIMRNo.toString().substring(3, 13);
@@ -271,7 +302,7 @@ class _CartWidgetState extends State<CartWidget> {
       padding: EdgeInsets.all(10),
       child: Container(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-          height: 700,
+          height: 830,
           width: double.maxFinite,
           child: Card(
             elevation: 5,
@@ -288,13 +319,19 @@ class _CartWidgetState extends State<CartWidget> {
                 height: 8,
               ),
               TextField(
-                readOnly: widget.cart[widget.index].tIsSaved!,
-                controller: batch,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Batch / Lot',
-                ),
-              ),
+                  readOnly: widget.cart[widget.index].tIsSaved!,
+                  controller: batch,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Batch / Lot',
+                    suffixIcon: Padding(
+                      padding: EdgeInsets.only(top: 14, left: 28),
+                      child: Text(
+                        '*',
+                        style: TextStyle(color: Colors.red, fontSize: 24.0),
+                      ),
+                    ),
+                  )),
               // ignore: prefer_const_constructors
               SizedBox(
                 height: 8,
@@ -327,11 +364,76 @@ class _CartWidgetState extends State<CartWidget> {
                 height: 8,
               ),
               TextField(
+                  controller: manudetdate,
+                  readOnly: true,
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.calendar_month_rounded),
+                      onPressed: () async {
+                        final DateTime? pickedManu = await showDatePicker(
+                          context: context,
+                          firstDate: DateTime(2015, 8),
+                          lastDate: DateTime(2101),
+                          initialDate: selectedManuDate,
+                        );
+                        if (pickedManu != null &&
+                            pickedManu != selectedManuDate) {
+                          setState(() {
+                            selectedManuDate = pickedManu;
+                          });
+                          manudetdate.text =
+                              DateFormat('yyyy-MM-dd').format(selectedManuDate);
+                        }
+                      },
+                    ),
+                    border: const OutlineInputBorder(),
+                    labelText: 'Tanggal Production',
+                  )),
+              SizedBox(
+                height: 8,
+              ),
+              TextField(
+                  controller: expdetdate,
+                  readOnly: true,
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.calendar_month_rounded),
+                      onPressed: () async {
+                        final DateTime? picked = await showDatePicker(
+                          context: context,
+                          firstDate: DateTime(2015, 8),
+                          lastDate: DateTime(2101),
+                          initialDate: selectedExpDate,
+                        );
+                        if (picked != null && picked != selectedExpDate) {
+                          setState(() {
+                            selectedExpDate = picked;
+                          });
+                          expdetdate.text =
+                              DateFormat('yyyy-MM-dd').format(selectedExpDate);
+                        }
+                      },
+                    ),
+                    border: const OutlineInputBorder(),
+                    labelText: 'Tanggal Kadarluasa',
+                  )),
+
+              SizedBox(
+                height: 8,
+              ),
+              TextField(
                 controller: qtyper,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Qty Per Package',
+                  suffixIcon: Padding(
+                    padding: EdgeInsets.only(top: 14, left: 28),
+                    child: Text(
+                      '*',
+                      style: TextStyle(color: Colors.red, fontSize: 24.0),
+                    ),
+                  ),
                 ),
               ),
               // ignore: prefer_const_constructors
@@ -345,6 +447,13 @@ class _CartWidgetState extends State<CartWidget> {
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Qty Datang',
+                  suffixIcon: Padding(
+                    padding: EdgeInsets.only(top: 14, left: 28),
+                    child: Text(
+                      '*',
+                      style: TextStyle(color: Colors.red, fontSize: 24.0),
+                    ),
+                  ),
                 ),
                 onChanged: (value) {
                   setState(() {
@@ -365,6 +474,13 @@ class _CartWidgetState extends State<CartWidget> {
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Qty Reject',
+                  suffixIcon: Padding(
+                    padding: EdgeInsets.only(top: 14, left: 28),
+                    child: Text(
+                      '*',
+                      style: TextStyle(color: Colors.red, fontSize: 24.0),
+                    ),
+                  ),
                 ),
                 onChanged: (value) {
                   setState(() {
@@ -405,6 +521,28 @@ class _CartWidgetState extends State<CartWidget> {
                                 cancelBtnText: 'No',
                                 confirmBtnColor: Colors.green,
                                 onConfirmBtnTap: () {
+                                  if (expdetdate.text.isEmpty) {
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop();
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.error,
+                                        text:
+                                            'Expiration Date tidak boleh kosong',
+                                        title: 'Error');
+                                    return;
+                                  }
+                                  if (manudetdate.text.isEmpty) {
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop();
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.error,
+                                        text:
+                                            'Production Date tidak boleh kosong',
+                                        title: 'Error');
+                                    return;
+                                  }
                                   if (batch.text.isEmpty) {
                                     Navigator.of(context, rootNavigator: true)
                                         .pop();
@@ -458,6 +596,10 @@ class _CartWidgetState extends State<CartWidget> {
                                       qtyterima.text;
                                   widget.cart[widget.index].tlvdQtyPerPackage =
                                       qtyper.text;
+                                  widget.cart[widget.index].tLvcExpDetailDate =
+                                      expdetdate.text;
+                                  widget.cart[widget.index].tLvcManuDetailDate =
+                                      manudetdate.text;
                                   widget.cart[widget.index].tIsSaved = true;
                                   widget.callback();
 
@@ -804,6 +946,7 @@ class _alokasipoState extends State<alokasipo> {
               tLvcPart: widget.selectedline[0].tLvcPart,
               tLvcPartDesc: widget.selectedline[0].tLvcPartDesc,
               tLvcLoc: widget.listLocation[0]['t_site_loc'],
+              tLvcExpDetailDate: widget.expdate,
               tIMRNo: widget.imrno,
               tIsSaved: false));
           setState(() {});

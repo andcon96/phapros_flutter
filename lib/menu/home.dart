@@ -22,14 +22,19 @@ class HomePage extends StatelessWidget {
           primaryColor: Colors.blueGrey[500],
           colorScheme:
               ColorScheme.fromSwatch().copyWith(secondary: Colors.amber)),
-      home: const NavHome(selPage: 0),
+      home: const NavHome(
+        selPage: 0,
+        searchvalue: '',
+      ),
     );
   }
 }
 
 class NavHome extends StatefulWidget {
   final int selPage;
-  const NavHome({Key? key, required this.selPage}) : super(key: key);
+  final String searchvalue;
+  const NavHome({Key? key, required this.selPage, required this.searchvalue})
+      : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -100,11 +105,13 @@ class _NavHomeState extends State<NavHome> with SingleTickerProviderStateMixin {
 
               // ignore: prefer_const_constructors
               body: TabBarView(
-                children: const [
-                  POBrowse(),
-                  laporanbrowse(),
-                  receiptbrowse(),
-                  userProf()
+                children: [
+                  const POBrowse(),
+                  laporanbrowse(
+                    searchdefault: widget.searchvalue ?? '',
+                  ),
+                  const receiptbrowse(),
+                  const userProf()
                   // const Center(child: const Text('Content of Tab 4')),
                   // SignaturePage(),
                   // CreateSignature(),
