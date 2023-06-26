@@ -15,6 +15,7 @@ import '../../utils/styles.dart';
 class laporanform extends StatefulWidget {
   final String ponbr,
       rcpt_nbr,
+      rcpt_imr,
       rcpt_date,
       rcptd_part,
       rcptd_qty_arr,
@@ -29,6 +30,7 @@ class laporanform extends StatefulWidget {
     Key? key,
     required this.ponbr,
     required this.rcpt_nbr,
+    required this.rcpt_imr,
     required this.rcpt_date,
     required this.rcptd_part,
     required this.rcptd_qty_arr,
@@ -39,6 +41,7 @@ class laporanform extends StatefulWidget {
     required this.angkutan,
     required this.nopol,
     required this.supplier,
+    
   }) : super(key: key);
 
   @override
@@ -243,7 +246,7 @@ class _laporanform extends State<laporanform> {
         text: widget.rcptd_qty_arr != 'null' ? widget.rcptd_qty_arr : '');
     PO = TextEditingController(text: widget.ponbr);
     NomorLot = TextEditingController(text: widget.rcptd_lot);
-    No = TextEditingController();
+    No = TextEditingController(text: widget.rcpt_imr);
     Tanggal = TextEditingController(text:DateFormat('yyyy-MM-dd').format(now));
     Supplier = TextEditingController(
         text: widget.supplier != 'null' ? widget.supplier : '');
@@ -251,6 +254,7 @@ class _laporanform extends State<laporanform> {
     Keterangan = TextEditingController();
     KomplainDetail = TextEditingController(
         text: widget.rcptd_qty_rej != 'null' ? widget.rcptd_qty_rej : '');
+        
     Angkutan = TextEditingController(
         text: widget.angkutan != 'null' ? widget.angkutan : '');
     NoPol =
@@ -381,6 +385,7 @@ class _laporanform extends State<laporanform> {
               TextFormField(
                 controller: No,
                 decoration: InputDecoration(labelText: 'No'),
+                readOnly: true,
               ),
               TextFormField(
                 controller: Tanggal,
@@ -815,11 +820,14 @@ class _laporanform extends State<laporanform> {
                 TableRow(children: [
                   Container(
                     height: 50,
-                    alignment: Alignment.centerLeft,
+                    alignment: Alignment.centerRight,
+                    padding: new EdgeInsets.only(
+                      right:30.0),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           primary: Colors.orange[400],
                           minimumSize: Size(100, 50)),
+                          
                       child: const Text('Gallery',
                           style: const TextStyle(
                               fontWeight: FontWeight.bold,
@@ -827,7 +835,9 @@ class _laporanform extends State<laporanform> {
                               color: Colors.black)),
                       onPressed: () => pickImage(),
                     ),
+                    
                   ),
+                  
                   Container(
                     height: 50,
                     alignment: Alignment.centerLeft,

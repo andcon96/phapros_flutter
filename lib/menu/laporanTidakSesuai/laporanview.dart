@@ -1,10 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_template/main.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
-
+import 'package:flutter_template/utils/secure_user_login.dart';
+import 'package:flutter_template/utils/globalurl.dart' as globals;
 class laporanview extends StatefulWidget {
   final String ponbr,
       rcpt_nbr,
@@ -51,6 +54,36 @@ class laporanview extends StatefulWidget {
   _laporanview createState() => _laporanview();
 }
 
+class AboutPage extends StatelessWidget {
+  final String tag;
+  final String photourl;
+
+  AboutPage({
+    required this.tag, 
+    required this.photourl
+  });
+ 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Foto'),
+      ),
+      body: Center(
+        child: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Hero(
+            tag: tag,
+            child: 
+                  Image.network('${globals.globalurlphoto}'+photourl)),
+          
+        ),
+      ),
+    );
+  }
+}
 class _laporanview extends State<laporanview> {
   int currentStep = 0;
   late TextEditingController IdRcp;
@@ -71,10 +104,68 @@ class _laporanview extends State<laporanview> {
   String rcptnbr = '';
   late String responseresult = '';
 
+  List<String>? imagefiles = [];
+  
+
+  final children = <Widget>[];
+  final childrendetail = <Widget>[];
+  
+  Future<void> getFoto({String? search}) async {
+    final token = await UserSecureStorage.getToken();
+    final id = await UserSecureStorage.getIdAnggota();
+    final Uri url = Uri.parse(
+          '${globals.globalurl}/getlaporanfoto?rcptnbr=' +
+              search.toString());
+print(token);
+print(id);
+print(url);
+
+    final response = await http.get(url, headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: "Bearer $token"
+      }).timeout(const Duration(seconds: 20), onTimeout: () {
+        setState(() {
+          
+          ArtSweetAlert.show(
+              context: context,
+              artDialogArgs: ArtDialogArgs(
+                  type: ArtSweetAlertType.danger,
+                  title: "Error",
+                  text: "Failed to load data"));
+          
+        });
+        return http.Response('Error', 500);
+      });
+      List<dynamic>? responseresult = json.decode(response.body);
+      
+      if(responseresult != []){
+        responseresult?.asMap().forEach((index,element) {
+          children.add(
+            new InkWell(
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => new AboutPage(tag: index.toString(),photourl: element['li_path']))
+              ), 
+              child: Card(
+                child: Container(
+                  height: 100,
+                  width: 100,
+                  child: Hero(tag: index.toString(),child:Image.network('${globals.globalurlphoto}'+element['li_path']))
+                ),
+              )
+            ),
+          );
+        });
+        setState(() {
+          
+        });
+      }
+  }
 
 
   void initState() {
     super.initState();
+    String rcptnumber = widget.rcpt_nbr;
+    getFoto(search: rcptnumber);
     IdRcp = TextEditingController(text: widget.rcpt_nbr);
     NamaBarang = TextEditingController(
         text: widget.rcptd_part != 'null' ? widget.rcptd_part : '');
@@ -463,9 +554,27 @@ class _laporanview extends State<laporanview> {
                         ),
                         ),
                       ]),
-                      
-                    ])
+                    ]),
+                    Container(
+                      height:50,
+                            alignment: Alignment.center,
+                          child: Text(
+                            'Foto',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 14),
+                          
+                          ),
+                    ),
+                    SizedBox(height: 10),
+                    Wrap(
+                      children: children
+                    ),
+
+                    SizedBox(height: 30),
+                        
+                    
               ]),
+              
             ),
           )
         ],

@@ -266,7 +266,7 @@ class _receiptform extends State<receiptform> {
                 ),
                 _textInput(
                   hint: "Part",
-                  controller: TextEditingController(text: element['rcptd_part']),
+                  controller: TextEditingController(text: element['rcptd_part'] + ' -- ' + element['item_desc'] ),
                 ),
                 const SizedBox(
                   height: 8,
@@ -314,10 +314,10 @@ class _receiptform extends State<receiptform> {
                 const SizedBox(
                   height: 8,
                 ),
-                _textInput(
-                  hint: "Site",
-                  controller: TextEditingController(text: element['rcptd_site']),
-                ),
+                // _textInput(
+                //   hint: "Site",
+                //   controller: TextEditingController(text: element['rcptd_site']),
+                // ),
                 const SizedBox(
                   height: 50,
                 ),
