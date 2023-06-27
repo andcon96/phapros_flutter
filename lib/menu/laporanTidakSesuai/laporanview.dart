@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter_template/utils/secure_user_login.dart';
 import 'package:flutter_template/utils/globalurl.dart' as globals;
+
 class laporanview extends StatefulWidget {
   final String ponbr,
       rcpt_nbr,
@@ -27,7 +28,9 @@ class laporanview extends StatefulWidget {
       komplaindetail,
       tanggal,
       createdby,
-      batch;
+      batch,
+      supplierdesc;
+
   const laporanview({
     Key? key,
     required this.ponbr,
@@ -49,12 +52,14 @@ class laporanview extends StatefulWidget {
     required this.komplain ,
     required this.createdby,
     required this.batch,
+    required this.supplierdesc,
   }) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
   _laporanview createState() => _laporanview();
 }
+
 
 class AboutPage extends StatelessWidget {
   final String tag;
@@ -79,7 +84,11 @@ class AboutPage extends StatelessWidget {
           child: Hero(
             tag: tag,
             child: 
-                  Image.network('${globals.globalurlphoto}'+photourl)),
+                  Image.network('${globals.globalurlphoto}'+photourl,
+                  errorBuilder: (context, Object exception, stackTrace) {
+                    print('a');
+                        return Text('Your error widget2');
+                    },)),
           
         ),
       ),
@@ -111,14 +120,22 @@ class _laporanview extends State<laporanview> {
 
   final children = <Widget>[];
   final childrendetail = <Widget>[];
-  
+  Future<bool> checkImageUrlExists(String imageUrl) async {
+    try {
+      final response = await http.head(Uri.parse(imageUrl));
+      return response.statusCode == 200;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<void> getFoto({String? search, String? batch, String? lot}) async {
     final token = await UserSecureStorage.getToken();
     final id = await UserSecureStorage.getIdAnggota();
     final Uri url = Uri.parse(
           '${globals.globalurl}/getlaporanfoto?rcptnbr=' +
               search.toString() + '&batch=' + batch.toString() + '&lot=' + lot.toString()
-              );
+    );
 
     final response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: "application/json",
@@ -136,28 +153,45 @@ class _laporanview extends State<laporanview> {
         });
         return http.Response('Error', 500);
       });
+
+      
       List<dynamic>? responseresult = json.decode(response.body);
       
+
       if(responseresult != []){
         responseresult?.asMap().forEach((index,element) {
-          children.add(
-            new InkWell(
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => new AboutPage(tag: index.toString(),photourl: element['li_path']))
-              ), 
-              child: Card(
-                child: Container(
-                  height: 100,
-                  width: 100,
-                  child: Hero(tag: index.toString(),child:Image.network('${globals.globalurlphoto}'+element['li_path']))
+          var responsecheck = http.head(Uri.parse('${globals.globalurlphoto}'+element['li_path']))
+         .then((responsecode) {
+          // Check the response status code
+          var statusCode = responsecode.statusCode;
+          if(statusCode == 200){
+            print('${globals.globalurlphoto}'+element['li_path']);
+            setState(() { 
+             children.add(
+                new InkWell(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => new AboutPage(tag: index.toString(),photourl: element['li_path']))
+                  ), 
+                  child: Card(
+                    child: Container(
+                      height: 100,
+                      width: 100,
+                      child: Hero(tag: index.toString(),child:Image.network(
+                      '${globals.globalurlphoto}'+element['li_path'],
+                        
+                      ))
+                    ),
+                  )
                 ),
-              )
-            ),
-          );
+              );
+            });
+          }
+          else{
+            print(statusCode);
+          }
         });
-        setState(() {
-          
-        });
+      });
+        
       }
   }
 
@@ -179,9 +213,9 @@ class _laporanview extends State<laporanview> {
     No = TextEditingController(text:widget.no);
     Tanggal = TextEditingController(text:widget.tanggal);
     Supplier = TextEditingController(
-        text: widget.supplier != 'null' ? widget.supplier : '');
-    Komplain = TextEditingController( text: widget.komplain);
-    Keterangan = TextEditingController(text:widget.keterangan);
+        text: widget.supplier != 'null' ? (widget.supplier + ' -- ' + widget.supplierdesc) : '');
+    Komplain = TextEditingController( text: widget.komplain != 'null' ? widget.komplain  :'-');
+    Keterangan = TextEditingController(text:widget.keterangan != 'null' ? widget.keterangan : '-');
     KomplainDetail = TextEditingController(
         text: widget.rcptd_qty_rej != 'null' ? widget.rcptd_qty_rej : '');
     Angkutan = TextEditingController(
