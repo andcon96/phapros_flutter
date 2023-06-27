@@ -26,7 +26,9 @@ class laporanform extends StatefulWidget {
       angkutan,
       nopol,
       supplier,
-      batch;
+      batch,
+      supplierdesc;
+
   const laporanform({
     Key? key,
     required this.ponbr,
@@ -43,6 +45,7 @@ class laporanform extends StatefulWidget {
     required this.nopol,
     required this.supplier,
     required this.batch,
+    required this.supplierdesc,
   }) : super(key: key);
 
   @override
@@ -84,7 +87,7 @@ class _laporanform extends State<laporanform> {
       // Process selected images
 
       for (var image in images!) {
-        imagesPath.add(File(image.path));
+        // imagesPath.add(File(image.path));
         imagefiles.add(image);
         // Do something with the selected image
       }
@@ -109,7 +112,7 @@ class _laporanform extends State<laporanform> {
 
     if (imagefromphoto != null) {
       imagefiles.add(imagefromphoto!);
-      imagesPath.add(File(imagefromphoto!.path));
+      // imagesPath.add(File(imagefromphoto!.path));
 
       // Process selected images
 
@@ -138,7 +141,8 @@ class _laporanform extends State<laporanform> {
     request.headers['Content-Type'] = 'application/json';
     request.headers['authorization'] = "Bearer $token";
 
-    for (var image in imagesPath) {
+    for (var imagenew in imagefiles) {
+      File image = File(imagenew.path);
       if (image.existsSync()) {
         // Check if the file exists
         // Check if the file is an image file
@@ -171,7 +175,7 @@ class _laporanform extends State<laporanform> {
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.danger,
                 title: "Error",
-                text: "Failed to Submit report for receipt" + IdRcp.text));
+                text: "Failed to Submit report for receipt" + IdRcp.text + " Lot " +  NomorLot.text));
       } else {
         Navigator.pop(context, 'refresh');
 
@@ -180,7 +184,7 @@ class _laporanform extends State<laporanform> {
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.success,
                 title: "Success",
-                text: "Success to Submit report for receipt " + IdRcp.text));
+                text: "Success to Submit report for receipt " + IdRcp.text + " Lot " +  NomorLot.text));
       }
     } else {
       return ArtSweetAlert.show(
@@ -188,7 +192,7 @@ class _laporanform extends State<laporanform> {
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.danger,
               title: "Error",
-              text: "Failed to Submit report for receipt" + IdRcp.text));
+              text: "Failed to Submit report for receipt" + IdRcp.text + " Lot " +  NomorLot.text));
     }
     // return response;
     // final response = await http.post(Uri.parse(url), headers: {
@@ -231,6 +235,10 @@ class _laporanform extends State<laporanform> {
 
   void initState() {
     super.initState();
+    String oldimrnbr = widget.rcpt_imr.toString();
+    String prefiximr = oldimrnbr.substring(0, oldimrnbr.indexOf('.'));
+    String lotnbr = widget.rcptd_lot.toString();
+    String currentimrnbr = prefiximr + '.' + lotnbr;
     IdRcp = TextEditingController(text: widget.rcpt_nbr);
     NamaBarang = TextEditingController(
         text: widget.rcptd_part != 'null' ? widget.rcptd_part : '');
@@ -239,10 +247,10 @@ class _laporanform extends State<laporanform> {
         text: widget.rcptd_qty_arr != 'null' ? widget.rcptd_qty_arr : '');
     PO = TextEditingController(text: widget.ponbr);
     NomorLot = TextEditingController(text: widget.rcptd_lot);
-    No = TextEditingController(text: widget.rcpt_imr);
+    No = TextEditingController(text: currentimrnbr);
     Tanggal = TextEditingController(text: DateFormat('yyyy-MM-dd').format(now));
     Supplier = TextEditingController(
-        text: widget.supplier != 'null' ? widget.supplier : '');
+        text: widget.supplier != 'null' ? (widget.supplier + ' -- ' + widget.supplierdesc) : '');
     Komplain = TextEditingController();
     Keterangan = TextEditingController();
     KomplainDetail = TextEditingController(
@@ -883,6 +891,7 @@ class _laporanform extends State<laporanform> {
                                                       color: Colors.black)),
                                               onPressed: () {
                                                 imagefiles.remove(imageone);
+                                                
                                                 Navigator.pop(context);
                                                 ArtSweetAlert.show(
                                                     context: context,

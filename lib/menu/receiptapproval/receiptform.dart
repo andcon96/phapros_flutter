@@ -201,22 +201,36 @@ class _receiptform extends State<receiptform> {
 
     if (responseresult != []) {
       responseresult?.asMap().forEach((index, element) {
-        children.add(
-          new InkWell(
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => new AboutPage(
-                      tag: index.toString(),
-                      photourl: element['rcptfu_path']))),
-              child: Card(
-                child: Container(
-                    height: 100,
-                    width: 100,
-                    child: Hero(
-                        tag: index.toString(),
-                        child: Image.network('${globals.globalurlphoto}' +
-                            element['rcptfu_path']))),
-              )),
-        );
+        var responsecheck = http.head(Uri.parse('${globals.globalurlphoto}'+element['rcptfu_path']))
+         .then((responsecode) {
+          // Check the response status code
+          var statusCode = responsecode.statusCode;
+          if(statusCode == 200){
+            
+            setState(() { 
+              children.add(
+                new InkWell(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => new AboutPage(
+                            tag: index.toString(),
+                            photourl: element['rcptfu_path']))),
+                    child: Card(
+                      child: Container(
+                          height: 100,
+                          width: 100,
+                          child: Hero(
+                              tag: index.toString(),
+                              child: Image.network('${globals.globalurlphoto}' +
+                                  element['rcptfu_path']))),
+                    )),
+              );
+            });
+          }
+          else{
+            print(statusCode);
+          }
+          });
+         
       });
     }
   }

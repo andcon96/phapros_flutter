@@ -389,7 +389,8 @@ class _uploadfilepoState extends State<uploadfilepo> {
       request.headers['Content-Type'] = 'application/json';
       request.headers['authorization'] = "Bearer $token";
 
-      for (var image in imagesPath) {
+      for (var imagenew in imagefiles) {
+        File image = File(imagenew.path);
         if (image.existsSync()) {
           // Check if the file exists
           // Check if the file is an image file
