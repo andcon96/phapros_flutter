@@ -138,7 +138,11 @@ class _DetailPOState extends State<DetailPO> {
 class DropdownLocation extends StatefulWidget {
   Data cartItem;
   List<dynamic> listLocation;
-  DropdownLocation({required this.cartItem, required this.listLocation});
+  bool isSaved;
+  DropdownLocation(
+      {required this.cartItem,
+      required this.listLocation,
+      required this.isSaved});
   @override
   _DropdownLocationState createState() => _DropdownLocationState();
 }
@@ -151,7 +155,6 @@ class _DropdownLocationState extends State<DropdownLocation> {
   @override
   void initState() {
     super.initState();
-    print(widget.cartItem.tLvcLoc);
     if (!_isInitial) {
       // dropdownValue = widget.listLocation[0]['t_site_loc'] ?? '';
       dropdownValue = widget.cartItem.tLvcLoc ?? '';
@@ -162,49 +165,51 @@ class _DropdownLocationState extends State<DropdownLocation> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(
-          color: Color.fromARGB(255, 157, 154, 154),
-          width: 1.0,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+            color: Color.fromARGB(255, 157, 154, 154),
+            width: 1.0,
+          ),
+          borderRadius: BorderRadius.all(
+            Radius.circular(5),
+          ),
         ),
-        borderRadius: BorderRadius.all(
-          Radius.circular(5),
-        ),
-      ),
-      child: DropdownButtonHideUnderline(
-          child: DropdownButton(
-              itemHeight: 60,
-              hint: Padding(
-                padding: const EdgeInsets.only(left: 15),
-                child: TextField(
-                  decoration: InputDecoration(
-                      hintText: 'Select Location',
-                      border: InputBorder.none,
-                      labelText: 'Select Location'),
-                ),
-              ),
-              value: dropdownValue,
-              // ignore: prefer_const_literals_to_create_immutables
-              items: widget.listLocation.map((value) {
-                return DropdownMenuItem(
-                    value: "${value['t_site_loc']}".toString(),
-                    child: SizedBox(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: Text("${value['t_loc_desc']}"),
-                      ),
-                    ));
-              }).toList(),
-              isExpanded: true,
-              icon: Icon(Icons.arrow_drop_down),
-              onChanged: (value) {
-                setState(() {
-                  dropdownValue = value ?? '';
-                  widget.cartItem.tLvcLoc = value;
-                });
-              })),
-    );
+        child: DropdownButtonHideUnderline(
+          child: IgnorePointer(
+              ignoring: widget.isSaved,
+              child: DropdownButton(
+                  itemHeight: 60,
+                  hint: Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: TextField(
+                      decoration: InputDecoration(
+                          hintText: 'Select Location',
+                          border: InputBorder.none,
+                          labelText: 'Select Location'),
+                    ),
+                  ),
+                  value: dropdownValue,
+                  // ignore: prefer_const_literals_to_create_immutables
+                  items: widget.listLocation.map((value) {
+                    return DropdownMenuItem(
+                        value: "${value['t_site_loc']}".toString(),
+                        child: SizedBox(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 15),
+                            child: Text("${value['t_loc_desc']}"),
+                          ),
+                        ));
+                  }).toList(),
+                  isExpanded: true,
+                  icon: Icon(Icons.arrow_drop_down),
+                  onChanged: (value) {
+                    setState(() {
+                      dropdownValue = value ?? '';
+                      widget.cartItem.tLvcLoc = value;
+                    });
+                  })),
+        ));
   }
 }
 
@@ -275,7 +280,7 @@ class _CartWidgetState extends State<CartWidget> {
       var newlot = String.fromCharCode(widget.index + 64);
       datalot = '$datalot$newlot';
     }
-
+    print(widget.index);
     batch.text = widget.cart[widget.index].tLvcBatch == null
         ? ''
         : widget.cart[widget.index].tLvcBatch.toString();
@@ -285,6 +290,9 @@ class _CartWidgetState extends State<CartWidget> {
     lot.text = widget.cart[widget.index].tLvcLot == null
         ? datalot
         : widget.cart[widget.index].tLvcLot.toString();
+    qtyper.text = widget.cart[widget.index].tlvdQtyPerPackage == null
+        ? ''
+        : widget.cart[widget.index].tlvdQtyPerPackage.toString();
     qtydatang.text = widget.cart[widget.index].tLvdQtyDatang == null
         ? ''
         : widget.cart[widget.index].tLvdQtyDatang.toString();
@@ -347,6 +355,7 @@ class _CartWidgetState extends State<CartWidget> {
               DropdownLocation(
                 cartItem: widget.cart[widget.index],
                 listLocation: widget.listLocation,
+                isSaved: widget.cart[widget.index].tIsSaved!,
               ),
               // ignore: prefer_const_constructors
               SizedBox(
@@ -422,6 +431,7 @@ class _CartWidgetState extends State<CartWidget> {
                 height: 8,
               ),
               TextField(
+                readOnly: widget.cart[widget.index].tIsSaved!,
                 controller: qtyper,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
