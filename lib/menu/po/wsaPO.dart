@@ -474,8 +474,17 @@ class _wsaPOState extends State<wsaPO> {
           fontWeight: FontWeight.w500,
         ),
       ),
-      subtitle: Text(
-          'Qty Pesan : ${double.parse(qtyord)}, Qty Open : ${double.parse(qtyord) - double.parse(qtyrcvd)} , Price: $price, Qty Ongoing Android : $receiptongoing'),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Qty Pesan : ${double.parse(qtyord)}'),
+          Text('Qty Open  : ${double.parse(qtyord) - double.parse(qtyrcvd)}'),
+          Text('UM : $um'),
+          Text('Qty Ongoing Android : $receiptongoing')
+        ],
+      ),
+      // Text(
+      //     'Qty Pesan : ${double.parse(qtyord)}, Qty Open : ${double.parse(qtyord) - double.parse(qtyrcvd)} , UM: $um, Qty Ongoing Android : $receiptongoing'),
       trailing: double.parse(qtyord) - double.parse(qtyrcvd) <= 0
           ? null
           : isSelected
