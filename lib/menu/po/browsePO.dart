@@ -374,7 +374,7 @@ class _POBrowseState extends State<POBrowse> {
                                                         height: 12,
                                                       ),
                                                       Text(
-                                                        'Kode Barang - Jumlah Pesan',
+                                                        'Line - Kode Barang - Jumlah Pesan',
                                                         style: title,
                                                       ),
                                                       const SizedBox(
@@ -394,9 +394,12 @@ class _POBrowseState extends State<POBrowse> {
                                                               details[index];
 
                                                           return Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
                                                             children: [
                                                               Text(
-                                                                '${detail.podPart} - ${detail.podQtyOrd}',
+                                                                'Line : ${detail.podLine} - ${detail.podPartDesc} - ${detail.podQtyOrd}',
                                                                 softWrap: true,
                                                                 style: content,
                                                                 maxLines: 2,
@@ -526,7 +529,7 @@ class _POBrowseState extends State<POBrowse> {
                                                                           (context) =>
                                                                               podetail(
                                                                                 ponbr: user.poNbr!,
-                                                                                povend: user.poVend!,
+                                                                                povend: '${user.poVend!} - ${user.poVendDesc}',
                                                                                 orddate: user.poOrdDate!,
                                                                                 duedate: user.poDueDate!,
                                                                                 total: user.poTotal!,
@@ -564,7 +567,7 @@ class _POBrowseState extends State<POBrowse> {
                                                                         builder: (context) =>
                                                                             PoReceipt(
                                                                               ponbr: user.poNbr!,
-                                                                              povend: user.poVend!,
+                                                                              povend: '${user.poVend!} - ${user.poVendDesc}',
                                                                               orddate: user.poOrdDate!,
                                                                               duedate: user.poDueDate!,
                                                                               total: user.poTotal!,

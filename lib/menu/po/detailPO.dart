@@ -62,7 +62,7 @@ class _podetailState extends State<podetail> {
                   data: widget.ponbr, title: 'PO Number', panjang: 100.00),
               const Divider(),
               _textInfo(
-                  data: widget.povend, title: 'PO Vendor', panjang: 100.00),
+                  data: widget.povend, title: 'PO Vendor', panjang: 250.00),
               const Divider(),
               _textInfo(
                   data: widget.orddate, title: 'Order Date', panjang: 200.00),
@@ -102,20 +102,28 @@ class _podetailState extends State<podetail> {
                         child: Card(
                           elevation: 5,
                           child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: Colors.purple[400],
-                              maxRadius: 20,
-                              child: Text(
-                                "${listdetail[i].podLine}",
-                                style: TextStyle(color: Colors.white),
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.purple[400],
+                                maxRadius: 20,
+                                child: Text(
+                                  "${listdetail[i].podLine}",
+                                  style: TextStyle(color: Colors.white),
+                                ),
                               ),
-                            ),
-                            title: Text(
-                                '${listdetail[i].podPart!} - ${listdetail[i].podPartDesc ?? ''}'),
-                            subtitle: Text(
-                                'Qty Pesan : ${listdetail[i].podQtyOrd}, Qty Open : ${double.parse(listdetail[i].podQtyOrd!) - double.parse(listdetail[i].podQtyRcvd!)}'),
-                            // trailing: Icon(Icons.food_bank),
-                          ),
+                              title: Text(
+                                  '${listdetail[i].podPart!} - ${listdetail[i].podPartDesc ?? ''}'),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Qty Pesan : ${listdetail[i].podQtyOrd}'),
+                                  Text(
+                                      'Qty Open : ${double.parse(listdetail[i].podQtyOrd!) - double.parse(listdetail[i].podQtyRcvd!)}'),
+                                  const SizedBox(
+                                    height: 8,
+                                  )
+                                ],
+                              )),
                         ),
                       ),
                       const Divider(),

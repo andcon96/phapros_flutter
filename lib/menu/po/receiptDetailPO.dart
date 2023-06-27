@@ -64,7 +64,7 @@ class _receiptdetailState extends State<receiptdetail> {
                   data: widget.ponbr, title: 'PO Number', panjang: 100.00),
               const Divider(),
               _textInfo(
-                  data: widget.povend, title: 'PO Vendor', panjang: 100.00),
+                  data: widget.povend, title: 'PO Vendor', panjang: 250.00),
               const Divider(),
               _textInfo(
                   data: widget.receiptno, title: 'No Receipt', panjang: 100.00),

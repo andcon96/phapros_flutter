@@ -60,7 +60,7 @@ class _PoReceiptState extends State<PoReceipt> {
               _textInfo(data: widget.ponbr, title: 'No PO', panjang: 100.00),
               const Divider(),
               _textInfo(
-                  data: widget.povend, title: 'PO Vendor', panjang: 100.00),
+                  data: widget.povend, title: 'PO Vendor', panjang: 250.00),
               const Divider(),
               _textInfo(
                   data: widget.orddate,
