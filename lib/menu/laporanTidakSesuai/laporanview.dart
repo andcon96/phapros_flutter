@@ -29,7 +29,8 @@ class laporanview extends StatefulWidget {
       tanggal,
       createdby,
       batch,
-      supplierdesc;
+      supplierdesc,
+      um;
 
   const laporanview({
     Key? key,
@@ -53,6 +54,7 @@ class laporanview extends StatefulWidget {
     required this.createdby,
     required this.batch,
     required this.supplierdesc,
+    required this.um
   }) : super(key: key);
 
   @override
@@ -111,6 +113,7 @@ class _laporanview extends State<laporanview> {
   late TextEditingController NomorLot;
   late TextEditingController Angkutan;
   late TextEditingController NoPol;
+  late TextEditingController UM;
   late TextEditingController createdby;
   String rcptnbr = '';
   late String responseresult = '';
@@ -222,6 +225,8 @@ class _laporanview extends State<laporanview> {
         text: widget.angkutan != 'null' ? widget.angkutan : '');
     NoPol =
         TextEditingController(text: widget.nopol != 'null' ? widget.nopol : '');
+    UM =
+        TextEditingController(text: widget.um != 'null' ? widget.um : '');
     createdby =
         TextEditingController(text: widget.createdby != 'null' ? widget.createdby : '');
   }
@@ -410,6 +415,31 @@ class _laporanview extends State<laporanview> {
                             alignment: Alignment.centerLeft,
                           child: Text(
                             NamaBarang.text,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          ),
+                        ),
+                      ]),
+                      TableRow(children: [
+                        TableCell(
+                          verticalAlignment: TableCellVerticalAlignment.middle,
+                          child: Container(
+                            height:50,
+                            alignment: Alignment.centerLeft,
+                          child: Text(
+                            'UM',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 14),
+                          ),
+                          ),
+                        ),
+                        TableCell(
+                          verticalAlignment: TableCellVerticalAlignment.middle,
+                          child: Container(
+                            height:50,
+                            alignment: Alignment.centerLeft,
+                          child: Text(
+                            UM.text,
                             style: TextStyle(fontSize: 16),
                           ),
                           ),

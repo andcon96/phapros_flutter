@@ -387,7 +387,7 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                         ],
                                                       )),
                                                   collapsed: Text(
-                                                    'Location : ${user.rcptd_loc ?? ""}',
+                                                    'Order Date : ${user.rcpt_date ?? ""}',
                                                     softWrap: true,
                                                     style: content,
                                                     maxLines: 2,
@@ -399,33 +399,7 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: <Widget>[
-                                                      Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 10),
-                                                          child: Text(
-                                                            'Location : ${user.rcptd_loc ?? ""} ',
-                                                            style: content,
-                                                            softWrap: true,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .fade,
-                                                          )),
-                                                      Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 10),
-                                                          child: Text(
-                                                            'Lot : ${user.rcptd_lot ?? ""} ',
-                                                            style: content,
-                                                            softWrap: true,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .fade,
-                                                          )),
-                                                      Padding(
+                                                                                                            Padding(
                                                           padding:
                                                               const EdgeInsets
                                                                       .only(

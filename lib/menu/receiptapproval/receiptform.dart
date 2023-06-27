@@ -277,6 +277,14 @@ class _receiptform extends State<receiptform> {
             height: 8,
           ),
           _textInput(
+            hint: "UM",
+            controller: TextEditingController(
+                text: element['rcptd_part_um']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          _textInput(
             hint: "Qty Datang",
             controller: TextEditingController(text: element['rcptd_qty_arr']),
           ),

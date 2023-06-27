@@ -27,7 +27,8 @@ class laporanform extends StatefulWidget {
       nopol,
       supplier,
       batch,
-      supplierdesc;
+      supplierdesc,
+      um;
 
   const laporanform({
     Key? key,
@@ -46,6 +47,7 @@ class laporanform extends StatefulWidget {
     required this.supplier,
     required this.batch,
     required this.supplierdesc,
+    required this.um
   }) : super(key: key);
 
   @override
@@ -69,6 +71,7 @@ class _laporanform extends State<laporanform> {
   late TextEditingController NomorLot;
   late TextEditingController Angkutan;
   late TextEditingController NoPol;
+  late TextEditingController UM;
   String rcptnbr = '';
   late String responseresult = '';
   bool loading = false;
@@ -260,6 +263,9 @@ class _laporanform extends State<laporanform> {
         text: widget.angkutan != 'null' ? widget.angkutan : '');
     NoPol =
         TextEditingController(text: widget.nopol != 'null' ? widget.nopol : '');
+    UM =
+        TextEditingController(text: widget.um != 'null' ? widget.um : '');
+
   }
 
   @override
@@ -472,7 +478,18 @@ class _laporanform extends State<laporanform> {
                 decoration: InputDecoration(labelText: 'Nama Barang'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
+                    return '-';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: UM,
+                readOnly: true,
+                decoration: InputDecoration(labelText: 'UM'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return '-';
                   }
                   return null;
                 },
@@ -680,6 +697,23 @@ class _laporanform extends State<laporanform> {
                     height: 50,
                     child: Text(
                       NamaBarang.text,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ]),
+                TableRow(children: [
+                  Container(
+                    height: 50,
+                    child: Text(
+                      'UM',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    ),
+                  ),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      UM.text,
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
