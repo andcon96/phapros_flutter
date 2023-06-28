@@ -251,11 +251,11 @@ class _CartWidgetState extends State<CartWidget> {
 
     final now = DateTime.now();
     // Expiration Date
-    final dataexpdet = widget.cart[0].tLvcExpDetailDate;
+    final dataexpdet = widget.cart[widget.index].tLvcExpDetailDate;
     late String? newexpdet;
 
     if (dataexpdet != null && dataexpdet.isNotEmpty) {
-      newexpdet = widget.cart[0].tLvcExpDetailDate;
+      newexpdet = widget.cart[widget.index].tLvcExpDetailDate;
     } else {
       newexpdet = DateFormat('yyyy-MM-dd').format(now).toString();
     }
@@ -263,16 +263,18 @@ class _CartWidgetState extends State<CartWidget> {
     selectedExpDate = DateTime.parse(newexpdet);
 
     // Manufacturer Date
-    final datamanudet = widget.cart[0].tLvcManuDetailDate;
+    final datamanudet = widget.cart[widget.index].tLvcManuDetailDate;
     late String? newmanudate;
 
     if (datamanudet != null && datamanudet.isNotEmpty) {
-      newmanudate = widget.cart[0].tLvcManuDetailDate;
+      newmanudate = widget.cart[widget.index].tLvcManuDetailDate;
     } else {
       newmanudate = DateFormat('yyyy-MM-dd').format(now).toString();
     }
     manudetdate.text = newmanudate!;
     selectedManuDate = DateTime.parse(newmanudate);
+
+    print(widget.cart[widget.index].tLvcManuDetailDate);
 
     // Assign Ulang Value kalo gagal / back + Tambah Lot 19 Jun 23
     var datalot = widget.cart[widget.index].tIMRNo.toString().substring(3, 13);
@@ -280,7 +282,7 @@ class _CartWidgetState extends State<CartWidget> {
       var newlot = String.fromCharCode(widget.index + 64);
       datalot = '$datalot$newlot';
     }
-    print(widget.index);
+
     batch.text = widget.cart[widget.index].tLvcBatch == null
         ? ''
         : widget.cart[widget.index].tLvcBatch.toString();
