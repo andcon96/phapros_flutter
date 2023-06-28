@@ -47,6 +47,7 @@ class _DetailPOState extends State<DetailPO> {
     super.initState();
     _value = widget.cartItem.tLviLine!;
     _um.text = widget.listLine[0].tLvcUm.toString();
+    widget.cartItem.tLvcUm = widget.listLine[0].tLvcUm.toString();
   }
 
   @override
@@ -273,8 +274,6 @@ class _CartWidgetState extends State<CartWidget> {
     }
     manudetdate.text = newmanudate!;
     selectedManuDate = DateTime.parse(newmanudate);
-
-    print(widget.cart[widget.index].tLvcManuDetailDate);
 
     // Assign Ulang Value kalo gagal / back + Tambah Lot 19 Jun 23
     var datalot = widget.cart[widget.index].tIMRNo.toString().substring(3, 13);
