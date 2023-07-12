@@ -176,6 +176,7 @@ class _receiptform extends State<receiptform> {
 
   final children = <Widget>[];
   final childrendetail = <Widget>[];
+  final childketidaksesuaian = <Widget>[];
 
   Future<void> getFoto({String? search}) async {
     final token = await UserSecureStorage.getToken();
@@ -291,10 +292,11 @@ class _receiptform extends State<receiptform> {
           const SizedBox(
             height: 8,
           ),
-
-          _textInput(
+          
+          _textInputreject(
             hint: "Qty Reject",
-            controller: TextEditingController(text: element['rcptd_qty_rej']),
+            controller: TextEditingController(text: element['rcptd_qty_rej'])
+            
           ),
           const SizedBox(
             height: 8,
@@ -345,6 +347,91 @@ class _receiptform extends State<receiptform> {
           //   hint: "Site",
           //   controller: TextEditingController(text: element['rcptd_site']),
           // ),
+          const SizedBox(
+            height: 50,
+          ),
+        ]);
+      });
+    }
+  }
+
+  Future<void> getketidaksesuaian({String? search}) async {
+    final token = await UserSecureStorage.getToken();
+    final id = await UserSecureStorage.getIdAnggota();
+    final Uri url = Uri.parse(
+        '${globals.globalurl}/getreceiptketidaksesuaian?rcptnbr=' + search.toString());
+
+    final response = await http.get(url, headers: {
+      HttpHeaders.contentTypeHeader: "application/json",
+      HttpHeaders.authorizationHeader: "Bearer $token"
+    }).timeout(const Duration(seconds: 20), onTimeout: () {
+      setState(() {
+        ArtSweetAlert.show(
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+                type: ArtSweetAlertType.danger,
+                title: "Error",
+                text: "Failed to load data"));
+      });
+      return http.Response('Error', 500);
+    });
+    List<dynamic>? responseresult = json.decode(response.body);
+
+    if (responseresult != []) {
+      responseresult?.asMap().forEach((index, element) {
+        childketidaksesuaian.addAll([
+          _textInput(
+            hint: "Imr Number",
+            controller:
+                TextEditingController(text: element['laporan_imr']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          _textInput(
+            hint: "Lot",
+            controller: TextEditingController(
+                text: element['laporan_lot']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          _textInput(
+            hint: "Batch",
+            controller: TextEditingController(
+                text: element['laporan_batch']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          _textInput(
+            hint: "Jumlah Masuk",
+            controller: TextEditingController(text: element['laporan_jmlmasuk']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          
+          _textInput(
+            hint: "Jumlah Reject",
+            controller: TextEditingController(text: element['laporan_komplaindetail'])
+            
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          _textInput(
+            hint: "Komplain",
+            controller: TextEditingController(text: element['laporan_komplain']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          _textInput(
+            hint: "Keterangan",
+            controller: TextEditingController(text: element['laporan_keterangan']),
+          ),
+         
           const SizedBox(
             height: 50,
           ),
@@ -548,6 +635,7 @@ class _receiptform extends State<receiptform> {
     String rcptnumber = widget.rcpt_nbr;
     getFoto(search: rcptnumber);
     getDetail(search: rcptnumber);
+    getketidaksesuaian(search:rcptnumber);
     IdRcp = TextEditingController(text: widget.rcpt_nbr);
     NamaBarang = TextEditingController(
         text: widget.rcptd_part != 'null' ? widget.rcptd_part : '');
@@ -683,6 +771,20 @@ class _receiptform extends State<receiptform> {
     );
   }
 
+  Widget _textInputreject({controller, hint}) {
+    var controllervalue = controller.text.toString();
+    
+    return TextField(
+      controller: controller,
+      readOnly: true,
+      style: TextStyle(color: double.parse(controllervalue) > 0 ? Colors.red : Colors.black),
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(),
+        labelText: hint,
+      ),
+    );
+  }
+
   Widget _textInputReadonly({controller, hint}) {
     return TextField(
       readOnly: true,
@@ -721,6 +823,69 @@ class _receiptform extends State<receiptform> {
           title: const Text('Checklist'),
           content: Column(
             children: [
+              //   Row(
+              //   // mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Expanded(
+              //       child: Text('IMR No', textAlign: TextAlign.left, 
+              //         style: TextStyle(
+              //           fontSize: 17,
+              //           fontWeight: FontWeight.bold,
+              //         ),
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: Text(':', textAlign: TextAlign.left,
+              //         style: TextStyle(
+              //             fontSize: 17,
+              //             fontWeight: FontWeight.bold,
+              //           )
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: Text(imrno.text, textAlign: TextAlign.left, 
+              //       style: TextStyle(
+              //           fontSize: 17,
+              //           fontWeight: FontWeight.bold,
+              //         )
+              //         ),
+              //     ),
+
+              //   ],
+              // ),
+              //                 Row(
+              //   // mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Expanded(
+              //       child: Text('IMR No', textAlign: TextAlign.left, 
+              //         style: TextStyle(
+              //           fontSize: 17,
+              //           fontWeight: FontWeight.bold,
+              //         ),
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: Text(':', textAlign: TextAlign.left,
+              //         style: TextStyle(
+              //             fontSize: 17,
+              //             fontWeight: FontWeight.bold,
+              //           )
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: Text(imrno.text, textAlign: TextAlign.left, 
+              //       style: TextStyle(
+              //           fontSize: 17,
+              //           fontWeight: FontWeight.bold,
+              //         )
+              //         ),
+              //     ),
+
+              //   ],
+              // ),
+              // const SizedBox(
+              //   height: 30,
+              // ),
               _textInputReadonly(
                 hint: "IMR No.",
                 controller: imrno,
@@ -1309,7 +1474,7 @@ class _receiptform extends State<receiptform> {
         ),
         Step(
             state:
-                _activeStepIndex <= 4 ? StepState.editing : StepState.complete,
+                _activeStepIndex <= 5 ? StepState.editing : StepState.complete,
             isActive: _activeStepIndex >= 5,
             title: const Text('Catatan'),
             content: Column(
@@ -1379,11 +1544,19 @@ class _receiptform extends State<receiptform> {
                 _activeStepIndex <= 7 ? StepState.editing : StepState.complete,
             isActive: _activeStepIndex >= 7,
             title: const Text('Detail Alokasi'),
-            content: Column(children: childrendetail)),
+            content: Column(children: childrendetail)
+            ),
         Step(
             state:
                 _activeStepIndex <= 8 ? StepState.editing : StepState.complete,
             isActive: _activeStepIndex >= 8,
+            title: const Text('Laporan Ketidaksesuaian'),
+            content: Column(children: childketidaksesuaian)
+            ),
+        Step(
+            state:
+                _activeStepIndex <= 9 ? StepState.editing : StepState.complete,
+            isActive: _activeStepIndex >= 9,
             title: const Text('Foto'),
             content: Wrap(children: children))
       ];

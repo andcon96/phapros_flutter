@@ -61,7 +61,8 @@ class laporanModel{
   rcptd_batch,
   rcptd_imr,
   supplierdesc,
-  umdesc;
+  umdesc,
+  itemcode;
 
   laporanModel({
     required this.ponbr, 
@@ -86,6 +87,7 @@ class laporanModel{
     required this.createdby,
     required this.supplierdesc,
     required this.umdesc,
+    required this.itemcode,
   });
 
   factory laporanModel.fromJson(Map<String, dynamic> json){
@@ -121,6 +123,7 @@ class laporanModel{
       createdby: jsonuser['nama'] ?? '-',
       rcptd_imr: jsonchecklist['rcptc_imr_nbr'] ?? '-',
       umdesc: json['rcptd_part_um'] ?? '-',
+      itemcode: json['rcptd_part']
     );
   }
   

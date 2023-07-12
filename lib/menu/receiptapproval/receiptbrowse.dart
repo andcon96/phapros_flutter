@@ -399,7 +399,7 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: <Widget>[
-                                                                                                            Padding(
+                                                          Padding(
                                                           padding:
                                                               const EdgeInsets
                                                                       .only(
