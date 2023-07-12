@@ -106,7 +106,9 @@ class _NavHomeState extends State<NavHome> with SingleTickerProviderStateMixin {
               // ignore: prefer_const_constructors
               body: TabBarView(
                 children: [
-                  const POBrowse(),
+                  POBrowse(
+                    searchdefault: widget.searchvalue ?? '',
+                  ),
                   laporanbrowse(
                     searchdefault: widget.searchvalue ?? '',
                   ),

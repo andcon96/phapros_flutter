@@ -220,6 +220,10 @@ class PoListReceipt {
   String? createdAt;
   String? updatedAt;
   List<GetDetail>? getDetail;
+  GetChecklist? getChecklist;
+  GetDocument? getDocument;
+  GetKemasan? getKemasan;
+  GetTransport? getTransport;
   List<GetHistoryApproval>? getHistoryApproval;
   List<GetIsOngoinApproval>? getIsOngoinApproval;
 
@@ -234,6 +238,10 @@ class PoListReceipt {
       this.createdAt,
       this.updatedAt,
       this.getDetail,
+      this.getChecklist,
+      this.getDocument,
+      this.getKemasan,
+      this.getTransport,
       this.getHistoryApproval,
       this.getIsOngoinApproval});
 
@@ -253,6 +261,18 @@ class PoListReceipt {
         getDetail!.add(GetDetail.fromJson(v));
       });
     }
+    getChecklist = json['get_checklist'] != null
+        ? new GetChecklist.fromJson(json['get_checklist'])
+        : null;
+    getDocument = json['get_document'] != null
+        ? new GetDocument.fromJson(json['get_document'])
+        : null;
+    getKemasan = json['get_kemasan'] != null
+        ? new GetKemasan.fromJson(json['get_kemasan'])
+        : null;
+    getTransport = json['get_transport'] != null
+        ? new GetTransport.fromJson(json['get_transport'])
+        : null;
     if (json['get_history_approval'] != null) {
       getHistoryApproval = <GetHistoryApproval>[];
       json['get_history_approval'].forEach((v) {
@@ -281,6 +301,18 @@ class PoListReceipt {
     if (getDetail != null) {
       data['get_detail'] = getDetail!.map((v) => v.toJson()).toList();
     }
+    if (getChecklist != null) {
+      data['get_checklist'] = getChecklist?.toJson();
+    }
+    if (getDocument != null) {
+      data['get_document'] = getDocument?.toJson();
+    }
+    if (getKemasan != null) {
+      data['get_kemasan'] = getKemasan?.toJson();
+    }
+    if (getTransport != null) {
+      data['get_transport'] = getTransport?.toJson();
+    }
     if (getHistoryApproval != null) {
       data['get_history_approval'] =
           getHistoryApproval!.map((v) => v.toJson()).toList();
@@ -289,6 +321,310 @@ class PoListReceipt {
       data['get_is_ongoin_approval'] =
           getIsOngoinApproval!.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+}
+
+class GetChecklist {
+  int? id;
+  int? rcptcRcptId;
+  String? rcptcImrNbr;
+  String? rcptcArticleNbr;
+  String? rcptcImrDate;
+  String? rcptcArrivalDate;
+  String? rcptcProdDate;
+  String? rcptcExpDate;
+  String? rcptcManufacturer;
+  String? rcptcCountry;
+  String? createdAt;
+  String? updatedAt;
+
+  GetChecklist(
+      {this.id,
+      this.rcptcRcptId,
+      this.rcptcImrNbr,
+      this.rcptcArticleNbr,
+      this.rcptcImrDate,
+      this.rcptcArrivalDate,
+      this.rcptcProdDate,
+      this.rcptcExpDate,
+      this.rcptcManufacturer,
+      this.rcptcCountry,
+      this.createdAt,
+      this.updatedAt});
+
+  GetChecklist.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    rcptcRcptId = json['rcptc_rcpt_id'];
+    rcptcImrNbr = json['rcptc_imr_nbr'];
+    rcptcArticleNbr = json['rcptc_article_nbr'];
+    rcptcImrDate = json['rcptc_imr_date'];
+    rcptcArrivalDate = json['rcptc_arrival_date'];
+    rcptcProdDate = json['rcptc_prod_date'];
+    rcptcExpDate = json['rcptc_exp_date'];
+    rcptcManufacturer = json['rcptc_manufacturer'];
+    rcptcCountry = json['rcptc_country'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = id;
+    data['rcptc_rcpt_id'] = rcptcRcptId;
+    data['rcptc_imr_nbr'] = rcptcImrNbr;
+    data['rcptc_article_nbr'] = rcptcArticleNbr;
+    data['rcptc_imr_date'] = rcptcImrDate;
+    data['rcptc_arrival_date'] = rcptcArrivalDate;
+    data['rcptc_prod_date'] = rcptcProdDate;
+    data['rcptc_exp_date'] = rcptcExpDate;
+    data['rcptc_manufacturer'] = rcptcManufacturer;
+    data['rcptc_country'] = rcptcCountry;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class GetDocument {
+  int? id;
+  int? rcptdocRcptId;
+  int? rcptdocIsCertofanalys;
+  String? rcptdocCertofanalys;
+  int? rcptdocIsMsds;
+  String? rcptdocMsds;
+  int? rcptdocIsForwarderdo;
+  String? rcptdocForwarderdo;
+  int? rcptdocIsPackinglist;
+  String? rcptdocPackinglist;
+  int? rcptdocIsOtherdocs;
+  String? rcptdocOtherdocs;
+  String? createdAt;
+  String? updatedAt;
+
+  GetDocument(
+      {this.id,
+      this.rcptdocRcptId,
+      this.rcptdocIsCertofanalys,
+      this.rcptdocCertofanalys,
+      this.rcptdocIsMsds,
+      this.rcptdocMsds,
+      this.rcptdocIsForwarderdo,
+      this.rcptdocForwarderdo,
+      this.rcptdocIsPackinglist,
+      this.rcptdocPackinglist,
+      this.rcptdocIsOtherdocs,
+      this.rcptdocOtherdocs,
+      this.createdAt,
+      this.updatedAt});
+
+  GetDocument.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    rcptdocRcptId = json['rcptdoc_rcpt_id'];
+    rcptdocIsCertofanalys = json['rcptdoc_is_certofanalys'];
+    rcptdocCertofanalys = json['rcptdoc_certofanalys'];
+    rcptdocIsMsds = json['rcptdoc_is_msds'];
+    rcptdocMsds = json['rcptdoc_msds'];
+    rcptdocIsForwarderdo = json['rcptdoc_is_forwarderdo'];
+    rcptdocForwarderdo = json['rcptdoc_forwarderdo'];
+    rcptdocIsPackinglist = json['rcptdoc_is_packinglist'];
+    rcptdocPackinglist = json['rcptdoc_packinglist'];
+    rcptdocIsOtherdocs = json['rcptdoc_is_otherdocs'];
+    rcptdocOtherdocs = json['rcptdoc_otherdocs'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = id;
+    data['rcptdoc_rcpt_id'] = rcptdocRcptId;
+    data['rcptdoc_is_certofanalys'] = rcptdocIsCertofanalys;
+    data['rcptdoc_certofanalys'] = rcptdocCertofanalys;
+    data['rcptdoc_is_msds'] = rcptdocIsMsds;
+    data['rcptdoc_msds'] = rcptdocMsds;
+    data['rcptdoc_is_forwarderdo'] = rcptdocIsForwarderdo;
+    data['rcptdoc_forwarderdo'] = rcptdocForwarderdo;
+    data['rcptdoc_is_packinglist'] = rcptdocIsPackinglist;
+    data['rcptdoc_packinglist'] = rcptdocPackinglist;
+    data['rcptdoc_is_otherdocs'] = rcptdocIsOtherdocs;
+    data['rcptdoc_otherdocs'] = rcptdocOtherdocs;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class GetKemasan {
+  int? id;
+  int? rcptkRcptId;
+  int? rcptkKemasanSacdos;
+  String? rcptkKemasanSacdosDesc;
+  int? rcptkKemasanDrumvat;
+  String? rcptkKemasanDrumvatDesc;
+  int? rcptkKemasanPalletpeti;
+  String? rcptkKemasanPalletpetiDesc;
+  int? rcptkIsClean;
+  String? rcptkIsCleanDesc;
+  int? rcptkIsDry;
+  String? rcptkIsDryDesc;
+  int? rcptkIsNotSpilled;
+  String? rcptkIsNotSpilledDesc;
+  int? rcptkIsSealed;
+  int? rcptkIsManufacturerLabel;
+  String? createdAt;
+  String? updatedAt;
+
+  GetKemasan(
+      {this.id,
+      this.rcptkRcptId,
+      this.rcptkKemasanSacdos,
+      this.rcptkKemasanSacdosDesc,
+      this.rcptkKemasanDrumvat,
+      this.rcptkKemasanDrumvatDesc,
+      this.rcptkKemasanPalletpeti,
+      this.rcptkKemasanPalletpetiDesc,
+      this.rcptkIsClean,
+      this.rcptkIsCleanDesc,
+      this.rcptkIsDry,
+      this.rcptkIsDryDesc,
+      this.rcptkIsNotSpilled,
+      this.rcptkIsNotSpilledDesc,
+      this.rcptkIsSealed,
+      this.rcptkIsManufacturerLabel,
+      this.createdAt,
+      this.updatedAt});
+
+  GetKemasan.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    rcptkRcptId = json['rcptk_rcpt_id'];
+    rcptkKemasanSacdos = json['rcptk_kemasan_sacdos'];
+    rcptkKemasanSacdosDesc = json['rcptk_kemasan_sacdos_desc'];
+    rcptkKemasanDrumvat = json['rcptk_kemasan_drumvat'];
+    rcptkKemasanDrumvatDesc = json['rcptk_kemasan_drumvat_desc'];
+    rcptkKemasanPalletpeti = json['rcptk_kemasan_palletpeti'];
+    rcptkKemasanPalletpetiDesc = json['rcptk_kemasan_palletpeti_desc'];
+    rcptkIsClean = json['rcptk_is_clean'];
+    rcptkIsCleanDesc = json['rcptk_is_clean_desc'];
+    rcptkIsDry = json['rcptk_is_dry'];
+    rcptkIsDryDesc = json['rcptk_is_dry_desc'];
+    rcptkIsNotSpilled = json['rcptk_is_not_spilled'];
+    rcptkIsNotSpilledDesc = json['rcptk_is_not_spilled_desc'];
+    rcptkIsSealed = json['rcptk_is_sealed'];
+    rcptkIsManufacturerLabel = json['rcptk_is_manufacturer_label'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = id;
+    data['rcptk_rcpt_id'] = rcptkRcptId;
+    data['rcptk_kemasan_sacdos'] = rcptkKemasanSacdos;
+    data['rcptk_kemasan_sacdos_desc'] = rcptkKemasanSacdosDesc;
+    data['rcptk_kemasan_drumvat'] = rcptkKemasanDrumvat;
+    data['rcptk_kemasan_drumvat_desc'] = rcptkKemasanDrumvatDesc;
+    data['rcptk_kemasan_palletpeti'] = rcptkKemasanPalletpeti;
+    data['rcptk_kemasan_palletpeti_desc'] = rcptkKemasanPalletpetiDesc;
+    data['rcptk_is_clean'] = rcptkIsClean;
+    data['rcptk_is_clean_desc'] = rcptkIsCleanDesc;
+    data['rcptk_is_dry'] = rcptkIsDry;
+    data['rcptk_is_dry_desc'] = rcptkIsDryDesc;
+    data['rcptk_is_not_spilled'] = rcptkIsNotSpilled;
+    data['rcptk_is_not_spilled_desc'] = rcptkIsNotSpilledDesc;
+    data['rcptk_is_sealed'] = rcptkIsSealed;
+    data['rcptk_is_manufacturer_label'] = rcptkIsManufacturerLabel;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class GetTransport {
+  int? id;
+  int? rcpttRcptId;
+  String? rcpttTransporterNo;
+  String? rcpttPoliceNo;
+  int? rcpttIsClean;
+  String? rcpttIsCleanDesc;
+  int? rcpttIsDry;
+  String? rcpttIsDryDesc;
+  int? rcpttIsNotSpilled;
+  String? rcpttIsNotSpilledDesc;
+  int? rcpttIsPositionSingle;
+  String? rcpttIsPositionSingleDesc;
+  int? rcpttIsSegregated;
+  String? rcpttIsSegregatedDesc;
+  String? rcpttAngkutanCatatan;
+  String? rcpttKelembapan;
+  String? rcpttSuhu;
+  String? createdAt;
+  String? updatedAt;
+
+  GetTransport(
+      {this.id,
+      this.rcpttRcptId,
+      this.rcpttTransporterNo,
+      this.rcpttPoliceNo,
+      this.rcpttIsClean,
+      this.rcpttIsCleanDesc,
+      this.rcpttIsDry,
+      this.rcpttIsDryDesc,
+      this.rcpttIsNotSpilled,
+      this.rcpttIsNotSpilledDesc,
+      this.rcpttIsPositionSingle,
+      this.rcpttIsPositionSingleDesc,
+      this.rcpttIsSegregated,
+      this.rcpttIsSegregatedDesc,
+      this.rcpttAngkutanCatatan,
+      this.rcpttKelembapan,
+      this.rcpttSuhu,
+      this.createdAt,
+      this.updatedAt});
+
+  GetTransport.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    rcpttRcptId = json['rcptt_rcpt_id'];
+    rcpttTransporterNo = json['rcptt_transporter_no'];
+    rcpttPoliceNo = json['rcptt_police_no'];
+    rcpttIsClean = json['rcptt_is_clean'];
+    rcpttIsCleanDesc = json['rcptt_is_clean_desc'];
+    rcpttIsDry = json['rcptt_is_dry'];
+    rcpttIsDryDesc = json['rcptt_is_dry_desc'];
+    rcpttIsNotSpilled = json['rcptt_is_not_spilled'];
+    rcpttIsNotSpilledDesc = json['rcptt_is_not_spilled_desc'];
+    rcpttIsPositionSingle = json['rcptt_is_position_single'];
+    rcpttIsPositionSingleDesc = json['rcptt_is_position_single_desc'];
+    rcpttIsSegregated = json['rcptt_is_segregated'];
+    rcpttIsSegregatedDesc = json['rcptt_is_segregated_desc'];
+    rcpttAngkutanCatatan = json['rcptt_angkutan_catatan'];
+    rcpttKelembapan = json['rcptt_kelembapan'];
+    rcpttSuhu = json['rcptt_suhu'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = id;
+    data['rcptt_rcpt_id'] = rcpttRcptId;
+    data['rcptt_transporter_no'] = rcpttTransporterNo;
+    data['rcptt_police_no'] = rcpttPoliceNo;
+    data['rcptt_is_clean'] = rcpttIsClean;
+    data['rcptt_is_clean_desc'] = rcpttIsCleanDesc;
+    data['rcptt_is_dry'] = rcpttIsDry;
+    data['rcptt_is_dry_desc'] = rcpttIsDryDesc;
+    data['rcptt_is_not_spilled'] = rcpttIsNotSpilled;
+    data['rcptt_is_not_spilled_desc'] = rcpttIsNotSpilledDesc;
+    data['rcptt_is_position_single'] = rcpttIsPositionSingle;
+    data['rcptt_is_position_single_desc'] = rcpttIsPositionSingleDesc;
+    data['rcptt_is_segregated'] = rcpttIsSegregated;
+    data['rcptt_is_segregated_desc'] = rcpttIsSegregatedDesc;
+    data['rcptt_angkutan_catatan'] = rcpttAngkutanCatatan;
+    data['rcptt_kelembapan'] = rcpttKelembapan;
+    data['rcptt_suhu'] = rcpttSuhu;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
