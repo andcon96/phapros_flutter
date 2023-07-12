@@ -28,7 +28,8 @@ class laporanform extends StatefulWidget {
       supplier,
       batch,
       supplierdesc,
-      um;
+      um,
+      itemcode;
 
   const laporanform({
     Key? key,
@@ -47,7 +48,8 @@ class laporanform extends StatefulWidget {
     required this.supplier,
     required this.batch,
     required this.supplierdesc,
-    required this.um
+    required this.um,
+    required this.itemcode
   }) : super(key: key);
 
   @override
@@ -82,7 +84,8 @@ class _laporanform extends State<laporanform> {
   List<XFile> imagefiles = [];
   List<File> imagesPath = [];
   DateTime now = DateTime.now();
-
+  late String suppstr;
+  late String itemnbr ;
   Future pickImage() async {
     images = await ImagePicker().pickMultiImage();
 
@@ -168,7 +171,6 @@ class _laporanform extends State<laporanform> {
       }
     }
     var response = await request.send();
-    print(request.files);
     final responsedata = await http.Response.fromStream(response);
     if (response.statusCode == 200) {
       if (responsedata.body == 'error') {
@@ -190,12 +192,13 @@ class _laporanform extends State<laporanform> {
                 text: "Success to Submit report for receipt " + IdRcp.text + " Lot " +  NomorLot.text));
       }
     } else {
+      Navigator.pop(context, 'refresh');
       return ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.danger,
               title: "Error",
-              text: "Failed to Submit report for receipt" + IdRcp.text + " Lot " +  NomorLot.text));
+              text: "Failed to Submit report for receipt" + IdRcp.text + " Lot " +  NomorLot.text + " Response Code:" + response.statusCode.toString()));
     }
     // return response;
     // final response = await http.post(Uri.parse(url), headers: {
@@ -242,6 +245,8 @@ class _laporanform extends State<laporanform> {
     String prefiximr = oldimrnbr.substring(0, oldimrnbr.indexOf('.'));
     String lotnbr = widget.rcptd_lot.toString();
     String currentimrnbr = prefiximr + '.' + lotnbr;
+    suppstr = widget.supplier.toString();
+    itemnbr = widget.itemcode.toString();
     IdRcp = TextEditingController(text: widget.rcpt_nbr);
     NamaBarang = TextEditingController(
         text: widget.rcptd_part != 'null' ? widget.rcptd_part : '');
@@ -317,13 +322,13 @@ class _laporanform extends State<laporanform> {
                                       '${globals.globalurl}/submitlaporan?';
                                   url += 'idrcpt=' + IdRcp.text;
                                   url += '&ponbr=' + PO.text;
-                                  url += '&part=' + NamaBarang.text;
+                                  url += '&part=' + itemnbr;
                                   url += '&tglmasuk=' + TglMasuk.text;
                                   url += '&jmlmasuk=' + JumlahMasuk.text;
                                   url += '&no=' + No.text;
                                   url += '&lot=' + NomorLot.text;
                                   url += '&tgl=' + Tanggal.text;
-                                  url += '&supplier=' + Supplier.text;
+                                  url += '&supplier=' + suppstr;
                                   url += '&komplain=' + Komplain.text;
                                   url += '&keterangan=' + Keterangan.text;
                                   url +=

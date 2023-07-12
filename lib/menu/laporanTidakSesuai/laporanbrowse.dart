@@ -531,10 +531,12 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                                   supplier: datapo[index].supplier.toString(),
                                                                                   supplierdesc: datapo[index].supplierdesc.toString(),
                                                                                   um: datapo[index].umdesc.toString(),
+                                                                                  itemcode: datapo[index].itemcode.toString(),
                                                                                 )));
 
                                                                 if (refresh ==
                                                                     'refresh') {
+                                                                      print('a');
                                                                   Changedata();
                                                                 }
                                                               },
