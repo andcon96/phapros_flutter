@@ -17,7 +17,8 @@ import 'package:flutter_template/utils/globalurl.dart' as globals;
 import 'model/poModel.dart';
 
 class POBrowse extends StatefulWidget {
-  const POBrowse({Key? key}) : super(key: key);
+  final String searchdefault;
+  const POBrowse({Key? key, required this.searchdefault}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -117,6 +118,7 @@ class _POBrowseState extends State<POBrowse> {
     final token = await UserSecureStorage.getToken();
     final idanggota = await UserSecureStorage.getIdAnggota();
     final username = await UserSecureStorage.getUsername();
+    _textCont.text = widget.searchdefault;
 
     _custId = custid!;
   }
@@ -566,8 +568,10 @@ class _POBrowseState extends State<POBrowse> {
                                                                     CupertinoPageRoute(
                                                                         builder: (context) =>
                                                                             PoReceipt(
+                                                                              podomain: user.poDomain!,
                                                                               ponbr: user.poNbr!,
                                                                               povend: '${user.poVend!} - ${user.poVendDesc}',
+                                                                              poshipto: '${user.poShip}',
                                                                               orddate: user.poOrdDate!,
                                                                               duedate: user.poDueDate!,
                                                                               total: user.poTotal!,
