@@ -949,74 +949,191 @@ class _receiptform extends State<receiptform> {
             title: const Text('Kelengkapan Dokumen'),
             content: Column(
               children: [
-                CheckboxListTile(
-                  title: const Text('Certificate of Analysis'),
-                  value: _certificateChecked,
-                  onChanged: null,
+                if (_certificateChecked)
+                const Text(
+                'Certificate of Analysis',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(
-                  height: 8,
+              ),
+              if (_certificateChecked)
+              const SizedBox(
+                  height: 20,
                 ),
                 if (_certificateChecked)
-                  _textInput(
+                _textInput(
                     hint: "Keterangan",
                     controller: certificate,
                   ),
+                  if (_certificateChecked)
+                const SizedBox(
+                  height: 12,
+                ),
                 const SizedBox(
                   height: 8,
                 ),
-                CheckboxListTile(
-                  title: const Text('MSDS'),
-                  value: _msdsChecked,
-                  onChanged: null,
+                if (_msdsChecked)
+              const Text(
+                'MSDS',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              if (_msdsChecked)
+              const SizedBox(
+                  height: 20,
                 ),
                 if (_msdsChecked)
-                  _textInput(
+                _textInput(
                     hint: "Keterangan",
                     controller: msds,
                   ),
+                  if (_msdsChecked)
+                const SizedBox(
+                  height: 12,
+                ),
                 const SizedBox(
                   height: 8,
                 ),
-                CheckboxListTile(
-                  title: const Text('Forwarder DO'),
-                  value: _forwarderdoChecked,
-                  onChanged: null,
+              if (_forwarderdoChecked)
+              const Text(
+                'Forwarder DO',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-                if (_forwarderdoChecked)
+              ),
+              if (_forwarderdoChecked)
+                const SizedBox(
+                  height: 20,
+                ),
+              if (_forwarderdoChecked)
                   _textInput(
                     hint: "Keterangan",
                     controller: forwaderdo,
                   ),
+              if (_forwarderdoChecked)
+                const SizedBox(
+                  height: 12,
+                ),
                 const SizedBox(
                   height: 8,
                 ),
-                CheckboxListTile(
-                  title: const Text('Packing List'),
-                  value: _packinglistChecked,
-                  onChanged: null,
+              if (_packinglistChecked)
+              const Text(
+                'Packing List',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              if (_packinglistChecked)
+              const SizedBox(
+                  height: 20,
                 ),
                 if (_packinglistChecked)
                   _textInput(
                     hint: "Keterangan",
                     controller: packinglist,
                   ),
+                  if (_packinglistChecked)
+                const SizedBox(
+                  height: 12,
+                ),
                 const SizedBox(
                   height: 8,
                 ),
-                CheckboxListTile(
-                  title: const Text('Other Docs'),
-                  value: _otherdocsChecked,
-                  onChanged: null,
+              if (_otherdocsChecked)
+              const Text(
+                'Other Docs',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              if (_otherdocsChecked)
+              const SizedBox(
+                  height: 20,
                 ),
                 if (_otherdocsChecked)
                   _textInput(
                     hint: "Keterangan",
                     controller: otherdocs,
                   ),
+                if (_otherdocsChecked)
                 const SizedBox(
-                  height: 8,
+                  height: 12,
                 ),
+                // CheckboxListTile(
+                //   title: const Text('Certificate of Analysis'),
+                //   value: _certificateChecked,
+                //   onChanged: null,
+                // ),
+                // const SizedBox(
+                //   height: 8,
+                // ),
+                // if (_certificateChecked)
+                //   _textInput(
+                //     hint: "Keterangan",
+                //     controller: certificate,
+                //   ),
+                // const SizedBox(
+                //   height: 8,
+                // ),
+                // CheckboxListTile(
+                //   title: const Text('MSDS'),
+                //   value: _msdsChecked,
+                //   onChanged: null,
+                // ),
+                // if (_msdsChecked)
+                //   _textInput(
+                //     hint: "Keterangan",
+                //     controller: msds,
+                //   ),
+                // const SizedBox(
+                //   height: 8,
+                // ),
+                // CheckboxListTile(
+                //   title: const Text('Forwarder DO'),
+                //   value: _forwarderdoChecked,
+                //   onChanged: null,
+                // ),
+                // if (_forwarderdoChecked)
+                //   _textInput(
+                //     hint: "Keterangan",
+                //     controller: forwaderdo,
+                //   ),
+                // const SizedBox(
+                //   height: 8,
+                // ),
+                // CheckboxListTile(
+                //   title: const Text('Packing List'),
+                //   value: _packinglistChecked,
+                //   onChanged: null,
+                // ),
+                // if (_packinglistChecked)
+                //   _textInput(
+                //     hint: "Keterangan",
+                //     controller: packinglist,
+                //   ),
+                // const SizedBox(
+                //   height: 8,
+                // ),
+                // CheckboxListTile(
+                //   title: const Text('Other Docs'),
+                //   value: _otherdocsChecked,
+                //   onChanged: null,
+                // ),
+                // if (_otherdocsChecked)
+                //   _textInput(
+                //     hint: "Keterangan",
+                //     controller: otherdocs,
+                //   ),
+                // const SizedBox(
+                //   height: 8,
+                // ),
               ],
             )),
         Step(
@@ -1025,81 +1142,157 @@ class _receiptform extends State<receiptform> {
           title: const Text('Kemasan'),
           content: Column(
             children: [
-              CheckboxListTile(
-                title: const Text('Kemasan Sack / Dos'),
-                value: _sackordosChecked,
-                onChanged: null,
-              ),
-              const SizedBox(
-                height: 8,
+              if (_sackordosChecked)
+                const Text(
+                'Kemasan Sack / Dos',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               if (_sackordosChecked)
-                Column(
-                  children: [
-                    RadioListTile(
-                      title: Text("Damage"),
-                      value: "Damage",
-                      groupValue: _sackordosDamage,
-                      onChanged: null,
-                    ),
-                    RadioListTile(
-                      title: Text("Undamage"),
-                      value: "Undamage",
-                      groupValue: _sackordosDamage,
-                      onChanged: null,
-                    ),
-                  ],
-                ),
-              CheckboxListTile(
-                title: const Text('Kemasan Drum / Vat'),
-                value: _drumorvatChecked,
-                onChanged: null,
-              ),
               const SizedBox(
-                height: 8,
+                  height: 20,
+                ),
+                if (_sackordosChecked)
+                _textInput(
+                    hint: "Kondisi",
+                    controller: TextEditingController(
+                      text: _sackordosDamage == 'null' ? '' : _sackordosDamage),
+                  ),
+                  if (_sackordosChecked)
+                const SizedBox(
+                  height: 12,
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+              if (_drumorvatChecked)
+                const Text(
+                'Kemasan Drum / Vat',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               if (_drumorvatChecked)
-                Column(
-                  children: [
-                    RadioListTile(
-                      title: Text("Damage"),
-                      value: "Damage",
-                      groupValue: _drumorvatDamage,
-                      onChanged: null,
-                    ),
-                    RadioListTile(
-                      title: Text("Undamage"),
-                      value: "Undamage",
-                      groupValue: _drumorvatDamage,
-                      onChanged: null,
-                    ),
-                  ],
-                ),
-              CheckboxListTile(
-                title: const Text('Kemasan Pallet / Peti'),
-                value: _palletorpetiChecked,
-                onChanged: null,
-              ),
               const SizedBox(
-                height: 8,
+                  height: 20,
+                ),
+                if (_drumorvatChecked)
+                _textInput(
+                    hint: "Kondisi",
+                    controller: TextEditingController(
+                      text: _drumorvatDamage == 'null' ? '' : _drumorvatDamage),
+                  ),
+                if (_drumorvatChecked)
+                const SizedBox(
+                  height: 12,
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                if (_palletorpetiChecked)
+                const Text(
+                'Kemasan Pallet / Peti',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               if (_palletorpetiChecked)
-                Column(
-                  children: [
-                    RadioListTile(
-                      title: Text("Damage"),
-                      value: "Damage",
-                      groupValue: _palletorpetiDamage,
-                      onChanged: null,
-                    ),
-                    RadioListTile(
-                      title: Text("Undamage"),
-                      value: "Undamage",
-                      groupValue: _palletorpetiDamage,
-                      onChanged: null,
-                    ),
-                  ],
+              const SizedBox(
+                  height: 20,
                 ),
+                if (_palletorpetiChecked)
+                _textInput(
+                    hint: "Kondisi",
+                    controller: TextEditingController(
+                      text: _palletorpetiDamage == 'null' ? '' : _palletorpetiDamage),
+                  ),
+                  if (_palletorpetiChecked)
+                const SizedBox(
+                  height: 12,
+                ),
+              // CheckboxListTile(
+              //   title: const Text('Kemasan Sack / Dos'),
+              //   value: _sackordosChecked,
+              //   onChanged: null,
+              // ),
+              // const SizedBox(
+              //   height: 8,
+              // ),
+              // if (_sackordosChecked)
+              //   Column(
+              //     children: [
+              //       RadioListTile(
+              //         title: Text("Damage"),
+              //         value: "Damage",
+              //         groupValue: _sackordosDamage,
+              //         onChanged: null,
+              //       ),
+              //       RadioListTile(
+              //         title: Text("Undamage"),
+              //         value: "Undamage",
+              //         groupValue: _sackordosDamage,
+              //         onChanged: null,
+              //       ),
+              //     ],
+              //   ),
+              // CheckboxListTile(
+              //   title: const Text('Kemasan Drum / Vat'),
+              //   value: _drumorvatChecked,
+              //   onChanged: null,
+              // ),
+              // const SizedBox(
+              //   height: 8,
+              // ),
+              // if (_drumorvatChecked)
+              //   Column(
+              //     children: [
+              //       RadioListTile(
+              //         title: Text("Damage"),
+              //         value: "Damage",
+              //         groupValue: _drumorvatDamage,
+              //         onChanged: null,
+              //       ),
+              //       RadioListTile(
+              //         title: Text("Undamage"),
+              //         value: "Undamage",
+              //         groupValue: _drumorvatDamage,
+              //         onChanged: null,
+              //       ),
+              //     ],
+              //   ),
+              // CheckboxListTile(
+              //   title: const Text('Kemasan Pallet / Peti'),
+              //   value: _palletorpetiChecked,
+              //   onChanged: null,
+              // ),
+              // const SizedBox(
+              //   height: 8,
+              // ),
+              // if (_palletorpetiChecked)
+              //   Column(
+              //     children: [
+              //       RadioListTile(
+              //         title: Text("Damage"),
+              //         value: "Damage",
+              //         groupValue: _palletorpetiDamage,
+              //         onChanged: null,
+              //       ),
+              //       RadioListTile(
+              //         title: Text("Undamage"),
+              //         value: "Undamage",
+              //         groupValue: _palletorpetiDamage,
+              //         onChanged: null,
+              //       ),
+              //     ],
+              //   ),
+                const SizedBox(
+                  height: 8,
+                ),
+              if(_isclean != 'null' || _isdry != 'null' || _isnotspilled != 'null' || _issealed != 'null' || _ismanufacturerlabel != 'null')
               const Text(
                 'Condition',
                 style: TextStyle(
@@ -1107,166 +1300,265 @@ class _receiptform extends State<receiptform> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Bersih'),
-                      leading: Radio(
-                        value: '1',
-                        groupValue: _isclean,
-                        onChanged: null,
-                      ),
-                    ),
+              if(_isclean != 'null' || _isdry != 'null' || _isnotspilled != 'null' || _issealed != 'null' || _ismanufacturerlabel != 'null')
+              const SizedBox(
+                height: 20,
+              ),
+              if (_isclean != 'null')
+                _textInput(
+                  hint: "Bersih / Kotor",
+                  controller: TextEditingController(
+                      text: _isclean == 'null' ? '' : _isclean == '1' ? 'Bersih' : 'Kotor'),
                   ),
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Kotor'),
-                      leading: Radio(
-                          value: '0', groupValue: _isclean, onChanged: null),
-                    ),
-                  ),
-                ],
+              if (_isclean != 'null')
+                const SizedBox(
+                height: 12,
               ),
               if (_isclean == '0')
                 _textInput(
                   hint: "Keterangan",
-                  controller: keteranganisclean,
+                  controller: keteranganisclean
+                  ),
+                if (_isclean == '0')
+              const SizedBox(
+                height: 12,
+              ),  
+              if (_isdry != 'null')
+                _textInput(
+                  hint: "Kering / Basah",
+                  controller: TextEditingController(
+                      text: _isdry == 'null' ? '' : _isdry == '1' ? 'Kering' : 'Basah'),
+                  ),
+              if(_isdry != 'null')
+                const SizedBox(
+                  height: 12,
                 ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Kering'),
-                      leading: Radio(
-                        value: '1',
-                        groupValue: _isdry,
-                        onChanged: null,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Basah'),
-                      leading: Radio(
-                        value: '0',
-                        groupValue: _isdry,
-                        onChanged: null,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
               if (_isdry == '0')
                 _textInput(
                   hint: "Keterangan",
-                  controller: keteranganisdry,
-                ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Tidak Tumpah'),
-                      leading: Radio(
-                        value: '1',
-                        groupValue: _isnotspilled,
-                        onChanged: null,
-                      ),
-                    ),
+                  controller: keteranganisdry
                   ),
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Tumpah'),
-                      leading: Radio(
-                        value: '0',
-                        groupValue: _isnotspilled,
-                        onChanged: null,
-                      ),
-                    ),
+                if(_isdry == '0')
+                const SizedBox(
+                height: 12,
+              ),
+              if (_isnotspilled != 'null')
+                _textInput(
+                  hint: "Tumpah / Tidak Tumpah",
+                  controller: TextEditingController(
+                      text: _isnotspilled == 'null' ? '' : _isnotspilled == '1' ? 'Tidak Tumpah' : 'Tumpah'),
                   ),
-                ],
+                  if(_isnotspilled != 'null')
+                  const SizedBox(
+                height: 12,
               ),
               if (_isnotspilled == '0')
                 _textInput(
                   hint: "Keterangan",
-                  controller: keteranganisnotspilled,
+                  controller: keteranganisnotspilled
+                  
                 ),
-              const SizedBox(
+                if(_isnotspilled == '0')
+                const SizedBox(
                 height: 12,
               ),
+              // const Divider(),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Bersih'),
+              //         leading: Radio(
+              //           value: '1',
+              //           groupValue: _isclean,
+              //           onChanged: null,
+              //         ),
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Kotor'),
+              //         leading: Radio(
+              //             value: '0', groupValue: _isclean, onChanged: null),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // if (_isclean == '0')
+              //   _textInput(
+              //     hint: "Keterangan",
+              //     controller: keteranganisclean,
+              //   ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Kering'),
+              //         leading: Radio(
+              //           value: '1',
+              //           groupValue: _isdry,
+              //           onChanged: null,
+              //         ),
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Basah'),
+              //         leading: Radio(
+              //           value: '0',
+              //           groupValue: _isdry,
+              //           onChanged: null,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // if (_isdry == '0')
+              //   _textInput(
+              //     hint: "Keterangan",
+              //     controller: keteranganisdry,
+              //   ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Tidak Tumpah'),
+              //         leading: Radio(
+              //           value: '1',
+              //           groupValue: _isnotspilled,
+              //           onChanged: null,
+              //         ),
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Tumpah'),
+              //         leading: Radio(
+              //           value: '0',
+              //           groupValue: _isnotspilled,
+              //           onChanged: null,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // if (_isnotspilled == '0')
+              //   _textInput(
+              //     hint: "Keterangan",
+              //     controller: keteranganisnotspilled,
+              //   ),
+              // const SizedBox(
+              //   height: 12,
+              // ),
+                const SizedBox(
+                  height: 8,
+                ),
+              if (_issealed != 'null')
               const Text(
-                'Seal',
+                'Segel',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Utuh'),
-                      leading: Radio(
-                        value: '1',
-                        groupValue: _issealed,
-                        onChanged: null,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Rusak'),
-                      leading: Radio(
-                        value: '0',
-                        groupValue: _issealed,
-                        onChanged: null,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              if (_issealed != 'null')
               const SizedBox(
-                height: 12,
-              ),
+                  height: 20,
+                ),
+                if (_issealed != 'null')
+                _textInput(
+                    hint: "Kondisi",
+                    controller: TextEditingController(
+                      text: _issealed == 'null' ? '' : _issealed == '0' ? 'Rusak' : 'Utuh' ),
+                  ),
+                  if (_issealed != 'null')
+                const SizedBox(
+                  height: 12,
+                ),
+              // const Divider(),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+                  
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Utuh'),
+              //         leading: Radio(
+              //           value: '1',
+              //           groupValue: _issealed,
+              //           onChanged: null,
+              //         ),
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Rusak'),
+              //         leading: Radio(
+              //           value: '0',
+              //           groupValue: _issealed,
+              //           onChanged: null,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // const SizedBox(
+              //   height: 12,
+              // ),
+                const SizedBox(
+                  height: 8,
+                ),
+              if(_ismanufacturerlabel != 'null')
               const Text(
-                'Manufacturer Label',
+                'Label Pabrik',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Utuh'),
-                      leading: Radio(
-                        value: '1',
-                        groupValue: _ismanufacturerlabel,
-                        onChanged: null,
-                      ),
-                    ),
+              if (_ismanufacturerlabel != 'null')
+              const SizedBox(
+                  height: 20,
+                ),
+                if (_ismanufacturerlabel != 'null')
+                _textInput(
+                    hint: "Kondisi",
+                    controller: TextEditingController(
+                      text: _ismanufacturerlabel == 'null' ? '' : _ismanufacturerlabel == '0' ? 'Rusak' : 'Utuh' ),
                   ),
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Rusak'),
-                      leading: Radio(
-                        value: '0',
-                        groupValue: _ismanufacturerlabel,
-                        onChanged: null,
-                      ),
+                  if (_ismanufacturerlabel != 'null')
+                    const SizedBox(
+                      height: 12,
                     ),
-                  ),
-                ],
-              ),
+              // const Divider(),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Utuh'),
+              //         leading: Radio(
+              //           value: '1',
+              //           groupValue: _ismanufacturerlabel,
+              //           onChanged: null,
+              //         ),
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Rusak'),
+              //         leading: Radio(
+              //           value: '0',
+              //           groupValue: _ismanufacturerlabel,
+              //           onChanged: null,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),
@@ -1290,6 +1582,7 @@ class _receiptform extends State<receiptform> {
               const SizedBox(
                 height: 20,
               ),
+              if(_angkutanisclean != 'null' || _angkutanisdry != 'null' || _angkutanisnotspilled != 'null')
               const Text(
                 'Condition',
                 style: TextStyle(
@@ -1297,100 +1590,173 @@ class _receiptform extends State<receiptform> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Bersih'),
-                      leading: Radio(
-                        value: '1',
-                        groupValue: _angkutanisclean,
-                        onChanged: null,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Kotor'),
-                      leading: Radio(
-                        value: '0',
-                        groupValue: _angkutanisclean,
-                        onChanged: null,
-                      ),
-                    ),
-                  ),
-                ],
+              if(_angkutanisclean != 'null' || _angkutanisdry != 'null' || _angkutanisnotspilled != 'null')
+              const SizedBox(
+                height: 20,
               ),
+
+              if (_angkutanisclean != 'null')
+                _textInput(
+                  hint: "Bersih / Kotor",
+                  controller: TextEditingController(
+                      text: _angkutanisclean == 'null' ? '' : _angkutanisclean == '0' ? 'Kotor' : 'Bersih' ),
+                  
+                ),
+              if (_angkutanisclean != 'null')
+              const SizedBox(
+                height: 12,
+              ),
+
               if (_angkutanisclean == '0')
                 _textInput(
                   hint: "Keterangan",
                   controller: angkutanketeranganisclean,
                 ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Kering'),
-                      leading: Radio(
-                        value: '1',
-                        groupValue: _angkutanisdry,
-                        onChanged: null,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Basah'),
-                      leading: Radio(
-                        value: '0',
-                        groupValue: _angkutanisdry,
-                        onChanged: null,
-                      ),
-                    ),
-                  ),
-                ],
+                if (_angkutanisclean == '0')
+              const SizedBox(
+                height: 12,
               ),
+
+                if (_angkutanisdry != 'null')
+                _textInput(
+                  hint: "Basah / Kering",
+                  controller: TextEditingController(
+                      text: _angkutanisdry == 'null' ? '' : _angkutanisdry == '0' ? 'Basah' : 'Kering' ),
+                  
+                ),
+                if (_angkutanisdry != 'null')
+              const SizedBox(
+                height: 12,
+              ),
+
               if (_angkutanisdry == '0')
                 _textInput(
                   hint: "Keterangan",
                   controller: angkutanketeranganisdry,
                 ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Tidak Tumpah'),
-                      leading: Radio(
-                        value: '1',
-                        groupValue: _angkutanisnotspilled,
-                        onChanged: null,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Tumpah'),
-                      leading: Radio(
-                        value: '0',
-                        groupValue: _angkutanisnotspilled,
-                        onChanged: null,
-                      ),
-                    ),
-                  ),
-                ],
+
+                if (_angkutanisdry == '0')
+              const SizedBox(
+                height: 12,
               ),
+
+                if (_angkutanisnotspilled != 'null')
+                _textInput(
+                  hint: "Tumpah / Tidak Tumpah",
+                  controller: TextEditingController(
+                      text: _angkutanisnotspilled == 'null' ? '' : _angkutanisnotspilled == '0' ? 'Tumpah' : 'Tidak Tumpah' ),
+                  
+                ),
+
+                if (_angkutanisnotspilled != 'null')
+              const SizedBox(
+                height: 12,
+              ),
+
               if (_angkutanisnotspilled == '0')
                 _textInput(
                   hint: "Keterangan",
                   controller: angkutanketeranganisnotspilled,
                 ),
+                if (_angkutanisnotspilled == '0')
+                const SizedBox(
+                height: 12,
+              ),
+              // const Divider(),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Bersih'),
+              //         leading: Radio(
+              //           value: '1',
+              //           groupValue: _angkutanisclean,
+              //           onChanged: null,
+              //         ),
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Kotor'),
+              //         leading: Radio(
+              //           value: '0',
+              //           groupValue: _angkutanisclean,
+              //           onChanged: null,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // if (_angkutanisclean == '0')
+              //   _textInput(
+              //     hint: "Keterangan",
+              //     controller: angkutanketeranganisclean,
+              //   ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Kering'),
+              //         leading: Radio(
+              //           value: '1',
+              //           groupValue: _angkutanisdry,
+              //           onChanged: null,
+              //         ),
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Basah'),
+              //         leading: Radio(
+              //           value: '0',
+              //           groupValue: _angkutanisdry,
+              //           onChanged: null,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // if (_angkutanisdry == '0')
+              //   _textInput(
+              //     hint: "Keterangan",
+              //     controller: angkutanketeranganisdry,
+              //   ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Tidak Tumpah'),
+              //         leading: Radio(
+              //           value: '1',
+              //           groupValue: _angkutanisnotspilled,
+              //           onChanged: null,
+              //         ),
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Tumpah'),
+              //         leading: Radio(
+              //           value: '0',
+              //           groupValue: _angkutanisnotspilled,
+              //           onChanged: null,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // if (_angkutanisnotspilled == '0')
+              //   _textInput(
+              //     hint: "Keterangan",
+              //     controller: angkutanketeranganisnotspilled,
+              //   ),
               const SizedBox(
                 height: 20,
               ),
+              if (_angkutanissingle != 'null')
               const Text(
                 'Posisi Material',
                 style: TextStyle(
@@ -1398,40 +1764,35 @@ class _receiptform extends State<receiptform> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Single'),
-                      leading: Radio(
-                        value: '1',
-                        groupValue: _angkutanissingle,
-                        onChanged: null,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Gabungan'),
-                      leading: Radio(
-                        value: '0',
-                        groupValue: _angkutanissingle,
-                        onChanged: null,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              if (_angkutanissingle == '0')
-                _textInput(
-                  hint: "Keterangan",
-                  controller: angkutanketeranganissingle,
-                ),
+              if (_angkutanissingle != 'null')
               const SizedBox(
                 height: 20,
               ),
+               if (_angkutanissingle != 'null')
+                _textInput(
+                  hint: "Single / Gabungan",
+                  controller: TextEditingController(
+                      text: _angkutanissingle == 'null' ? '' : _angkutanissingle == '0' ? 'Gabungan' : 'Single' ),
+                  
+                ),
+                if (_angkutanissingle != 'null')
+              const SizedBox(
+                height: 12,
+              ),
+                if (_angkutanissingle == '0')
+                _textInput(
+                  hint: "Keterangan",
+                  controller: angkutanketeranganissingle
+                  
+                ),
+                if (_angkutanissingle == '0')
+              const SizedBox(
+                height: 12,
+              ),
+                const SizedBox(
+                  height: 8,
+                ),
+              if (_angkutansegregate != 'null')
               const Text(
                 'Segresi Jelas',
                 style: TextStyle(
@@ -1439,36 +1800,102 @@ class _receiptform extends State<receiptform> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Ya'),
-                      leading: Radio(
-                        value: '1',
-                        groupValue: _angkutansegregate,
-                        onChanged: null,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Tidak'),
-                      leading: Radio(
-                        value: '0',
-                        groupValue: _angkutansegregate,
-                        onChanged: null,
-                      ),
-                    ),
-                  ),
-                ],
+              if (_angkutansegregate != 'null')
+              const SizedBox(
+                height: 20,
               ),
-              if (_angkutansegregate == '0')
+              if (_angkutansegregate != 'null')
+                _textInput(
+                  hint: "Ya / Tidak",
+                  controller: TextEditingController(
+                      text: _angkutansegregate == 'null' ? '' : _angkutansegregate == '0' ? 'Tidak' : 'Ya' ),
+                  
+                ),
+                if (_angkutansegregate != 'null')
+              const SizedBox(
+                height: 12,
+              ),
+                if (_angkutansegregate == '0')
                 _textInput(
                   hint: "Keterangan",
-                  controller: angkutanketeranganissegregated,
+                  controller: angkutanketeranganissegregated
+                  
                 ),
+                if (_angkutansegregate == '0')
+              const SizedBox(
+                height: 12,
+              ),
+              // const Divider(),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Single'),
+              //         leading: Radio(
+              //           value: '1',
+              //           groupValue: _angkutanissingle,
+              //           onChanged: null,
+              //         ),
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Gabungan'),
+              //         leading: Radio(
+              //           value: '0',
+              //           groupValue: _angkutanissingle,
+              //           onChanged: null,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // if (_angkutanissingle == '0')
+              //   _textInput(
+              //     hint: "Keterangan",
+              //     controller: angkutanketeranganissingle,
+              //   ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              // const Text(
+              //   'Segresi Jelas',
+              //   style: TextStyle(
+              //     fontSize: 20,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Ya'),
+              //         leading: Radio(
+              //           value: '1',
+              //           groupValue: _angkutansegregate,
+              //           onChanged: null,
+              //         ),
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: ListTile(
+              //         title: const Text('Tidak'),
+              //         leading: Radio(
+              //           value: '0',
+              //           groupValue: _angkutansegregate,
+              //           onChanged: null,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // if (_angkutansegregate == '0')
+              //   _textInput(
+              //     hint: "Keterangan",
+              //     controller: angkutanketeranganissegregated,
+              //   ),
             ],
           ),
         ),
