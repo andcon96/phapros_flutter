@@ -34,6 +34,7 @@ class editReceiptPO extends StatefulWidget {
       shipto,
       domain,
       imrnbr,
+      donbr,
       articlenbr,
       imrdate,
       arrivaldate,
@@ -96,6 +97,7 @@ class editReceiptPO extends StatefulWidget {
       required this.shipto,
       required this.domain,
       required this.imrnbr,
+      required this.donbr,
       required this.articlenbr,
       required this.imrdate,
       required this.arrivaldate,
@@ -790,6 +792,7 @@ class _editReceiptPO extends State<editReceiptPO> {
 
         // Checklist
         "imrno": imrno.text,
+        "dono": dono.text,
         "articleno": articleno.text,
         "arrivaldate": arrivaldate.text,
         "imrdate": imrdate.text,
@@ -980,7 +983,7 @@ class _editReceiptPO extends State<editReceiptPO> {
     imrdate = TextEditingController(
         text: widget.imrdate == 'null' ? '' : widget.imrdate);
     selected_imrdate = DateTime.parse(widget.imrdate);
-    dono = TextEditingController();
+    dono = TextEditingController(text: widget.donbr == 'null' ? '' : widget.donbr);
     articleno = TextEditingController(
         text: widget.articlenbr == 'null' ? '' : widget.articlenbr);
     proddate = TextEditingController(
@@ -1168,6 +1171,13 @@ class _editReceiptPO extends State<editReceiptPO> {
               _textInputReadonly(
                 hint: "IMR No.",
                 controller: imrno,
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              _textInput(
+                hint: "DO No.",
+                controller: dono,
               ),
               const SizedBox(
                 height: 8,

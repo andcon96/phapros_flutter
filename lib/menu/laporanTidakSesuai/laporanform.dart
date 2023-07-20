@@ -61,6 +61,7 @@ class _laporanform extends State<laporanform> {
   int currentStep = 0;
   late TextEditingController IdRcp;
   late TextEditingController No;
+  late TextEditingController Nodo;
   late TextEditingController Tanggal;
   late TextEditingController Supplier;
   late TextEditingController Komplain;
@@ -610,7 +611,7 @@ class _laporanform extends State<laporanform> {
                   Container(
                       height: 50,
                       child: Text(
-                        'No',
+                        'Imr No',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 14),
                       )),

@@ -525,6 +525,7 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                                                                     shipto: datapo[index].shipto.toString(),
                                                                                                     domain: datapo[index].domain.toString(),
                                                                                                     imrnbr: datapo[index].imrnbr.toString(),
+                                                                                                    donbr: datapo[index].donbr.toString(),
                                                                                                     articlenbr: datapo[index].articlenbr.toString(),
                                                                                                     imrdate: datapo[index].imrdate.toString(),
                                                                                                     arrivaldate: datapo[index].arrivaldate.toString(),

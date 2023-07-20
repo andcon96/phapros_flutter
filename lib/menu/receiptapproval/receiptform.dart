@@ -25,6 +25,7 @@ class receiptform extends StatefulWidget {
       shipto,
       domain,
       imrnbr,
+      donbr,
       articlenbr,
       imrdate,
       arrivaldate,
@@ -88,6 +89,7 @@ class receiptform extends StatefulWidget {
       required this.shipto,
       required this.domain,
       required this.imrnbr,
+      required this.donbr,
       required this.articlenbr,
       required this.imrdate,
       required this.arrivaldate,
@@ -711,7 +713,7 @@ class _receiptform extends State<receiptform> {
         text: widget.arrivaldate == 'null' ? '' : widget.arrivaldate);
     imrdate = TextEditingController(
         text: widget.imrdate == 'null' ? '' : widget.imrdate);
-    dono = TextEditingController();
+    dono = TextEditingController(text: widget.donbr == 'null' ? '' : widget.donbr);
     articleno = TextEditingController(
         text: widget.articlenbr == 'null' ? '' : widget.articlenbr);
     proddate = TextEditingController(
@@ -938,6 +940,13 @@ class _receiptform extends State<receiptform> {
               _textInputReadonly(
                 hint: "IMR No.",
                 controller: imrno,
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              _textInput(
+                hint: "DO No.",
+                controller: dono,
               ),
               const SizedBox(
                 height: 8,

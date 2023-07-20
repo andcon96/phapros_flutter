@@ -264,6 +264,7 @@ class PoListReceipt {
     getChecklist = json['get_checklist'] != null
         ? new GetChecklist.fromJson(json['get_checklist'])
         : null;
+        
     getDocument = json['get_document'] != null
         ? new GetDocument.fromJson(json['get_document'])
         : null;
@@ -329,6 +330,7 @@ class GetChecklist {
   int? id;
   int? rcptcRcptId;
   String? rcptcImrNbr;
+  String? rcptcDoNbr;
   String? rcptcArticleNbr;
   String? rcptcImrDate;
   String? rcptcArrivalDate;
@@ -343,6 +345,7 @@ class GetChecklist {
       {this.id,
       this.rcptcRcptId,
       this.rcptcImrNbr,
+      this.rcptcDoNbr,
       this.rcptcArticleNbr,
       this.rcptcImrDate,
       this.rcptcArrivalDate,
@@ -357,6 +360,7 @@ class GetChecklist {
     id = json['id'];
     rcptcRcptId = json['rcptc_rcpt_id'];
     rcptcImrNbr = json['rcptc_imr_nbr'];
+    rcptcDoNbr = json['rcptc_do_nbr'];
     rcptcArticleNbr = json['rcptc_article_nbr'];
     rcptcImrDate = json['rcptc_imr_date'];
     rcptcArrivalDate = json['rcptc_arrival_date'];

@@ -278,7 +278,7 @@ class _laporanview extends State<laporanview> {
                             height:50,
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              'No',
+                              'Imr No',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 14),
                             ),

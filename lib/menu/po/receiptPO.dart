@@ -161,6 +161,7 @@ class _PoReceiptState extends State<PoReceipt> {
                                       icon: const Icon(Icons.edit),
                                       color: Color.fromARGB(255, 0, 76, 138),
                                       onPressed: () async {
+                                        
                                         Navigator.push(
                                           context,
                                           CupertinoPageRoute(
@@ -210,6 +211,10 @@ class _PoReceiptState extends State<PoReceipt> {
                                                       imrnbr: listdetail[i]
                                                           .getChecklist!
                                                           .rcptcImrNbr
+                                                          .toString(),
+                                                      donbr: listdetail[i]
+                                                          .getChecklist!
+                                                          .rcptcDoNbr
                                                           .toString(),
                                                       articlenbr: listdetail[i]
                                                           .getChecklist!
