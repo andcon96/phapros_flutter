@@ -242,6 +242,7 @@ class _laporanform extends State<laporanform> {
   void initState() {
     super.initState();
     String oldimrnbr = widget.rcpt_imr.toString();
+    
     String prefiximr = oldimrnbr.substring(0, oldimrnbr.indexOf('.'));
     String lotnbr = widget.rcptd_lot.toString();
     String currentimrnbr = prefiximr + '.' + lotnbr;
@@ -252,7 +253,7 @@ class _laporanform extends State<laporanform> {
         text: widget.rcptd_part != 'null' ? widget.rcptd_part : '');
     TglMasuk = TextEditingController(text: widget.rcpt_date);
     JumlahMasuk = TextEditingController(
-        text: widget.rcptd_qty_arr != 'null' ? widget.rcptd_qty_arr : '');
+        text: widget.rcptd_qty_arr != 'null' ? NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(widget.rcptd_qty_arr)) : '');
     PO = TextEditingController(text: widget.ponbr);
     NomorLot = TextEditingController(text: widget.rcptd_lot);
     No = TextEditingController(text: currentimrnbr);
@@ -262,7 +263,7 @@ class _laporanform extends State<laporanform> {
     Komplain = TextEditingController();
     Keterangan = TextEditingController();
     KomplainDetail = TextEditingController(
-        text: widget.rcptd_qty_rej != 'null' ? widget.rcptd_qty_rej : '');
+        text: widget.rcptd_qty_rej != 'null' ? NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(widget.rcptd_qty_rej)) : '');
 
     Angkutan = TextEditingController(
         text: widget.angkutan != 'null' ? widget.angkutan : '');

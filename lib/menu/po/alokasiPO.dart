@@ -811,6 +811,7 @@ class _alokasipoState extends State<alokasipo> {
 
         // Checklist
         "imrno": widget.imrno,
+        "dono": widget.dono,
         "articleno": widget.articleno,
         "arrivaldate": widget.arrivaldate,
         "imrdate": widget.imrdate,

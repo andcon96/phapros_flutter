@@ -176,6 +176,7 @@ class _receiptform extends State<receiptform> {
 
   final children = <Widget>[];
   final childrendetail = <Widget>[];
+  final childketidaksesuaianfoto = <Widget>[];
   final childketidaksesuaian = <Widget>[];
 
   Future<void> getFoto({String? search}) async {
@@ -236,6 +237,7 @@ class _receiptform extends State<receiptform> {
     }
   }
 
+  
   Future<void> getDetail({String? search}) async {
     final token = await UserSecureStorage.getToken();
     final id = await UserSecureStorage.getIdAnggota();
@@ -285,9 +287,10 @@ class _receiptform extends State<receiptform> {
           const SizedBox(
             height: 8,
           ),
+          
           _textInput(
             hint: "Qty Datang",
-            controller: TextEditingController(text: element['rcptd_qty_arr']),
+            controller: TextEditingController(text: NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(element['rcptd_qty_arr']))),
           ),
           const SizedBox(
             height: 8,
@@ -295,7 +298,7 @@ class _receiptform extends State<receiptform> {
           
           _textInputreject(
             hint: "Qty Reject",
-            controller: TextEditingController(text: element['rcptd_qty_rej'])
+            controller: TextEditingController(text: NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(element['rcptd_qty_rej']))),
             
           ),
           const SizedBox(
@@ -303,7 +306,7 @@ class _receiptform extends State<receiptform> {
           ),
           _textInput(
             hint: "Qty Approve",
-            controller: TextEditingController(text: element['rcptd_qty_appr']),
+            controller: TextEditingController(text: NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(element['rcptd_qty_appr']))),
           ),
           const SizedBox(
             height: 8,
@@ -351,6 +354,7 @@ class _receiptform extends State<receiptform> {
             height: 50,
           ),
         ]);
+        
       });
     }
   }
@@ -436,6 +440,38 @@ class _receiptform extends State<receiptform> {
             height: 50,
           ),
         ]);
+        
+        element['getfoto']?.asMap().forEach((index2, element2){
+          var responsecheck = http.head(Uri.parse('${globals.globalurlphoto}'+element2['li_path']))
+         .then((responsecode) {
+          // Check the response status code
+          var statusCode = responsecode.statusCode;
+          if(statusCode == 200){
+            
+            setState(() { 
+              childketidaksesuaianfoto.add(
+                new InkWell(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => new AboutPage(
+                            tag: index2.toString(),
+                            photourl: element2['li_path']))),
+                    child: Card(
+                      child: Container(
+                          height: 100,
+                          width: 100,
+                          child: Hero(
+                              tag: index2.toString(),
+                              child: Image.network('${globals.globalurlphoto}' +
+                                  element2['li_path']))),
+                    )),
+              );
+            });
+          }
+          else{
+            print(statusCode);
+          }
+          });      
+        });
       });
     }
   }
@@ -450,12 +486,13 @@ class _receiptform extends State<receiptform> {
       HttpHeaders.authorizationHeader: "Bearer $token"
     }).timeout(const Duration(seconds: 20), onTimeout: () {
       setState(() {
+        Navigator.pop(context, 'refresh');
         ArtSweetAlert.show(
             context: context,
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.danger,
                 title: "Error",
-                text: "Failed to load data"));
+                text: "Request Timeout"));
       });
       return http.Response('Error', 500);
     });
@@ -468,7 +505,7 @@ class _receiptform extends State<receiptform> {
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.success,
               title: "Success",
-              text: "Success to Approve receipt " + IdRcp.text));
+              text: "Berhasil Approve receipt " + IdRcp.text));
     } else if (response.body == 'approve failed') {
       Navigator.pop(context, 'refresh');
       return ArtSweetAlert.show(
@@ -476,7 +513,7 @@ class _receiptform extends State<receiptform> {
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.danger,
               title: "Error",
-              text: "Failed to Approve receipt" + IdRcp.text));
+              text: "Gagal Approve receipt" + IdRcp.text));
     } else if (response.body == 'reject success') {
       Navigator.pop(context, 'refresh');
       return ArtSweetAlert.show(
@@ -484,16 +521,26 @@ class _receiptform extends State<receiptform> {
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.success,
               title: "Success",
-              text: "Success to Unapprove receipt " + IdRcp.text));
-    } else if (response.body == 'approve failed') {
+              text: "Berhasil Unapprove receipt " + IdRcp.text));
+    } else if (response.body == 'reject failed') {
+      Navigator.pop(context, 'refresh');
       return ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.danger,
               title: "Error",
-              text: "Failed to Unapprove receipt" + IdRcp.text));
+              text: "Gagal Unapprove receipt" + IdRcp.text));
     }
-    ;
+    else if(response.body == 'approvehist exist'){
+      Navigator.pop(context, 'refresh');
+      return ArtSweetAlert.show(
+          context: context,
+          artDialogArgs: ArtDialogArgs(
+              type: ArtSweetAlertType.danger,
+              title: "Error",
+              text: "Receipt " + IdRcp.text + " sedang diproses / sudah diproses"));
+    }
+    
 
     return response;
   }
@@ -599,12 +646,13 @@ class _receiptform extends State<receiptform> {
       HttpHeaders.authorizationHeader: "Bearer $token"
     }).timeout(const Duration(seconds: 20), onTimeout: () {
       setState(() {
+        Navigator.pop(context, 'refresh');
         ArtSweetAlert.show(
             context: context,
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.danger,
                 title: "Error",
-                text: "Failed to load data"));
+                text: "Request Timeout"));
       });
       return http.Response('Error', 500);
     });
@@ -619,6 +667,7 @@ class _receiptform extends State<receiptform> {
               title: "Success",
               text: "Success to Submit report for receipt " + IdRcp.text));
     } else if (response.body == 'error') {
+      Navigator.pop(context, 'refresh');
       return ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
@@ -626,7 +675,7 @@ class _receiptform extends State<receiptform> {
               title: "Error",
               text: "Failed to Submit report for receipt" + IdRcp.text));
     }
-    ;
+    
     return response;
   }
 
@@ -641,15 +690,15 @@ class _receiptform extends State<receiptform> {
         text: widget.rcptd_part != 'null' ? widget.rcptd_part : '');
     TglMasuk = TextEditingController(text: widget.rcpt_date);
     JumlahMasuk = TextEditingController(
-        text: widget.rcptd_qty_arr != 'null' ? widget.rcptd_qty_arr : '');
+        text: widget.rcptd_qty_arr != 'null' ? NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(widget.rcptd_qty_arr)) : '');
     PO = TextEditingController(text: widget.ponbr);
     NomorLot = TextEditingController(text: widget.rcptd_lot);
     Shipto = TextEditingController(text: widget.shipto);
     Batch = TextEditingController(text: widget.batch);
     Supplier = TextEditingController(text: widget.supplier);
     Loc = TextEditingController(text: widget.rcptd_loc);
-    JumlahApprove = TextEditingController(text: widget.rcptd_qty_appr);
-    JumlahReject = TextEditingController(text: widget.rcptd_qty_rej);
+    JumlahApprove = TextEditingController(text: NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(widget.rcptd_qty_appr)));
+    JumlahReject = TextEditingController(text: NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(widget.rcptd_qty_rej)));
 
     // Step 1
     receiptno = TextEditingController(text: widget.rcpt_nbr);
@@ -1156,7 +1205,7 @@ class _receiptform extends State<receiptform> {
                 ),
                 if (_sackordosChecked)
                 _textInput(
-                    hint: "Kondisi",
+                    hint: "Keadaan Angkutan",
                     controller: TextEditingController(
                       text: _sackordosDamage == 'null' ? '' : _sackordosDamage),
                   ),
@@ -1344,9 +1393,9 @@ class _receiptform extends State<receiptform> {
               ),
               if (_isnotspilled != 'null')
                 _textInput(
-                  hint: "Tumpah / Tidak Tumpah",
+                  hint: "Bocor / Tidak Bocor",
                   controller: TextEditingController(
-                      text: _isnotspilled == 'null' ? '' : _isnotspilled == '1' ? 'Tidak Tumpah' : 'Tumpah'),
+                      text: _isnotspilled == 'null' ? '' : _isnotspilled == '1' ? 'Tidak Bocor' : 'Bocor'),
                   ),
                   if(_isnotspilled != 'null')
                   const SizedBox(
@@ -1569,14 +1618,14 @@ class _receiptform extends State<receiptform> {
           content: Column(
             children: [
               _textInput(
-                hint: "Transporter No.",
+                hint: "Nama Angkutan.",
                 controller: transporterno,
               ),
               const SizedBox(
                 height: 8,
               ),
               _textInput(
-                hint: "Police No.",
+                hint: "No. Polisi.",
                 controller: policeno,
               ),
               const SizedBox(
@@ -1758,9 +1807,9 @@ class _receiptform extends State<receiptform> {
               ),
               if (_angkutanissingle != 'null')
               const Text(
-                'Posisi Material',
+                'Penempatan Bahan/Barang Dalam Angkutan',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -1794,9 +1843,9 @@ class _receiptform extends State<receiptform> {
                 ),
               if (_angkutansegregate != 'null')
               const Text(
-                'Segresi Jelas',
+                'Ada Pemisah Antar Bahan/Barang',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -1980,12 +2029,20 @@ class _receiptform extends State<receiptform> {
             title: const Text('Laporan Ketidaksesuaian'),
             content: Column(children: childketidaksesuaian)
             ),
-        Step(
+            Step(
             state:
                 _activeStepIndex <= 9 ? StepState.editing : StepState.complete,
             isActive: _activeStepIndex >= 9,
+            title: const Text('Foto Ketidaksesuaian'),
+            content: Wrap(children: childketidaksesuaianfoto)
+            ),
+        Step(
+            state:
+                _activeStepIndex <= 10 ? StepState.editing : StepState.complete,
+            isActive: _activeStepIndex >= 10,
             title: const Text('Foto'),
-            content: Wrap(children: children))
+            content: Wrap(children: children)
+            )
       ];
   @override
   Widget build(BuildContext context) => loading

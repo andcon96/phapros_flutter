@@ -371,6 +371,12 @@ class _createpoState extends State<createpo> {
               ),
               const SizedBox(
                 height: 8,
+              ),_textInput(
+                hint: "DO No.",
+                controller: dono,
+              ),
+              const SizedBox(
+                height: 8,
               ),
               _textInput(
                 hint: "Article No.",
@@ -942,21 +948,21 @@ class _createpoState extends State<createpo> {
           content: Column(
             children: [
               _textInput(
-                hint: "No Transporter",
+                hint: "Nama Angkutan",
                 controller: transporterno,
               ),
               const SizedBox(
                 height: 8,
               ),
               _textInput(
-                hint: "No Polis",
+                hint: "No Polisi",
                 controller: policeno,
               ),
               const SizedBox(
                 height: 20,
               ),
               const Text(
-                'Kondisi',
+                'Keadaan Angkutan',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -1044,7 +1050,7 @@ class _createpoState extends State<createpo> {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Tidak Tumpah'),
+                      title: const Text('Tidak Bocor'),
                       leading: Radio(
                         value: '1',
                         groupValue: _angkutanisnotspilled,
@@ -1058,7 +1064,7 @@ class _createpoState extends State<createpo> {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Tumpah'),
+                      title: const Text('Bocor'),
                       leading: Radio(
                         value: '0',
                         groupValue: _angkutanisnotspilled,
@@ -1081,9 +1087,9 @@ class _createpoState extends State<createpo> {
                 height: 20,
               ),
               const Text(
-                'Posisi Material',
+                'Penempatan Bahan/Barang Dalam Angkutan',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -1130,7 +1136,7 @@ class _createpoState extends State<createpo> {
                 height: 20,
               ),
               const Text(
-                'Clear Segregation',
+                'Ada Pemisah Antar Bahan/Barang',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,

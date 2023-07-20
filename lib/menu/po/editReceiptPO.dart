@@ -1656,21 +1656,21 @@ class _editReceiptPO extends State<editReceiptPO> {
           content: Column(
             children: [
               _textInput(
-                hint: "Transporter No.",
+                hint: "Nama Angkutan.",
                 controller: transporterno,
               ),
               const SizedBox(
                 height: 8,
               ),
               _textInput(
-                hint: "Police No.",
+                hint: "No Polisi.",
                 controller: policeno,
               ),
               const SizedBox(
                 height: 20,
               ),
               const Text(
-                'Condition',
+                'Keadaan Angkutan',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -1758,7 +1758,7 @@ class _editReceiptPO extends State<editReceiptPO> {
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Tidak Tumpah'),
+                      title: const Text('Tidak Bocor'),
                       leading: Radio(
                         value: '1',
                         groupValue: _angkutanisnotspilled,
@@ -1772,7 +1772,7 @@ class _editReceiptPO extends State<editReceiptPO> {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Tumpah'),
+                      title: const Text('Bocor'),
                       leading: Radio(
                         value: '0',
                         groupValue: _angkutanisnotspilled,
@@ -1795,9 +1795,9 @@ class _editReceiptPO extends State<editReceiptPO> {
                 height: 20,
               ),
               const Text(
-                'Posisi Material',
+                'Penempatan Bahan/Barang Dalam Angkutan',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -1844,7 +1844,7 @@ class _editReceiptPO extends State<editReceiptPO> {
                 height: 20,
               ),
               const Text(
-                'Segresi Jelas',
+                'Ada Pemisah Antar Bahan/Barang',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
