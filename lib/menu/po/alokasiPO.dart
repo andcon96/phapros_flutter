@@ -113,6 +113,9 @@ class _DetailPOState extends State<DetailPO> {
 
                     widget.cartItem.tLvcUm = selecteddata[0].tLvcUm.toString();
 
+                    widget.cartItem.tLvdQtyord =
+                        selecteddata[0].tLvdQtyord.toString();
+
                     _um.text = selecteddata[0].tLvcUm.toString();
                   });
                 }),
@@ -594,6 +597,41 @@ class _CartWidgetState extends State<CartWidget> {
                                         title: 'Error');
                                     return;
                                   }
+                                  var qtyrcvd =
+                                      widget.cart[widget.index].tLvdQtyRcvd ??
+                                          '0.00';
+                                  var qtyord =
+                                      widget.cart[widget.index].tLvdQtyord ??
+                                          '0.00';
+
+                                  var qtyopen = double.parse(qtyord) -
+                                      double.parse(qtyrcvd);
+
+                                  var line = widget.cart[widget.index].tLviLine;
+                                  var totalterima = 0.00;
+
+                                  widget.cart.forEach((element) {
+                                    if (element.tLviLine == line) {
+                                      var qtyterimaline =
+                                          element.tLvdQtyTerima ??
+                                              qtyterima.text;
+                                      totalterima +=
+                                          double.parse(qtyterimaline);
+                                    }
+                                  });
+
+                                  if (qtyopen < totalterima) {
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop();
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.error,
+                                        text:
+                                            'Jumlah Qty Terima Line : ${widget.cart[widget.index].tLviLine!}, Melebihi Qty Open',
+                                        title: 'Error');
+                                    return;
+                                  }
+
                                   widget.cart[widget.index].tLvcBatch =
                                       batch.text;
                                   // widget.cart[widget.index].tLvcLoc =
@@ -956,6 +994,8 @@ class _alokasipoState extends State<alokasipo> {
               tLvcCurr: widget.selectedline[0].tLvcCurr,
               tLviLine: widget.selectedline[0].tLviLine,
               tLvcPart: widget.selectedline[0].tLvcPart,
+              tLvdQtyord: widget.selectedline[0].tLvdQtyord,
+              tLvdQtyRcvd: widget.selectedline[0].tLvdQtyRcvd,
               tLvcPartDesc: widget.selectedline[0].tLvcPartDesc,
               tLvcLoc: widget.listLocation[0]['t_site_loc'],
               tLvcExpDetailDate: widget.expdate,

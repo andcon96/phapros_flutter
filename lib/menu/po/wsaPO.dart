@@ -515,6 +515,7 @@ class _wsaPOState extends State<wsaPO> {
                 tLvcVend: vendor,
                 tLvcVendDesc: vendordesc,
                 tLvdQtyord: qtyord,
+                tLvdQtyRcvd: qtyrcvd,
                 tLvcUm: um,
                 tLvdPrice: price,
                 tLvcManufacturer: manufacturer,
