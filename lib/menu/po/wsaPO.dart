@@ -480,7 +480,8 @@ class _wsaPOState extends State<wsaPO> {
           Text('Qty Pesan : ${double.parse(qtyord)}'),
           Text('Qty Open  : ${double.parse(qtyord) - double.parse(qtyrcvd)}'),
           Text('UM : $um'),
-          Text('Qty Ongoing Android : $receiptongoing')
+          Text('Qty Ongoing Android : $receiptongoing'),
+          Text('Due Date : $duedate')
         ],
       ),
       // Text(

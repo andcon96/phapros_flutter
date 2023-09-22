@@ -260,8 +260,18 @@ class _uploadfilepoState extends State<uploadfilepo> {
       // Process selected images
 
       for (var image in images!) {
+        if (File(image.path).lengthSync() > 10 * 1024 * 1024) {
+            setState(() {
+              CoolAlert.show(
+            context: context,
+            type: CoolAlertType.error,
+            text: 'Ukuran Foto tidak boleh lebih dari 10MB',
+            title: 'Error');
+          });
+        } else {
         imagesPath.add(File(image.path));
         imagefiles!.add(image);
+        }
         // Do something with the selected image
       }
       setState(() {});
@@ -284,9 +294,18 @@ class _uploadfilepoState extends State<uploadfilepo> {
         await ImagePicker().pickImage(source: ImageSource.camera);
 
     if (imagefromphoto != null) {
-      imagefiles!.add(imagefromphoto!);
-      imagesPath.add(File(imagefromphoto!.path));
-
+      if (File(imagefromphoto.path).lengthSync() > 10 * 1024 * 1024) {
+            setState(() {
+              CoolAlert.show(
+            context: context,
+            type: CoolAlertType.error,
+            text: 'Ukuran Foto tidak boleh lebih dari 10MB',
+            title: 'Error');
+          });
+        } else {
+            imagefiles!.add(imagefromphoto!);
+            imagesPath.add(File(imagefromphoto!.path));
+        }
       // Process selected images
 
       setState(() {});

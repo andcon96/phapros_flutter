@@ -95,7 +95,19 @@ class _laporanform extends State<laporanform> {
 
       for (var image in images!) {
         // imagesPath.add(File(image.path));
-        imagefiles.add(image);
+        if (File(image.path).lengthSync() > 10 * 1024 * 1024) {
+            setState(() {
+              ArtSweetAlert.show(
+                  context: context,
+                  artDialogArgs: ArtDialogArgs(
+                      type: ArtSweetAlertType.danger,
+                      title: "Error",
+                      text: "Ukuran Foto tidak boleh lebih dari 10MB"));
+            });
+          } else {
+            imagefiles.add(image);    
+          }
+        
         // Do something with the selected image
       }
       setState(() {});
@@ -118,7 +130,18 @@ class _laporanform extends State<laporanform> {
     imagefromphoto = await ImagePicker().pickImage(source: ImageSource.camera);
 
     if (imagefromphoto != null) {
-      imagefiles.add(imagefromphoto!);
+      if (File(imagefromphoto!.path).lengthSync() > 10 * 1024 * 1024) {
+            setState(() {
+              ArtSweetAlert.show(
+                  context: context,
+                  artDialogArgs: ArtDialogArgs(
+                      type: ArtSweetAlertType.danger,
+                      title: "Error",
+                      text: "Ukuran Foto tidak boleh lebih dari 10MB"));
+            });
+          } else {
+            imagefiles.add(imagefromphoto!);
+          }
       // imagesPath.add(File(imagefromphoto!.path));
 
       // Process selected images
@@ -142,7 +165,7 @@ class _laporanform extends State<laporanform> {
     final token = await UserSecureStorage.getToken();
     final username = await UserSecureStorage.getIdAnggota();
     url += '&username=' + username.toString();
-
+    
     final Uri uri = Uri.parse(url);
     final request = http.MultipartRequest('POST', uri);
     request.headers['Content-Type'] = 'application/json';

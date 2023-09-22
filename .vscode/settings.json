@@ -1,5 +1,6 @@
 {
     "abl.checkProgressBinary": false,
     "synthwave84.disableGlow": true,
-    "synthwave84.brightness": 0.2
+    "synthwave84.brightness": 0.2,
+    "abl.warnConfigFile": false
 }

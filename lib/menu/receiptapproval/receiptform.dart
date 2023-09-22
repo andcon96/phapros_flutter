@@ -216,14 +216,14 @@ class _receiptform extends State<receiptform> {
                 new InkWell(
                     onTap: () => Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => new AboutPage(
-                            tag: index.toString(),
+                            tag: 'hero1' + index.toString(),
                             photourl: element['rcptfu_path']))),
                     child: Card(
                       child: Container(
                           height: 100,
                           width: 100,
                           child: Hero(
-                              tag: index.toString(),
+                              tag: 'hero1' + index.toString(),
                               child: Image.network('${globals.globalurlphoto}' +
                                   element['rcptfu_path']))),
                     )),
@@ -443,26 +443,28 @@ class _receiptform extends State<receiptform> {
           ),
         ]);
         
+        print(url);
         element['getfoto']?.asMap().forEach((index2, element2){
           var responsecheck = http.head(Uri.parse('${globals.globalurlphoto}'+element2['li_path']))
          .then((responsecode) {
           // Check the response status code
           var statusCode = responsecode.statusCode;
+          
           if(statusCode == 200){
-            
+          print('hero2'+index2.toString());  
             setState(() { 
               childketidaksesuaianfoto.add(
                 new InkWell(
                     onTap: () => Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => new AboutPage(
-                            tag: index2.toString(),
+                            tag: 'hero2'+index2.toString(),
                             photourl: element2['li_path']))),
                     child: Card(
                       child: Container(
                           height: 100,
                           width: 100,
                           child: Hero(
-                              tag: index2.toString(),
+                              tag: 'hero2'+index2.toString(),
                               child: Image.network('${globals.globalurlphoto}' +
                                   element2['li_path']))),
                     )),
@@ -482,7 +484,7 @@ class _receiptform extends State<receiptform> {
     final token = await UserSecureStorage.getToken();
     final id = await UserSecureStorage.getIdAnggota();
     url += '&userid=' + id.toString();
-
+    
     final response = await http.post(Uri.parse(url), headers: {
       HttpHeaders.contentTypeHeader: "application/json",
       HttpHeaders.authorizationHeader: "Bearer $token"
@@ -515,8 +517,17 @@ class _receiptform extends State<receiptform> {
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.danger,
               title: "Error",
-              text: "Gagal Approve receipt" + IdRcp.text));
-    } else if (response.body == 'reject success') {
+              text: "Gagal Approve receipt " + IdRcp.text));
+    } else if (response.body == 'approve QAD failed') {
+      Navigator.pop(context, 'refresh');
+      return ArtSweetAlert.show(
+          context: context,
+          artDialogArgs: ArtDialogArgs(
+              type: ArtSweetAlertType.danger,
+              title: "Error",
+              text: "Gagal Approve receipt " + IdRcp.text + ' saat kirim ke QAD'));
+    }
+     else if (response.body == 'reject success') {
       Navigator.pop(context, 'refresh');
       return ArtSweetAlert.show(
           context: context,
@@ -531,7 +542,7 @@ class _receiptform extends State<receiptform> {
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.danger,
               title: "Error",
-              text: "Gagal Unapprove receipt" + IdRcp.text));
+              text: "Gagal Unapprove receipt " + IdRcp.text));
     }
     else if(response.body == 'approvehist exist'){
       Navigator.pop(context, 'refresh');
@@ -641,6 +652,10 @@ class _receiptform extends State<receiptform> {
   String rcptnbr = '';
   late String responseresult = '';
 
+   List<String> list = <String>['Data dikirim ke QAD', 'Data tidak dikirim ke QAD'];
+  int dropdownValue = 1;
+  late String dropdownValueString = '';
+
   Future<Object?> approvereject(String url) async {
     final token = await UserSecureStorage.getToken();
     final response = await http.post(Uri.parse(url), headers: {
@@ -682,6 +697,7 @@ class _receiptform extends State<receiptform> {
   }
 
   void initState() {
+    dropdownValueString = list.first;
     super.initState();
     String rcptnumber = widget.rcpt_nbr;
     getFoto(search: rcptnumber);
@@ -2108,6 +2124,59 @@ class _receiptform extends State<receiptform> {
                         margin: EdgeInsets.only(top: 50),
                         child: Row(children: [
                           Expanded(
+                            child:
+                            Text(
+                              'Opsi untuk proses approve (Abaikan jika Unapprove)',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
+                            ),
+                          )
+                        ])
+                        ),
+                      Container(
+                        margin: EdgeInsets.only(top: 50),
+                        child: Row(children: [
+                          Expanded(
+                            child:
+                            DropdownButton<String>(
+                                isExpanded: true,
+                                value: dropdownValueString,
+                                icon: const Icon(Icons.arrow_downward),
+                                elevation: 16,
+                                style: const TextStyle(color: Colors.black),
+                                underline: Container(
+                                  height: 2,
+                                  color: Colors.black,
+                                ),
+                                items: list.map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value,textAlign: TextAlign.center),
+                                    
+                                  );
+                                }).toList(),
+                                onChanged: (String? value) {
+                                  // This is called when the user selects an item.
+                                  setState(() {
+                                    dropdownValueString = value!;
+                                  });
+                                  
+                                  if(value == 'Data dikirim ke QAD'){
+                                    dropdownValue = 1;
+                                  }
+                                  else if (value == 'Data tidak dikirim ke QAD'){
+                                    dropdownValue = 0;
+                                  }
+
+                                },
+                              )
+                          )
+                        ])
+                        ),
+                      Container(
+                        margin: EdgeInsets.only(top: 50),
+                        child: Row(children: [
+                          Expanded(
                             child: ElevatedButton(
                               style:
                                   ElevatedButton.styleFrom(primary: Colors.red),
@@ -2199,9 +2268,11 @@ class _receiptform extends State<receiptform> {
                                                     'Tekan tahan tombol untuk melanjutkan'),
                                                 onPressed: () {},
                                                 onLongPress: () {
+                                                  print(dropdownValue);
                                                   String url =
                                                       '${globals.globalurl}/approvereceipt?';
                                                   url += 'idrcpt=' + IdRcp.text;
+                                                  url +='&statusapprove=' + dropdownValue.toString();
 
                                                   Navigator.pop(context);
                                                   setState(() {
