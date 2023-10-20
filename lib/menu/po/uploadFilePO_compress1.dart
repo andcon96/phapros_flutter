@@ -169,7 +169,6 @@ class _uploadfilepoState extends State<uploadfilepo> {
 
   final ImagePicker imgpicker = ImagePicker();
   List<XFile> imagefiles = [];
-  List<File> imagesPath = [];
   chooseimages() async {
     bool? isCamera = await showDialog(
       context: context,
@@ -214,8 +213,14 @@ class _uploadfilepoState extends State<uploadfilepo> {
                 title: 'Error');
           });
         } else {
-          imagesPath.add(File(image.path));
-          imagefiles!.add(image);
+          String imagePath = image.path;
+          File compressedImage = await FlutterNativeImage.compressImage(
+            imagePath,
+            quality: 80,
+            percentage: 70,
+          );
+          XFile compressFileImage = new XFile(compressedImage.path);
+          imagefiles.add(compressFileImage);
         }
         // Do something with the selected image
       }
@@ -254,9 +259,8 @@ class _uploadfilepoState extends State<uploadfilepo> {
           quality: 80,
           percentage: 70,
         );
-
-        imagefiles!.add(imagefromphoto!);
-        imagesPath.add(File(imagefromphoto!.path));
+        XFile compressFileImage = new XFile(compressedImage.path);
+        imagefiles.add(compressFileImage);
       }
       // Process selected images
 
@@ -306,7 +310,6 @@ class _uploadfilepoState extends State<uploadfilepo> {
       padding: EdgeInsets.only(bottom: 5),
       child: FloatingActionButton(
         onPressed: () {
-          imagesPath.clear();
           chooseimages();
           setState(() {});
         },

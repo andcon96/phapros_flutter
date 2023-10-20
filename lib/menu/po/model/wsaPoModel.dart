@@ -66,43 +66,48 @@ class Data {
   String? tLvdOngoingQtyarr;
   String? tLvcExpDetailDate;
   String? tLvcManuDetailDate;
+  String? tLvcPtUm;
+  String? tLvdUmKonv;
 
-  Data(
-      {this.tLvcNbr,
-      this.tLvcDomain,
-      this.tLvcShip,
-      this.tLvcSite,
-      this.tLvcVend,
-      this.tLvcVendDesc,
-      this.tLvtOrd,
-      this.tLvtDue,
-      this.tLvcCurr,
-      this.tLvdTotalline,
-      this.tLvcStatus,
-      this.tLviLine,
-      this.tLvcPart,
-      this.tLvcPartDesc,
-      this.tLvdQtyord,
-      this.tLvdQtyRcvd,
-      this.tLvdPrice,
-      this.tLvcLoc,
-      this.tLvcLotNext,
-      this.tIsSelected,
-      this.tLvcUm,
-      this.tLvcBatch,
-      this.tLvcLot,
-      this.tLvdQtyDatang,
-      this.tLvdQtyReject,
-      this.tLvdQtyTerima,
-      this.tlvdQtyPerPackage,
-      this.tIsSaved,
-      this.tLvcManufacturer,
-      this.tLvcCountry,
-      this.tIMRNo,
-      this.tLvdOngoingQtyrcvd,
-      this.tLvdOngoingQtyarr,
-      this.tLvcExpDetailDate,
-      this.tLvcManuDetailDate});
+  Data({
+    this.tLvcNbr,
+    this.tLvcDomain,
+    this.tLvcShip,
+    this.tLvcSite,
+    this.tLvcVend,
+    this.tLvcVendDesc,
+    this.tLvtOrd,
+    this.tLvtDue,
+    this.tLvcCurr,
+    this.tLvdTotalline,
+    this.tLvcStatus,
+    this.tLviLine,
+    this.tLvcPart,
+    this.tLvcPartDesc,
+    this.tLvdQtyord,
+    this.tLvdQtyRcvd,
+    this.tLvdPrice,
+    this.tLvcLoc,
+    this.tLvcLotNext,
+    this.tIsSelected,
+    this.tLvcUm,
+    this.tLvcBatch,
+    this.tLvcLot,
+    this.tLvdQtyDatang,
+    this.tLvdQtyReject,
+    this.tLvdQtyTerima,
+    this.tlvdQtyPerPackage,
+    this.tIsSaved,
+    this.tLvcManufacturer,
+    this.tLvcCountry,
+    this.tIMRNo,
+    this.tLvdOngoingQtyrcvd,
+    this.tLvdOngoingQtyarr,
+    this.tLvcExpDetailDate,
+    this.tLvcManuDetailDate,
+    this.tLvcPtUm,
+    this.tLvdUmKonv,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     tLvcNbr = json['t_lvc_nbr'];
@@ -140,6 +145,8 @@ class Data {
     tLvdOngoingQtyarr = json['t_lvd_ongoing_qtyarr'];
     tLvcExpDetailDate = json['t_lvc_exp_detail_date'];
     tLvcManuDetailDate = json['t_lvc_manu_detail_date'];
+    tLvcPtUm = json['t_lvc_pt_um'];
+    tLvdUmKonv = json['t_lvd_um_konv'];
   }
 
   Map<String, dynamic> toJson() {
@@ -179,6 +186,8 @@ class Data {
     data['t_lvd_ongoing_qtyarr'] = tLvdOngoingQtyarr;
     data['t_lvc_exp_detail_date'] = tLvcExpDetailDate;
     data['t_lvc_manu_detail_date'] = tLvcManuDetailDate;
+    data['t_lvc_pt_um'] = tLvcPtUm;
+    data['t_lvd_um_konv'] = tLvdUmKonv;
     return data;
   }
 }
