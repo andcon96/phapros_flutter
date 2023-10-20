@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_const
 
+import 'package:flutter/services.dart';
 import 'package:flutter_template/menu/laporanTidakSesuai/laporanbrowse.dart';
 import 'package:flutter_template/menu/receiptapproval/receiptbrowse.dart';
 import 'package:flutter_template/menu/po/browsePO.dart';
@@ -82,7 +83,8 @@ class _NavHomeState extends State<NavHome> with SingleTickerProviderStateMixin {
                   style: content,
                 ),
                 onPressed: () {
-                  Navigator.of(context).pop(true);
+                  // Navigator.of(context).pop(true);
+                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
                 },
               ),
             ],

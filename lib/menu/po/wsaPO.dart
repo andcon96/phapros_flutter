@@ -377,6 +377,8 @@ class _wsaPOState extends State<wsaPO> {
                                           user.tLvcCountry ?? '',
                                           user.tLvdOngoingQtyarr ?? '',
                                           user.tLvdOngoingQtyrcvd ?? '',
+                                          user.tLvcPtUm ?? '',
+                                          user.tLvdUmKonv ?? '',
                                           index);
                                     },
                                     separatorBuilder: (context, index) =>
@@ -458,6 +460,8 @@ class _wsaPOState extends State<wsaPO> {
       String country,
       String arrivalongoing,
       String receiptongoing,
+      String ptum,
+      String umkonv,
       int index) {
     return ListTile(
       // ignore: prefer_const_constructors
@@ -481,7 +485,9 @@ class _wsaPOState extends State<wsaPO> {
           Text('Qty Open  : ${double.parse(qtyord) - double.parse(qtyrcvd)}'),
           Text('UM : $um'),
           Text('Qty Ongoing Android : $receiptongoing'),
-          Text('Due Date : $duedate')
+          Text('Due Date : $duedate'),
+          Text('UM PT : $ptum'),
+          Text('UM Konv : $umkonv'),
         ],
       ),
       // Text(
@@ -522,7 +528,9 @@ class _wsaPOState extends State<wsaPO> {
                 tLvcManufacturer: manufacturer,
                 tLvcCountry: country,
                 tLvdOngoingQtyarr: arrivalongoing,
-                tLvdOngoingQtyrcvd: receiptongoing));
+                tLvdOngoingQtyrcvd: receiptongoing,
+                tLvcPtUm: ptum,
+                tLvdUmKonv: umkonv));
           } else if (detailpo[index].tIsSelected == false) {
             selectedDetailPO.removeWhere(
                 (element) => element.tLviLine == detailpo[index].tLviLine);

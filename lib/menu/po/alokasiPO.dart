@@ -41,12 +41,16 @@ class DetailPO extends StatefulWidget {
 class _DetailPOState extends State<DetailPO> {
   String _value = "";
   final _um = TextEditingController();
+  final _umpt = TextEditingController();
+  final _umkonv = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _value = widget.cartItem.tLviLine!;
     _um.text = widget.listLine[0].tLvcUm.toString();
+    _umpt.text = widget.listLine[0].tLvcPtUm.toString();
+    _umkonv.text = widget.listLine[0].tLvdUmKonv.toString();
     widget.cartItem.tLvcUm = widget.listLine[0].tLvcUm.toString();
   }
 
@@ -117,6 +121,8 @@ class _DetailPOState extends State<DetailPO> {
                         selecteddata[0].tLvdQtyord.toString();
 
                     _um.text = selecteddata[0].tLvcUm.toString();
+                    _umkonv.text = selecteddata[0].tLvdUmKonv.toString();
+                    _umpt.text = selecteddata[0].tLvcPtUm.toString();
                   });
                 }),
           )),
@@ -130,9 +136,33 @@ class _DetailPOState extends State<DetailPO> {
           readOnly: true,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
-            labelText: 'UM',
+            labelText: 'UM PO',
           ),
-        )
+        ),
+        // ignore: prefer_const_constructors
+        SizedBox(
+          height: 8,
+        ),
+        TextField(
+          controller: _umpt,
+          readOnly: true,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: 'UM Item',
+          ),
+        ),
+        // ignore: prefer_const_constructors
+        SizedBox(
+          height: 8,
+        ),
+        TextField(
+          controller: _umkonv,
+          readOnly: true,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: 'Konversi',
+          ),
+        ),
       ],
     );
   }
@@ -314,7 +344,7 @@ class _CartWidgetState extends State<CartWidget> {
       padding: EdgeInsets.all(10),
       child: Container(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-          height: 830,
+          height: 950,
           width: double.maxFinite,
           child: Card(
             elevation: 5,
@@ -450,7 +480,6 @@ class _CartWidgetState extends State<CartWidget> {
                   ),
                 ),
               ),
-              // ignore: prefer_const_constructors
               SizedBox(
                 height: 8,
               ),

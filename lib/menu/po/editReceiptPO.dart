@@ -983,7 +983,8 @@ class _editReceiptPO extends State<editReceiptPO> {
     imrdate = TextEditingController(
         text: widget.imrdate == 'null' ? '' : widget.imrdate);
     selected_imrdate = DateTime.parse(widget.imrdate);
-    dono = TextEditingController(text: widget.donbr == 'null' ? '' : widget.donbr);
+    dono =
+        TextEditingController(text: widget.donbr == 'null' ? '' : widget.donbr);
     articleno = TextEditingController(
         text: widget.articlenbr == 'null' ? '' : widget.articlenbr);
     proddate = TextEditingController(
@@ -2106,9 +2107,7 @@ class _editReceiptPO extends State<editReceiptPO> {
                                               Navigator.of(context,
                                                       rootNavigator: true)
                                                   .pop();
-                                              print('confirm');
-                                              print(new_imagefiles);
-                                              print(new_imagesPath);
+                                              // print(cart[0].tLvdQtyRcvd);
                                               saveData();
                                             },
                                             onCancelBtnTap: () {
