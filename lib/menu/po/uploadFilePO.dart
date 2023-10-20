@@ -260,12 +260,13 @@ class _uploadfilepoState extends State<uploadfilepo> {
       // Process selected images
 
       for (var image in images!) {
-        if (File(image.path).lengthSync() > 10 * 1024 * 1024) {
+        var imgsize = (await image.readAsBytes()).lengthInBytes;
+        if (imgsize > 5000000) {
             setState(() {
               CoolAlert.show(
             context: context,
             type: CoolAlertType.error,
-            text: 'Ukuran Foto tidak boleh lebih dari 10MB',
+            text: 'Ukuran Foto tidak boleh lebih dari 5MB',
             title: 'Error');
           });
         } else {
@@ -294,7 +295,8 @@ class _uploadfilepoState extends State<uploadfilepo> {
         await ImagePicker().pickImage(source: ImageSource.camera);
 
     if (imagefromphoto != null) {
-      if (File(imagefromphoto.path).lengthSync() > 10 * 1024 * 1024) {
+      var imgsize = (await imagefromphoto.readAsBytes()).lengthInBytes;
+      if (imgsize > 5000000) {
             setState(() {
               CoolAlert.show(
             context: context,
@@ -417,7 +419,8 @@ class _uploadfilepoState extends State<uploadfilepo> {
               image.path.endsWith('.jpeg') ||
               image.path.endsWith('.png')) {
             // Check if the file size is less than 10MB
-            if (image.lengthSync() <= 10 * 1024 * 1024) {
+            var imgsize = (await image.readAsBytes()).lengthInBytes;
+            if (imgsize <= 5000000) {
               request.files.add(
                 await http.MultipartFile.fromPath('images[]', image.path),
               );

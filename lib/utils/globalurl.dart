@@ -9,9 +9,9 @@ library my_prj.globals;
 // String globalurlphoto = 'http://192.168.0.124/e-recmat';
 
 // domain public
- String globalurl = 'https://kacaerp.phapros.co.id/e-recmat/api';
- String globalurlphoto = 'https://kacaerp.phapros.co.id/e-recmat';
+//  String globalurl = 'https://kacaerp.phapros.co.id/e-recmat/api';
+//  String globalurlphoto = 'https://kacaerp.phapros.co.id/e-recmat';
 
 // ip local
-// String globalurl = 'http://192.168.18.40:8000/api';
-// String globalurlphoto = 'http://192.168.18.40:8000';
+String globalurl = 'http://30.30.30.63:8000/api';
+String globalurlphoto = 'http://30.30.30.63:8000';

@@ -189,6 +189,7 @@ class _editReceiptPO extends State<editReceiptPO> {
   final children = <Widget>[];
   final childrendetail = <Widget>[];
 
+  List<String> listdeleted = [];
   List<XFile> new_imagefiles = [];
   List<File> new_imagesPath = [];
 
@@ -224,18 +225,76 @@ class _editReceiptPO extends State<editReceiptPO> {
             setState(() {
               children.add(
                 InkWell(
-                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => AboutPage(
-                            tag: index.toString(),
-                            photourl: element['rcptfu_path']))),
+                    onTap: () {
+                      showModalBottomSheet<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Container(
+                              height: 200,
+                              color: Colors.purple,
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment
+                                          .center,
+                                  mainAxisSize:
+                                      MainAxisSize.min,
+                                  children: <Widget>[
+                                    const Text(
+                                        'Yakin ingin menghilangkan foto ini?',
+                                        style: TextStyle(
+                                            fontWeight:
+                                                FontWeight
+                                                    .bold,
+                                            fontSize: 15,
+                                            color: Colors
+                                                .white)),
+                                    ElevatedButton(
+                                      style: ElevatedButton
+                                          .styleFrom(
+                                              primary: Colors
+                                                  .white),
+                                      child: const Text(
+                                          'tekan tombol ini untuk menghilangkan foto',
+                                          style: TextStyle(
+                                              fontWeight:
+                                                  FontWeight
+                                                      .bold,
+                                              fontSize: 15,
+                                              color: Colors
+                                                  .black)),
+                                      onPressed: () {
+                                        children.removeAt(index+1);
+                                        
+                                        listdeleted.add(element['rcptfu_path']);
+                                        Navigator.pop(
+                                            context);
+                                        CoolAlert.show(
+                                            context:
+                                                context,
+                                            type:
+                                                CoolAlertType
+                                                    .success,
+                                            text:
+                                                'Foto berhasil dihilangkan',
+                                            title:
+                                                'Success');
+                                        setState(() {});
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          });
+                      setState(() {});
+                    },
                     child: Card(
                       child: SizedBox(
                           height: 100,
                           width: 100,
-                          child: Hero(
-                              tag: index.toString(),
                               child: Image.network(globals.globalurlphoto +
-                                  element['rcptfu_path']))),
+                                  element['rcptfu_path'])),
                     )),
               );
             });
@@ -300,8 +359,21 @@ class _editReceiptPO extends State<editReceiptPO> {
         await ImagePicker().pickImage(source: ImageSource.camera);
 
     if (imagefromphoto != null) {
-      new_imagefiles!.add(imagefromphoto!);
-      new_imagesPath.add(File(imagefromphoto!.path));
+      var imgsize = (await imagefromphoto.readAsBytes()).lengthInBytes;
+      if (imgsize <= 5000000) {
+          new_imagefiles!.add(imagefromphoto!);
+          new_imagesPath.add(File(imagefromphoto!.path));
+        }      
+        else {
+          ArtSweetAlert.show(
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+                type: ArtSweetAlertType.danger,
+                title: "Error",
+                text: "Image exceeds 5MB"));
+        // Do something with the selected image
+        }
+
 
       // Process selected images
 
@@ -326,9 +398,21 @@ class _editReceiptPO extends State<editReceiptPO> {
       // Process selected images
 
       for (var image in images!) {
-        new_imagesPath.add(File(image.path));
-        new_imagefiles!.add(image);
+        var imgsize = (await image.readAsBytes()).lengthInBytes;
+        if (imgsize <= 5000000) {
+                new_imagesPath.add(File(image.path));
+                new_imagefiles!.add(image);
+                print(imgsize);
+        }      
+        else {
+          ArtSweetAlert.show(
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+                type: ArtSweetAlertType.danger,
+                title: "Error",
+                text: "Image exceeds 5MB"));
         // Do something with the selected image
+        }
       }
       setState(() {});
     } else if (images!.isEmpty) {
@@ -770,7 +854,8 @@ class _editReceiptPO extends State<editReceiptPO> {
               image.path.endsWith('.jpeg') ||
               image.path.endsWith('.png')) {
             // Check if the file size is less than 10MB
-            if (image.lengthSync() <= 10 * 1024 * 1024) {
+            var imgsize = (await image.readAsBytes()).lengthInBytes;
+            if (imgsize <= 5000000) {
               request.files.add(
                 await http.MultipartFile.fromPath('images[]', image.path),
               );
@@ -849,7 +934,8 @@ class _editReceiptPO extends State<editReceiptPO> {
         "keterangan_is_segregated": angkutanketeranganissegregated.text,
         "angkutan_catatan": angkutancatatan.text,
         "kelembapan": kelembapan.text,
-        "suhu": suhu.text
+        "suhu": suhu.text,
+        "listdeleted": jsonEncode(listdeleted)
       };
 
       // print(body);

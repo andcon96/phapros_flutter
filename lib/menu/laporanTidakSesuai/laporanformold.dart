@@ -142,7 +142,7 @@ class _laporanform extends State<laporanform> {
               image.path.endsWith('.jpeg') ||
               image.path.endsWith('.png')) {
             // Check if the file size is less than 10MB
-            if (image.lengthSync() <= 10 * 1024 * 1024) {
+            if (image.lengthSync() <= 10 * 512 * 512) {
               request.files.add(
                 await http.MultipartFile.fromPath('images[]', image.path),
               );

@@ -95,18 +95,19 @@ class _laporanform extends State<laporanform> {
 
       for (var image in images!) {
         // imagesPath.add(File(image.path));
-        if (File(image.path).lengthSync() > 10 * 1024 * 1024) {
-            setState(() {
-              ArtSweetAlert.show(
-                  context: context,
-                  artDialogArgs: ArtDialogArgs(
-                      type: ArtSweetAlertType.danger,
-                      title: "Error",
-                      text: "Ukuran Foto tidak boleh lebih dari 10MB"));
-            });
-          } else {
-            imagefiles.add(image);    
-          }
+        var imgsize = (await image.readAsBytes()).lengthInBytes;
+        if (imgsize <= 5000000) {
+                imagefiles.add(image);    
+        }      
+        else {
+          ArtSweetAlert.show(
+            context: context,
+            artDialogArgs: ArtDialogArgs(
+                type: ArtSweetAlertType.danger,
+                title: "Error",
+                text: "Ukuran Foto tidak boleh lebih dari 5MB"));
+        // Do something with the selected image
+        }
         
         // Do something with the selected image
       }
@@ -130,14 +131,16 @@ class _laporanform extends State<laporanform> {
     imagefromphoto = await ImagePicker().pickImage(source: ImageSource.camera);
 
     if (imagefromphoto != null) {
-      if (File(imagefromphoto!.path).lengthSync() > 10 * 1024 * 1024) {
+      var imgsize = (await imagefromphoto!.readAsBytes()).lengthInBytes;
+      
+      if (imgsize > 5000000) {
             setState(() {
               ArtSweetAlert.show(
                   context: context,
                   artDialogArgs: ArtDialogArgs(
                       type: ArtSweetAlertType.danger,
                       title: "Error",
-                      text: "Ukuran Foto tidak boleh lebih dari 10MB"));
+                      text: "Ukuran Foto tidak boleh lebih dari 5MB"));
             });
           } else {
             imagefiles.add(imagefromphoto!);
@@ -180,7 +183,8 @@ class _laporanform extends State<laporanform> {
             image.path.endsWith('.jpeg') ||
             image.path.endsWith('.png')) {
           // Check if the file size is less than 10MB
-          if (image.lengthSync() <= 10 * 1024 * 1024) {
+        var imgsize = (await image.readAsBytes()).lengthInBytes;
+        if (imgsize <= 5000000) {
             request.files.add(
               await http.MultipartFile.fromPath('images[]', image.path),
             );
