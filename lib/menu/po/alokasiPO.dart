@@ -116,6 +116,10 @@ class _DetailPOState extends State<DetailPO> {
                         .toList();
 
                     widget.cartItem.tLvcUm = selecteddata[0].tLvcUm.toString();
+                    widget.cartItem.tLvcPtUm =
+                        selecteddata[0].tLvcPtUm.toString();
+                    widget.cartItem.tLvdUmKonv =
+                        selecteddata[0].tLvdUmKonv.toString();
 
                     widget.cartItem.tLvdQtyord =
                         selecteddata[0].tLvdQtyord.toString();
@@ -277,7 +281,7 @@ class _CartWidgetState extends State<CartWidget> {
   TextEditingController manudetdate = TextEditingController();
   DateTime selectedExpDate = DateTime.now();
   DateTime selectedManuDate = DateTime.now();
-  int _sum = 0;
+  double _sum = 0.00;
 
   @override
   void initState() {
@@ -500,9 +504,9 @@ class _CartWidgetState extends State<CartWidget> {
                 ),
                 onChanged: (value) {
                   setState(() {
-                    _sum = (int.tryParse(value) ?? 0) -
-                        (int.tryParse(qtyreject.text) ?? 0);
-                    qtyterima.text = _sum.toString();
+                    _sum = (double.tryParse(value) ?? 0) -
+                        (double.tryParse(qtyreject.text) ?? 0);
+                    qtyterima.text = _sum.toStringAsFixed(2);
                   });
                 },
               ),
@@ -527,9 +531,9 @@ class _CartWidgetState extends State<CartWidget> {
                 ),
                 onChanged: (value) {
                   setState(() {
-                    _sum = (int.tryParse(qtydatang.text) ?? 0) -
-                        (int.tryParse(value) ?? 0);
-                    qtyterima.text = _sum.toString();
+                    _sum = (double.tryParse(qtydatang.text) ?? 0) -
+                        (double.tryParse(value) ?? 0);
+                    qtyterima.text = _sum.toStringAsFixed(2);
                   });
                 },
               ),
@@ -639,11 +643,19 @@ class _CartWidgetState extends State<CartWidget> {
                                   var line = widget.cart[widget.index].tLviLine;
                                   var totalterima = 0.00;
 
+                                  var konversi = double.parse(
+                                      widget.cart[widget.index].tLvdUmKonv ??
+                                          '1');
+
                                   widget.cart.forEach((element) {
                                     if (element.tLviLine == line) {
                                       var qtyterimaline =
                                           element.tLvdQtyTerima ??
                                               qtyterima.text;
+                                      qtyterimaline =
+                                          (double.parse(qtyterimaline) /
+                                                  konversi)
+                                              .toString();
                                       totalterima +=
                                           double.parse(qtyterimaline);
                                     }
@@ -1030,6 +1042,8 @@ class _alokasipoState extends State<alokasipo> {
               tLvcExpDetailDate: widget.expdate,
               tLvcManuDetailDate: widget.proddate,
               tIMRNo: widget.imrno,
+              tLvcPtUm: widget.selectedline[0].tLvcPtUm,
+              tLvdUmKonv: widget.selectedline[0].tLvdUmKonv,
               tIsSaved: false));
           setState(() {});
         },
