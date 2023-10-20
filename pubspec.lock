@@ -287,7 +287,7 @@ packages:
     source: hosted
     version: "2.10.2"
   flutter_native_image:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_native_image
       sha256: "0ff23d6222064259df8f85ea56925627ea1ec8658814672c5b6c23fc9174c65e"
