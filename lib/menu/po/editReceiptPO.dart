@@ -356,7 +356,7 @@ class _editReceiptPO extends State<editReceiptPO> {
 
   Future takeImages() async {
     var imagefromphoto =
-        await ImagePicker().pickImage(source: ImageSource.camera);
+        await ImagePicker().pickImage(source: ImageSource.camera,imageQuality: 20);
 
     if (imagefromphoto != null) {
       var imgsize = (await imagefromphoto.readAsBytes()).lengthInBytes;
@@ -392,7 +392,7 @@ class _editReceiptPO extends State<editReceiptPO> {
   }
 
   Future openImages() async {
-    var images = await ImagePicker().pickMultiImage();
+    var images = await ImagePicker().pickMultiImage(imageQuality: 20);
 
     if (images!.isNotEmpty) {
       // Process selected images
@@ -496,8 +496,22 @@ class _editReceiptPO extends State<editReceiptPO> {
             height: 8,
           ),
           _textInputReadonly(
-            hint: "UM",
+            hint: "UM PO",
             controller: TextEditingController(text: element['rcptd_part_um']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          _textInputReadonly(
+            hint: "UM PR",
+            controller: TextEditingController(text: element['rcptd_um_pr']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          _textInputReadonly(
+            hint: "UM Konversi",
+            controller: TextEditingController(text: element['rcptd_um_konv']),
           ),
           const SizedBox(
             height: 8,

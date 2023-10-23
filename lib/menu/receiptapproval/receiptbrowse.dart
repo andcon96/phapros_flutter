@@ -571,7 +571,11 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                                                                     transportissegregateddesc: datapo[index].transportissegregateddesc.toString(),
                                                                                                     transportangkutancatatan: datapo[index].transportangkutancatatan.toString(),
                                                                                                     transportkelembapan: datapo[index].transportkelembapan.toString(),
-                                                                                                    transportsuhu: datapo[index].transportsuhu.toString())));
+                                                                                                    transportsuhu: datapo[index].transportsuhu.toString(),
+                                                                                                    umpr: datapo[index].umpr.toString(),
+                                                                                                    um: datapo[index].um.toString(),
+                                                                                                    umkonv: datapo[index].umkonv.toString()
+                                                                                                    )));
 
                                                                                         if (refresh == 'refresh') {
                                                                                           Changedata();

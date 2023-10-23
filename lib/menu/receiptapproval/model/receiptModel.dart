@@ -102,7 +102,10 @@ class receiptModel {
       transportissegregateddesc,
       transportangkutancatatan,
       transportkelembapan,
-      transportsuhu
+      transportsuhu,
+      umpr,
+      umkonv,
+      um
 
       ;
 
@@ -172,7 +175,10 @@ class receiptModel {
     required this.transportissegregateddesc,
     required this.transportangkutancatatan,
     required this.transportkelembapan,
-    required this.transportsuhu
+    required this.transportsuhu,
+    required this.umpr,
+    required this.um,
+    required this.umkonv
     
     
   });
@@ -199,7 +205,7 @@ class receiptModel {
                 ? {}
                 : jsongetappr['get_user'];
  
-  
+  print(json['rcptd_um_pr']);
     return receiptModel(
         ponbr: jsonpo['po_nbr'],
         rcpt_nbr: jsonmaster['rcpt_nbr'],
@@ -263,8 +269,10 @@ class receiptModel {
         transportissegregateddesc:jsontransport['rcptt_is_segregated_desc'],
         transportangkutancatatan:jsontransport['rcptt_angkutan_catatan'],
         transportkelembapan:jsontransport['rcptt_kelembapan'],
-        transportsuhu:jsontransport['rcptt_suhu']
-        
+        transportsuhu:jsontransport['rcptt_suhu'],
+        umpr: json['rcptd_um_pr'],
+        um: json['rcptd_part_um'],
+        umkonv: json['rcptd_um_konv']
     );
   }
 

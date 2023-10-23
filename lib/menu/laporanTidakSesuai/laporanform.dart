@@ -29,6 +29,8 @@ class laporanform extends StatefulWidget {
       batch,
       supplierdesc,
       um,
+      umpr,
+      umkonv,
       itemcode;
 
   const laporanform({
@@ -49,7 +51,9 @@ class laporanform extends StatefulWidget {
     required this.batch,
     required this.supplierdesc,
     required this.um,
-    required this.itemcode
+    required this.itemcode,
+    required this.umkonv,
+    required this.umpr
   }) : super(key: key);
 
   @override
@@ -75,6 +79,8 @@ class _laporanform extends State<laporanform> {
   late TextEditingController Angkutan;
   late TextEditingController NoPol;
   late TextEditingController UM;
+  late TextEditingController UMPR;
+  late TextEditingController UMKonv;
   String rcptnbr = '';
   late String responseresult = '';
   bool loading = false;
@@ -88,7 +94,7 @@ class _laporanform extends State<laporanform> {
   late String suppstr;
   late String itemnbr ;
   Future pickImage() async {
-    images = await ImagePicker().pickMultiImage();
+    images = await ImagePicker().pickMultiImage(imageQuality: 20);
 
     if (images!.isNotEmpty) {
       // Process selected images
@@ -128,7 +134,7 @@ class _laporanform extends State<laporanform> {
   }
 
   Future takeImage() async {
-    imagefromphoto = await ImagePicker().pickImage(source: ImageSource.camera);
+    imagefromphoto = await ImagePicker().pickImage(source: ImageSource.camera,imageQuality: 20);
 
     if (imagefromphoto != null) {
       var imgsize = (await imagefromphoto!.readAsBytes()).lengthInBytes;
@@ -299,6 +305,10 @@ class _laporanform extends State<laporanform> {
         TextEditingController(text: widget.nopol != 'null' ? widget.nopol : '');
     UM =
         TextEditingController(text: widget.um != 'null' ? widget.um : '');
+    UMPR =
+        TextEditingController(text: widget.umpr != 'null' ? widget.umpr : '');
+    UMKonv =
+        TextEditingController(text: widget.umkonv != 'null' ? widget.umkonv : '');
 
   }
 
@@ -520,7 +530,29 @@ class _laporanform extends State<laporanform> {
               TextFormField(
                 controller: UM,
                 readOnly: true,
-                decoration: InputDecoration(labelText: 'UM'),
+                decoration: InputDecoration(labelText: 'UM PO'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return '-';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: UMPR,
+                readOnly: true,
+                decoration: InputDecoration(labelText: 'UM PR'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return '-';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: UMKonv,
+                readOnly: true,
+                decoration: InputDecoration(labelText: 'UM Konversi'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return '-';

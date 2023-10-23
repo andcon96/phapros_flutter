@@ -13,5 +13,5 @@ library my_prj.globals;
 //  String globalurlphoto = 'https://kacaerp.phapros.co.id/e-recmat';
 
 // ip local
-String globalurl = 'http://30.30.30.65:8000/api';
-String globalurlphoto = 'http://30.30.30.65:8000';
+String globalurl = 'http://30.30.30.77:8000/api';
+String globalurlphoto = 'http://30.30.30.77:8000';

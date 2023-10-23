@@ -71,7 +71,10 @@ class receiptform extends StatefulWidget {
       transportissegregateddesc,
       transportangkutancatatan,
       transportkelembapan,
-      transportsuhu;
+      transportsuhu,
+      umpr,
+      um,
+      umkonv;
 
   const receiptform(
       {Key? key,
@@ -135,7 +138,10 @@ class receiptform extends StatefulWidget {
       required this.transportissegregateddesc,
       required this.transportangkutancatatan,
       required this.transportkelembapan,
-      required this.transportsuhu})
+      required this.transportsuhu,
+      required this.um,
+      required this.umpr,
+      required this.umkonv})
       : super(key: key);
 
   @override
@@ -282,9 +288,25 @@ class _receiptform extends State<receiptform> {
             height: 8,
           ),
           _textInput(
-            hint: "UM",
+            hint: "UM PO",
             controller: TextEditingController(
                 text: element['rcptd_part_um']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          _textInput(
+            hint: "UM PR",
+            controller: TextEditingController(
+                text: element['rcptd_um_pr']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          _textInput(
+            hint: "UM Konversi",
+            controller: TextEditingController(
+                text: element['rcptd_um_konv']),
           ),
           const SizedBox(
             height: 8,
@@ -573,6 +595,9 @@ class _receiptform extends State<receiptform> {
   late TextEditingController nextapproval;
   late TextEditingController PO;
   late TextEditingController NomorLot;
+  late TextEditingController UM;
+  late TextEditingController UMPR;
+  late TextEditingController UMKonv;
 
   // Step 1
   late TextEditingController receiptno;
@@ -717,7 +742,13 @@ class _receiptform extends State<receiptform> {
     Loc = TextEditingController(text: widget.rcptd_loc);
     JumlahApprove = TextEditingController(text: NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(widget.rcptd_qty_appr)));
     JumlahReject = TextEditingController(text: NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(widget.rcptd_qty_rej)));
-
+    UM = TextEditingController(
+        text: widget.um != 'null' ? widget.um : '');
+        print(widget.um);
+    UMPR = TextEditingController(
+        text: widget.umpr != 'null' ? widget.umpr : '');
+    UMKonv = TextEditingController(
+        text: widget.umkonv != 'null' ? widget.umkonv : '');
     // Step 1
     receiptno = TextEditingController(text: widget.rcpt_nbr);
     pono = TextEditingController(text: widget.ponbr);
@@ -2017,6 +2048,28 @@ class _receiptform extends State<receiptform> {
                 const SizedBox(
                   height: 8,
                 ),
+                _textInput(
+                  hint: "UM PO",
+                  controller: UM,
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                _textInput(
+                  hint: "UM PR",
+                  controller: UMPR,
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                _textInput(
+                  hint: "UM Konversi",
+                  controller: UMKonv,
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                
                 _textInput(
                   hint: "Qty Datang",
                   controller: JumlahMasuk,

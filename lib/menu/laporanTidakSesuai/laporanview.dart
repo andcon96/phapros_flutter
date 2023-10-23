@@ -30,7 +30,9 @@ class laporanview extends StatefulWidget {
       createdby,
       batch,
       supplierdesc,
-      um;
+      um,
+      umpr,
+      umkonv;
 
   const laporanview({
     Key? key,
@@ -54,7 +56,9 @@ class laporanview extends StatefulWidget {
     required this.createdby,
     required this.batch,
     required this.supplierdesc,
-    required this.um
+    required this.um,
+    required this.umkonv,
+    required this.umpr
   }) : super(key: key);
 
   @override
@@ -114,6 +118,8 @@ class _laporanview extends State<laporanview> {
   late TextEditingController Angkutan;
   late TextEditingController NoPol;
   late TextEditingController UM;
+  late TextEditingController UMKonv;
+  late TextEditingController UMPR;
   late TextEditingController createdby;
   String rcptnbr = '';
   late String responseresult = '';
@@ -227,6 +233,10 @@ class _laporanview extends State<laporanview> {
         TextEditingController(text: widget.nopol != 'null' ? widget.nopol : '');
     UM =
         TextEditingController(text: widget.um != 'null' ? widget.um : '');
+    UMKonv =
+        TextEditingController(text: widget.umkonv != 'null' ? widget.umkonv : '');
+    UMPR =
+        TextEditingController(text: widget.umpr != 'null' ? widget.umpr : '');
     createdby =
         TextEditingController(text: widget.createdby != 'null' ? widget.createdby : '');
   }
@@ -427,12 +437,13 @@ class _laporanview extends State<laporanview> {
                             height:50,
                             alignment: Alignment.centerLeft,
                           child: Text(
-                            'UM',
+                            'UM PO',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 14),
                           ),
                           ),
                         ),
+                        
                         TableCell(
                           verticalAlignment: TableCellVerticalAlignment.middle,
                           child: Container(
@@ -440,6 +451,58 @@ class _laporanview extends State<laporanview> {
                             alignment: Alignment.centerLeft,
                           child: Text(
                             UM.text,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          ),
+                        ),
+                      ]),
+                      TableRow(children: [
+                        TableCell(
+                          verticalAlignment: TableCellVerticalAlignment.middle,
+                          child: Container(
+                            height:50,
+                            alignment: Alignment.centerLeft,
+                          child: Text(
+                            'UM PR',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 14),
+                          ),
+                          ),
+                        ),
+                        
+                        TableCell(
+                          verticalAlignment: TableCellVerticalAlignment.middle,
+                          child: Container(
+                            height:50,
+                            alignment: Alignment.centerLeft,
+                          child: Text(
+                            UMPR.text,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          ),
+                        ),
+                      ]),
+                      TableRow(children: [
+                        TableCell(
+                          verticalAlignment: TableCellVerticalAlignment.middle,
+                          child: Container(
+                            height:50,
+                            alignment: Alignment.centerLeft,
+                          child: Text(
+                            'UM Konversi',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 14),
+                          ),
+                          ),
+                        ),
+                        
+                        TableCell(
+                          verticalAlignment: TableCellVerticalAlignment.middle,
+                          child: Container(
+                            height:50,
+                            alignment: Alignment.centerLeft,
+                          child: Text(
+                            UMKonv.text,
                             style: TextStyle(fontSize: 16),
                           ),
                           ),

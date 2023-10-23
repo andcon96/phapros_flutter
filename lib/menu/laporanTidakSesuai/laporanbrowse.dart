@@ -487,6 +487,8 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                             createdby: datapo[index].createdby.toString(),
                                                                             batch: datapo[index].rcptd_batch.toString(),
                                                                             um: datapo[index].umdesc.toString(),
+                                                                            umpr: datapo[index].umpr.toString(),
+                                                                            umkonv: datapo[index].umkonv.toString()
                                                                             )))
                                                               },
                                                             ),
@@ -532,6 +534,8 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                                   supplierdesc: datapo[index].supplierdesc.toString(),
                                                                                   um: datapo[index].umdesc.toString(),
                                                                                   itemcode: datapo[index].itemcode.toString(),
+                                                                                  umpr: datapo[index].umpr.toString(),
+                                                                                  umkonv: datapo[index].umkonv.toString()
                                                                                 )));
 
                                                                 if (refresh ==
