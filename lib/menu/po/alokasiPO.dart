@@ -291,7 +291,7 @@ class _CartWidgetState extends State<CartWidget> {
     // Expiration Date
     final dataexpdet = widget.cart[widget.index].tLvcExpDetailDate;
     late String? newexpdet;
-
+    print(dataexpdet);
     if (dataexpdet != null && dataexpdet.isNotEmpty) {
       newexpdet = widget.cart[widget.index].tLvcExpDetailDate;
     } else {
@@ -367,6 +367,9 @@ class _CartWidgetState extends State<CartWidget> {
               TextField(
                   readOnly: widget.cart[widget.index].tIsSaved!,
                   controller: batch,
+                  onChanged: (value) {
+                    widget.cart[widget.index].tLvcBatch = value;
+                  },
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Batch / Lot',
@@ -382,14 +385,6 @@ class _CartWidgetState extends State<CartWidget> {
               SizedBox(
                 height: 8,
               ),
-              // TextField(
-              //   readOnly: widget.cart[widget.index].tIsSaved!,
-              //   controller: lokasi,
-              //   decoration: const InputDecoration(
-              //     border: OutlineInputBorder(),
-              //     labelText: 'Location',
-              //   ),
-              // ),
               DropdownLocation(
                 cartItem: widget.cart[widget.index],
                 listLocation: widget.listLocation,
@@ -402,6 +397,9 @@ class _CartWidgetState extends State<CartWidget> {
               TextField(
                 readOnly: widget.cart[widget.index].tIsSaved!,
                 controller: lot,
+                onChanged: (value) {
+                  widget.cart[widget.index].tLvcLot = value;
+                },
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Lot',
@@ -413,6 +411,9 @@ class _CartWidgetState extends State<CartWidget> {
               TextField(
                   controller: manudetdate,
                   readOnly: true,
+                  onChanged: (value) {
+                    widget.cart[widget.index].tLvcManuDetailDate = value;
+                  },
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.calendar_month_rounded),
@@ -430,6 +431,8 @@ class _CartWidgetState extends State<CartWidget> {
                           });
                           manudetdate.text =
                               DateFormat('yyyy-MM-dd').format(selectedManuDate);
+                          widget.cart[widget.index].tLvcManuDetailDate =
+                              manudetdate.text;
                         }
                       },
                     ),
@@ -458,19 +461,23 @@ class _CartWidgetState extends State<CartWidget> {
                           });
                           expdetdate.text =
                               DateFormat('yyyy-MM-dd').format(selectedExpDate);
+                          widget.cart[widget.index].tLvcExpDetailDate =
+                              expdetdate.text;
                         }
                       },
                     ),
                     border: const OutlineInputBorder(),
                     labelText: 'Tanggal Kadarluasa',
                   )),
-
               SizedBox(
                 height: 8,
               ),
               TextField(
                 readOnly: widget.cart[widget.index].tIsSaved!,
                 controller: qtyper,
+                onChanged: (value) {
+                  widget.cart[widget.index].tlvdQtyPerPackage = value;
+                },
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -503,10 +510,13 @@ class _CartWidgetState extends State<CartWidget> {
                   ),
                 ),
                 onChanged: (value) {
+                  widget.cart[widget.index].tLvdQtyDatang = value;
                   setState(() {
                     _sum = (double.tryParse(value) ?? 0) -
                         (double.tryParse(qtyreject.text) ?? 0);
                     qtyterima.text = _sum.toStringAsFixed(2);
+                    widget.cart[widget.index].tLvdQtyTerima =
+                        _sum.toStringAsFixed(2);
                   });
                 },
               ),
@@ -530,10 +540,13 @@ class _CartWidgetState extends State<CartWidget> {
                   ),
                 ),
                 onChanged: (value) {
+                  widget.cart[widget.index].tLvdQtyReject = value;
                   setState(() {
                     _sum = (double.tryParse(qtydatang.text) ?? 0) -
                         (double.tryParse(value) ?? 0);
                     qtyterima.text = _sum.toStringAsFixed(2);
+                    widget.cart[widget.index].tLvdQtyTerima =
+                        _sum.toStringAsFixed(2);
                   });
                 },
               ),
@@ -673,19 +686,19 @@ class _CartWidgetState extends State<CartWidget> {
                                     return;
                                   }
 
-                                  widget.cart[widget.index].tLvcBatch =
-                                      batch.text;
+                                  // widget.cart[widget.index].tLvcBatch =
+                                  //     batch.text;
                                   // widget.cart[widget.index].tLvcLoc =
                                   //     lokasi.text;
                                   widget.cart[widget.index].tLvcLot = lot.text;
-                                  widget.cart[widget.index].tLvdQtyDatang =
-                                      qtydatang.text;
-                                  widget.cart[widget.index].tLvdQtyReject =
-                                      qtyreject.text;
+                                  // widget.cart[widget.index].tLvdQtyDatang =
+                                  //     qtydatang.text;
+                                  // widget.cart[widget.index].tLvdQtyReject =
+                                  //     qtyreject.text;
                                   widget.cart[widget.index].tLvdQtyTerima =
                                       qtyterima.text;
-                                  widget.cart[widget.index].tlvdQtyPerPackage =
-                                      qtyper.text;
+                                  // widget.cart[widget.index].tlvdQtyPerPackage =
+                                  //     qtyper.text;
                                   widget.cart[widget.index].tLvcExpDetailDate =
                                       expdetdate.text;
                                   widget.cart[widget.index].tLvcManuDetailDate =
