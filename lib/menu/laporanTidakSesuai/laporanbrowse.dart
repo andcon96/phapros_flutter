@@ -75,7 +75,7 @@ class _laporanbrowse extends State<laporanbrowse> {
 
       final Uri url = Uri.parse(
           '${globals.globalurl}/getpolaporan?receiptnbr=' + search.toString());
-      print(url);
+      
       loadfailed = false;
       final response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: "application/json",
