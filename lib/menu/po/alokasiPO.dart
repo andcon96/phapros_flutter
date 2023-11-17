@@ -116,6 +116,9 @@ class _DetailPOState extends State<DetailPO> {
                     widget.cartItem.tLvdQtyord =
                         selecteddata[0].tLvdQtyord.toString();
 
+                    widget.cartItem.tLvdQtyRcvd =
+                        selecteddata[0].tLvdQtyRcvd.toString();
+
                     _um.text = selecteddata[0].tLvcUm.toString();
                   });
                 }),
@@ -619,7 +622,8 @@ class _CartWidgetState extends State<CartWidget> {
                                           double.parse(qtyterimaline);
                                     }
                                   });
-
+                                  // print(qtyopen);
+                                  // print(totalterima);
                                   if (qtyopen < totalterima) {
                                     Navigator.of(context, rootNavigator: true)
                                         .pop();
