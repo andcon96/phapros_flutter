@@ -5,7 +5,7 @@
 
     
    <application
-        android:label="[PROD]PO Receipt"
+        android:label="[SIM]PO Receipt"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
