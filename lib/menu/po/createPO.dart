@@ -102,7 +102,9 @@ class _createpoState extends State<createpo> {
         valueprefix = body[0]['pin_prefix'] + '|' + body[0]['pin_rn'];
         rnItem = prefixitem['item_rn'] ?? '000000';
 
-        listPrefix = body;
+        setState(() {
+          listPrefix = body;
+        });
 
         // Cek Tahun berjalan & tahun RN
         DateTime now = DateTime.now();
@@ -371,7 +373,8 @@ class _createpoState extends State<createpo> {
               ),
               const SizedBox(
                 height: 8,
-              ),_textInput(
+              ),
+              _textInput(
                 hint: "DO No.",
                 controller: dono,
               ),

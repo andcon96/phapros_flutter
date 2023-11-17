@@ -1,8 +1,8 @@
 library my_prj.globals;
 
 // ip local phapros sim
-// String globalurl = 'http://192.168.0.124/e-recmatsim/api';
-// String globalurlphoto = 'http://192.168.0.124/e-recmatsim';
+String globalurl = 'http://192.168.0.124/e-recmatsim/api';
+String globalurlphoto = 'http://192.168.0.124/e-recmatsim';
 
 // ip local phapros live
 // String globalurl = 'http://192.168.0.124/e-recmat/api';
