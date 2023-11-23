@@ -13,8 +13,8 @@ String globalurlphoto = 'http://192.168.0.124/e-recmatsim';
 //  String globalurlphoto = 'https://kacaerp.phapros.co.id/e-recmat';
 
 // domain public sim
- String globalurl = 'https://kacaerp.phapros.co.id/e-recmat/api';
- String globalurlphoto = 'https://kacaerp.phapros.co.id/e-recmat';
+//  String globalurl = 'https://kacaerp.phapros.co.id/e-recmatsim/api';
+//  String globalurlphoto = 'https://kacaerp.phapros.co.id/e-recmatsim';
 
 // ip local
 // String globalurl = 'http://30.30.30.77:8000/api';

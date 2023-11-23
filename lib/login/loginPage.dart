@@ -35,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
         await http.post(Uri.parse('${globals.globalurl}/login'), body: {
       "nik": _userCon.text,
       "password": _passCon.text,
-    }).timeout(const Duration(seconds: 5), onTimeout: () 
+    }).timeout(const Duration(seconds: 10), onTimeout: () 
     {
       
       // setState(() {
