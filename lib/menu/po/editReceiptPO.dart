@@ -234,51 +234,34 @@ class _editReceiptPO extends State<editReceiptPO> {
                               color: Colors.purple,
                               child: Center(
                                 child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment
-                                          .center,
-                                  mainAxisSize:
-                                      MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     const Text(
                                         'Yakin ingin menghilangkan foto ini?',
                                         style: TextStyle(
-                                            fontWeight:
-                                                FontWeight
-                                                    .bold,
+                                            fontWeight: FontWeight.bold,
                                             fontSize: 15,
-                                            color: Colors
-                                                .white)),
+                                            color: Colors.white)),
                                     ElevatedButton(
-                                      style: ElevatedButton
-                                          .styleFrom(
-                                              primary: Colors
-                                                  .white),
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.white),
                                       child: const Text(
                                           'tekan tombol ini untuk menghilangkan foto',
                                           style: TextStyle(
-                                              fontWeight:
-                                                  FontWeight
-                                                      .bold,
+                                              fontWeight: FontWeight.bold,
                                               fontSize: 15,
-                                              color: Colors
-                                                  .black)),
+                                              color: Colors.black)),
                                       onPressed: () {
-                                        children.removeAt(index+1);
-                                        
+                                        children.removeAt(index + 1);
+
                                         listdeleted.add(element['rcptfu_path']);
-                                        Navigator.pop(
-                                            context);
+                                        Navigator.pop(context);
                                         CoolAlert.show(
-                                            context:
-                                                context,
-                                            type:
-                                                CoolAlertType
-                                                    .success,
-                                            text:
-                                                'Foto berhasil dihilangkan',
-                                            title:
-                                                'Success');
+                                            context: context,
+                                            type: CoolAlertType.success,
+                                            text: 'Foto berhasil dihilangkan',
+                                            title: 'Success');
                                         setState(() {});
                                       },
                                     ),
@@ -293,8 +276,8 @@ class _editReceiptPO extends State<editReceiptPO> {
                       child: SizedBox(
                           height: 100,
                           width: 100,
-                              child: Image.network(globals.globalurlphoto +
-                                  element['rcptfu_path'])),
+                          child: Image.network(
+                              globals.globalurlphoto + element['rcptfu_path'])),
                     )),
               );
             });
@@ -355,25 +338,23 @@ class _editReceiptPO extends State<editReceiptPO> {
   }
 
   Future takeImages() async {
-    var imagefromphoto =
-        await ImagePicker().pickImage(source: ImageSource.camera,imageQuality: 20);
+    var imagefromphoto = await ImagePicker()
+        .pickImage(source: ImageSource.camera, imageQuality: 20);
 
     if (imagefromphoto != null) {
       var imgsize = (await imagefromphoto.readAsBytes()).lengthInBytes;
       if (imgsize <= 5000000) {
-          new_imagefiles!.add(imagefromphoto!);
-          new_imagesPath.add(File(imagefromphoto!.path));
-        }      
-        else {
-          ArtSweetAlert.show(
+        new_imagefiles!.add(imagefromphoto!);
+        new_imagesPath.add(File(imagefromphoto!.path));
+      } else {
+        ArtSweetAlert.show(
             context: context,
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.danger,
                 title: "Error",
                 text: "Image exceeds 5MB"));
         // Do something with the selected image
-        }
-
+      }
 
       // Process selected images
 
@@ -400,18 +381,17 @@ class _editReceiptPO extends State<editReceiptPO> {
       for (var image in images!) {
         var imgsize = (await image.readAsBytes()).lengthInBytes;
         if (imgsize <= 5000000) {
-                new_imagesPath.add(File(image.path));
-                new_imagefiles!.add(image);
-                print(imgsize);
-        }      
-        else {
+          new_imagesPath.add(File(image.path));
+          new_imagefiles!.add(image);
+          print(imgsize);
+        } else {
           ArtSweetAlert.show(
-            context: context,
-            artDialogArgs: ArtDialogArgs(
-                type: ArtSweetAlertType.danger,
-                title: "Error",
-                text: "Image exceeds 5MB"));
-        // Do something with the selected image
+              context: context,
+              artDialogArgs: ArtDialogArgs(
+                  type: ArtSweetAlertType.danger,
+                  title: "Error",
+                  text: "Image exceeds 5MB"));
+          // Do something with the selected image
         }
       }
       setState(() {});
@@ -458,6 +438,8 @@ class _editReceiptPO extends State<editReceiptPO> {
             TextEditingController(text: element['rcptd_qty_rej']);
         TextEditingController qtyArrivalController =
             TextEditingController(text: element['rcptd_qty_arr']);
+        TextEditingController qtyPerPackageController =
+            TextEditingController(text: element['rcptd_qty_per_package']);
         TextEditingController sumController =
             TextEditingController(text: element['rcptd_qty_appr']);
         TextEditingController expDateController =
@@ -468,6 +450,7 @@ class _editReceiptPO extends State<editReceiptPO> {
         cart.add(Data(
           tLvcNbr: element['iddetail'].toString(), // Masukin ID Detail buat API
           tLviLine: element['rcptd_line'].toString(),
+          tlvdQtyPerPackage: element['rcptd_qty_per_package'].toString(),
           tLvdQtyDatang: element['rcptd_qty_arr'].toString(),
           tLvdQtyReject: element['rcptd_qty_rej'].toString(),
           tLvdQtyRcvd: element['rcptd_qty_appr'].toString(),
@@ -512,6 +495,26 @@ class _editReceiptPO extends State<editReceiptPO> {
           _textInputReadonly(
             hint: "UM Konversi",
             controller: TextEditingController(text: element['rcptd_um_konv']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          TextField(
+            controller: qtyPerPackageController,
+            keyboardType: TextInputType.number,
+            onChanged: (value) {
+              setState(() {
+                cart[index].tlvdQtyPerPackage = value;
+              });
+            },
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.red, // Desired border color
+                ),
+              ),
+              labelText: "Qty Per Package",
+            ),
           ),
           const SizedBox(
             height: 8,
