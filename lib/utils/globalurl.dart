@@ -19,3 +19,5 @@ String globalurlphoto = 'http://192.168.0.124/e-recmatsim';
 // ip local
 // String globalurl = 'http://30.30.30.77:8000/api';
 // String globalurlphoto = 'http://30.30.30.77:8000';
+
+String version = "1.05";

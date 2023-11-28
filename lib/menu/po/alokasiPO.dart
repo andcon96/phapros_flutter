@@ -328,9 +328,9 @@ class _CartWidgetState extends State<CartWidget> {
     lot.text = widget.cart[widget.index].tLvcLot == null
         ? datalot
         : widget.cart[widget.index].tLvcLot.toString();
-    qtyper.text = widget.cart[widget.index].tlvdQtyPerPackage == null
+    qtyper.text = widget.cart[widget.index].tLvdQtyPerPackage == null
         ? ''
-        : widget.cart[widget.index].tlvdQtyPerPackage.toString();
+        : widget.cart[widget.index].tLvdQtyPerPackage.toString();
     qtydatang.text = widget.cart[widget.index].tLvdQtyDatang == null
         ? ''
         : widget.cart[widget.index].tLvdQtyDatang.toString();
@@ -476,7 +476,7 @@ class _CartWidgetState extends State<CartWidget> {
                 readOnly: widget.cart[widget.index].tIsSaved!,
                 controller: qtyper,
                 onChanged: (value) {
-                  widget.cart[widget.index].tlvdQtyPerPackage = value;
+                  widget.cart[widget.index].tLvdQtyPerPackage = value;
                 },
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
@@ -697,7 +697,7 @@ class _CartWidgetState extends State<CartWidget> {
                                   //     qtyreject.text;
                                   widget.cart[widget.index].tLvdQtyTerima =
                                       qtyterima.text;
-                                  // widget.cart[widget.index].tlvdQtyPerPackage =
+                                  // widget.cart[widget.index].tLvdQtyPerPackage =
                                   //     qtyper.text;
                                   widget.cart[widget.index].tLvcExpDetailDate =
                                       expdetdate.text;
