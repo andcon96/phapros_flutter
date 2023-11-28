@@ -512,6 +512,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
 
       var response = await request.send();
       final responsedata = await http.Response.fromStream(response);
+      print(responsedata.body);
       if (response.statusCode == 200) {
         setState(() {
           loading = false;

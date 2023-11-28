@@ -58,7 +58,7 @@ class Data {
   String? tLvdQtyPerPackage;
   String? tLvdQtyReject;
   String? tLvdQtyTerima;
-  String? tlvdQtyPerPackage;
+  // String? tLvdQtyPerPackage;
   bool? tIsSaved;
   String? tLvcManufacturer;
   String? tLvcCountry;
@@ -96,7 +96,7 @@ class Data {
       this.tLvdQtyReject,
       this.tLvdQtyTerima,
       this.tLvdQtyPerPackage,
-      this.tlvdQtyPerPackage,
+      // this.tLvdQtyPerPackage,
       this.tIsSaved,
       this.tLvcManufacturer,
       this.tLvcCountry,
@@ -134,7 +134,7 @@ class Data {
     tLvdQtyPerPackage = json['t_lvd_qty_per_package'];
     tLvdQtyReject = json['t_lvd_qty_reject'];
     tLvdQtyTerima = json['t_lvd_qty_terima'];
-    tlvdQtyPerPackage = json['t_lvd_qty_per_package'];
+    // tLvdQtyPerPackage = json['t_lvd_qty_per_package'];
     tIsSaved = json['t_is_saved'];
     tLvcManufacturer = json['t_lvc_manufacturer'];
     tLvcCountry = json['t_lvc_country'];

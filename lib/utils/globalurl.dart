@@ -15,3 +15,5 @@ String globalurlphoto = 'http://192.168.0.124/e-recmat';
 // ip local
 // String globalurl = 'http://192.168.18.40:8000/api';
 // String globalurlphoto = 'http://192.168.18.40:8000';
+
+String version = '1.2';

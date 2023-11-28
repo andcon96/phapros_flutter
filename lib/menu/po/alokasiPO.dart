@@ -297,9 +297,9 @@ class _CartWidgetState extends State<CartWidget> {
     lot.text = widget.cart[widget.index].tLvcLot == null
         ? datalot
         : widget.cart[widget.index].tLvcLot.toString();
-    qtyper.text = widget.cart[widget.index].tlvdQtyPerPackage == null
+    qtyper.text = widget.cart[widget.index].tLvdQtyPerPackage == null
         ? ''
-        : widget.cart[widget.index].tlvdQtyPerPackage.toString();
+        : widget.cart[widget.index].tLvdQtyPerPackage.toString();
     qtydatang.text = widget.cart[widget.index].tLvdQtyDatang == null
         ? ''
         : widget.cart[widget.index].tLvdQtyDatang.toString();
@@ -647,7 +647,7 @@ class _CartWidgetState extends State<CartWidget> {
                                       qtyreject.text;
                                   widget.cart[widget.index].tLvdQtyTerima =
                                       qtyterima.text;
-                                  widget.cart[widget.index].tlvdQtyPerPackage =
+                                  widget.cart[widget.index].tLvdQtyPerPackage =
                                       qtyper.text;
                                   widget.cart[widget.index].tLvcExpDetailDate =
                                       expdetdate.text;
@@ -1029,6 +1029,7 @@ class _alokasipoState extends State<alokasipo> {
             cancelBtnText: 'No',
             confirmBtnColor: Colors.green,
             onConfirmBtnTap: () {
+              print(cart[0].tLvdQtyPerPackage);
               var flg = 0;
               Navigator.of(context, rootNavigator: true).pop();
               if (cart.isEmpty) {
@@ -1060,6 +1061,7 @@ class _alokasipoState extends State<alokasipo> {
               });
 
               Navigator.push(
+                
                 context,
                 CupertinoPageRoute(
                     builder: (context) => uploadfilepo(
