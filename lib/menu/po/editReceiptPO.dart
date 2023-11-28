@@ -450,7 +450,7 @@ class _editReceiptPO extends State<editReceiptPO> {
         cart.add(Data(
           tLvcNbr: element['iddetail'].toString(), // Masukin ID Detail buat API
           tLviLine: element['rcptd_line'].toString(),
-          tlvdQtyPerPackage: element['rcptd_qty_per_package'].toString(),
+          tLvdQtyPerPackage: element['rcptd_qty_per_package'].toString(),
           tLvdQtyDatang: element['rcptd_qty_arr'].toString(),
           tLvdQtyReject: element['rcptd_qty_rej'].toString(),
           tLvdQtyRcvd: element['rcptd_qty_appr'].toString(),
@@ -504,7 +504,7 @@ class _editReceiptPO extends State<editReceiptPO> {
             keyboardType: TextInputType.number,
             onChanged: (value) {
               setState(() {
-                cart[index].tlvdQtyPerPackage = value;
+                cart[index].tLvdQtyPerPackage = value;
               });
             },
             decoration: const InputDecoration(
