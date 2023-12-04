@@ -250,7 +250,7 @@ class _CartWidgetState extends State<CartWidget> {
   TextEditingController manudetdate = TextEditingController();
   DateTime selectedExpDate = DateTime.now();
   DateTime selectedManuDate = DateTime.now();
-  int _sum = 0;
+  double _sum = 0;
 
   @override
   void initState() {
@@ -474,8 +474,11 @@ class _CartWidgetState extends State<CartWidget> {
                 ),
                 onChanged: (value) {
                   setState(() {
-                    _sum = (int.tryParse(value) ?? 0) -
-                        (int.tryParse(qtyreject.text) ?? 0);
+                    double doubleqtydatang = double.tryParse(value) ?? 0.00;
+                    double doubleqtyreject = double.tryParse(qtyreject.text) ?? 0.00;
+                    _sum = doubleqtydatang - doubleqtyreject;
+                    // _sum = (int.tryParse(value) ?? 0) -
+                    //     (int.tryParse(qtyreject.text) ?? 0);
                     qtyterima.text = _sum.toString();
                   });
                 },
@@ -501,8 +504,10 @@ class _CartWidgetState extends State<CartWidget> {
                 ),
                 onChanged: (value) {
                   setState(() {
-                    _sum = (int.tryParse(qtydatang.text) ?? 0) -
-                        (int.tryParse(value) ?? 0);
+                    double doubleqtydatang = double.tryParse(qtydatang.text) ?? 0.00;
+                    double doubleqtyreject = double.tryParse(value) ?? 0.00;
+                    _sum = doubleqtydatang - doubleqtyreject;
+                        
                     qtyterima.text = _sum.toString();
                   });
                 },
