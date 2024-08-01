@@ -374,6 +374,8 @@ class _editReceiptPO extends State<editReceiptPO> {
             TextEditingController(text: element['rcptd_qty_rej']);
         TextEditingController qtyArrivalController =
             TextEditingController(text: element['rcptd_qty_arr']);
+        TextEditingController qtyperPackageController =
+            TextEditingController(text: element['rcptd_qty_per_package']);
         TextEditingController sumController =
             TextEditingController(text: element['rcptd_qty_appr']);
         TextEditingController expDateController =
@@ -385,6 +387,7 @@ class _editReceiptPO extends State<editReceiptPO> {
           tLvcNbr: element['iddetail'].toString(), // Masukin ID Detail buat API
           tLviLine: element['rcptd_line'].toString(),
           tLvdQtyDatang: element['rcptd_qty_arr'].toString(),
+          tLvdQtyPerPackage: element['rcptd_qty_per_package'].toString(),
           tLvdQtyReject: element['rcptd_qty_rej'].toString(),
           tLvdQtyRcvd: element['rcptd_qty_appr'].toString(),
           tLvcLoc: element['rcptd_loc'].toString(),
@@ -392,6 +395,7 @@ class _editReceiptPO extends State<editReceiptPO> {
           tLvcBatch: element['rcptd_batch'].toString(),
           tLvcExpDetailDate: element['rcptd_exp_date'].toString(),
           tLvcManuDetailDate: element['rcptd_manu_date'].toString(),
+          
         ));
 
         childrendetail.addAll([
@@ -414,6 +418,27 @@ class _editReceiptPO extends State<editReceiptPO> {
           _textInputReadonly(
             hint: "UM",
             controller: TextEditingController(text: element['rcptd_part_um']),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          TextField(
+            controller: qtyperPackageController,
+            keyboardType: TextInputType.number,
+            onChanged: (value) {
+              setState(() {
+                cart[index].tLvdQtyPerPackage = value;
+                
+              });
+            },
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.red, // Desired border color
+                ),
+              ),
+              labelText: "Qty Per Package",
+            ),
           ),
           const SizedBox(
             height: 8,

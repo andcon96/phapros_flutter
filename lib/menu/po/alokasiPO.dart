@@ -250,7 +250,7 @@ class _CartWidgetState extends State<CartWidget> {
   TextEditingController manudetdate = TextEditingController();
   DateTime selectedExpDate = DateTime.now();
   DateTime selectedManuDate = DateTime.now();
-  int _sum = 0;
+  double _sum = 0;
 
   @override
   void initState() {
@@ -297,9 +297,9 @@ class _CartWidgetState extends State<CartWidget> {
     lot.text = widget.cart[widget.index].tLvcLot == null
         ? datalot
         : widget.cart[widget.index].tLvcLot.toString();
-    qtyper.text = widget.cart[widget.index].tlvdQtyPerPackage == null
+    qtyper.text = widget.cart[widget.index].tLvdQtyPerPackage == null
         ? ''
-        : widget.cart[widget.index].tlvdQtyPerPackage.toString();
+        : widget.cart[widget.index].tLvdQtyPerPackage.toString();
     qtydatang.text = widget.cart[widget.index].tLvdQtyDatang == null
         ? ''
         : widget.cart[widget.index].tLvdQtyDatang.toString();
@@ -474,8 +474,11 @@ class _CartWidgetState extends State<CartWidget> {
                 ),
                 onChanged: (value) {
                   setState(() {
-                    _sum = (int.tryParse(value) ?? 0) -
-                        (int.tryParse(qtyreject.text) ?? 0);
+                    double doubleqtydatang = double.tryParse(value) ?? 0.00;
+                    double doubleqtyreject = double.tryParse(qtyreject.text) ?? 0.00;
+                    _sum = doubleqtydatang - doubleqtyreject;
+                    // _sum = (int.tryParse(value) ?? 0) -
+                    //     (int.tryParse(qtyreject.text) ?? 0);
                     qtyterima.text = _sum.toString();
                   });
                 },
@@ -501,8 +504,10 @@ class _CartWidgetState extends State<CartWidget> {
                 ),
                 onChanged: (value) {
                   setState(() {
-                    _sum = (int.tryParse(qtydatang.text) ?? 0) -
-                        (int.tryParse(value) ?? 0);
+                    double doubleqtydatang = double.tryParse(qtydatang.text) ?? 0.00;
+                    double doubleqtyreject = double.tryParse(value) ?? 0.00;
+                    _sum = doubleqtydatang - doubleqtyreject;
+                        
                     qtyterima.text = _sum.toString();
                   });
                 },
@@ -647,7 +652,7 @@ class _CartWidgetState extends State<CartWidget> {
                                       qtyreject.text;
                                   widget.cart[widget.index].tLvdQtyTerima =
                                       qtyterima.text;
-                                  widget.cart[widget.index].tlvdQtyPerPackage =
+                                  widget.cart[widget.index].tLvdQtyPerPackage =
                                       qtyper.text;
                                   widget.cart[widget.index].tLvcExpDetailDate =
                                       expdetdate.text;
@@ -1038,6 +1043,7 @@ class _alokasipoState extends State<alokasipo> {
             cancelBtnText: 'No',
             confirmBtnColor: Colors.green,
             onConfirmBtnTap: () {
+              print(cart[0].tLvdQtyPerPackage);
               var flg = 0;
               Navigator.of(context, rootNavigator: true).pop();
               if (cart.isEmpty) {
@@ -1069,6 +1075,7 @@ class _alokasipoState extends State<alokasipo> {
               });
 
               Navigator.push(
+                
                 context,
                 CupertinoPageRoute(
                     builder: (context) => uploadfilepo(

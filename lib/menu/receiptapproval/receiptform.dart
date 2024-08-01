@@ -286,7 +286,15 @@ class _receiptform extends State<receiptform> {
           const SizedBox(
             height: 8,
           ),
-
+          _textInput(
+            hint: "Qty Per Package",
+            controller: TextEditingController(
+                text: NumberFormat.currency(locale: 'en-us', symbol: '')
+                    .format(double.tryParse(element['rcptd_qty_per_package']))),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
           _textInput(
             hint: "Qty Datang",
             controller: TextEditingController(

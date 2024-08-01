@@ -8,6 +8,7 @@ import 'package:flutter_template/menu/user/profmenu.dart';
 import 'package:flutter_template/menu/user/profpic.dart';
 import 'package:flutter_template/utils/secure_user_login.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:flutter_template/utils/globalurl.dart' as globals;
 
 import '../home.dart';
 
@@ -95,6 +96,17 @@ class _userProfState extends State<userProf> {
                             false, //if you want to disable back feature set to false
                       ),
                     },
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Version: "+ globals.version,
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black),
                   ),
                 ],
               ),
