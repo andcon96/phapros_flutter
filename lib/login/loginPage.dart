@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
 import 'dart:convert';
 
 import 'package:art_sweetalert/art_sweetalert.dart';
@@ -30,14 +32,11 @@ class _LoginPageState extends State<LoginPage> {
 
   // ignore: non_constant_identifier_names
   Future LoginUser() async {
-    
     final response =
         await http.post(Uri.parse('${globals.globalurl}/login'), body: {
       "nik": _userCon.text,
       "password": _passCon.text,
-    }).timeout(const Duration(seconds: 5), onTimeout: () 
-    {
-      
+    }).timeout(const Duration(seconds: 5), onTimeout: () {
       // setState(() {
       //   loading = false;
       //   ArtSweetAlert.show(
@@ -48,28 +47,22 @@ class _LoginPageState extends State<LoginPage> {
       //           text: "Failed to login, Error"));
       // });
       return http.Response('Timeout', 500);
-    }
-    
-    );
-    
-    if(response.statusCode == 200){
-          return json.decode(response.body);
-    }
-    else{
-        setState(() {
-          loading = false;
-          ArtSweetAlert.show(
+    });
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      setState(() {
+        loading = false;
+        ArtSweetAlert.show(
             context: context,
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.danger,
                 title: "Error",
-                text: "Failed to login, Error " + response.statusCode.toString()));
-        });
-      
+                text: "Failed to login, Error " +
+                    response.statusCode.toString()));
+      });
     }
-
-    
-
   }
 
   bool loading = false;
@@ -115,13 +108,13 @@ class _LoginPageState extends State<LoginPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
+                          const Padding(
+                            padding: EdgeInsets.all(20.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               // ignore: prefer_const_literals_to_create_immutables
                               children: [
-                                const Text(
+                                Text(
                                   "Sign In",
                                   style: TextStyle(
                                       fontSize: 15,
@@ -129,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                                       fontWeight: FontWeight.w400,
                                       color: Colors.white54),
                                 ),
-                                const Text(
+                                Text(
                                   "IMI Modules",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
@@ -285,12 +278,11 @@ class _LoginPageState extends State<LoginPage> {
                                                               ['nik']
                                                           .toString());
                                                   await UserSecureStorage
-                                                      .setCanApprove(value
-                                                              ['user_approver']
-                                                          .toString());
-                                                          print(value
-                                                              ['user_approver']
-                                                          .toString());
+                                                      .setCanApprove(
+                                                          value['user_approver']
+                                                              .toString());
+                                                  print(value['user_approver']
+                                                      .toString());
                                                   await UserSecureStorage
                                                       .setIdAnggota(
                                                           value['user']
@@ -377,10 +369,10 @@ class _LoginPageState extends State<LoginPage> {
                                         ),
                                       ),
                                       const SizedBox(height: 40),
-                                      Row(
+                                      const Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
-                                        children: const [
+                                        children: [
                                           Icon(
                                             Iconsax.copyright,
                                             size: 15,

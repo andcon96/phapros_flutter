@@ -38,7 +38,7 @@ class _ProfilePicState extends State<ProfilePic> {
                         borderRadius: BorderRadius.circular(30),
                         side: const BorderSide(color: Color(0xff64b5f6)),
                       ),
-                      primary: Colors.blueGrey,
+                      backgroundColor: Colors.blueGrey,
                       backgroundColor: const Color(0xff64b5f6),
                       padding: const EdgeInsetsDirectional.only(bottom: 0)),
                   onPressed: () {},

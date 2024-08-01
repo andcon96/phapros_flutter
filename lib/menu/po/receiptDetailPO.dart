@@ -109,7 +109,7 @@ class _receiptdetailState extends State<receiptdetail> {
                                 maxRadius: 20,
                                 child: Text(
                                   "${listdetail[i].rcptdLine}",
-                                  style: TextStyle(color: Colors.white),
+                                  style: const TextStyle(color: Colors.white),
                                 ),
                               ),
                               title: Text(

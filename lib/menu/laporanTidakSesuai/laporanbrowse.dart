@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
 import 'dart:async';
 import 'dart:io';
 
@@ -75,7 +77,7 @@ class _laporanbrowse extends State<laporanbrowse> {
 
       final Uri url = Uri.parse(
           '${globals.globalurl}/getpolaporan?receiptnbr=' + search.toString());
-      
+
       loadfailed = false;
       final response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: "application/json",
@@ -345,7 +347,7 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                             child: Padding(
                                                               padding:
                                                                   const EdgeInsets
-                                                                          .only(
+                                                                      .only(
                                                                       left:
                                                                           15.0),
                                                               child: Container(
@@ -394,7 +396,7 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                       Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   bottom: 10),
                                                           child: Text(
                                                             'Lot : ${user.rcptd_lot ?? ""} ',
@@ -407,7 +409,7 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                       Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   bottom: 10),
                                                           child: Text(
                                                             'Batch : ${user.rcptd_batch ?? ""} ',
@@ -420,7 +422,7 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                       Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   bottom: 10),
                                                           child: Text(
                                                             'Qty Masuk : ${user.rcptd_qty_arr ?? ""}',
@@ -433,7 +435,7 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                       Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   bottom: 10),
                                                           child: Text(
                                                             'Qty Reject : ${user.rcptd_qty_rej ?? ""}',
@@ -488,12 +490,11 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                             batch: datapo[index].rcptd_batch.toString(),
                                                                             um: datapo[index].umdesc.toString(),
                                                                             umpr: datapo[index].umpr.toString(),
-                                                                            umkonv: datapo[index].umkonv.toString()
-                                                                            )))
+                                                                            umkonv: datapo[index].umkonv.toString())))
                                                               },
                                                             ),
                                                           ),
-                                                          SizedBox(
+                                                          const SizedBox(
                                                             width: 6,
                                                           ),
                                                           Ink(
@@ -511,36 +512,34 @@ class _laporanbrowse extends State<laporanbrowse> {
                                                                   Colors.white,
                                                               onPressed:
                                                                   () async {
-                                                                String?
-                                                                    refresh =
-                                                                    await Navigator.push(
-                                                                        context,
-                                                                        MaterialPageRoute(
-                                                                            builder: (context) => laporanform(
-                                                                                  ponbr: datapo[index].ponbr.toString(),
-                                                                                  rcpt_nbr: datapo[index].rcpt_nbr.toString(),
-                                                                                  rcpt_imr: datapo[index].rcptd_imr.toString(),
-                                                                                  batch: datapo[index].rcptd_batch.toString(),
-                                                                                  rcpt_date: datapo[index].rcpt_date.toString(),
-                                                                                  rcptd_part: datapo[index].rcptd_part.toString(),
-                                                                                  rcptd_qty_arr: datapo[index].rcptd_qty_arr.toString(),
-                                                                                  rcptd_lot: datapo[index].rcptd_lot.toString(),
-                                                                                  rcptd_loc: datapo[index].rcptd_loc.toString(),
-                                                                                  rcptd_qty_appr: datapo[index].rcptd_qty_appr.toString(),
-                                                                                  rcptd_qty_rej: datapo[index].rcptd_qty_rej.toString(),
-                                                                                  nopol: datapo[index].nopol.toString(),
-                                                                                  angkutan: datapo[index].angkutan.toString(),
-                                                                                  supplier: datapo[index].supplier.toString(),
-                                                                                  supplierdesc: datapo[index].supplierdesc.toString(),
-                                                                                  um: datapo[index].umdesc.toString(),
-                                                                                  itemcode: datapo[index].itemcode.toString(),
-                                                                                  umpr: datapo[index].umpr.toString(),
-                                                                                  umkonv: datapo[index].umkonv.toString()
-                                                                                )));
+                                                                String? refresh = await Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) => laporanform(
+                                                                            ponbr:
+                                                                                datapo[index].ponbr.toString(),
+                                                                            rcpt_nbr: datapo[index].rcpt_nbr.toString(),
+                                                                            rcpt_imr: datapo[index].rcptd_imr.toString(),
+                                                                            batch: datapo[index].rcptd_batch.toString(),
+                                                                            rcpt_date: datapo[index].rcpt_date.toString(),
+                                                                            rcptd_part: datapo[index].rcptd_part.toString(),
+                                                                            rcptd_qty_arr: datapo[index].rcptd_qty_arr.toString(),
+                                                                            rcptd_lot: datapo[index].rcptd_lot.toString(),
+                                                                            rcptd_loc: datapo[index].rcptd_loc.toString(),
+                                                                            rcptd_qty_appr: datapo[index].rcptd_qty_appr.toString(),
+                                                                            rcptd_qty_rej: datapo[index].rcptd_qty_rej.toString(),
+                                                                            nopol: datapo[index].nopol.toString(),
+                                                                            angkutan: datapo[index].angkutan.toString(),
+                                                                            supplier: datapo[index].supplier.toString(),
+                                                                            supplierdesc: datapo[index].supplierdesc.toString(),
+                                                                            um: datapo[index].umdesc.toString(),
+                                                                            itemcode: datapo[index].itemcode.toString(),
+                                                                            umpr: datapo[index].umpr.toString(),
+                                                                            umkonv: datapo[index].umkonv.toString())));
 
                                                                 if (refresh ==
                                                                     'refresh') {
-                                                                      print('a');
+                                                                  print('a');
                                                                   Changedata();
                                                                 }
                                                               },

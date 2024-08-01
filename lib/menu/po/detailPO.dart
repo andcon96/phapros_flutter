@@ -107,7 +107,7 @@ class _podetailState extends State<podetail> {
                                 maxRadius: 20,
                                 child: Text(
                                   "${listdetail[i].podLine}",
-                                  style: TextStyle(color: Colors.white),
+                                  style: const TextStyle(color: Colors.white),
                                 ),
                               ),
                               title: Text(

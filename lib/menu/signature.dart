@@ -110,7 +110,7 @@ class _SignaturePageState extends State<SignaturePage> {
                         });
                         debugPrint("cleared");
                       },
-                      child: Text("Clear")),
+                      child: const Text("Clear")),
                 ],
               ),
               Row(

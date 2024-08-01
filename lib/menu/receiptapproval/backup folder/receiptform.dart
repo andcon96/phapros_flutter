@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -196,7 +198,7 @@ class _receiptform extends State<receiptform> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Table(
-                          border: TableBorder(
+                          border: const TableBorder(
                               horizontalInside: BorderSide(
                                   width: 1,
                                   color: Colors.blue,
@@ -207,7 +209,7 @@ class _receiptform extends State<receiptform> {
                                 child: Container(
                                   height: 50,
                                   alignment: Alignment.centerLeft,
-                                  child: Text(
+                                  child: const Text(
                                     'Rcpt Nbr',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -221,7 +223,7 @@ class _receiptform extends State<receiptform> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     IdRcp.text,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14),
                                   ),
@@ -233,7 +235,7 @@ class _receiptform extends State<receiptform> {
                                   child: Container(
                                 height: 50,
                                 alignment: Alignment.centerLeft,
-                                child: Text(
+                                child: const Text(
                                   'Po Nbr',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -248,7 +250,7 @@ class _receiptform extends State<receiptform> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     PO.text,
-                                    style: TextStyle(fontSize: 16),
+                                    style: const TextStyle(fontSize: 16),
                                   ),
                                 ),
                               ),
@@ -260,7 +262,7 @@ class _receiptform extends State<receiptform> {
                                 child: Container(
                                   height: 50,
                                   alignment: Alignment.centerLeft,
-                                  child: Text(
+                                  child: const Text(
                                     'Shipto',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -276,7 +278,7 @@ class _receiptform extends State<receiptform> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     Shipto.text,
-                                    style: TextStyle(fontSize: 16),
+                                    style: const TextStyle(fontSize: 16),
                                   ),
                                 ),
                               ),
@@ -288,7 +290,7 @@ class _receiptform extends State<receiptform> {
                                 child: Container(
                                   height: 50,
                                   alignment: Alignment.centerLeft,
-                                  child: Text(
+                                  child: const Text(
                                     'Supplier',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -304,7 +306,7 @@ class _receiptform extends State<receiptform> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     Supplier.text,
-                                    style: TextStyle(fontSize: 16),
+                                    style: const TextStyle(fontSize: 16),
                                   ),
                                 ),
                               ),
@@ -316,7 +318,7 @@ class _receiptform extends State<receiptform> {
                                 child: Container(
                                   height: 50,
                                   alignment: Alignment.centerLeft,
-                                  child: Text(
+                                  child: const Text(
                                     'Part',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -332,7 +334,7 @@ class _receiptform extends State<receiptform> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     NamaBarang.text,
-                                    style: TextStyle(fontSize: 16),
+                                    style: const TextStyle(fontSize: 16),
                                   ),
                                 ),
                               ),
@@ -344,7 +346,7 @@ class _receiptform extends State<receiptform> {
                                 child: Container(
                                   height: 50,
                                   alignment: Alignment.centerLeft,
-                                  child: Text(
+                                  child: const Text(
                                     'Lot',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -360,7 +362,7 @@ class _receiptform extends State<receiptform> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     NomorLot.text,
-                                    style: TextStyle(fontSize: 16),
+                                    style: const TextStyle(fontSize: 16),
                                   ),
                                 ),
                               ),
@@ -372,7 +374,7 @@ class _receiptform extends State<receiptform> {
                                 child: Container(
                                   height: 50,
                                   alignment: Alignment.centerLeft,
-                                  child: Text(
+                                  child: const Text(
                                     'Batch',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -388,7 +390,7 @@ class _receiptform extends State<receiptform> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     Batch.text,
-                                    style: TextStyle(fontSize: 16),
+                                    style: const TextStyle(fontSize: 16),
                                   ),
                                 ),
                               ),
@@ -400,7 +402,7 @@ class _receiptform extends State<receiptform> {
                                 child: Container(
                                   height: 50,
                                   alignment: Alignment.centerLeft,
-                                  child: Text(
+                                  child: const Text(
                                     'Location',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -416,7 +418,7 @@ class _receiptform extends State<receiptform> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     Loc.text,
-                                    style: TextStyle(fontSize: 16),
+                                    style: const TextStyle(fontSize: 16),
                                   ),
                                 ),
                               ),
@@ -428,7 +430,7 @@ class _receiptform extends State<receiptform> {
                                 child: Container(
                                   height: 50,
                                   alignment: Alignment.centerLeft,
-                                  child: Text(
+                                  child: const Text(
                                     'Qty Arrive',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -444,7 +446,7 @@ class _receiptform extends State<receiptform> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     JumlahMasuk.text,
-                                    style: TextStyle(fontSize: 16),
+                                    style: const TextStyle(fontSize: 16),
                                   ),
                                 ),
                               ),
@@ -456,7 +458,7 @@ class _receiptform extends State<receiptform> {
                                 child: Container(
                                   height: 50,
                                   alignment: Alignment.centerLeft,
-                                  child: Text(
+                                  child: const Text(
                                     'Qty Approved',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -472,7 +474,7 @@ class _receiptform extends State<receiptform> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     JumlahApprove.text,
-                                    style: TextStyle(fontSize: 16),
+                                    style: const TextStyle(fontSize: 16),
                                   ),
                                 ),
                               ),
@@ -484,7 +486,7 @@ class _receiptform extends State<receiptform> {
                                 child: Container(
                                   height: 50,
                                   alignment: Alignment.centerLeft,
-                                  child: Text(
+                                  child: const Text(
                                     'Qty Reject',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -500,20 +502,20 @@ class _receiptform extends State<receiptform> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     JumlahReject.text,
-                                    style: TextStyle(fontSize: 16),
+                                    style: const TextStyle(fontSize: 16),
                                   ),
                                 ),
                               ),
                             ]),
                           ]),
                       Container(
-                        margin: EdgeInsets.only(top: 50),
+                        margin: const EdgeInsets.only(top: 50),
                         child: Row(children: [
                           Expanded(
                             child: ElevatedButton(
-                              style:
-                                  ElevatedButton.styleFrom(primary: Colors.red),
-                              child: Text('Unapprove'),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red),
+                              child: const Text('Unapprove'),
                               onPressed: () {
                                 showModalBottomSheet<void>(
                                     context: context,
@@ -538,7 +540,8 @@ class _receiptform extends State<receiptform> {
                                                       color: Colors.black)),
                                               ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
-                                                    primary: Colors.white),
+                                                    backgroundColor:
+                                                        Colors.white),
                                                 child: const Text(
                                                     'Tekan tahan tombol untuk melanjutkan',
                                                     style: const TextStyle(
@@ -571,7 +574,7 @@ class _receiptform extends State<receiptform> {
                           const SizedBox(width: 12),
                           Expanded(
                             child: ElevatedButton(
-                              child: Text('Approve'),
+                              child: const Text('Approve'),
                               onPressed: () {
                                 showModalBottomSheet<void>(
                                     context: context,
@@ -596,7 +599,8 @@ class _receiptform extends State<receiptform> {
                                                       color: Colors.white)),
                                               ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
-                                                    primary: Colors.black),
+                                                    backgroundColor:
+                                                        Colors.black),
                                                 child: const Text(
                                                     'Tekan tahan tombol untuk melanjutkan'),
                                                 onPressed: () {},

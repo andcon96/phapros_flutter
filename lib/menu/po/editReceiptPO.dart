@@ -155,7 +155,7 @@ class AboutPage extends StatelessWidget {
   final String tag;
   final String photourl;
 
-  AboutPage({required this.tag, required this.photourl});
+  const AboutPage({required this.tag, required this.photourl});
 
   @override
   Widget build(BuildContext context) {
@@ -234,51 +234,34 @@ class _editReceiptPO extends State<editReceiptPO> {
                               color: Colors.purple,
                               child: Center(
                                 child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment
-                                          .center,
-                                  mainAxisSize:
-                                      MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     const Text(
                                         'Yakin ingin menghilangkan foto ini?',
                                         style: TextStyle(
-                                            fontWeight:
-                                                FontWeight
-                                                    .bold,
+                                            fontWeight: FontWeight.bold,
                                             fontSize: 15,
-                                            color: Colors
-                                                .white)),
+                                            color: Colors.white)),
                                     ElevatedButton(
-                                      style: ElevatedButton
-                                          .styleFrom(
-                                              primary: Colors
-                                                  .white),
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.white),
                                       child: const Text(
                                           'tekan tombol ini untuk menghilangkan foto',
                                           style: TextStyle(
-                                              fontWeight:
-                                                  FontWeight
-                                                      .bold,
+                                              fontWeight: FontWeight.bold,
                                               fontSize: 15,
-                                              color: Colors
-                                                  .black)),
+                                              color: Colors.black)),
                                       onPressed: () {
-                                        children.removeAt(index+1);
-                                        
+                                        children.removeAt(index + 1);
+
                                         listdeleted.add(element['rcptfu_path']);
-                                        Navigator.pop(
-                                            context);
+                                        Navigator.pop(context);
                                         CoolAlert.show(
-                                            context:
-                                                context,
-                                            type:
-                                                CoolAlertType
-                                                    .success,
-                                            text:
-                                                'Foto berhasil dihilangkan',
-                                            title:
-                                                'Success');
+                                            context: context,
+                                            type: CoolAlertType.success,
+                                            text: 'Foto berhasil dihilangkan',
+                                            title: 'Success');
                                         setState(() {});
                                       },
                                     ),
@@ -293,8 +276,8 @@ class _editReceiptPO extends State<editReceiptPO> {
                       child: SizedBox(
                           height: 100,
                           width: 100,
-                              child: Image.network(globals.globalurlphoto +
-                                  element['rcptfu_path'])),
+                          child: Image.network(
+                              globals.globalurlphoto + element['rcptfu_path'])),
                     )),
               );
             });
@@ -337,7 +320,7 @@ class _editReceiptPO extends State<editReceiptPO> {
               onPressed: () {
                 takeImages();
               },
-              child: Text("Camera"),
+              child: const Text("Camera"),
             ),
             const SizedBox(
               height: 20,
@@ -346,7 +329,7 @@ class _editReceiptPO extends State<editReceiptPO> {
               onPressed: () {
                 openImages();
               },
-              child: Text("Gallery"),
+              child: const Text("Gallery"),
             ),
           ],
         ),
@@ -355,25 +338,23 @@ class _editReceiptPO extends State<editReceiptPO> {
   }
 
   Future takeImages() async {
-    var imagefromphoto =
-        await ImagePicker().pickImage(source: ImageSource.camera,imageQuality: 20);
+    var imagefromphoto = await ImagePicker()
+        .pickImage(source: ImageSource.camera, imageQuality: 20);
 
     if (imagefromphoto != null) {
       var imgsize = (await imagefromphoto.readAsBytes()).lengthInBytes;
       if (imgsize <= 5000000) {
-          new_imagefiles!.add(imagefromphoto!);
-          new_imagesPath.add(File(imagefromphoto!.path));
-        }      
-        else {
-          ArtSweetAlert.show(
+        new_imagefiles!.add(imagefromphoto!);
+        new_imagesPath.add(File(imagefromphoto!.path));
+      } else {
+        ArtSweetAlert.show(
             context: context,
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.danger,
                 title: "Error",
                 text: "Image exceeds 5MB"));
         // Do something with the selected image
-        }
-
+      }
 
       // Process selected images
 
@@ -400,18 +381,17 @@ class _editReceiptPO extends State<editReceiptPO> {
       for (var image in images!) {
         var imgsize = (await image.readAsBytes()).lengthInBytes;
         if (imgsize <= 5000000) {
-                new_imagesPath.add(File(image.path));
-                new_imagefiles!.add(image);
-                print(imgsize);
-        }      
-        else {
+          new_imagesPath.add(File(image.path));
+          new_imagefiles!.add(image);
+          print(imgsize);
+        } else {
           ArtSweetAlert.show(
-            context: context,
-            artDialogArgs: ArtDialogArgs(
-                type: ArtSweetAlertType.danger,
-                title: "Error",
-                text: "Image exceeds 5MB"));
-        // Do something with the selected image
+              context: context,
+              artDialogArgs: ArtDialogArgs(
+                  type: ArtSweetAlertType.danger,
+                  title: "Error",
+                  text: "Image exceeds 5MB"));
+          // Do something with the selected image
         }
       }
       setState(() {});
@@ -453,7 +433,7 @@ class _editReceiptPO extends State<editReceiptPO> {
 
     if (responseresult != []) {
       responseresult?.asMap().forEach((index, element) {
-        double _sum = 0;
+        double sum = 0;
         TextEditingController qtyRejectController =
             TextEditingController(text: element['rcptd_qty_rej']);
         TextEditingController qtyArrivalController =
@@ -521,12 +501,12 @@ class _editReceiptPO extends State<editReceiptPO> {
             keyboardType: TextInputType.number,
             onChanged: (value) {
               setState(() {
-                _sum = (double.tryParse(value) ?? 0) -
+                sum = (double.tryParse(value) ?? 0) -
                     (double.tryParse(qtyRejectController.text) ?? 0);
 
-                sumController.text = _sum.toStringAsFixed(2);
+                sumController.text = sum.toStringAsFixed(2);
                 cart[index].tLvdQtyDatang = value;
-                cart[index].tLvdQtyRcvd = _sum.toString();
+                cart[index].tLvdQtyRcvd = sum.toString();
               });
             },
             decoration: const InputDecoration(
@@ -545,11 +525,11 @@ class _editReceiptPO extends State<editReceiptPO> {
             controller: qtyRejectController,
             keyboardType: TextInputType.number,
             onChanged: (value) {
-              _sum = (double.tryParse(qtyArrivalController.text) ?? 0) -
+              sum = (double.tryParse(qtyArrivalController.text) ?? 0) -
                   (double.tryParse(value) ?? 0);
-              sumController.text = _sum.toStringAsFixed(2);
+              sumController.text = sum.toStringAsFixed(2);
               cart[index].tLvdQtyReject = value;
-              cart[index].tLvdQtyRcvd = _sum.toString();
+              cart[index].tLvdQtyRcvd = sum.toString();
             },
             decoration: const InputDecoration(
               border: OutlineInputBorder(
@@ -2052,7 +2032,8 @@ class _editReceiptPO extends State<editReceiptPO> {
                     Expanded(
                         child: new_imagefiles.isNotEmpty
                             ? Container(
-                                margin: EdgeInsets.only(top: 50, right: 40),
+                                margin:
+                                    const EdgeInsets.only(top: 50, right: 40),
                                 child: Wrap(
                                   children: new_imagefiles.map((imageone) {
                                     return InkWell(
@@ -2083,8 +2064,9 @@ class _editReceiptPO extends State<editReceiptPO> {
                                                         ElevatedButton(
                                                           style: ElevatedButton
                                                               .styleFrom(
-                                                                  primary: Colors
-                                                                      .white),
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .white),
                                                           child: const Text(
                                                               'tekan tombol ini untuk menghilangkan foto',
                                                               style: TextStyle(
@@ -2159,8 +2141,8 @@ class _editReceiptPO extends State<editReceiptPO> {
                             children: <Widget>[
                               Stepper(
                                 controlsBuilder: (context, details) {
-                                  return Row(
-                                    children: const <Widget>[
+                                  return const Row(
+                                    children: <Widget>[
                                       TextButton(
                                           onPressed: null, child: Text('')),
                                       TextButton(

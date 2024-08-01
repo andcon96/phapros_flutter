@@ -276,7 +276,7 @@ class _createpoState extends State<createpo> {
                 decoration: BoxDecoration(
                   color: Colors.grey[100],
                   border: Border.all(
-                    color: Color.fromARGB(255, 157, 154, 154),
+                    color: const Color.fromARGB(255, 157, 154, 154),
                     width: 1.0,
                   ),
                   borderRadius: const BorderRadius.all(
@@ -371,7 +371,8 @@ class _createpoState extends State<createpo> {
               ),
               const SizedBox(
                 height: 8,
-              ),_textInput(
+              ),
+              _textInput(
                 hint: "DO No.",
                 controller: dono,
               ),
@@ -631,7 +632,7 @@ class _createpoState extends State<createpo> {
                 Column(
                   children: [
                     RadioListTile(
-                      title: Text("Rusak"),
+                      title: const Text("Rusak"),
                       value: "Damage",
                       groupValue: _sackordosDamage,
                       onChanged: (value) {
@@ -641,7 +642,7 @@ class _createpoState extends State<createpo> {
                       },
                     ),
                     RadioListTile(
-                      title: Text("Tidak Rusak"),
+                      title: const Text("Tidak Rusak"),
                       value: "Undamage",
                       groupValue: _sackordosDamage,
                       onChanged: (value) {
@@ -669,7 +670,7 @@ class _createpoState extends State<createpo> {
                 Column(
                   children: [
                     RadioListTile(
-                      title: Text("Rusak"),
+                      title: const Text("Rusak"),
                       value: "Damage",
                       groupValue: _drumorvatDamage,
                       onChanged: (value) {
@@ -679,7 +680,7 @@ class _createpoState extends State<createpo> {
                       },
                     ),
                     RadioListTile(
-                      title: Text("Tidak Rusak"),
+                      title: const Text("Tidak Rusak"),
                       value: "Undamage",
                       groupValue: _drumorvatDamage,
                       onChanged: (value) {
@@ -707,7 +708,7 @@ class _createpoState extends State<createpo> {
                 Column(
                   children: [
                     RadioListTile(
-                      title: Text("Rusak"),
+                      title: const Text("Rusak"),
                       value: "Damage",
                       groupValue: _palletorpetiDamage,
                       onChanged: (value) {
@@ -717,7 +718,7 @@ class _createpoState extends State<createpo> {
                       },
                     ),
                     RadioListTile(
-                      title: Text("Tidak Rusak"),
+                      title: const Text("Tidak Rusak"),
                       value: "Undamage",
                       groupValue: _palletorpetiDamage,
                       onChanged: (value) {
@@ -1218,7 +1219,7 @@ class _createpoState extends State<createpo> {
                 _activeStepIndex <= 6 ? StepState.editing : StepState.complete,
             isActive: _activeStepIndex >= 6,
             title: const Text('Detail Alokasi'),
-            content: Column(
+            content: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               // ignore: prefer_const_literals_to_create_immutables

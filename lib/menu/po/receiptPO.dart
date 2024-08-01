@@ -159,9 +159,9 @@ class _PoReceiptState extends State<PoReceipt> {
                                   if (listdetail[i].rcptStatus != 'finished')
                                     IconButton(
                                       icon: const Icon(Icons.edit),
-                                      color: Color.fromARGB(255, 0, 76, 138),
+                                      color:
+                                          const Color.fromARGB(255, 0, 76, 138),
                                       onPressed: () async {
-                                        
                                         Navigator.push(
                                           context,
                                           CupertinoPageRoute(
@@ -252,10 +252,7 @@ class _PoReceiptState extends State<PoReceipt> {
                                                           .getDocument!
                                                           .rcptdocCertofanalys
                                                           .toString(),
-                                                      ismsds: listdetail[i]
-                                                          .getDocument!
-                                                          .rcptdocIsMsds
-                                                          .toString(),
+                                                      ismsds: listdetail[i].getDocument!.rcptdocIsMsds.toString(),
                                                       msds: listdetail[i].getDocument!.rcptdocMsds.toString(),
                                                       isforwarderdo: listdetail[i].getDocument!.rcptdocIsForwarderdo.toString(),
                                                       forwarderdo: listdetail[i].getDocument!.rcptdocForwarderdo.toString(),

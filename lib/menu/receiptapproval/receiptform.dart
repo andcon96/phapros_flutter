@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_string_interpolations, prefer_interpolation_to_compose_strings
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -153,13 +155,13 @@ class AboutPage extends StatelessWidget {
   final String tag;
   final String photourl;
 
-  AboutPage({required this.tag, required this.photourl});
+  const AboutPage({required this.tag, required this.photourl});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Foto'),
+        title: const Text('Foto'),
       ),
       body: Center(
         child: InkWell(
@@ -211,13 +213,14 @@ class _receiptform extends State<receiptform> {
 
     if (responseresult != []) {
       responseresult?.asMap().forEach((index, element) {
-        var responsecheck = http.head(Uri.parse('${globals.globalurlphoto}'+element['rcptfu_path']))
-         .then((responsecode) {
+        var responsecheck = http
+            .head(
+                Uri.parse('${globals.globalurlphoto}' + element['rcptfu_path']))
+            .then((responsecode) {
           // Check the response status code
           var statusCode = responsecode.statusCode;
-          if(statusCode == 200){
-            
-            setState(() { 
+          if (statusCode == 200) {
+            setState(() {
               children.add(
                 new InkWell(
                     onTap: () => Navigator.of(context).push(MaterialPageRoute(
@@ -235,17 +238,14 @@ class _receiptform extends State<receiptform> {
                     )),
               );
             });
-          }
-          else{
+          } else {
             print(statusCode);
           }
-          });
-         
+        });
       });
     }
   }
 
-  
   Future<void> getDetail({String? search}) async {
     final token = await UserSecureStorage.getToken();
     final id = await UserSecureStorage.getIdAnggota();
@@ -289,48 +289,50 @@ class _receiptform extends State<receiptform> {
           ),
           _textInput(
             hint: "UM PO",
-            controller: TextEditingController(
-                text: element['rcptd_part_um']),
+            controller: TextEditingController(text: element['rcptd_part_um']),
           ),
           const SizedBox(
             height: 8,
           ),
           _textInput(
             hint: "UM PR",
-            controller: TextEditingController(
-                text: element['rcptd_um_pr']),
+            controller: TextEditingController(text: element['rcptd_um_pr']),
           ),
           const SizedBox(
             height: 8,
           ),
           _textInput(
             hint: "UM Konversi",
-            controller: TextEditingController(
-                text: element['rcptd_um_konv']),
+            controller: TextEditingController(text: element['rcptd_um_konv']),
           ),
           const SizedBox(
             height: 8,
           ),
-          
+
           _textInput(
             hint: "Qty Datang",
-            controller: TextEditingController(text: NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(element['rcptd_qty_arr']))),
+            controller: TextEditingController(
+                text: NumberFormat.currency(locale: 'en-us', symbol: '')
+                    .format(double.tryParse(element['rcptd_qty_arr']))),
           ),
           const SizedBox(
             height: 8,
           ),
-          
+
           _textInputreject(
             hint: "Qty Reject",
-            controller: TextEditingController(text: NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(element['rcptd_qty_rej']))),
-            
+            controller: TextEditingController(
+                text: NumberFormat.currency(locale: 'en-us', symbol: '')
+                    .format(double.tryParse(element['rcptd_qty_rej']))),
           ),
           const SizedBox(
             height: 8,
           ),
           _textInput(
             hint: "Qty Approve",
-            controller: TextEditingController(text: NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(element['rcptd_qty_appr']))),
+            controller: TextEditingController(
+                text: NumberFormat.currency(locale: 'en-us', symbol: '')
+                    .format(double.tryParse(element['rcptd_qty_appr']))),
           ),
           const SizedBox(
             height: 8,
@@ -378,7 +380,6 @@ class _receiptform extends State<receiptform> {
             height: 50,
           ),
         ]);
-        
       });
     }
   }
@@ -387,7 +388,8 @@ class _receiptform extends State<receiptform> {
     final token = await UserSecureStorage.getToken();
     final id = await UserSecureStorage.getIdAnggota();
     final Uri url = Uri.parse(
-        '${globals.globalurl}/getreceiptketidaksesuaian?rcptnbr=' + search.toString());
+        '${globals.globalurl}/getreceiptketidaksesuaian?rcptnbr=' +
+            search.toString());
 
     final response = await http.get(url, headers: {
       HttpHeaders.contentTypeHeader: "application/json",
@@ -410,93 +412,92 @@ class _receiptform extends State<receiptform> {
         childketidaksesuaian.addAll([
           _textInput(
             hint: "Imr Number",
-            controller:
-                TextEditingController(text: element['laporan_imr']),
+            controller: TextEditingController(text: element['laporan_imr']),
           ),
           const SizedBox(
             height: 8,
           ),
           _textInput(
             hint: "Lot",
-            controller: TextEditingController(
-                text: element['laporan_lot']),
+            controller: TextEditingController(text: element['laporan_lot']),
           ),
           const SizedBox(
             height: 8,
           ),
           _textInput(
             hint: "Batch",
-            controller: TextEditingController(
-                text: element['laporan_batch']),
+            controller: TextEditingController(text: element['laporan_batch']),
           ),
           const SizedBox(
             height: 8,
           ),
           _textInput(
             hint: "Jumlah Masuk",
-            controller: TextEditingController(text: element['laporan_jmlmasuk']),
+            controller:
+                TextEditingController(text: element['laporan_jmlmasuk']),
           ),
           const SizedBox(
             height: 8,
           ),
-          
           _textInput(
-            hint: "Jumlah Reject",
-            controller: TextEditingController(text: element['laporan_komplaindetail'])
-            
-          ),
+              hint: "Jumlah Reject",
+              controller: TextEditingController(
+                  text: element['laporan_komplaindetail'])),
           const SizedBox(
             height: 8,
           ),
           _textInput(
             hint: "Komplain",
-            controller: TextEditingController(text: element['laporan_komplain']),
+            controller:
+                TextEditingController(text: element['laporan_komplain']),
           ),
           const SizedBox(
             height: 8,
           ),
           _textInput(
             hint: "Keterangan",
-            controller: TextEditingController(text: element['laporan_keterangan']),
+            controller:
+                TextEditingController(text: element['laporan_keterangan']),
           ),
-         
           const SizedBox(
             height: 50,
           ),
         ]);
-        
+
         print(url);
-        element['getfoto']?.asMap().forEach((index2, element2){
-          var responsecheck = http.head(Uri.parse('${globals.globalurlphoto}'+element2['li_path']))
-         .then((responsecode) {
-          // Check the response status code
-          var statusCode = responsecode.statusCode;
-          
-          if(statusCode == 200){
-          print('hero2'+index2.toString());  
-            setState(() { 
-              childketidaksesuaianfoto.add(
-                new InkWell(
-                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => new AboutPage(
-                            tag: 'hero2'+index2.toString(),
-                            photourl: element2['li_path']))),
-                    child: Card(
-                      child: Container(
-                          height: 100,
-                          width: 100,
-                          child: Hero(
-                              tag: 'hero2'+index2.toString(),
-                              child: Image.network('${globals.globalurlphoto}' +
-                                  element2['li_path']))),
-                    )),
-              );
-            });
-          }
-          else{
-            print(statusCode);
-          }
-          });      
+        element['getfoto']?.asMap().forEach((index2, element2) {
+          var responsecheck = http
+              .head(
+                  Uri.parse('${globals.globalurlphoto}' + element2['li_path']))
+              .then((responsecode) {
+            // Check the response status code
+            var statusCode = responsecode.statusCode;
+
+            if (statusCode == 200) {
+              print('hero2' + index2.toString());
+              setState(() {
+                childketidaksesuaianfoto.add(
+                  new InkWell(
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => new AboutPage(
+                              tag: 'hero2' + index2.toString(),
+                              photourl: element2['li_path']))),
+                      child: Card(
+                        child: Container(
+                            height: 100,
+                            width: 100,
+                            child: Hero(
+                                tag: 'hero2' + index2.toString(),
+                                child: Image.network(
+                                    '${globals.globalurlphoto}' +
+                                        element2['li_path']))),
+                      )),
+                );
+              });
+            } else {
+              print(statusCode);
+            }
+          });
         });
       });
     }
@@ -506,7 +507,7 @@ class _receiptform extends State<receiptform> {
     final token = await UserSecureStorage.getToken();
     final id = await UserSecureStorage.getIdAnggota();
     url += '&userid=' + id.toString();
-    
+
     final response = await http.post(Uri.parse(url), headers: {
       HttpHeaders.contentTypeHeader: "application/json",
       HttpHeaders.authorizationHeader: "Bearer $token"
@@ -547,9 +548,10 @@ class _receiptform extends State<receiptform> {
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.danger,
               title: "Error",
-              text: "Gagal Approve receipt " + IdRcp.text + ' saat kirim ke QAD'));
-    }
-     else if (response.body == 'reject success') {
+              text: "Gagal Approve receipt " +
+                  IdRcp.text +
+                  ' saat kirim ke QAD'));
+    } else if (response.body == 'reject success') {
       Navigator.pop(context, 'refresh');
       return ArtSweetAlert.show(
           context: context,
@@ -565,17 +567,17 @@ class _receiptform extends State<receiptform> {
               type: ArtSweetAlertType.danger,
               title: "Error",
               text: "Gagal Unapprove receipt " + IdRcp.text));
-    }
-    else if(response.body == 'approvehist exist'){
+    } else if (response.body == 'approvehist exist') {
       Navigator.pop(context, 'refresh');
       return ArtSweetAlert.show(
           context: context,
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.danger,
               title: "Error",
-              text: "Receipt " + IdRcp.text + " sedang diproses / sudah diproses"));
+              text: "Receipt " +
+                  IdRcp.text +
+                  " sedang diproses / sudah diproses"));
     }
-    
 
     return response;
   }
@@ -677,7 +679,10 @@ class _receiptform extends State<receiptform> {
   String rcptnbr = '';
   late String responseresult = '';
 
-   List<String> list = <String>['Data dikirim ke QAD', 'Data tidak dikirim ke QAD'];
+  List<String> list = <String>[
+    'Data dikirim ke QAD',
+    'Data tidak dikirim ke QAD'
+  ];
   int dropdownValue = 1;
   late String dropdownValueString = '';
 
@@ -717,7 +722,7 @@ class _receiptform extends State<receiptform> {
               title: "Error",
               text: "Failed to Submit report for receipt" + IdRcp.text));
     }
-    
+
     return response;
   }
 
@@ -727,26 +732,32 @@ class _receiptform extends State<receiptform> {
     String rcptnumber = widget.rcpt_nbr;
     getFoto(search: rcptnumber);
     getDetail(search: rcptnumber);
-    getketidaksesuaian(search:rcptnumber);
+    getketidaksesuaian(search: rcptnumber);
     IdRcp = TextEditingController(text: widget.rcpt_nbr);
     NamaBarang = TextEditingController(
         text: widget.rcptd_part != 'null' ? widget.rcptd_part : '');
     TglMasuk = TextEditingController(text: widget.rcpt_date);
     JumlahMasuk = TextEditingController(
-        text: widget.rcptd_qty_arr != 'null' ? NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(widget.rcptd_qty_arr)) : '');
+        text: widget.rcptd_qty_arr != 'null'
+            ? NumberFormat.currency(locale: 'en-us', symbol: '')
+                .format(double.tryParse(widget.rcptd_qty_arr))
+            : '');
     PO = TextEditingController(text: widget.ponbr);
     NomorLot = TextEditingController(text: widget.rcptd_lot);
     Shipto = TextEditingController(text: widget.shipto);
     Batch = TextEditingController(text: widget.batch);
     Supplier = TextEditingController(text: widget.supplier);
     Loc = TextEditingController(text: widget.rcptd_loc);
-    JumlahApprove = TextEditingController(text: NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(widget.rcptd_qty_appr)));
-    JumlahReject = TextEditingController(text: NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(widget.rcptd_qty_rej)));
-    UM = TextEditingController(
-        text: widget.um != 'null' ? widget.um : '');
-        print(widget.um);
-    UMPR = TextEditingController(
-        text: widget.umpr != 'null' ? widget.umpr : '');
+    JumlahApprove = TextEditingController(
+        text: NumberFormat.currency(locale: 'en-us', symbol: '')
+            .format(double.tryParse(widget.rcptd_qty_appr)));
+    JumlahReject = TextEditingController(
+        text: NumberFormat.currency(locale: 'en-us', symbol: '')
+            .format(double.tryParse(widget.rcptd_qty_rej)));
+    UM = TextEditingController(text: widget.um != 'null' ? widget.um : '');
+    print(widget.um);
+    UMPR =
+        TextEditingController(text: widget.umpr != 'null' ? widget.umpr : '');
     UMKonv = TextEditingController(
         text: widget.umkonv != 'null' ? widget.umkonv : '');
     // Step 1
@@ -760,7 +771,8 @@ class _receiptform extends State<receiptform> {
         text: widget.arrivaldate == 'null' ? '' : widget.arrivaldate);
     imrdate = TextEditingController(
         text: widget.imrdate == 'null' ? '' : widget.imrdate);
-    dono = TextEditingController(text: widget.donbr == 'null' ? '' : widget.donbr);
+    dono =
+        TextEditingController(text: widget.donbr == 'null' ? '' : widget.donbr);
     articleno = TextEditingController(
         text: widget.articlenbr == 'null' ? '' : widget.articlenbr);
     proddate = TextEditingController(
@@ -871,11 +883,12 @@ class _receiptform extends State<receiptform> {
 
   Widget _textInputreject({controller, hint}) {
     var controllervalue = controller.text.toString();
-    
+
     return TextField(
       controller: controller,
       readOnly: true,
-      style: TextStyle(color: double.parse(controllervalue) > 0 ? Colors.red : Colors.black),
+      style: TextStyle(
+          color: double.parse(controllervalue) > 0 ? Colors.red : Colors.black),
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         labelText: hint,
@@ -925,7 +938,7 @@ class _receiptform extends State<receiptform> {
               //   // mainAxisAlignment: MainAxisAlignment.center,
               //   children: [
               //     Expanded(
-              //       child: Text('IMR No', textAlign: TextAlign.left, 
+              //       child: Text('IMR No', textAlign: TextAlign.left,
               //         style: TextStyle(
               //           fontSize: 17,
               //           fontWeight: FontWeight.bold,
@@ -941,7 +954,7 @@ class _receiptform extends State<receiptform> {
               //       ),
               //     ),
               //     Expanded(
-              //       child: Text(imrno.text, textAlign: TextAlign.left, 
+              //       child: Text(imrno.text, textAlign: TextAlign.left,
               //       style: TextStyle(
               //           fontSize: 17,
               //           fontWeight: FontWeight.bold,
@@ -955,7 +968,7 @@ class _receiptform extends State<receiptform> {
               //   // mainAxisAlignment: MainAxisAlignment.center,
               //   children: [
               //     Expanded(
-              //       child: Text('IMR No', textAlign: TextAlign.left, 
+              //       child: Text('IMR No', textAlign: TextAlign.left,
               //         style: TextStyle(
               //           fontSize: 17,
               //           fontWeight: FontWeight.bold,
@@ -971,7 +984,7 @@ class _receiptform extends State<receiptform> {
               //       ),
               //     ),
               //     Expanded(
-              //       child: Text(imrno.text, textAlign: TextAlign.left, 
+              //       child: Text(imrno.text, textAlign: TextAlign.left,
               //       style: TextStyle(
               //           fontSize: 17,
               //           fontWeight: FontWeight.bold,
@@ -1055,122 +1068,122 @@ class _receiptform extends State<receiptform> {
             content: Column(
               children: [
                 if (_certificateChecked)
-                const Text(
-                'Certificate of Analysis',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              if (_certificateChecked)
-              const SizedBox(
-                  height: 20,
-                ),
+                  const Text(
+                    'Certificate of Analysis',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 if (_certificateChecked)
-                _textInput(
+                  const SizedBox(
+                    height: 20,
+                  ),
+                if (_certificateChecked)
+                  _textInput(
                     hint: "Keterangan",
                     controller: certificate,
                   ),
-                  if (_certificateChecked)
-                const SizedBox(
-                  height: 12,
-                ),
+                if (_certificateChecked)
+                  const SizedBox(
+                    height: 12,
+                  ),
                 const SizedBox(
                   height: 8,
                 ),
                 if (_msdsChecked)
-              const Text(
-                'MSDS',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              if (_msdsChecked)
-              const SizedBox(
-                  height: 20,
-                ),
+                  const Text(
+                    'MSDS',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 if (_msdsChecked)
-                _textInput(
+                  const SizedBox(
+                    height: 20,
+                  ),
+                if (_msdsChecked)
+                  _textInput(
                     hint: "Keterangan",
                     controller: msds,
                   ),
-                  if (_msdsChecked)
-                const SizedBox(
-                  height: 12,
-                ),
+                if (_msdsChecked)
+                  const SizedBox(
+                    height: 12,
+                  ),
                 const SizedBox(
                   height: 8,
                 ),
-              if (_forwarderdoChecked)
-              const Text(
-                'Forwarder DO',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              if (_forwarderdoChecked)
-                const SizedBox(
-                  height: 20,
-                ),
-              if (_forwarderdoChecked)
+                if (_forwarderdoChecked)
+                  const Text(
+                    'Forwarder DO',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                if (_forwarderdoChecked)
+                  const SizedBox(
+                    height: 20,
+                  ),
+                if (_forwarderdoChecked)
                   _textInput(
                     hint: "Keterangan",
                     controller: forwaderdo,
                   ),
-              if (_forwarderdoChecked)
-                const SizedBox(
-                  height: 12,
-                ),
+                if (_forwarderdoChecked)
+                  const SizedBox(
+                    height: 12,
+                  ),
                 const SizedBox(
                   height: 8,
                 ),
-              if (_packinglistChecked)
-              const Text(
-                'Packing List',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              if (_packinglistChecked)
-              const SizedBox(
-                  height: 20,
-                ),
+                if (_packinglistChecked)
+                  const Text(
+                    'Packing List',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                if (_packinglistChecked)
+                  const SizedBox(
+                    height: 20,
+                  ),
                 if (_packinglistChecked)
                   _textInput(
                     hint: "Keterangan",
                     controller: packinglist,
                   ),
-                  if (_packinglistChecked)
-                const SizedBox(
-                  height: 12,
-                ),
+                if (_packinglistChecked)
+                  const SizedBox(
+                    height: 12,
+                  ),
                 const SizedBox(
                   height: 8,
                 ),
-              if (_otherdocsChecked)
-              const Text(
-                'Other Docs',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              if (_otherdocsChecked)
-              const SizedBox(
-                  height: 20,
-                ),
+                if (_otherdocsChecked)
+                  const Text(
+                    'Other Docs',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                if (_otherdocsChecked)
+                  const SizedBox(
+                    height: 20,
+                  ),
                 if (_otherdocsChecked)
                   _textInput(
                     hint: "Keterangan",
                     controller: otherdocs,
                   ),
                 if (_otherdocsChecked)
-                const SizedBox(
-                  height: 12,
-                ),
+                  const SizedBox(
+                    height: 12,
+                  ),
                 // CheckboxListTile(
                 //   title: const Text('Certificate of Analysis'),
                 //   value: _certificateChecked,
@@ -1249,73 +1262,75 @@ class _receiptform extends State<receiptform> {
             children: [
               if (_sackordosChecked)
                 const Text(
-                'Kemasan Sack / Dos',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                  'Kemasan Sack / Dos',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
               if (_sackordosChecked)
-              const SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                if (_sackordosChecked)
+              if (_sackordosChecked)
                 _textInput(
-                    hint: "Keadaan Angkutan",
-                    controller: TextEditingController(
+                  hint: "Keadaan Angkutan",
+                  controller: TextEditingController(
                       text: _sackordosDamage == 'null' ? '' : _sackordosDamage),
-                  ),
-                  if (_sackordosChecked)
+                ),
+              if (_sackordosChecked)
                 const SizedBox(
                   height: 12,
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
-              if (_drumorvatChecked)
-                const Text(
-                'Kemasan Drum / Vat',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+              const SizedBox(
+                height: 8,
               ),
               if (_drumorvatChecked)
-              const SizedBox(
+                const Text(
+                  'Kemasan Drum / Vat',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              if (_drumorvatChecked)
+                const SizedBox(
                   height: 20,
                 ),
-                if (_drumorvatChecked)
+              if (_drumorvatChecked)
                 _textInput(
-                    hint: "Kondisi",
-                    controller: TextEditingController(
+                  hint: "Kondisi",
+                  controller: TextEditingController(
                       text: _drumorvatDamage == 'null' ? '' : _drumorvatDamage),
-                  ),
-                if (_drumorvatChecked)
+                ),
+              if (_drumorvatChecked)
                 const SizedBox(
                   height: 12,
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
-                if (_palletorpetiChecked)
-                const Text(
-                'Kemasan Pallet / Peti',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+              const SizedBox(
+                height: 8,
               ),
               if (_palletorpetiChecked)
-              const SizedBox(
+                const Text(
+                  'Kemasan Pallet / Peti',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              if (_palletorpetiChecked)
+                const SizedBox(
                   height: 20,
                 ),
-                if (_palletorpetiChecked)
+              if (_palletorpetiChecked)
                 _textInput(
-                    hint: "Kondisi",
-                    controller: TextEditingController(
-                      text: _palletorpetiDamage == 'null' ? '' : _palletorpetiDamage),
-                  ),
-                  if (_palletorpetiChecked)
+                  hint: "Kondisi",
+                  controller: TextEditingController(
+                      text: _palletorpetiDamage == 'null'
+                          ? ''
+                          : _palletorpetiDamage),
+                ),
+              if (_palletorpetiChecked)
                 const SizedBox(
                   height: 12,
                 ),
@@ -1394,79 +1409,90 @@ class _receiptform extends State<receiptform> {
               //       ),
               //     ],
               //   ),
-                const SizedBox(
-                  height: 8,
-                ),
-              if(_isclean != 'null' || _isdry != 'null' || _isnotspilled != 'null' || _issealed != 'null' || _ismanufacturerlabel != 'null')
-              const Text(
-                'Condition',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              if(_isclean != 'null' || _isdry != 'null' || _isnotspilled != 'null' || _issealed != 'null' || _ismanufacturerlabel != 'null')
               const SizedBox(
-                height: 20,
+                height: 8,
               ),
+              if (_isclean != 'null' ||
+                  _isdry != 'null' ||
+                  _isnotspilled != 'null' ||
+                  _issealed != 'null' ||
+                  _ismanufacturerlabel != 'null')
+                const Text(
+                  'Condition',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              if (_isclean != 'null' ||
+                  _isdry != 'null' ||
+                  _isnotspilled != 'null' ||
+                  _issealed != 'null' ||
+                  _ismanufacturerlabel != 'null')
+                const SizedBox(
+                  height: 20,
+                ),
               if (_isclean != 'null')
                 _textInput(
                   hint: "Bersih / Kotor",
                   controller: TextEditingController(
-                      text: _isclean == 'null' ? '' : _isclean == '1' ? 'Bersih' : 'Kotor'),
-                  ),
+                      text: _isclean == 'null'
+                          ? ''
+                          : _isclean == '1'
+                              ? 'Bersih'
+                              : 'Kotor'),
+                ),
               if (_isclean != 'null')
                 const SizedBox(
-                height: 12,
-              ),
+                  height: 12,
+                ),
               if (_isclean == '0')
-                _textInput(
-                  hint: "Keterangan",
-                  controller: keteranganisclean
-                  ),
-                if (_isclean == '0')
-              const SizedBox(
-                height: 12,
-              ),  
+                _textInput(hint: "Keterangan", controller: keteranganisclean),
+              if (_isclean == '0')
+                const SizedBox(
+                  height: 12,
+                ),
               if (_isdry != 'null')
                 _textInput(
                   hint: "Kering / Basah",
                   controller: TextEditingController(
-                      text: _isdry == 'null' ? '' : _isdry == '1' ? 'Kering' : 'Basah'),
-                  ),
-              if(_isdry != 'null')
+                      text: _isdry == 'null'
+                          ? ''
+                          : _isdry == '1'
+                              ? 'Kering'
+                              : 'Basah'),
+                ),
+              if (_isdry != 'null')
                 const SizedBox(
                   height: 12,
                 ),
               if (_isdry == '0')
-                _textInput(
-                  hint: "Keterangan",
-                  controller: keteranganisdry
-                  ),
-                if(_isdry == '0')
+                _textInput(hint: "Keterangan", controller: keteranganisdry),
+              if (_isdry == '0')
                 const SizedBox(
-                height: 12,
-              ),
+                  height: 12,
+                ),
               if (_isnotspilled != 'null')
                 _textInput(
                   hint: "Bocor / Tidak Bocor",
                   controller: TextEditingController(
-                      text: _isnotspilled == 'null' ? '' : _isnotspilled == '1' ? 'Tidak Bocor' : 'Bocor'),
-                  ),
-                  if(_isnotspilled != 'null')
-                  const SizedBox(
-                height: 12,
-              ),
+                      text: _isnotspilled == 'null'
+                          ? ''
+                          : _isnotspilled == '1'
+                              ? 'Tidak Bocor'
+                              : 'Bocor'),
+                ),
+              if (_isnotspilled != 'null')
+                const SizedBox(
+                  height: 12,
+                ),
               if (_isnotspilled == '0')
                 _textInput(
-                  hint: "Keterangan",
-                  controller: keteranganisnotspilled
-                  
-                ),
-                if(_isnotspilled == '0')
+                    hint: "Keterangan", controller: keteranganisnotspilled),
+              if (_isnotspilled == '0')
                 const SizedBox(
-                height: 12,
-              ),
+                  height: 12,
+                ),
               // const Divider(),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.center,
@@ -1558,28 +1584,32 @@ class _receiptform extends State<receiptform> {
               // const SizedBox(
               //   height: 12,
               // ),
-                const SizedBox(
-                  height: 8,
-                ),
-              if (_issealed != 'null')
-              const Text(
-                'Segel',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+              const SizedBox(
+                height: 8,
               ),
               if (_issealed != 'null')
-              const SizedBox(
+                const Text(
+                  'Segel',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              if (_issealed != 'null')
+                const SizedBox(
                   height: 20,
                 ),
-                if (_issealed != 'null')
+              if (_issealed != 'null')
                 _textInput(
-                    hint: "Kondisi",
-                    controller: TextEditingController(
-                      text: _issealed == 'null' ? '' : _issealed == '0' ? 'Rusak' : 'Utuh' ),
-                  ),
-                  if (_issealed != 'null')
+                  hint: "Kondisi",
+                  controller: TextEditingController(
+                      text: _issealed == 'null'
+                          ? ''
+                          : _issealed == '0'
+                              ? 'Rusak'
+                              : 'Utuh'),
+                ),
+              if (_issealed != 'null')
                 const SizedBox(
                   height: 12,
                 ),
@@ -1587,7 +1617,7 @@ class _receiptform extends State<receiptform> {
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.center,
               //   children: [
-                  
+
               //     Expanded(
               //       child: ListTile(
               //         title: const Text('Utuh'),
@@ -1613,31 +1643,35 @@ class _receiptform extends State<receiptform> {
               // const SizedBox(
               //   height: 12,
               // ),
-                const SizedBox(
-                  height: 8,
-                ),
-              if(_ismanufacturerlabel != 'null')
-              const Text(
-                'Label Pabrik',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+              const SizedBox(
+                height: 8,
               ),
               if (_ismanufacturerlabel != 'null')
-              const SizedBox(
+                const Text(
+                  'Label Pabrik',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              if (_ismanufacturerlabel != 'null')
+                const SizedBox(
                   height: 20,
                 ),
-                if (_ismanufacturerlabel != 'null')
+              if (_ismanufacturerlabel != 'null')
                 _textInput(
-                    hint: "Kondisi",
-                    controller: TextEditingController(
-                      text: _ismanufacturerlabel == 'null' ? '' : _ismanufacturerlabel == '0' ? 'Rusak' : 'Utuh' ),
-                  ),
-                  if (_ismanufacturerlabel != 'null')
-                    const SizedBox(
-                      height: 12,
-                    ),
+                  hint: "Kondisi",
+                  controller: TextEditingController(
+                      text: _ismanufacturerlabel == 'null'
+                          ? ''
+                          : _ismanufacturerlabel == '0'
+                              ? 'Rusak'
+                              : 'Utuh'),
+                ),
+              if (_ismanufacturerlabel != 'null')
+                const SizedBox(
+                  height: 12,
+                ),
               // const Divider(),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.center,
@@ -1687,52 +1721,62 @@ class _receiptform extends State<receiptform> {
               const SizedBox(
                 height: 20,
               ),
-              if(_angkutanisclean != 'null' || _angkutanisdry != 'null' || _angkutanisnotspilled != 'null')
-              const Text(
-                'Condition',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              if (_angkutanisclean != 'null' ||
+                  _angkutanisdry != 'null' ||
+                  _angkutanisnotspilled != 'null')
+                const Text(
+                  'Condition',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              if(_angkutanisclean != 'null' || _angkutanisdry != 'null' || _angkutanisnotspilled != 'null')
-              const SizedBox(
-                height: 20,
-              ),
+              if (_angkutanisclean != 'null' ||
+                  _angkutanisdry != 'null' ||
+                  _angkutanisnotspilled != 'null')
+                const SizedBox(
+                  height: 20,
+                ),
 
               if (_angkutanisclean != 'null')
                 _textInput(
                   hint: "Bersih / Kotor",
                   controller: TextEditingController(
-                      text: _angkutanisclean == 'null' ? '' : _angkutanisclean == '0' ? 'Kotor' : 'Bersih' ),
-                  
+                      text: _angkutanisclean == 'null'
+                          ? ''
+                          : _angkutanisclean == '0'
+                              ? 'Kotor'
+                              : 'Bersih'),
                 ),
               if (_angkutanisclean != 'null')
-              const SizedBox(
-                height: 12,
-              ),
+                const SizedBox(
+                  height: 12,
+                ),
 
               if (_angkutanisclean == '0')
                 _textInput(
                   hint: "Keterangan",
                   controller: angkutanketeranganisclean,
                 ),
-                if (_angkutanisclean == '0')
-              const SizedBox(
-                height: 12,
-              ),
+              if (_angkutanisclean == '0')
+                const SizedBox(
+                  height: 12,
+                ),
 
-                if (_angkutanisdry != 'null')
+              if (_angkutanisdry != 'null')
                 _textInput(
                   hint: "Basah / Kering",
                   controller: TextEditingController(
-                      text: _angkutanisdry == 'null' ? '' : _angkutanisdry == '0' ? 'Basah' : 'Kering' ),
-                  
+                      text: _angkutanisdry == 'null'
+                          ? ''
+                          : _angkutanisdry == '0'
+                              ? 'Basah'
+                              : 'Kering'),
                 ),
-                if (_angkutanisdry != 'null')
-              const SizedBox(
-                height: 12,
-              ),
+              if (_angkutanisdry != 'null')
+                const SizedBox(
+                  height: 12,
+                ),
 
               if (_angkutanisdry == '0')
                 _textInput(
@@ -1740,33 +1784,36 @@ class _receiptform extends State<receiptform> {
                   controller: angkutanketeranganisdry,
                 ),
 
-                if (_angkutanisdry == '0')
-              const SizedBox(
-                height: 12,
-              ),
+              if (_angkutanisdry == '0')
+                const SizedBox(
+                  height: 12,
+                ),
 
-                if (_angkutanisnotspilled != 'null')
+              if (_angkutanisnotspilled != 'null')
                 _textInput(
                   hint: "Tumpah / Tidak Tumpah",
                   controller: TextEditingController(
-                      text: _angkutanisnotspilled == 'null' ? '' : _angkutanisnotspilled == '0' ? 'Tumpah' : 'Tidak Tumpah' ),
-                  
+                      text: _angkutanisnotspilled == 'null'
+                          ? ''
+                          : _angkutanisnotspilled == '0'
+                              ? 'Tumpah'
+                              : 'Tidak Tumpah'),
                 ),
 
-                if (_angkutanisnotspilled != 'null')
-              const SizedBox(
-                height: 12,
-              ),
+              if (_angkutanisnotspilled != 'null')
+                const SizedBox(
+                  height: 12,
+                ),
 
               if (_angkutanisnotspilled == '0')
                 _textInput(
                   hint: "Keterangan",
                   controller: angkutanketeranganisnotspilled,
                 ),
-                if (_angkutanisnotspilled == '0')
+              if (_angkutanisnotspilled == '0')
                 const SizedBox(
-                height: 12,
-              ),
+                  height: 12,
+                ),
               // const Divider(),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.center,
@@ -1862,74 +1909,75 @@ class _receiptform extends State<receiptform> {
                 height: 20,
               ),
               if (_angkutanissingle != 'null')
-              const Text(
-                'Penempatan Bahan/Barang Dalam Angkutan',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
+                const Text(
+                  'Penempatan Bahan/Barang Dalam Angkutan',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
               if (_angkutanissingle != 'null')
-              const SizedBox(
-                height: 20,
-              ),
-               if (_angkutanissingle != 'null')
+                const SizedBox(
+                  height: 20,
+                ),
+              if (_angkutanissingle != 'null')
                 _textInput(
                   hint: "Single / Gabungan",
                   controller: TextEditingController(
-                      text: _angkutanissingle == 'null' ? '' : _angkutanissingle == '0' ? 'Gabungan' : 'Single' ),
-                  
+                      text: _angkutanissingle == 'null'
+                          ? ''
+                          : _angkutanissingle == '0'
+                              ? 'Gabungan'
+                              : 'Single'),
                 ),
-                if (_angkutanissingle != 'null')
-              const SizedBox(
-                height: 12,
-              ),
-                if (_angkutanissingle == '0')
-                _textInput(
-                  hint: "Keterangan",
-                  controller: angkutanketeranganissingle
-                  
-                ),
-                if (_angkutanissingle == '0')
-              const SizedBox(
-                height: 12,
-              ),
+              if (_angkutanissingle != 'null')
                 const SizedBox(
-                  height: 8,
+                  height: 12,
                 ),
-              if (_angkutansegregate != 'null')
-              const Text(
-                'Ada Pemisah Antar Bahan/Barang',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+              if (_angkutanissingle == '0')
+                _textInput(
+                    hint: "Keterangan", controller: angkutanketeranganissingle),
+              if (_angkutanissingle == '0')
+                const SizedBox(
+                  height: 12,
                 ),
-              ),
-              if (_angkutansegregate != 'null')
               const SizedBox(
-                height: 20,
+                height: 8,
               ),
+              if (_angkutansegregate != 'null')
+                const Text(
+                  'Ada Pemisah Antar Bahan/Barang',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              if (_angkutansegregate != 'null')
+                const SizedBox(
+                  height: 20,
+                ),
               if (_angkutansegregate != 'null')
                 _textInput(
                   hint: "Ya / Tidak",
                   controller: TextEditingController(
-                      text: _angkutansegregate == 'null' ? '' : _angkutansegregate == '0' ? 'Tidak' : 'Ya' ),
-                  
+                      text: _angkutansegregate == 'null'
+                          ? ''
+                          : _angkutansegregate == '0'
+                              ? 'Tidak'
+                              : 'Ya'),
                 ),
-                if (_angkutansegregate != 'null')
-              const SizedBox(
-                height: 12,
-              ),
-                if (_angkutansegregate == '0')
+              if (_angkutansegregate != 'null')
+                const SizedBox(
+                  height: 12,
+                ),
+              if (_angkutansegregate == '0')
                 _textInput(
-                  hint: "Keterangan",
-                  controller: angkutanketeranganissegregated
-                  
+                    hint: "Keterangan",
+                    controller: angkutanketeranganissegregated),
+              if (_angkutansegregate == '0')
+                const SizedBox(
+                  height: 12,
                 ),
-                if (_angkutansegregate == '0')
-              const SizedBox(
-                height: 12,
-              ),
               // const Divider(),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.center,
@@ -2069,7 +2117,6 @@ class _receiptform extends State<receiptform> {
                 const SizedBox(
                   height: 8,
                 ),
-                
                 _textInput(
                   hint: "Qty Datang",
                   controller: JumlahMasuk,
@@ -2098,29 +2145,25 @@ class _receiptform extends State<receiptform> {
                 _activeStepIndex <= 7 ? StepState.editing : StepState.complete,
             isActive: _activeStepIndex >= 7,
             title: const Text('Detail Alokasi'),
-            content: Column(children: childrendetail)
-            ),
+            content: Column(children: childrendetail)),
         Step(
             state:
                 _activeStepIndex <= 8 ? StepState.editing : StepState.complete,
             isActive: _activeStepIndex >= 8,
             title: const Text('Laporan Ketidaksesuaian'),
-            content: Column(children: childketidaksesuaian)
-            ),
-            Step(
+            content: Column(children: childketidaksesuaian)),
+        Step(
             state:
                 _activeStepIndex <= 9 ? StepState.editing : StepState.complete,
             isActive: _activeStepIndex >= 9,
             title: const Text('Foto Ketidaksesuaian'),
-            content: Wrap(children: childketidaksesuaianfoto)
-            ),
+            content: Wrap(children: childketidaksesuaianfoto)),
         Step(
             state:
                 _activeStepIndex <= 10 ? StepState.editing : StepState.complete,
             isActive: _activeStepIndex >= 10,
             title: const Text('Foto'),
-            content: Wrap(children: children)
-            )
+            content: Wrap(children: children))
       ];
   @override
   Widget build(BuildContext context) => loading
@@ -2137,7 +2180,7 @@ class _receiptform extends State<receiptform> {
                     children: <Widget>[
                       Stepper(
                         controlsBuilder: (context, details) {
-                          return Row(
+                          return const Row(
                             children: <Widget>[
                               TextButton(onPressed: null, child: Text('')),
                               TextButton(onPressed: null, child: Text('')),
@@ -2174,66 +2217,63 @@ class _receiptform extends State<receiptform> {
                         },
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 50),
-                        child: Row(children: [
-                          Expanded(
-                            child:
-                            Text(
-                              'Opsi untuk proses approve (Abaikan jika Unapprove)',
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
-                            ),
-                          )
-                        ])
-                        ),
+                          margin: const EdgeInsets.only(top: 50),
+                          child: const Row(children: [
+                            Expanded(
+                              child: Text(
+                                'Opsi untuk proses approve (Abaikan jika Unapprove)',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            )
+                          ])),
                       Container(
-                        margin: EdgeInsets.only(top: 50),
-                        child: Row(children: [
-                          Expanded(
-                            child:
-                            DropdownButton<String>(
-                                isExpanded: true,
-                                value: dropdownValueString,
-                                icon: const Icon(Icons.arrow_downward),
-                                elevation: 16,
-                                style: const TextStyle(color: Colors.black),
-                                underline: Container(
-                                  height: 2,
-                                  color: Colors.black,
-                                ),
-                                items: list.map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value,textAlign: TextAlign.center),
-                                    
-                                  );
-                                }).toList(),
-                                onChanged: (String? value) {
-                                  // This is called when the user selects an item.
-                                  setState(() {
-                                    dropdownValueString = value!;
-                                  });
-                                  
-                                  if(value == 'Data dikirim ke QAD'){
-                                    dropdownValue = 1;
-                                  }
-                                  else if (value == 'Data tidak dikirim ke QAD'){
-                                    dropdownValue = 0;
-                                  }
+                          margin: const EdgeInsets.only(top: 50),
+                          child: Row(children: [
+                            Expanded(
+                                child: DropdownButton<String>(
+                              isExpanded: true,
+                              value: dropdownValueString,
+                              icon: const Icon(Icons.arrow_downward),
+                              elevation: 16,
+                              style: const TextStyle(color: Colors.black),
+                              underline: Container(
+                                height: 2,
+                                color: Colors.black,
+                              ),
+                              items: list.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child:
+                                      Text(value, textAlign: TextAlign.center),
+                                );
+                              }).toList(),
+                              onChanged: (String? value) {
+                                // This is called when the user selects an item.
+                                setState(() {
+                                  dropdownValueString = value!;
+                                });
 
-                                },
-                              )
-                          )
-                        ])
-                        ),
+                                if (value == 'Data dikirim ke QAD') {
+                                  dropdownValue = 1;
+                                } else if (value ==
+                                    'Data tidak dikirim ke QAD') {
+                                  dropdownValue = 0;
+                                }
+                              },
+                            ))
+                          ])),
                       Container(
-                        margin: EdgeInsets.only(top: 50),
+                        margin: const EdgeInsets.only(top: 50),
                         child: Row(children: [
                           Expanded(
                             child: ElevatedButton(
-                              style:
-                                  ElevatedButton.styleFrom(primary: Colors.red),
-                              child: Text('Unapprove'),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red),
+                              child: const Text('Unapprove'),
                               onPressed: () {
                                 showModalBottomSheet<void>(
                                     context: context,
@@ -2258,7 +2298,8 @@ class _receiptform extends State<receiptform> {
                                                       color: Colors.white)),
                                               ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
-                                                    primary: Colors.white),
+                                                    backgroundColor:
+                                                        Colors.white),
                                                 child: const Text(
                                                     'Tekan tahan tombol untuk melanjutkan',
                                                     style: const TextStyle(
@@ -2291,7 +2332,7 @@ class _receiptform extends State<receiptform> {
                           const SizedBox(width: 12),
                           Expanded(
                             child: ElevatedButton(
-                              child: Text('Approve'),
+                              child: const Text('Approve'),
                               onPressed: () {
                                 showModalBottomSheet<void>(
                                     context: context,
@@ -2316,7 +2357,8 @@ class _receiptform extends State<receiptform> {
                                                       color: Colors.white)),
                                               ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
-                                                    primary: Colors.black),
+                                                    backgroundColor:
+                                                        Colors.black),
                                                 child: const Text(
                                                     'Tekan tahan tombol untuk melanjutkan'),
                                                 onPressed: () {},
@@ -2325,7 +2367,8 @@ class _receiptform extends State<receiptform> {
                                                   String url =
                                                       '${globals.globalurl}/approvereceipt?';
                                                   url += 'idrcpt=' + IdRcp.text;
-                                                  url +='&statusapprove=' + dropdownValue.toString();
+                                                  url += '&statusapprove=' +
+                                                      dropdownValue.toString();
 
                                                   Navigator.pop(context);
                                                   setState(() {

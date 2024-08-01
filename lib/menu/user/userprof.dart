@@ -1,15 +1,13 @@
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/login/loginPage.dart';
-import 'package:flutter_template/menu/laporanTidakSesuai/laporanbrowse.dart';
-import 'package:flutter_template/menu/user/changepass.dart';
 import 'package:flutter_template/menu/user/myacc.dart';
 import 'package:flutter_template/menu/user/profmenu.dart';
 import 'package:flutter_template/menu/user/profpic.dart';
 import 'package:flutter_template/utils/secure_user_login.dart';
 import 'package:iconsax/iconsax.dart';
-
-import '../home.dart';
 
 class userProf extends StatefulWidget {
   const userProf({Key? key}) : super(key: key);

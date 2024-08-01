@@ -333,7 +333,7 @@ class _POBrowseState extends State<POBrowse> {
                                                             child: Padding(
                                                               padding:
                                                                   const EdgeInsets
-                                                                          .only(
+                                                                      .only(
                                                                       left:
                                                                           15.0),
                                                               child: Container(
@@ -385,7 +385,7 @@ class _POBrowseState extends State<POBrowse> {
                                                       ListView.builder(
                                                         shrinkWrap: true,
                                                         physics:
-                                                            NeverScrollableScrollPhysics(),
+                                                            const NeverScrollableScrollPhysics(),
                                                         itemCount:
                                                             details!.length,
                                                         itemBuilder:
@@ -426,7 +426,7 @@ class _POBrowseState extends State<POBrowse> {
                                                       Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   bottom: 10),
                                                           child: Text(
                                                             'Vendor : ${user.poVend} - ${user.poVendDesc} ',
@@ -439,7 +439,7 @@ class _POBrowseState extends State<POBrowse> {
                                                       Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   bottom: 10),
                                                           child: Text(
                                                             'Tujuan : ${user.poShip} ',
@@ -452,7 +452,7 @@ class _POBrowseState extends State<POBrowse> {
                                                       Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   bottom: 10),
                                                           child: Text(
                                                             'Tanggal Pesan : ${user.poOrdDate}',
@@ -465,7 +465,7 @@ class _POBrowseState extends State<POBrowse> {
                                                       Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   bottom: 10),
                                                           child: Text(
                                                             'Tanggal Jatuh Tempo : ${user.poDueDate}',
@@ -478,7 +478,7 @@ class _POBrowseState extends State<POBrowse> {
                                                       Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   bottom: 10),
                                                           child: Text(
                                                             'Mata Uang : ${user.poCurr ?? ''}',

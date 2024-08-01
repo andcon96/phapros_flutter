@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -33,28 +35,28 @@ class laporanform extends StatefulWidget {
       umkonv,
       itemcode;
 
-  const laporanform({
-    Key? key,
-    required this.ponbr,
-    required this.rcpt_nbr,
-    required this.rcpt_imr,
-    required this.rcpt_date,
-    required this.rcptd_part,
-    required this.rcptd_qty_arr,
-    required this.rcptd_lot,
-    required this.rcptd_loc,
-    required this.rcptd_qty_appr,
-    required this.rcptd_qty_rej,
-    required this.angkutan,
-    required this.nopol,
-    required this.supplier,
-    required this.batch,
-    required this.supplierdesc,
-    required this.um,
-    required this.itemcode,
-    required this.umkonv,
-    required this.umpr
-  }) : super(key: key);
+  const laporanform(
+      {Key? key,
+      required this.ponbr,
+      required this.rcpt_nbr,
+      required this.rcpt_imr,
+      required this.rcpt_date,
+      required this.rcptd_part,
+      required this.rcptd_qty_arr,
+      required this.rcptd_lot,
+      required this.rcptd_loc,
+      required this.rcptd_qty_appr,
+      required this.rcptd_qty_rej,
+      required this.angkutan,
+      required this.nopol,
+      required this.supplier,
+      required this.batch,
+      required this.supplierdesc,
+      required this.um,
+      required this.itemcode,
+      required this.umkonv,
+      required this.umpr})
+      : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -92,7 +94,7 @@ class _laporanform extends State<laporanform> {
   List<File> imagesPath = [];
   DateTime now = DateTime.now();
   late String suppstr;
-  late String itemnbr ;
+  late String itemnbr;
   Future pickImage() async {
     images = await ImagePicker().pickMultiImage(imageQuality: 20);
 
@@ -103,18 +105,17 @@ class _laporanform extends State<laporanform> {
         // imagesPath.add(File(image.path));
         var imgsize = (await image.readAsBytes()).lengthInBytes;
         if (imgsize <= 5000000) {
-                imagefiles.add(image);    
-        }      
-        else {
+          imagefiles.add(image);
+        } else {
           ArtSweetAlert.show(
-            context: context,
-            artDialogArgs: ArtDialogArgs(
-                type: ArtSweetAlertType.danger,
-                title: "Error",
-                text: "Ukuran Foto tidak boleh lebih dari 5MB"));
-        // Do something with the selected image
+              context: context,
+              artDialogArgs: ArtDialogArgs(
+                  type: ArtSweetAlertType.danger,
+                  title: "Error",
+                  text: "Ukuran Foto tidak boleh lebih dari 5MB"));
+          // Do something with the selected image
         }
-        
+
         // Do something with the selected image
       }
       setState(() {});
@@ -134,23 +135,24 @@ class _laporanform extends State<laporanform> {
   }
 
   Future takeImage() async {
-    imagefromphoto = await ImagePicker().pickImage(source: ImageSource.camera,imageQuality: 20);
+    imagefromphoto = await ImagePicker()
+        .pickImage(source: ImageSource.camera, imageQuality: 20);
 
     if (imagefromphoto != null) {
       var imgsize = (await imagefromphoto!.readAsBytes()).lengthInBytes;
-      
+
       if (imgsize > 5000000) {
-            setState(() {
-              ArtSweetAlert.show(
-                  context: context,
-                  artDialogArgs: ArtDialogArgs(
-                      type: ArtSweetAlertType.danger,
-                      title: "Error",
-                      text: "Ukuran Foto tidak boleh lebih dari 5MB"));
-            });
-          } else {
-            imagefiles.add(imagefromphoto!);
-          }
+        setState(() {
+          ArtSweetAlert.show(
+              context: context,
+              artDialogArgs: ArtDialogArgs(
+                  type: ArtSweetAlertType.danger,
+                  title: "Error",
+                  text: "Ukuran Foto tidak boleh lebih dari 5MB"));
+        });
+      } else {
+        imagefiles.add(imagefromphoto!);
+      }
       // imagesPath.add(File(imagefromphoto!.path));
 
       // Process selected images
@@ -174,7 +176,7 @@ class _laporanform extends State<laporanform> {
     final token = await UserSecureStorage.getToken();
     final username = await UserSecureStorage.getIdAnggota();
     url += '&username=' + username.toString();
-    
+
     final Uri uri = Uri.parse(url);
     final request = http.MultipartRequest('POST', uri);
     request.headers['Content-Type'] = 'application/json';
@@ -189,8 +191,8 @@ class _laporanform extends State<laporanform> {
             image.path.endsWith('.jpeg') ||
             image.path.endsWith('.png')) {
           // Check if the file size is less than 10MB
-        var imgsize = (await image.readAsBytes()).lengthInBytes;
-        if (imgsize <= 5000000) {
+          var imgsize = (await image.readAsBytes()).lengthInBytes;
+          if (imgsize <= 5000000) {
             request.files.add(
               await http.MultipartFile.fromPath('images[]', image.path),
             );
@@ -214,7 +216,10 @@ class _laporanform extends State<laporanform> {
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.danger,
                 title: "Error",
-                text: "Failed to Submit report for receipt" + IdRcp.text + " Lot " +  NomorLot.text));
+                text: "Failed to Submit report for receipt" +
+                    IdRcp.text +
+                    " Lot " +
+                    NomorLot.text));
       } else {
         Navigator.pop(context, 'refresh');
 
@@ -223,7 +228,10 @@ class _laporanform extends State<laporanform> {
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.success,
                 title: "Success",
-                text: "Success to Submit report for receipt " + IdRcp.text + " Lot " +  NomorLot.text));
+                text: "Success to Submit report for receipt " +
+                    IdRcp.text +
+                    " Lot " +
+                    NomorLot.text));
       }
     } else {
       Navigator.pop(context, 'refresh');
@@ -232,7 +240,12 @@ class _laporanform extends State<laporanform> {
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.danger,
               title: "Error",
-              text: "Failed to Submit report for receipt" + IdRcp.text + " Lot " +  NomorLot.text + " Response Code:" + response.statusCode.toString()));
+              text: "Failed to Submit report for receipt" +
+                  IdRcp.text +
+                  " Lot " +
+                  NomorLot.text +
+                  " Response Code:" +
+                  response.statusCode.toString()));
     }
     // return response;
     // final response = await http.post(Uri.parse(url), headers: {
@@ -276,7 +289,7 @@ class _laporanform extends State<laporanform> {
   void initState() {
     super.initState();
     String oldimrnbr = widget.rcpt_imr.toString();
-    
+
     String prefiximr = oldimrnbr.substring(0, oldimrnbr.indexOf('.'));
     String lotnbr = widget.rcptd_lot.toString();
     String currentimrnbr = prefiximr + '.' + lotnbr;
@@ -287,29 +300,35 @@ class _laporanform extends State<laporanform> {
         text: widget.rcptd_part != 'null' ? widget.rcptd_part : '');
     TglMasuk = TextEditingController(text: widget.rcpt_date);
     JumlahMasuk = TextEditingController(
-        text: widget.rcptd_qty_arr != 'null' ? NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(widget.rcptd_qty_arr)) : '');
+        text: widget.rcptd_qty_arr != 'null'
+            ? NumberFormat.currency(locale: 'en-us', symbol: '')
+                .format(double.tryParse(widget.rcptd_qty_arr))
+            : '');
     PO = TextEditingController(text: widget.ponbr);
     NomorLot = TextEditingController(text: widget.rcptd_lot);
     No = TextEditingController(text: currentimrnbr);
     Tanggal = TextEditingController(text: DateFormat('yyyy-MM-dd').format(now));
     Supplier = TextEditingController(
-        text: widget.supplier != 'null' ? (widget.supplier + ' -- ' + widget.supplierdesc) : '');
+        text: widget.supplier != 'null'
+            ? (widget.supplier + ' -- ' + widget.supplierdesc)
+            : '');
     Komplain = TextEditingController();
     Keterangan = TextEditingController();
     KomplainDetail = TextEditingController(
-        text: widget.rcptd_qty_rej != 'null' ? NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(widget.rcptd_qty_rej)) : '');
+        text: widget.rcptd_qty_rej != 'null'
+            ? NumberFormat.currency(locale: 'en-us', symbol: '')
+                .format(double.tryParse(widget.rcptd_qty_rej))
+            : '');
 
     Angkutan = TextEditingController(
         text: widget.angkutan != 'null' ? widget.angkutan : '');
     NoPol =
         TextEditingController(text: widget.nopol != 'null' ? widget.nopol : '');
-    UM =
-        TextEditingController(text: widget.um != 'null' ? widget.um : '');
+    UM = TextEditingController(text: widget.um != 'null' ? widget.um : '');
     UMPR =
         TextEditingController(text: widget.umpr != 'null' ? widget.umpr : '');
-    UMKonv =
-        TextEditingController(text: widget.umkonv != 'null' ? widget.umkonv : '');
-
+    UMKonv = TextEditingController(
+        text: widget.umkonv != 'null' ? widget.umkonv : '');
   }
 
   @override
@@ -348,7 +367,7 @@ class _laporanform extends State<laporanform> {
                                       color: Colors.black)),
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                    primary: Colors.blue),
+                                    backgroundColor: Colors.blue),
                                 child: const Text(
                                     'Tekan tahan tombol untuk melanjutkan',
                                     style: const TextStyle(
@@ -398,14 +417,14 @@ class _laporanform extends State<laporanform> {
               final isLastStep = currentStep == getSteps().length - 1;
 
               return Container(
-                margin: EdgeInsets.only(top: 50, right: 40),
+                margin: const EdgeInsets.only(top: 50, right: 40),
                 child: Row(children: [
                   if (currentStep != 0)
                     Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            minimumSize: Size(100, 40)),
-                        child: Text('BACK'),
+                            minimumSize: const Size(100, 40)),
+                        child: const Text('BACK'),
                         onPressed: controls.onStepCancel,
                       ),
                     ),
@@ -425,24 +444,24 @@ class _laporanform extends State<laporanform> {
         Step(
           state: currentStep > 0 ? StepState.complete : StepState.indexed,
           isActive: currentStep >= 0,
-          title: Text('Data RCP'),
+          title: const Text('Data RCP'),
           content: Column(
             children: <Widget>[
               TextFormField(
                 // controller: null,
                 controller: IdRcp,
-                decoration: InputDecoration(labelText: 'ID RCP'),
+                decoration: const InputDecoration(labelText: 'ID RCP'),
                 // initialValue: widget.rcpt_nbr,
                 readOnly: true,
               ),
               TextFormField(
                 controller: No,
-                decoration: InputDecoration(labelText: 'No'),
+                decoration: const InputDecoration(labelText: 'No'),
                 readOnly: true,
               ),
               TextFormField(
                 controller: Tanggal,
-                decoration: InputDecoration(labelText: 'Tanggal'),
+                decoration: const InputDecoration(labelText: 'Tanggal'),
                 readOnly: true,
                 // onTap: () {
                 //   showDatePicker(
@@ -456,7 +475,7 @@ class _laporanform extends State<laporanform> {
                 //         return Theme(
                 //           data: ThemeData.light().copyWith(
                 //             colorScheme: ColorScheme.light(
-                //               primary: Colors.blue.shade400,
+                //               backgroundColor: Colors.blue.shade400,
                 //             ),
                 //             // textButtonTheme: TextButtonThemeData(
                 //             //   style: TextButton.styleFrom(
@@ -479,7 +498,7 @@ class _laporanform extends State<laporanform> {
               TextFormField(
                 controller: Supplier,
                 readOnly: true,
-                decoration: InputDecoration(labelText: 'Supplier'),
+                decoration: const InputDecoration(labelText: 'Supplier'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
@@ -489,7 +508,7 @@ class _laporanform extends State<laporanform> {
               ),
               TextFormField(
                 controller: Komplain,
-                decoration: InputDecoration(labelText: 'Komplain'),
+                decoration: const InputDecoration(labelText: 'Komplain'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
@@ -499,7 +518,7 @@ class _laporanform extends State<laporanform> {
               ),
               TextFormField(
                 controller: Keterangan,
-                decoration: InputDecoration(labelText: 'Keterangan'),
+                decoration: const InputDecoration(labelText: 'Keterangan'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
@@ -513,13 +532,13 @@ class _laporanform extends State<laporanform> {
         Step(
           state: currentStep > 1 ? StepState.complete : StepState.indexed,
           isActive: currentStep >= 1,
-          title: Text('Detail'),
+          title: const Text('Detail'),
           content: Column(
             children: <Widget>[
               TextFormField(
                 controller: NamaBarang,
                 readOnly: true,
-                decoration: InputDecoration(labelText: 'Nama Barang'),
+                decoration: const InputDecoration(labelText: 'Nama Barang'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return '-';
@@ -530,7 +549,7 @@ class _laporanform extends State<laporanform> {
               TextFormField(
                 controller: UM,
                 readOnly: true,
-                decoration: InputDecoration(labelText: 'UM PO'),
+                decoration: const InputDecoration(labelText: 'UM PO'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return '-';
@@ -541,7 +560,7 @@ class _laporanform extends State<laporanform> {
               TextFormField(
                 controller: UMPR,
                 readOnly: true,
-                decoration: InputDecoration(labelText: 'UM PR'),
+                decoration: const InputDecoration(labelText: 'UM PR'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return '-';
@@ -552,7 +571,7 @@ class _laporanform extends State<laporanform> {
               TextFormField(
                 controller: UMKonv,
                 readOnly: true,
-                decoration: InputDecoration(labelText: 'UM Konversi'),
+                decoration: const InputDecoration(labelText: 'UM Konversi'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return '-';
@@ -562,7 +581,7 @@ class _laporanform extends State<laporanform> {
               ),
               TextFormField(
                 controller: TglMasuk,
-                decoration: InputDecoration(labelText: 'Tgl Masuk'),
+                decoration: const InputDecoration(labelText: 'Tgl Masuk'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter date';
@@ -573,7 +592,7 @@ class _laporanform extends State<laporanform> {
               ),
               TextFormField(
                 controller: JumlahMasuk,
-                decoration: InputDecoration(labelText: 'Jumlah Masuk'),
+                decoration: const InputDecoration(labelText: 'Jumlah Masuk'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -585,7 +604,7 @@ class _laporanform extends State<laporanform> {
               ),
               TextFormField(
                 controller: KomplainDetail,
-                decoration: InputDecoration(labelText: 'Komplain'),
+                decoration: const InputDecoration(labelText: 'Komplain'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
@@ -596,7 +615,7 @@ class _laporanform extends State<laporanform> {
               ),
               TextFormField(
                 controller: PO,
-                decoration: InputDecoration(labelText: 'PO'),
+                decoration: const InputDecoration(labelText: 'PO'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
@@ -607,7 +626,7 @@ class _laporanform extends State<laporanform> {
               ),
               TextFormField(
                 controller: NomorLot,
-                decoration: InputDecoration(labelText: 'No Lot'),
+                decoration: const InputDecoration(labelText: 'No Lot'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
@@ -618,7 +637,7 @@ class _laporanform extends State<laporanform> {
               ),
               TextFormField(
                 controller: Angkutan,
-                decoration: InputDecoration(labelText: 'Angkutan'),
+                decoration: const InputDecoration(labelText: 'Angkutan'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
@@ -629,7 +648,7 @@ class _laporanform extends State<laporanform> {
               ),
               TextFormField(
                 controller: NoPol,
-                decoration: InputDecoration(labelText: 'No Pol'),
+                decoration: const InputDecoration(labelText: 'No Pol'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
@@ -643,7 +662,7 @@ class _laporanform extends State<laporanform> {
         ),
         Step(
           isActive: currentStep >= 2,
-          title: Text('Complete'),
+          title: const Text('Complete'),
           content: Column(children: <Widget>[
             Table(
               border: TableBorder.all(color: Colors.transparent),
@@ -651,7 +670,7 @@ class _laporanform extends State<laporanform> {
                 TableRow(children: [
                   Container(
                     height: 50,
-                    child: Text(
+                    child: const Text(
                       'ID RCP',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -661,15 +680,15 @@ class _laporanform extends State<laporanform> {
                     height: 50,
                     child: Text(
                       IdRcp.text,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 14),
                     ),
                   ),
                 ]),
                 TableRow(children: [
                   Container(
                       height: 50,
-                      child: Text(
+                      child: const Text(
                         'Imr No',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 14),
@@ -678,14 +697,14 @@ class _laporanform extends State<laporanform> {
                     height: 50,
                     child: Text(
                       No.text,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                 ]),
                 TableRow(children: [
                   Container(
                     height: 50,
-                    child: Text(
+                    child: const Text(
                       'Tanggal',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -695,14 +714,14 @@ class _laporanform extends State<laporanform> {
                     height: 50,
                     child: Text(
                       Tanggal.text,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                 ]),
                 TableRow(children: [
                   Container(
                     height: 50,
-                    child: Text(
+                    child: const Text(
                       'Supplier',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -712,14 +731,14 @@ class _laporanform extends State<laporanform> {
                     height: 50,
                     child: Text(
                       Supplier.text,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                 ]),
                 TableRow(children: [
                   Container(
                     height: 50,
-                    child: Text(
+                    child: const Text(
                       'Komplain',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -729,14 +748,14 @@ class _laporanform extends State<laporanform> {
                     height: 50,
                     child: Text(
                       Komplain.text,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                 ]),
                 TableRow(children: [
                   Container(
                     height: 50,
-                    child: Text(
+                    child: const Text(
                       'Keterangan',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -746,14 +765,14 @@ class _laporanform extends State<laporanform> {
                     height: 50,
                     child: Text(
                       Keterangan.text,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                 ]),
                 TableRow(children: [
                   Container(
                     height: 50,
-                    child: Text(
+                    child: const Text(
                       'Nama Barang',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -763,14 +782,14 @@ class _laporanform extends State<laporanform> {
                     height: 50,
                     child: Text(
                       NamaBarang.text,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                 ]),
                 TableRow(children: [
                   Container(
                     height: 50,
-                    child: Text(
+                    child: const Text(
                       'UM',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -780,14 +799,14 @@ class _laporanform extends State<laporanform> {
                     height: 50,
                     child: Text(
                       UM.text,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                 ]),
                 TableRow(children: [
                   Container(
                     height: 50,
-                    child: Text(
+                    child: const Text(
                       'Tanggal Masuk',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -797,14 +816,14 @@ class _laporanform extends State<laporanform> {
                     height: 50,
                     child: Text(
                       TglMasuk.text,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                 ]),
                 TableRow(children: [
                   Container(
                     height: 50,
-                    child: Text(
+                    child: const Text(
                       'Jumlah Masuk',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -814,14 +833,14 @@ class _laporanform extends State<laporanform> {
                     height: 50,
                     child: Text(
                       JumlahMasuk.text,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                 ]),
                 TableRow(children: [
                   Container(
                     height: 50,
-                    child: Text(
+                    child: const Text(
                       'Komplain',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -831,14 +850,14 @@ class _laporanform extends State<laporanform> {
                     height: 50,
                     child: Text(
                       KomplainDetail.text,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                 ]),
                 TableRow(children: [
                   Container(
                     height: 50,
-                    child: Text(
+                    child: const Text(
                       'PO',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -848,14 +867,14 @@ class _laporanform extends State<laporanform> {
                     height: 50,
                     child: Text(
                       PO.text,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                 ]),
                 TableRow(children: [
                   Container(
                     height: 50,
-                    child: Text(
+                    child: const Text(
                       'Nomor Lot',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -865,14 +884,14 @@ class _laporanform extends State<laporanform> {
                     height: 50,
                     child: Text(
                       NomorLot.text,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                 ]),
                 TableRow(children: [
                   Container(
                     height: 50,
-                    child: Text(
+                    child: const Text(
                       'Angkutan',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -882,14 +901,14 @@ class _laporanform extends State<laporanform> {
                     height: 50,
                     child: Text(
                       Angkutan.text,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                 ]),
                 TableRow(children: [
                   Container(
                     height: 50,
-                    child: Text(
+                    child: const Text(
                       'Nomor Polisi',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -899,7 +918,7 @@ class _laporanform extends State<laporanform> {
                     height: 50,
                     child: Text(
                       NoPol.text,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                 ]),
@@ -907,7 +926,7 @@ class _laporanform extends State<laporanform> {
                   Container(
                     height: 50,
                     alignment: Alignment.topRight,
-                    child: Text(
+                    child: const Text(
                       'Foto',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -916,18 +935,18 @@ class _laporanform extends State<laporanform> {
                   Container(
                     height: 50,
                     alignment: Alignment.topCenter,
-                    child: Text(''),
+                    child: const Text(''),
                   ),
                 ]),
                 TableRow(children: [
                   Container(
                     height: 50,
                     alignment: Alignment.centerRight,
-                    padding: new EdgeInsets.only(right: 30.0),
+                    padding: const EdgeInsets.only(right: 30.0),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.orange[400],
-                          minimumSize: Size(100, 50)),
+                          backgroundColor: Colors.orange[400],
+                          minimumSize: const Size(100, 50)),
                       child: const Text('Gallery',
                           style: const TextStyle(
                               fontWeight: FontWeight.bold,
@@ -941,8 +960,8 @@ class _laporanform extends State<laporanform> {
                     alignment: Alignment.centerLeft,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.yellow[300],
-                          minimumSize: Size(100, 50)),
+                          backgroundColor: Colors.yellow[300],
+                          minimumSize: const Size(100, 50)),
                       child: const Text('Take Photo',
                           style: const TextStyle(
                               fontWeight: FontWeight.bold,
@@ -956,7 +975,7 @@ class _laporanform extends State<laporanform> {
             ),
             imagefiles != []
                 ? Container(
-                    margin: EdgeInsets.only(top: 50, right: 40),
+                    margin: const EdgeInsets.only(top: 50, right: 40),
                     child: Wrap(
                       children: imagefiles.map((imageone) {
                         return InkWell(
@@ -973,15 +992,16 @@ class _laporanform extends State<laporanform> {
                                               MainAxisAlignment.center,
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
-                                            Text(
+                                            const Text(
                                                 'Yakin ingin menghilangkan foto ini?',
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 15,
                                                     color: Colors.black)),
                                             ElevatedButton(
                                               style: ElevatedButton.styleFrom(
-                                                  primary: Colors.white),
+                                                  backgroundColor:
+                                                      Colors.white),
                                               child: const Text(
                                                   'tekan tombol ini untuk menghilangkan foto',
                                                   style: const TextStyle(
@@ -991,7 +1011,7 @@ class _laporanform extends State<laporanform> {
                                                       color: Colors.black)),
                                               onPressed: () {
                                                 imagefiles.remove(imageone);
-                                                
+
                                                 Navigator.pop(context);
                                                 ArtSweetAlert.show(
                                                     context: context,

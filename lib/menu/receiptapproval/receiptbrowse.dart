@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
 import 'dart:async';
 import 'dart:io';
 
@@ -353,7 +355,7 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                             child: Padding(
                                                               padding:
                                                                   const EdgeInsets
-                                                                          .only(
+                                                                      .only(
                                                                       left:
                                                                           15.0),
                                                               child: Container(
@@ -399,10 +401,10 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: <Widget>[
-                                                          Padding(
+                                                      Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   bottom: 10),
                                                           child: Text(
                                                             'Order Date : ${user.rcpt_date ?? ""}',
@@ -415,7 +417,7 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                       Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   bottom: 10),
                                                           child: Text(
                                                             'Due Date : ${user.rcpt_date ?? ""}',
@@ -469,7 +471,7 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                           //     },
                                                           //   ),
                                                           // ),
-                                                          SizedBox(
+                                                          const SizedBox(
                                                             width: 6,
                                                           ),
                                                           Ink(
@@ -574,8 +576,7 @@ class _receiptbrowse extends State<receiptbrowse> {
                                                                                                     transportsuhu: datapo[index].transportsuhu.toString(),
                                                                                                     umpr: datapo[index].umpr.toString(),
                                                                                                     um: datapo[index].um.toString(),
-                                                                                                    umkonv: datapo[index].umkonv.toString()
-                                                                                                    )));
+                                                                                                    umkonv: datapo[index].umkonv.toString())));
 
                                                                                         if (refresh == 'refresh') {
                                                                                           Changedata();

@@ -624,8 +624,9 @@ class _uploadfilepoState extends State<uploadfilepo> {
                                                         ElevatedButton(
                                                           style: ElevatedButton
                                                               .styleFrom(
-                                                                  primary: Colors
-                                                                      .white),
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .white),
                                                           child: const Text(
                                                               'tekan tombol ini untuk menghilangkan foto',
                                                               style: const TextStyle(
