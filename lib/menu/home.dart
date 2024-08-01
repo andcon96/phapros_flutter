@@ -4,8 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_template/menu/laporanTidakSesuai/laporanbrowse.dart';
 import 'package:flutter_template/menu/receiptapproval/receiptbrowse.dart';
 import 'package:flutter_template/menu/po/browsePO.dart';
-import 'package:flutter_template/menu/signature.dart';
-import 'package:flutter_template/menu/po/signaturePage.dart';
 import 'package:flutter_template/menu/user/userprof.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +18,7 @@ class HomePage extends StatelessWidget {
     return MaterialApp(
       title: "Aplikasi IMI",
       theme: ThemeData(
+          useMaterial3: false,
           primaryColor: Colors.blueGrey[500],
           colorScheme:
               ColorScheme.fromSwatch().copyWith(secondary: Colors.amber)),

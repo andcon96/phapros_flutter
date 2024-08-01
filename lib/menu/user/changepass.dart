@@ -188,7 +188,7 @@ class _changePassState extends State<changePass> {
                                   Navigator.push(
                                     context,
                                     CupertinoPageRoute(
-                                        builder: (context) => userProf()),
+                                        builder: (context) => const userProf()),
                                   );
                                   // Navigator.pushAndRemoveUntil<dynamic>(
                                   //   context,
