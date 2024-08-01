@@ -511,8 +511,8 @@ class _receiptform extends State<receiptform> {
                         child: Row(children: [
                           Expanded(
                             child: ElevatedButton(
-                              style:
-                                  ElevatedButton.styleFrom(primary: Colors.red),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red),
                               child: Text('Unapprove'),
                               onPressed: () {
                                 showModalBottomSheet<void>(
@@ -538,7 +538,8 @@ class _receiptform extends State<receiptform> {
                                                       color: Colors.black)),
                                               ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
-                                                    primary: Colors.white),
+                                                    backgroundColor:
+                                                        Colors.white),
                                                 child: const Text(
                                                     'Tekan tahan tombol untuk melanjutkan',
                                                     style: const TextStyle(
@@ -596,7 +597,8 @@ class _receiptform extends State<receiptform> {
                                                       color: Colors.white)),
                                               ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
-                                                    primary: Colors.black),
+                                                    backgroundColor:
+                                                        Colors.black),
                                                 child: const Text(
                                                     'Tekan tahan tombol untuk melanjutkan'),
                                                 onPressed: () {},

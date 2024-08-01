@@ -78,7 +78,11 @@ class uploadfilepo extends StatefulWidget {
       required this.angkutancatatan,
       required this.kelembapan,
       required this.suhu,
-      required this.itemcode})
+      required this.itemcode,
+      // Tambahan Halal **AD
+      required this.adalogohalal,
+      required this.tidakadalogohalal,
+      required this.tidakditerapkanlogohalal})
       : super(key: key);
 
   final List<Data> cart;
@@ -144,6 +148,10 @@ class uploadfilepo extends StatefulWidget {
   final String drumorvatDamage;
   final String palletorpetiDamage;
 
+  // Tambahan Halal **AD
+  final String adalogohalal;
+  final String tidakadalogohalal;
+  final String tidakditerapkanlogohalal;
   @override
   _uploadfilepoState createState() => _uploadfilepoState();
 }
@@ -261,16 +269,16 @@ class _uploadfilepoState extends State<uploadfilepo> {
 
       for (var image in images!) {
         if (File(image.path).lengthSync() > 10 * 1024 * 1024) {
-            setState(() {
-              CoolAlert.show(
-            context: context,
-            type: CoolAlertType.error,
-            text: 'Ukuran Foto tidak boleh lebih dari 10MB',
-            title: 'Error');
+          setState(() {
+            CoolAlert.show(
+                context: context,
+                type: CoolAlertType.error,
+                text: 'Ukuran Foto tidak boleh lebih dari 10MB',
+                title: 'Error');
           });
         } else {
-        imagesPath.add(File(image.path));
-        imagefiles!.add(image);
+          imagesPath.add(File(image.path));
+          imagefiles!.add(image);
         }
         // Do something with the selected image
       }
@@ -295,17 +303,17 @@ class _uploadfilepoState extends State<uploadfilepo> {
 
     if (imagefromphoto != null) {
       if (File(imagefromphoto.path).lengthSync() > 10 * 1024 * 1024) {
-            setState(() {
-              CoolAlert.show(
-            context: context,
-            type: CoolAlertType.error,
-            text: 'Ukuran Foto tidak boleh lebih dari 10MB',
-            title: 'Error');
-          });
-        } else {
-            imagefiles!.add(imagefromphoto!);
-            imagesPath.add(File(imagefromphoto!.path));
-        }
+        setState(() {
+          CoolAlert.show(
+              context: context,
+              type: CoolAlertType.error,
+              text: 'Ukuran Foto tidak boleh lebih dari 10MB',
+              title: 'Error');
+        });
+      } else {
+        imagefiles!.add(imagefromphoto!);
+        imagesPath.add(File(imagefromphoto!.path));
+      }
       // Process selected images
 
       setState(() {});
@@ -499,6 +507,11 @@ class _uploadfilepoState extends State<uploadfilepo> {
         "suhu": widget.suhu,
         "itemcode": widget.itemcode,
 
+        // tambahan halal **AD
+        "adalogohalal": widget.adalogohalal,
+        "tidakadalogohalal": widget.tidakadalogohalal,
+        "tidakditerapkanlogohalal": widget.tidakditerapkanlogohalal,
+
         if (signature != null)
           'signature': base64Encode(signature!)
         else
@@ -512,6 +525,7 @@ class _uploadfilepoState extends State<uploadfilepo> {
 
       var response = await request.send();
       final responsedata = await http.Response.fromStream(response);
+      print(responsedata.body);
       if (response.statusCode == 200) {
         setState(() {
           loading = false;
@@ -695,8 +709,9 @@ class _uploadfilepoState extends State<uploadfilepo> {
                                                         ElevatedButton(
                                                           style: ElevatedButton
                                                               .styleFrom(
-                                                                  primary: Colors
-                                                                      .white),
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .white),
                                                           child: const Text(
                                                               'tekan tombol ini untuk menghilangkan foto',
                                                               style: const TextStyle(

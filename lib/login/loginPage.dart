@@ -30,14 +30,11 @@ class _LoginPageState extends State<LoginPage> {
 
   // ignore: non_constant_identifier_names
   Future LoginUser() async {
-    
     final response =
         await http.post(Uri.parse('${globals.globalurl}/login'), body: {
       "nik": _userCon.text,
       "password": _passCon.text,
-    }).timeout(const Duration(seconds: 5), onTimeout: () 
-    {
-      
+    }).timeout(const Duration(seconds: 5), onTimeout: () {
       // setState(() {
       //   loading = false;
       //   ArtSweetAlert.show(
@@ -48,28 +45,22 @@ class _LoginPageState extends State<LoginPage> {
       //           text: "Failed to login, Error"));
       // });
       return http.Response('Timeout', 500);
-    }
-    
-    );
-    
-    if(response.statusCode == 200){
-          return json.decode(response.body);
-    }
-    else{
-        setState(() {
-          loading = false;
-          ArtSweetAlert.show(
+    });
+    print(response.body);
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      setState(() {
+        loading = false;
+        ArtSweetAlert.show(
             context: context,
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.danger,
                 title: "Error",
-                text: "Failed to login, Error " + response.statusCode.toString()));
-        });
-      
+                text: "Failed to login, Error " +
+                    response.statusCode.toString()));
+      });
     }
-
-    
-
   }
 
   bool loading = false;
@@ -285,12 +276,11 @@ class _LoginPageState extends State<LoginPage> {
                                                               ['nik']
                                                           .toString());
                                                   await UserSecureStorage
-                                                      .setCanApprove(value
-                                                              ['user_approver']
-                                                          .toString());
-                                                          print(value
-                                                              ['user_approver']
-                                                          .toString());
+                                                      .setCanApprove(
+                                                          value['user_approver']
+                                                              .toString());
+                                                  print(value['user_approver']
+                                                      .toString());
                                                   await UserSecureStorage
                                                       .setIdAnggota(
                                                           value['user']

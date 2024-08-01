@@ -61,6 +61,12 @@ class _createpoState extends State<createpo> {
   String? _issealed;
   String? _ismanufacturerlabel;
 
+  // Tambahan Halal *AD
+
+  bool _adaLogoHalal = false;
+  bool _tidakAdaLogoHalal = false;
+  bool _tidakDiterapkanLogoHalal = false;
+
   // Step 5
   String? _angkutanisclean;
   String? _angkutanisdry;
@@ -941,6 +947,51 @@ class _createpoState extends State<createpo> {
                   ),
                 ],
               ),
+              const SizedBox(
+                height: 12,
+              ),
+              const Text(
+                'Halal',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Divider(),
+              CheckboxListTile(
+                title: const Text('Ada Logo Halal'),
+                value: _adaLogoHalal,
+                onChanged: (value) {
+                  setState(() {
+                    _adaLogoHalal = value!;
+                  });
+                },
+              ),
+              CheckboxListTile(
+                title: const Text('Tidak ada logo Halal'),
+                value: _tidakAdaLogoHalal,
+                onChanged: (value) {
+                  setState(() {
+                    _tidakAdaLogoHalal = value!;
+                  });
+                },
+              ),
+              CheckboxListTile(
+                title: const Text('Tidak Diterapkan'),
+                value: _tidakDiterapkanLogoHalal,
+                onChanged: (value) {
+                  setState(() {
+                    _tidakDiterapkanLogoHalal = value!;
+                  });
+                },
+              ),
+              const Text(
+                'Centang `Tidak Diterapkan` jika tidak termasuk daftar Barang / Bahan Halal',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              )
             ],
           ),
         ),
@@ -1289,83 +1340,113 @@ class _createpoState extends State<createpo> {
                                         context,
                                         CupertinoPageRoute(
                                             builder: (context) => alokasipo(
-                                                selectedline:
-                                                    widget.selectedline,
-                                                listLocation:
-                                                    widget.listLocation,
-                                                imrno: imrno.text,
-                                                arrivaldate: arrivaldate.text,
-                                                imrdate: imrdate.text,
-                                                dono: dono.text,
-                                                articleno: articleno.text,
-                                                proddate: proddate.text,
-                                                expdate: expdate.text,
-                                                manufacturer: manufacturer.text,
-                                                origincountry:
-                                                    origincountry.text,
-                                                certificateChecked:
-                                                    _certificateChecked,
-                                                certificate: certificate.text,
-                                                msdsChecked: _msdsChecked,
-                                                msds: msds.text,
-                                                forwarderdoChecked:
-                                                    _forwarderdoChecked,
-                                                forwaderdo: forwaderdo.text,
-                                                packinglistChecked:
-                                                    _packinglistChecked,
-                                                packinglist: packinglist.text,
-                                                otherdocsChecked:
-                                                    _otherdocsChecked,
-                                                otherdocs: otherdocs.text,
-                                                keteranganisclean:
-                                                    keteranganisclean.text,
-                                                keteranganisdry:
-                                                    keteranganisdry.text,
-                                                keteranganisnotspilled:
-                                                    keteranganisnotspilled.text,
-                                                transporterno:
-                                                    transporterno.text,
-                                                policeno: policeno.text,
-                                                angkutanketeranganisclean:
-                                                    angkutanketeranganisclean
-                                                        .text,
-                                                angkutanketeranganisdry:
-                                                    angkutanketeranganisdry
-                                                        .text,
-                                                angkutanketeranganisnotspilled:
-                                                    angkutanketeranganisnotspilled
-                                                        .text,
-                                                angkutanketeranganissingle:
-                                                    angkutanketeranganissingle
-                                                        .text,
-                                                angkutanketeranganissegregated:
-                                                    angkutanketeranganissegregated
-                                                        .text,
-                                                sackordosChecked:
-                                                    _sackordosChecked,
-                                                sackordosDamage:
-                                                    _sackordosDamage.toString(),
-                                                drumorvatChecked:
-                                                    _drumorvatChecked,
-                                                drumorvatDamage:
-                                                    _drumorvatDamage.toString(),
-                                                palletorpetiChecked:
-                                                    _palletorpetiChecked,
-                                                palletorpetiDamage: _palletorpetiDamage.toString(),
-                                                isclean: _isclean.toString(),
-                                                isdry: _isdry.toString(),
-                                                isnotspilled: _isnotspilled.toString(),
-                                                issealed: _issealed.toString(),
-                                                ismanufacturerlabel: _ismanufacturerlabel.toString(),
-                                                angkutanisclean: _angkutanisclean.toString(),
-                                                angkutanisdry: _angkutanisdry.toString(),
-                                                angkutanisnotspilled: _angkutanisnotspilled.toString(),
-                                                angkutanissingle: _angkutanissingle.toString(),
-                                                angkutansegregate: _angkutansegregate.toString(),
-                                                angkutancatatan: angkutancatatan.text,
-                                                kelembapan: kelembapan.text,
-                                                suhu: suhu.text,
-                                                itemcode: itemcode)),
+                                                  selectedline:
+                                                      widget.selectedline,
+                                                  listLocation:
+                                                      widget.listLocation,
+                                                  imrno: imrno.text,
+                                                  arrivaldate: arrivaldate.text,
+                                                  imrdate: imrdate.text,
+                                                  dono: dono.text,
+                                                  articleno: articleno.text,
+                                                  proddate: proddate.text,
+                                                  expdate: expdate.text,
+                                                  manufacturer:
+                                                      manufacturer.text,
+                                                  origincountry:
+                                                      origincountry.text,
+                                                  certificateChecked:
+                                                      _certificateChecked,
+                                                  certificate: certificate.text,
+                                                  msdsChecked: _msdsChecked,
+                                                  msds: msds.text,
+                                                  forwarderdoChecked:
+                                                      _forwarderdoChecked,
+                                                  forwaderdo: forwaderdo.text,
+                                                  packinglistChecked:
+                                                      _packinglistChecked,
+                                                  packinglist: packinglist.text,
+                                                  otherdocsChecked:
+                                                      _otherdocsChecked,
+                                                  otherdocs: otherdocs.text,
+                                                  keteranganisclean:
+                                                      keteranganisclean.text,
+                                                  keteranganisdry:
+                                                      keteranganisdry.text,
+                                                  keteranganisnotspilled:
+                                                      keteranganisnotspilled
+                                                          .text,
+                                                  transporterno:
+                                                      transporterno.text,
+                                                  policeno: policeno.text,
+                                                  angkutanketeranganisclean:
+                                                      angkutanketeranganisclean
+                                                          .text,
+                                                  angkutanketeranganisdry:
+                                                      angkutanketeranganisdry
+                                                          .text,
+                                                  angkutanketeranganisnotspilled:
+                                                      angkutanketeranganisnotspilled
+                                                          .text,
+                                                  angkutanketeranganissingle:
+                                                      angkutanketeranganissingle
+                                                          .text,
+                                                  angkutanketeranganissegregated:
+                                                      angkutanketeranganissegregated
+                                                          .text,
+                                                  sackordosChecked:
+                                                      _sackordosChecked,
+                                                  sackordosDamage:
+                                                      _sackordosDamage
+                                                          .toString(),
+                                                  drumorvatChecked:
+                                                      _drumorvatChecked,
+                                                  drumorvatDamage:
+                                                      _drumorvatDamage
+                                                          .toString(),
+                                                  palletorpetiChecked:
+                                                      _palletorpetiChecked,
+                                                  palletorpetiDamage:
+                                                      _palletorpetiDamage
+                                                          .toString(),
+                                                  isclean: _isclean.toString(),
+                                                  isdry: _isdry.toString(),
+                                                  isnotspilled:
+                                                      _isnotspilled.toString(),
+                                                  issealed:
+                                                      _issealed.toString(),
+                                                  ismanufacturerlabel:
+                                                      _ismanufacturerlabel
+                                                          .toString(),
+                                                  angkutanisclean:
+                                                      _angkutanisclean
+                                                          .toString(),
+                                                  angkutanisdry:
+                                                      _angkutanisdry.toString(),
+                                                  angkutanisnotspilled:
+                                                      _angkutanisnotspilled
+                                                          .toString(),
+                                                  angkutanissingle:
+                                                      _angkutanissingle
+                                                          .toString(),
+                                                  angkutansegregate:
+                                                      _angkutansegregate
+                                                          .toString(),
+                                                  angkutancatatan:
+                                                      angkutancatatan.text,
+                                                  kelembapan: kelembapan.text,
+                                                  suhu: suhu.text,
+                                                  itemcode: itemcode,
+                                                  // Tambahan Halal ** AD
+                                                  adalogohalal:
+                                                      _adaLogoHalal.toString(),
+                                                  tidakadalogohalal:
+                                                      _tidakAdaLogoHalal
+                                                          .toString(),
+                                                  tidakditerapkanlogohalal:
+                                                      _tidakDiterapkanLogoHalal
+                                                          .toString(),
+                                                )),
                                       );
                                       // Navigator.push(
                                       //   context,

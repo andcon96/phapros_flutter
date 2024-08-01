@@ -31,26 +31,26 @@ class laporanform extends StatefulWidget {
       um,
       itemcode;
 
-  const laporanform({
-    Key? key,
-    required this.ponbr,
-    required this.rcpt_nbr,
-    required this.rcpt_imr,
-    required this.rcpt_date,
-    required this.rcptd_part,
-    required this.rcptd_qty_arr,
-    required this.rcptd_lot,
-    required this.rcptd_loc,
-    required this.rcptd_qty_appr,
-    required this.rcptd_qty_rej,
-    required this.angkutan,
-    required this.nopol,
-    required this.supplier,
-    required this.batch,
-    required this.supplierdesc,
-    required this.um,
-    required this.itemcode
-  }) : super(key: key);
+  const laporanform(
+      {Key? key,
+      required this.ponbr,
+      required this.rcpt_nbr,
+      required this.rcpt_imr,
+      required this.rcpt_date,
+      required this.rcptd_part,
+      required this.rcptd_qty_arr,
+      required this.rcptd_lot,
+      required this.rcptd_loc,
+      required this.rcptd_qty_appr,
+      required this.rcptd_qty_rej,
+      required this.angkutan,
+      required this.nopol,
+      required this.supplier,
+      required this.batch,
+      required this.supplierdesc,
+      required this.um,
+      required this.itemcode})
+      : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -86,7 +86,7 @@ class _laporanform extends State<laporanform> {
   List<File> imagesPath = [];
   DateTime now = DateTime.now();
   late String suppstr;
-  late String itemnbr ;
+  late String itemnbr;
   Future pickImage() async {
     images = await ImagePicker().pickMultiImage();
 
@@ -96,18 +96,18 @@ class _laporanform extends State<laporanform> {
       for (var image in images!) {
         // imagesPath.add(File(image.path));
         if (File(image.path).lengthSync() > 10 * 1024 * 1024) {
-            setState(() {
-              ArtSweetAlert.show(
-                  context: context,
-                  artDialogArgs: ArtDialogArgs(
-                      type: ArtSweetAlertType.danger,
-                      title: "Error",
-                      text: "Ukuran Foto tidak boleh lebih dari 10MB"));
-            });
-          } else {
-            imagefiles.add(image);    
-          }
-        
+          setState(() {
+            ArtSweetAlert.show(
+                context: context,
+                artDialogArgs: ArtDialogArgs(
+                    type: ArtSweetAlertType.danger,
+                    title: "Error",
+                    text: "Ukuran Foto tidak boleh lebih dari 10MB"));
+          });
+        } else {
+          imagefiles.add(image);
+        }
+
         // Do something with the selected image
       }
       setState(() {});
@@ -131,17 +131,17 @@ class _laporanform extends State<laporanform> {
 
     if (imagefromphoto != null) {
       if (File(imagefromphoto!.path).lengthSync() > 10 * 1024 * 1024) {
-            setState(() {
-              ArtSweetAlert.show(
-                  context: context,
-                  artDialogArgs: ArtDialogArgs(
-                      type: ArtSweetAlertType.danger,
-                      title: "Error",
-                      text: "Ukuran Foto tidak boleh lebih dari 10MB"));
-            });
-          } else {
-            imagefiles.add(imagefromphoto!);
-          }
+        setState(() {
+          ArtSweetAlert.show(
+              context: context,
+              artDialogArgs: ArtDialogArgs(
+                  type: ArtSweetAlertType.danger,
+                  title: "Error",
+                  text: "Ukuran Foto tidak boleh lebih dari 10MB"));
+        });
+      } else {
+        imagefiles.add(imagefromphoto!);
+      }
       // imagesPath.add(File(imagefromphoto!.path));
 
       // Process selected images
@@ -165,7 +165,7 @@ class _laporanform extends State<laporanform> {
     final token = await UserSecureStorage.getToken();
     final username = await UserSecureStorage.getIdAnggota();
     url += '&username=' + username.toString();
-    
+
     final Uri uri = Uri.parse(url);
     final request = http.MultipartRequest('POST', uri);
     request.headers['Content-Type'] = 'application/json';
@@ -204,7 +204,10 @@ class _laporanform extends State<laporanform> {
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.danger,
                 title: "Error",
-                text: "Failed to Submit report for receipt" + IdRcp.text + " Lot " +  NomorLot.text));
+                text: "Failed to Submit report for receipt" +
+                    IdRcp.text +
+                    " Lot " +
+                    NomorLot.text));
       } else {
         Navigator.pop(context, 'refresh');
 
@@ -213,7 +216,10 @@ class _laporanform extends State<laporanform> {
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.success,
                 title: "Success",
-                text: "Success to Submit report for receipt " + IdRcp.text + " Lot " +  NomorLot.text));
+                text: "Success to Submit report for receipt " +
+                    IdRcp.text +
+                    " Lot " +
+                    NomorLot.text));
       }
     } else {
       Navigator.pop(context, 'refresh');
@@ -222,7 +228,12 @@ class _laporanform extends State<laporanform> {
           artDialogArgs: ArtDialogArgs(
               type: ArtSweetAlertType.danger,
               title: "Error",
-              text: "Failed to Submit report for receipt" + IdRcp.text + " Lot " +  NomorLot.text + " Response Code:" + response.statusCode.toString()));
+              text: "Failed to Submit report for receipt" +
+                  IdRcp.text +
+                  " Lot " +
+                  NomorLot.text +
+                  " Response Code:" +
+                  response.statusCode.toString()));
     }
     // return response;
     // final response = await http.post(Uri.parse(url), headers: {
@@ -266,7 +277,7 @@ class _laporanform extends State<laporanform> {
   void initState() {
     super.initState();
     String oldimrnbr = widget.rcpt_imr.toString();
-    
+
     String prefiximr = oldimrnbr.substring(0, oldimrnbr.indexOf('.'));
     String lotnbr = widget.rcptd_lot.toString();
     String currentimrnbr = prefiximr + '.' + lotnbr;
@@ -277,25 +288,31 @@ class _laporanform extends State<laporanform> {
         text: widget.rcptd_part != 'null' ? widget.rcptd_part : '');
     TglMasuk = TextEditingController(text: widget.rcpt_date);
     JumlahMasuk = TextEditingController(
-        text: widget.rcptd_qty_arr != 'null' ? NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(widget.rcptd_qty_arr)) : '');
+        text: widget.rcptd_qty_arr != 'null'
+            ? NumberFormat.currency(locale: 'en-us', symbol: '')
+                .format(double.tryParse(widget.rcptd_qty_arr))
+            : '');
     PO = TextEditingController(text: widget.ponbr);
     NomorLot = TextEditingController(text: widget.rcptd_lot);
     No = TextEditingController(text: currentimrnbr);
     Tanggal = TextEditingController(text: DateFormat('yyyy-MM-dd').format(now));
     Supplier = TextEditingController(
-        text: widget.supplier != 'null' ? (widget.supplier + ' -- ' + widget.supplierdesc) : '');
+        text: widget.supplier != 'null'
+            ? (widget.supplier + ' -- ' + widget.supplierdesc)
+            : '');
     Komplain = TextEditingController();
     Keterangan = TextEditingController();
     KomplainDetail = TextEditingController(
-        text: widget.rcptd_qty_rej != 'null' ? NumberFormat.currency(locale: 'en-us' ,symbol: '').format(double.tryParse(widget.rcptd_qty_rej)) : '');
+        text: widget.rcptd_qty_rej != 'null'
+            ? NumberFormat.currency(locale: 'en-us', symbol: '')
+                .format(double.tryParse(widget.rcptd_qty_rej))
+            : '');
 
     Angkutan = TextEditingController(
         text: widget.angkutan != 'null' ? widget.angkutan : '');
     NoPol =
         TextEditingController(text: widget.nopol != 'null' ? widget.nopol : '');
-    UM =
-        TextEditingController(text: widget.um != 'null' ? widget.um : '');
-
+    UM = TextEditingController(text: widget.um != 'null' ? widget.um : '');
   }
 
   @override
@@ -334,7 +351,7 @@ class _laporanform extends State<laporanform> {
                                       color: Colors.black)),
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                    primary: Colors.blue),
+                                    backgroundColor: Colors.blue),
                                 child: const Text(
                                     'Tekan tahan tombol untuk melanjutkan',
                                     style: const TextStyle(
@@ -890,7 +907,7 @@ class _laporanform extends State<laporanform> {
                     padding: new EdgeInsets.only(right: 30.0),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.orange[400],
+                          backgroundColor: Colors.orange[400],
                           minimumSize: Size(100, 50)),
                       child: const Text('Gallery',
                           style: const TextStyle(
@@ -905,7 +922,7 @@ class _laporanform extends State<laporanform> {
                     alignment: Alignment.centerLeft,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.yellow[300],
+                          backgroundColor: Colors.yellow[300],
                           minimumSize: Size(100, 50)),
                       child: const Text('Take Photo',
                           style: const TextStyle(
@@ -945,7 +962,8 @@ class _laporanform extends State<laporanform> {
                                                     color: Colors.black)),
                                             ElevatedButton(
                                               style: ElevatedButton.styleFrom(
-                                                  primary: Colors.white),
+                                                  backgroundColor:
+                                                      Colors.white),
                                               child: const Text(
                                                   'tekan tombol ini untuk menghilangkan foto',
                                                   style: const TextStyle(
@@ -955,7 +973,7 @@ class _laporanform extends State<laporanform> {
                                                       color: Colors.black)),
                                               onPressed: () {
                                                 imagefiles.remove(imageone);
-                                                
+
                                                 Navigator.pop(context);
                                                 ArtSweetAlert.show(
                                                     context: context,

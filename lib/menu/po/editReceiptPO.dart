@@ -983,7 +983,8 @@ class _editReceiptPO extends State<editReceiptPO> {
     imrdate = TextEditingController(
         text: widget.imrdate == 'null' ? '' : widget.imrdate);
     selected_imrdate = DateTime.parse(widget.imrdate);
-    dono = TextEditingController(text: widget.donbr == 'null' ? '' : widget.donbr);
+    dono =
+        TextEditingController(text: widget.donbr == 'null' ? '' : widget.donbr);
     articleno = TextEditingController(
         text: widget.articlenbr == 'null' ? '' : widget.articlenbr);
     proddate = TextEditingController(
@@ -1982,8 +1983,9 @@ class _editReceiptPO extends State<editReceiptPO> {
                                                         ElevatedButton(
                                                           style: ElevatedButton
                                                               .styleFrom(
-                                                                  primary: Colors
-                                                                      .white),
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .white),
                                                           child: const Text(
                                                               'tekan tombol ini untuk menghilangkan foto',
                                                               style: TextStyle(
