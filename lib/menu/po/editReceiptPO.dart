@@ -80,7 +80,11 @@ class editReceiptPO extends StatefulWidget {
       transportissegregateddesc,
       transportangkutancatatan,
       transportkelembapan,
-      transportsuhu;
+      transportsuhu,
+      // Tambahan Halal **AD
+      adalogohalal,
+      tidakadalogohalal,
+      tidakditerapkanlogohalal;
 
   const editReceiptPO(
       {Key? key,
@@ -143,38 +147,16 @@ class editReceiptPO extends StatefulWidget {
       required this.transportissegregateddesc,
       required this.transportangkutancatatan,
       required this.transportkelembapan,
-      required this.transportsuhu})
+      required this.transportsuhu,
+      // Tambahan Halal **AD
+      required this.adalogohalal,
+      required this.tidakadalogohalal,
+      required this.tidakditerapkanlogohalal})
       : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
   _editReceiptPO createState() => _editReceiptPO();
-}
-
-class AboutPage extends StatelessWidget {
-  final String tag;
-  final String photourl;
-
-  const AboutPage({required this.tag, required this.photourl});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Foto'),
-      ),
-      body: Center(
-        child: InkWell(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Hero(
-              tag: tag,
-              child: Image.network('${globals.globalurlphoto}$photourl')),
-        ),
-      ),
-    );
-  }
 }
 
 class _editReceiptPO extends State<editReceiptPO> {
@@ -809,6 +791,11 @@ class _editReceiptPO extends State<editReceiptPO> {
   String? _issealed;
   String? _ismanufacturerlabel;
 
+  // Tambahan Halal **AD
+  late bool _adalogohalalChecked;
+  late bool _tidakadalogohalalChecked;
+  late bool _tidakditerapkanlogohalalChecked;
+
   // Step 5
   String? _angkutanisclean;
   String? _angkutanisdry;
@@ -909,6 +896,12 @@ class _editReceiptPO extends State<editReceiptPO> {
 
         "is_sealed": _issealed.toString(),
         "is_manufacturer_label": _ismanufacturerlabel.toString(),
+
+        // tambahan halal **AD
+        "adalogohalal": _adalogohalalChecked,
+        "tidakadalogohalal": _tidakadalogohalalChecked,
+        "tidakditerapkanlogohalal": _tidakditerapkanlogohalalChecked,
+
         // Kondisi
         "transporter_no": transporterno.text,
         "police_no": policeno.text,
@@ -1157,6 +1150,13 @@ class _editReceiptPO extends State<editReceiptPO> {
     _isnotspilled = widget.isnotspilled;
     _issealed = widget.issealed;
     _ismanufacturerlabel = widget.ismanufacturerlabel;
+
+    // Tambahan Halal **AD
+    _adalogohalalChecked = int.parse(widget.adalogohalal) == 1 ? true : false;
+    _tidakadalogohalalChecked =
+        int.parse(widget.tidakadalogohalal) == 1 ? true : false;
+    _tidakditerapkanlogohalalChecked =
+        int.parse(widget.tidakditerapkanlogohalal) == 1 ? true : false;
 
     // // Step 5
     _angkutanisclean = widget.transportisclean;
@@ -1736,6 +1736,44 @@ class _editReceiptPO extends State<editReceiptPO> {
                     ),
                   ),
                 ],
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              const Text(
+                'Halal',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Divider(),
+              CheckboxListTile(
+                title: const Text('Ada Logo Halal'),
+                value: _adalogohalalChecked,
+                onChanged: (value) {
+                  setState(() {
+                    _adalogohalalChecked = value!;
+                  });
+                },
+              ),
+              CheckboxListTile(
+                title: const Text('Tidak ada logo Halal'),
+                value: _tidakadalogohalalChecked,
+                onChanged: (value) {
+                  setState(() {
+                    _tidakadalogohalalChecked = value!;
+                  });
+                },
+              ),
+              CheckboxListTile(
+                title: const Text('Tidak Diterapkan'),
+                value: _tidakditerapkanlogohalalChecked,
+                onChanged: (value) {
+                  setState(() {
+                    _tidakditerapkanlogohalalChecked = value!;
+                  });
+                },
               ),
             ],
           ),

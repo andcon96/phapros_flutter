@@ -264,7 +264,7 @@ class PoListReceipt {
     getChecklist = json['get_checklist'] != null
         ? new GetChecklist.fromJson(json['get_checklist'])
         : null;
-        
+
     getDocument = json['get_document'] != null
         ? new GetDocument.fromJson(json['get_document'])
         : null;
@@ -476,6 +476,9 @@ class GetKemasan {
   String? rcptkIsNotSpilledDesc;
   int? rcptkIsSealed;
   int? rcptkIsManufacturerLabel;
+  String? rcptkHasLogoHalal;
+  String? rcptkNoLogoHalal;
+  String? rcptkNotRegulatedLogoHalal;
   String? createdAt;
   String? updatedAt;
 
@@ -496,6 +499,9 @@ class GetKemasan {
       this.rcptkIsNotSpilledDesc,
       this.rcptkIsSealed,
       this.rcptkIsManufacturerLabel,
+      this.rcptkHasLogoHalal,
+      this.rcptkNoLogoHalal,
+      this.rcptkNotRegulatedLogoHalal,
       this.createdAt,
       this.updatedAt});
 
@@ -516,6 +522,9 @@ class GetKemasan {
     rcptkIsNotSpilledDesc = json['rcptk_is_not_spilled_desc'];
     rcptkIsSealed = json['rcptk_is_sealed'];
     rcptkIsManufacturerLabel = json['rcptk_is_manufacturer_label'];
+    rcptkHasLogoHalal = json['rcptk_has_logo_halal'];
+    rcptkNoLogoHalal = json['rcptk_no_logo_halal'];
+    rcptkNotRegulatedLogoHalal = json['rcptk_not_regulated_logo_halal'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -538,6 +547,9 @@ class GetKemasan {
     data['rcptk_is_not_spilled_desc'] = rcptkIsNotSpilledDesc;
     data['rcptk_is_sealed'] = rcptkIsSealed;
     data['rcptk_is_manufacturer_label'] = rcptkIsManufacturerLabel;
+    data['rcptk_has_logo_halal'] = rcptkHasLogoHalal;
+    data['rcptk_no_logo_halal'] = rcptkNoLogoHalal;
+    data['rcptk_not_regulated_logo_halal'] = rcptkNotRegulatedLogoHalal;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     return data;

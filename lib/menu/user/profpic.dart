@@ -34,11 +34,11 @@ class _ProfilePicState extends State<ProfilePic> {
               width: 35,
               child: TextButton(
                   style: TextButton.styleFrom(
+                      foregroundColor: Colors.blueGrey,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                         side: const BorderSide(color: Color(0xff64b5f6)),
                       ),
-                      backgroundColor: Colors.blueGrey,
                       backgroundColor: const Color(0xff64b5f6),
                       padding: const EdgeInsetsDirectional.only(bottom: 0)),
                   onPressed: () {},

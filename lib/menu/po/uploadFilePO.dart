@@ -79,7 +79,11 @@ class uploadfilepo extends StatefulWidget {
       required this.angkutancatatan,
       required this.kelembapan,
       required this.suhu,
-      required this.itemcode})
+      required this.itemcode,
+      // Tambahan Halal **AD
+      required this.adalogohalal,
+      required this.tidakadalogohalal,
+      required this.tidakditerapkanlogohalal})
       : super(key: key);
 
   final List<Data> cart;
@@ -144,6 +148,11 @@ class uploadfilepo extends StatefulWidget {
   final String sackordosDamage;
   final String drumorvatDamage;
   final String palletorpetiDamage;
+
+  // Tambahan Halal **AD
+  final String adalogohalal;
+  final String tidakadalogohalal;
+  final String tidakditerapkanlogohalal;
 
   @override
   _uploadfilepoState createState() => _uploadfilepoState();
@@ -446,6 +455,11 @@ class _uploadfilepoState extends State<uploadfilepo> {
         "kelembapan": widget.kelembapan,
         "suhu": widget.suhu,
         "itemcode": widget.itemcode,
+
+        // tambahan halal **AD
+        "adalogohalal": widget.adalogohalal,
+        "tidakadalogohalal": widget.tidakadalogohalal,
+        "tidakditerapkanlogohalal": widget.tidakditerapkanlogohalal,
 
         if (signature != null)
           'signature': base64Encode(signature!)

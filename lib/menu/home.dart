@@ -20,8 +20,8 @@ class HomePage extends StatelessWidget {
       theme: ThemeData(
           useMaterial3: false,
           primaryColor: Colors.blueGrey[500],
-          colorScheme:
-              ColorScheme.fromSwatch().copyWith(secondary: Colors.amber)),
+          colorScheme: ColorScheme.fromSwatch()
+              .copyWith(secondary: Colors.blueAccent[500])),
       home: const NavHome(
         selPage: 0,
         searchvalue: '',

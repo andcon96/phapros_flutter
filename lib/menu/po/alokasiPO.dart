@@ -799,7 +799,11 @@ class alokasipo extends StatefulWidget {
       required this.angkutancatatan,
       required this.kelembapan,
       required this.suhu,
-      required this.itemcode})
+      required this.itemcode,
+      // Tambahan Halal **AD
+      required this.adalogohalal,
+      required this.tidakadalogohalal,
+      required this.tidakditerapkanlogohalal})
       : super(key: key);
 
   final List<Data> selectedline;
@@ -864,6 +868,11 @@ class alokasipo extends StatefulWidget {
   final String sackordosDamage;
   final String drumorvatDamage;
   final String palletorpetiDamage;
+
+  // Tambahan Halal **AD
+  final String adalogohalal;
+  final String tidakadalogohalal;
+  final String tidakditerapkanlogohalal;
 
   @override
   _alokasipoState createState() => _alokasipoState();
@@ -1115,64 +1124,72 @@ class _alokasipoState extends State<alokasipo> {
                 context,
                 CupertinoPageRoute(
                     builder: (context) => uploadfilepo(
-                        cart: cart,
-                        selectedline: widget.selectedline,
-                        imrno: widget.imrno,
-                        arrivaldate: widget.arrivaldate,
-                        imrdate: widget.imrdate,
-                        dono: widget.dono,
-                        articleno: widget.articleno,
-                        proddate: widget.proddate,
-                        expdate: widget.expdate,
-                        manufacturer: widget.manufacturer,
-                        origincountry: widget.origincountry,
-                        certificateChecked: widget.certificateChecked,
-                        certificate: widget.certificate,
-                        msdsChecked: widget.msdsChecked,
-                        msds: widget.msds,
-                        forwarderdoChecked: widget.forwarderdoChecked,
-                        forwaderdo: widget.forwaderdo,
-                        packinglistChecked: widget.packinglistChecked,
-                        packinglist: widget.packinglist,
-                        otherdocsChecked: widget.otherdocsChecked,
-                        otherdocs: widget.otherdocs,
-                        keteranganisclean: widget.keteranganisclean,
-                        keteranganisdry: widget.keteranganisdry,
-                        keteranganisnotspilled: widget.keteranganisnotspilled,
-                        transporterno: widget.transporterno,
-                        policeno: widget.policeno,
-                        angkutanketeranganisclean:
-                            widget.angkutanketeranganisclean,
-                        angkutanketeranganisdry: widget.angkutanketeranganisdry,
-                        angkutanketeranganisnotspilled:
-                            widget.angkutanketeranganisnotspilled,
-                        angkutanketeranganissingle:
-                            widget.angkutanketeranganissingle,
-                        angkutanketeranganissegregated:
-                            widget.angkutanketeranganissegregated,
-                        sackordosChecked: widget.sackordosChecked,
-                        sackordosDamage: widget.sackordosDamage.toString(),
-                        drumorvatChecked: widget.drumorvatChecked,
-                        drumorvatDamage: widget.drumorvatDamage.toString(),
-                        palletorpetiChecked: widget.palletorpetiChecked,
-                        palletorpetiDamage:
-                            widget.palletorpetiDamage.toString(),
-                        isclean: widget.isclean.toString(),
-                        isdry: widget.isdry.toString(),
-                        isnotspilled: widget.isnotspilled.toString(),
-                        issealed: widget.issealed.toString(),
-                        ismanufacturerlabel:
-                            widget.ismanufacturerlabel.toString(),
-                        angkutanisclean: widget.angkutanisclean.toString(),
-                        angkutanisdry: widget.angkutanisdry.toString(),
-                        angkutanisnotspilled:
-                            widget.angkutanisnotspilled.toString(),
-                        angkutanissingle: widget.angkutanissingle.toString(),
-                        angkutansegregate: widget.angkutansegregate.toString(),
-                        angkutancatatan: widget.angkutancatatan,
-                        kelembapan: widget.kelembapan,
-                        suhu: widget.suhu,
-                        itemcode: widget.itemcode)),
+                          cart: cart,
+                          selectedline: widget.selectedline,
+                          imrno: widget.imrno,
+                          arrivaldate: widget.arrivaldate,
+                          imrdate: widget.imrdate,
+                          dono: widget.dono,
+                          articleno: widget.articleno,
+                          proddate: widget.proddate,
+                          expdate: widget.expdate,
+                          manufacturer: widget.manufacturer,
+                          origincountry: widget.origincountry,
+                          certificateChecked: widget.certificateChecked,
+                          certificate: widget.certificate,
+                          msdsChecked: widget.msdsChecked,
+                          msds: widget.msds,
+                          forwarderdoChecked: widget.forwarderdoChecked,
+                          forwaderdo: widget.forwaderdo,
+                          packinglistChecked: widget.packinglistChecked,
+                          packinglist: widget.packinglist,
+                          otherdocsChecked: widget.otherdocsChecked,
+                          otherdocs: widget.otherdocs,
+                          keteranganisclean: widget.keteranganisclean,
+                          keteranganisdry: widget.keteranganisdry,
+                          keteranganisnotspilled: widget.keteranganisnotspilled,
+                          transporterno: widget.transporterno,
+                          policeno: widget.policeno,
+                          angkutanketeranganisclean:
+                              widget.angkutanketeranganisclean,
+                          angkutanketeranganisdry:
+                              widget.angkutanketeranganisdry,
+                          angkutanketeranganisnotspilled:
+                              widget.angkutanketeranganisnotspilled,
+                          angkutanketeranganissingle:
+                              widget.angkutanketeranganissingle,
+                          angkutanketeranganissegregated:
+                              widget.angkutanketeranganissegregated,
+                          sackordosChecked: widget.sackordosChecked,
+                          sackordosDamage: widget.sackordosDamage.toString(),
+                          drumorvatChecked: widget.drumorvatChecked,
+                          drumorvatDamage: widget.drumorvatDamage.toString(),
+                          palletorpetiChecked: widget.palletorpetiChecked,
+                          palletorpetiDamage:
+                              widget.palletorpetiDamage.toString(),
+                          isclean: widget.isclean.toString(),
+                          isdry: widget.isdry.toString(),
+                          isnotspilled: widget.isnotspilled.toString(),
+                          issealed: widget.issealed.toString(),
+                          ismanufacturerlabel:
+                              widget.ismanufacturerlabel.toString(),
+                          angkutanisclean: widget.angkutanisclean.toString(),
+                          angkutanisdry: widget.angkutanisdry.toString(),
+                          angkutanisnotspilled:
+                              widget.angkutanisnotspilled.toString(),
+                          angkutanissingle: widget.angkutanissingle.toString(),
+                          angkutansegregate:
+                              widget.angkutansegregate.toString(),
+                          angkutancatatan: widget.angkutancatatan,
+                          kelembapan: widget.kelembapan,
+                          suhu: widget.suhu,
+                          itemcode: widget.itemcode,
+                          // Tambahan Halal **AD
+                          adalogohalal: widget.adalogohalal,
+                          tidakadalogohalal: widget.tidakadalogohalal,
+                          tidakditerapkanlogohalal:
+                              widget.tidakditerapkanlogohalal,
+                        )),
               );
 
               // saveData();

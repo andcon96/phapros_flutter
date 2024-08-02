@@ -167,128 +167,276 @@ class _PoReceiptState extends State<PoReceipt> {
                                           CupertinoPageRoute(
                                               builder: (context) =>
                                                   editReceiptPO(
-                                                      ponbr: widget.ponbr
-                                                          .toString(),
-                                                      rcpt_nbr: listdetail[i]
-                                                          .rcptNbr
-                                                          .toString(),
-                                                      rcpt_date: listdetail[i]
-                                                          .rcptDate
-                                                          .toString(),
-                                                      rcptd_part: listdetail[i]
-                                                          .getDetail![0]
-                                                          .rcptdPart
-                                                          .toString(),
-                                                      rcptd_qty_arr: listdetail[i]
-                                                          .getDetail![0]
-                                                          .rcptdQtyArr
-                                                          .toString(),
-                                                      rcptd_lot: listdetail[i]
-                                                          .getDetail![0]
-                                                          .rcptdLot
-                                                          .toString(),
-                                                      rcptd_loc: listdetail[i]
-                                                          .getDetail![0]
-                                                          .rcptdLoc
-                                                          .toString(),
-                                                      rcptd_qty_appr:
-                                                          listdetail[i]
-                                                              .getDetail![0]
-                                                              .rcptdQtyAppr
-                                                              .toString(),
-                                                      rcptd_qty_rej: listdetail[i]
-                                                          .getDetail![0]
-                                                          .rcptdQtyRej
-                                                          .toString(),
-                                                      // angkutan: datapo[index].rcptd_loc.toString(),
-                                                      // nopol: datapo[index].rcptd_lot.toString(),
-                                                      supplier: widget.povend
-                                                          .toString(),
-                                                      shipto: widget.poshipto
-                                                          .toString(),
-                                                      domain: widget.podomain
-                                                          .toString(),
-                                                      imrnbr: listdetail[i]
-                                                          .getChecklist!
-                                                          .rcptcImrNbr
-                                                          .toString(),
-                                                      donbr: listdetail[i]
-                                                          .getChecklist!
-                                                          .rcptcDoNbr
-                                                          .toString(),
-                                                      articlenbr: listdetail[i]
-                                                          .getChecklist!
-                                                          .rcptcArticleNbr
-                                                          .toString(),
-                                                      imrdate: listdetail[i]
-                                                          .getChecklist!
-                                                          .rcptcImrDate
-                                                          .toString(),
-                                                      arrivaldate: listdetail[i]
-                                                          .getChecklist!
-                                                          .rcptcArrivalDate
-                                                          .toString(),
-                                                      proddate: listdetail[i]
-                                                          .getChecklist!
-                                                          .rcptcProdDate
-                                                          .toString(),
-                                                      expdate: listdetail[i]
-                                                          .getChecklist!
-                                                          .rcptcExpDate
-                                                          .toString(),
-                                                      manufacturer: listdetail[i]
-                                                          .getChecklist!
-                                                          .rcptcManufacturer
-                                                          .toString(),
-                                                      country: listdetail[i]
-                                                          .getChecklist!
-                                                          .rcptcCountry
-                                                          .toString(),
-                                                      iscertofanalys: listdetail[i]
-                                                          .getDocument!
-                                                          .rcptdocIsCertofanalys
-                                                          .toString(),
-                                                      certofanalys: listdetail[i]
-                                                          .getDocument!
-                                                          .rcptdocCertofanalys
-                                                          .toString(),
-                                                      ismsds: listdetail[i].getDocument!.rcptdocIsMsds.toString(),
-                                                      msds: listdetail[i].getDocument!.rcptdocMsds.toString(),
-                                                      isforwarderdo: listdetail[i].getDocument!.rcptdocIsForwarderdo.toString(),
-                                                      forwarderdo: listdetail[i].getDocument!.rcptdocForwarderdo.toString(),
-                                                      ispackinglist: listdetail[i].getDocument!.rcptdocIsPackinglist.toString(),
-                                                      packinglist: listdetail[i].getDocument!.rcptdocPackinglist.toString(),
-                                                      isotherdocs: listdetail[i].getDocument!.rcptdocIsOtherdocs.toString(),
-                                                      otherdocs: listdetail[i].getDocument!.rcptdocOtherdocs.toString(),
-                                                      kemasansacdos: listdetail[i].getKemasan!.rcptkKemasanSacdos.toString(),
-                                                      kemasansacdosdesc: listdetail[i].getKemasan!.rcptkKemasanSacdosDesc.toString(),
-                                                      kemasandrumvat: listdetail[i].getKemasan!.rcptkKemasanDrumvat.toString(),
-                                                      kemasandrumvatdesc: listdetail[i].getKemasan!.rcptkKemasanDrumvatDesc.toString(),
-                                                      kemasanpalletpeti: listdetail[i].getKemasan!.rcptkKemasanPalletpeti.toString(),
-                                                      kemasanpalletpetidesc: listdetail[i].getKemasan!.rcptkKemasanPalletpetiDesc.toString(),
-                                                      isclean: listdetail[i].getKemasan!.rcptkIsClean.toString(),
-                                                      iscleandesc: listdetail[i].getKemasan!.rcptkIsCleanDesc.toString(),
-                                                      isdry: listdetail[i].getKemasan!.rcptkIsDry.toString(),
-                                                      isdrydesc: listdetail[i].getKemasan!.rcptkIsDryDesc.toString(),
-                                                      isnotspilled: listdetail[i].getKemasan!.rcptkIsNotSpilled.toString(),
-                                                      isnotspilleddesc: listdetail[i].getKemasan!.rcptkIsNotSpilledDesc.toString(),
-                                                      issealed: listdetail[i].getKemasan!.rcptkIsSealed.toString(),
-                                                      ismanufacturerlabel: listdetail[i].getKemasan!.rcptkIsManufacturerLabel.toString(),
-                                                      transporttransporterno: listdetail[i].getTransport!.rcpttTransporterNo.toString(),
-                                                      transportpoliceno: listdetail[i].getTransport!.rcpttPoliceNo.toString(),
-                                                      transportisclean: listdetail[i].getTransport!.rcpttIsClean.toString(),
-                                                      transportiscleandesc: listdetail[i].getTransport!.rcpttIsCleanDesc.toString(),
-                                                      transportisdry: listdetail[i].getTransport!.rcpttIsDry.toString(),
-                                                      transportisdrydesc: listdetail[i].getTransport!.rcpttIsDryDesc.toString(),
-                                                      transportisnotspilled: listdetail[i].getTransport!.rcpttIsNotSpilled.toString(),
-                                                      transportisnotspilleddesc: listdetail[i].getTransport!.rcpttIsNotSpilledDesc.toString(),
-                                                      transportispositionsingle: listdetail[i].getTransport!.rcpttIsPositionSingle.toString(),
-                                                      transportispositionsingledesc: listdetail[i].getTransport!.rcpttIsPositionSingleDesc.toString(),
-                                                      transportissegregated: listdetail[i].getTransport!.rcpttIsSegregated.toString(),
-                                                      transportissegregateddesc: listdetail[i].getTransport!.rcpttIsSegregatedDesc.toString(),
-                                                      transportangkutancatatan: listdetail[i].getTransport!.rcpttAngkutanCatatan.toString(),
-                                                      transportkelembapan: listdetail[i].getTransport!.rcpttKelembapan.toString(),
-                                                      transportsuhu: listdetail[i].getTransport!.rcpttSuhu.toString())),
+                                                    ponbr:
+                                                        widget.ponbr.toString(),
+                                                    rcpt_nbr: listdetail[i]
+                                                        .rcptNbr
+                                                        .toString(),
+                                                    rcpt_date: listdetail[i]
+                                                        .rcptDate
+                                                        .toString(),
+                                                    rcptd_part: listdetail[i]
+                                                        .getDetail![0]
+                                                        .rcptdPart
+                                                        .toString(),
+                                                    rcptd_qty_arr: listdetail[i]
+                                                        .getDetail![0]
+                                                        .rcptdQtyArr
+                                                        .toString(),
+                                                    rcptd_lot: listdetail[i]
+                                                        .getDetail![0]
+                                                        .rcptdLot
+                                                        .toString(),
+                                                    rcptd_loc: listdetail[i]
+                                                        .getDetail![0]
+                                                        .rcptdLoc
+                                                        .toString(),
+                                                    rcptd_qty_appr:
+                                                        listdetail[i]
+                                                            .getDetail![0]
+                                                            .rcptdQtyAppr
+                                                            .toString(),
+                                                    rcptd_qty_rej: listdetail[i]
+                                                        .getDetail![0]
+                                                        .rcptdQtyRej
+                                                        .toString(),
+                                                    // angkutan: datapo[index].rcptd_loc.toString(),
+                                                    // nopol: datapo[index].rcptd_lot.toString(),
+                                                    supplier: widget.povend
+                                                        .toString(),
+                                                    shipto: widget.poshipto
+                                                        .toString(),
+                                                    domain: widget.podomain
+                                                        .toString(),
+                                                    imrnbr: listdetail[i]
+                                                        .getChecklist!
+                                                        .rcptcImrNbr
+                                                        .toString(),
+                                                    donbr: listdetail[i]
+                                                        .getChecklist!
+                                                        .rcptcDoNbr
+                                                        .toString(),
+                                                    articlenbr: listdetail[i]
+                                                        .getChecklist!
+                                                        .rcptcArticleNbr
+                                                        .toString(),
+                                                    imrdate: listdetail[i]
+                                                        .getChecklist!
+                                                        .rcptcImrDate
+                                                        .toString(),
+                                                    arrivaldate: listdetail[i]
+                                                        .getChecklist!
+                                                        .rcptcArrivalDate
+                                                        .toString(),
+                                                    proddate: listdetail[i]
+                                                        .getChecklist!
+                                                        .rcptcProdDate
+                                                        .toString(),
+                                                    expdate: listdetail[i]
+                                                        .getChecklist!
+                                                        .rcptcExpDate
+                                                        .toString(),
+                                                    manufacturer: listdetail[i]
+                                                        .getChecklist!
+                                                        .rcptcManufacturer
+                                                        .toString(),
+                                                    country: listdetail[i]
+                                                        .getChecklist!
+                                                        .rcptcCountry
+                                                        .toString(),
+                                                    iscertofanalys: listdetail[
+                                                            i]
+                                                        .getDocument!
+                                                        .rcptdocIsCertofanalys
+                                                        .toString(),
+                                                    certofanalys: listdetail[i]
+                                                        .getDocument!
+                                                        .rcptdocCertofanalys
+                                                        .toString(),
+                                                    ismsds: listdetail[i]
+                                                        .getDocument!
+                                                        .rcptdocIsMsds
+                                                        .toString(),
+                                                    msds: listdetail[i]
+                                                        .getDocument!
+                                                        .rcptdocMsds
+                                                        .toString(),
+                                                    isforwarderdo: listdetail[i]
+                                                        .getDocument!
+                                                        .rcptdocIsForwarderdo
+                                                        .toString(),
+                                                    forwarderdo: listdetail[i]
+                                                        .getDocument!
+                                                        .rcptdocForwarderdo
+                                                        .toString(),
+                                                    ispackinglist: listdetail[i]
+                                                        .getDocument!
+                                                        .rcptdocIsPackinglist
+                                                        .toString(),
+                                                    packinglist: listdetail[i]
+                                                        .getDocument!
+                                                        .rcptdocPackinglist
+                                                        .toString(),
+                                                    isotherdocs: listdetail[i]
+                                                        .getDocument!
+                                                        .rcptdocIsOtherdocs
+                                                        .toString(),
+                                                    otherdocs: listdetail[i]
+                                                        .getDocument!
+                                                        .rcptdocOtherdocs
+                                                        .toString(),
+                                                    kemasansacdos: listdetail[i]
+                                                        .getKemasan!
+                                                        .rcptkKemasanSacdos
+                                                        .toString(),
+                                                    kemasansacdosdesc: listdetail[
+                                                            i]
+                                                        .getKemasan!
+                                                        .rcptkKemasanSacdosDesc
+                                                        .toString(),
+                                                    kemasandrumvat:
+                                                        listdetail[i]
+                                                            .getKemasan!
+                                                            .rcptkKemasanDrumvat
+                                                            .toString(),
+                                                    kemasandrumvatdesc: listdetail[
+                                                            i]
+                                                        .getKemasan!
+                                                        .rcptkKemasanDrumvatDesc
+                                                        .toString(),
+                                                    kemasanpalletpeti: listdetail[
+                                                            i]
+                                                        .getKemasan!
+                                                        .rcptkKemasanPalletpeti
+                                                        .toString(),
+                                                    kemasanpalletpetidesc:
+                                                        listdetail[i]
+                                                            .getKemasan!
+                                                            .rcptkKemasanPalletpetiDesc
+                                                            .toString(),
+                                                    isclean: listdetail[i]
+                                                        .getKemasan!
+                                                        .rcptkIsClean
+                                                        .toString(),
+                                                    iscleandesc: listdetail[i]
+                                                        .getKemasan!
+                                                        .rcptkIsCleanDesc
+                                                        .toString(),
+                                                    isdry: listdetail[i]
+                                                        .getKemasan!
+                                                        .rcptkIsDry
+                                                        .toString(),
+                                                    isdrydesc: listdetail[i]
+                                                        .getKemasan!
+                                                        .rcptkIsDryDesc
+                                                        .toString(),
+                                                    isnotspilled: listdetail[i]
+                                                        .getKemasan!
+                                                        .rcptkIsNotSpilled
+                                                        .toString(),
+                                                    isnotspilleddesc: listdetail[
+                                                            i]
+                                                        .getKemasan!
+                                                        .rcptkIsNotSpilledDesc
+                                                        .toString(),
+                                                    issealed: listdetail[i]
+                                                        .getKemasan!
+                                                        .rcptkIsSealed
+                                                        .toString(),
+                                                    ismanufacturerlabel:
+                                                        listdetail[i]
+                                                            .getKemasan!
+                                                            .rcptkIsManufacturerLabel
+                                                            .toString(),
+                                                    transporttransporterno:
+                                                        listdetail[i]
+                                                            .getTransport!
+                                                            .rcpttTransporterNo
+                                                            .toString(),
+                                                    transportpoliceno:
+                                                        listdetail[i]
+                                                            .getTransport!
+                                                            .rcpttPoliceNo
+                                                            .toString(),
+                                                    transportisclean:
+                                                        listdetail[i]
+                                                            .getTransport!
+                                                            .rcpttIsClean
+                                                            .toString(),
+                                                    transportiscleandesc:
+                                                        listdetail[i]
+                                                            .getTransport!
+                                                            .rcpttIsCleanDesc
+                                                            .toString(),
+                                                    transportisdry:
+                                                        listdetail[i]
+                                                            .getTransport!
+                                                            .rcpttIsDry
+                                                            .toString(),
+                                                    transportisdrydesc:
+                                                        listdetail[i]
+                                                            .getTransport!
+                                                            .rcpttIsDryDesc
+                                                            .toString(),
+                                                    transportisnotspilled:
+                                                        listdetail[i]
+                                                            .getTransport!
+                                                            .rcpttIsNotSpilled
+                                                            .toString(),
+                                                    transportisnotspilleddesc:
+                                                        listdetail[i]
+                                                            .getTransport!
+                                                            .rcpttIsNotSpilledDesc
+                                                            .toString(),
+                                                    transportispositionsingle:
+                                                        listdetail[i]
+                                                            .getTransport!
+                                                            .rcpttIsPositionSingle
+                                                            .toString(),
+                                                    transportispositionsingledesc:
+                                                        listdetail[i]
+                                                            .getTransport!
+                                                            .rcpttIsPositionSingleDesc
+                                                            .toString(),
+                                                    transportissegregated:
+                                                        listdetail[i]
+                                                            .getTransport!
+                                                            .rcpttIsSegregated
+                                                            .toString(),
+                                                    transportissegregateddesc:
+                                                        listdetail[i]
+                                                            .getTransport!
+                                                            .rcpttIsSegregatedDesc
+                                                            .toString(),
+                                                    transportangkutancatatan:
+                                                        listdetail[i]
+                                                            .getTransport!
+                                                            .rcpttAngkutanCatatan
+                                                            .toString(),
+                                                    transportkelembapan:
+                                                        listdetail[i]
+                                                            .getTransport!
+                                                            .rcpttKelembapan
+                                                            .toString(),
+                                                    transportsuhu: listdetail[i]
+                                                        .getTransport!
+                                                        .rcpttSuhu
+                                                        .toString(),
+                                                    adalogohalal: listdetail[i]
+                                                        .getKemasan!
+                                                        .rcptkHasLogoHalal
+                                                        .toString(),
+                                                    tidakadalogohalal:
+                                                        listdetail[i]
+                                                            .getKemasan!
+                                                            .rcptkNoLogoHalal
+                                                            .toString(),
+                                                    tidakditerapkanlogohalal:
+                                                        listdetail[i]
+                                                            .getKemasan!
+                                                            .rcptkNotRegulatedLogoHalal
+                                                            .toString(),
+                                                  )),
                                         );
                                       },
                                     ),
