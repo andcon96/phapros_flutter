@@ -51,6 +51,9 @@ class receiptform extends StatefulWidget {
       kemasandrumvatdesc,
       kemasanpalletpeti,
       kemasanpalletpetidesc,
+      kemasanadalogohalal,
+      kemasantidakadalogohalal,
+      kemasantidakditerapkanlogohalal,
       isclean,
       iscleandesc,
       isdry,
@@ -118,6 +121,9 @@ class receiptform extends StatefulWidget {
       required this.kemasandrumvatdesc,
       required this.kemasanpalletpeti,
       required this.kemasanpalletpetidesc,
+      required this.kemasanadalogohalal,
+      required this.kemasantidakadalogohalal,
+      required this.kemasantidakditerapkanlogohalal,
       required this.isclean,
       required this.iscleandesc,
       required this.isdry,
@@ -657,6 +663,11 @@ class _receiptform extends State<receiptform> {
   late bool _palletorpetiChecked;
   String? _palletorpetiDamage;
 
+  // Tambahan Halal **MK
+  late bool _adalogohalalChecked;
+  late bool _tidakadalogohalalChecked;
+  late bool _tidakditerapkanlogohalalChecked;
+
   String? _isclean;
   String? _isdry;
   String? _isnotspilled;
@@ -852,11 +863,19 @@ class _receiptform extends State<receiptform> {
     _sackordosDamage = widget.kemasansacdosdesc;
     _palletorpetiDamage = widget.kemasanpalletpetidesc;
 
+    _sackordosChecked = int.parse(widget.kemasansacdos) == 1 ? true : false;
+    _drumorvatChecked = int.parse(widget.kemasandrumvat) == 1 ? true : false;
+    _palletorpetiChecked =
+        int.parse(widget.kemasanpalletpeti) == 1 ? true : false;
     _isclean = widget.isclean;
     _isdry = widget.isdry;
     _isnotspilled = widget.isnotspilled;
     _issealed = widget.issealed;
     _ismanufacturerlabel = widget.ismanufacturerlabel;
+    
+    _adalogohalalChecked = int.parse(widget.kemasanadalogohalal) == 1 ? true : false;
+    _tidakadalogohalalChecked = int.parse(widget.kemasantidakadalogohalal) == 1 ? true : false;
+    _tidakditerapkanlogohalalChecked = int.parse(widget.kemasantidakditerapkanlogohalal) == 1 ? true : false;
 
     // // Step 5
     _angkutanisclean = widget.transportisclean;
@@ -1613,42 +1632,12 @@ class _receiptform extends State<receiptform> {
                 const SizedBox(
                   height: 12,
                 ),
-              // const Divider(),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-
-              //     Expanded(
-              //       child: ListTile(
-              //         title: const Text('Utuh'),
-              //         leading: Radio(
-              //           value: '1',
-              //           groupValue: _issealed,
-              //           onChanged: null,
-              //         ),
-              //       ),
-              //     ),
-              //     Expanded(
-              //       child: ListTile(
-              //         title: const Text('Rusak'),
-              //         leading: Radio(
-              //           value: '0',
-              //           groupValue: _issealed,
-              //           onChanged: null,
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              // const SizedBox(
-              //   height: 12,
-              // ),
               const SizedBox(
                 height: 8,
               ),
               if (_ismanufacturerlabel != 'null')
                 const Text(
-                  'Label Pabrik',
+                  'Label Pabrika',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -1672,6 +1661,41 @@ class _receiptform extends State<receiptform> {
                 const SizedBox(
                   height: 12,
                 ),
+              const Text(
+                'Halal',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Divider(),
+              CheckboxListTile(
+                title:  Text('Ada Logo Halal',
+                  style: TextStyle(
+                    color: _adalogohalalChecked == true ? Colors.black : Colors.grey,
+                  ),
+                ),
+                value: _adalogohalalChecked,
+                onChanged: null
+              ),
+              CheckboxListTile(
+                title:  Text('Tidak ada logo Halal',
+                  style: TextStyle(
+                    color: _tidakadalogohalalChecked == true ? Colors.black : Colors.grey,
+                  ),
+                ),
+                value: _tidakadalogohalalChecked,
+                onChanged: null
+              ),
+              CheckboxListTile(
+                title: Text('Tidak Diterapkan',
+                  style: TextStyle(
+                    color: _tidakditerapkanlogohalalChecked == true ? Colors.black : Colors.grey,
+                  ),
+                ),
+                value: _tidakditerapkanlogohalalChecked,
+                onChanged: null
+              ),
               // const Divider(),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.center,
