@@ -1662,7 +1662,7 @@ class _receiptform extends State<receiptform> {
                   height: 12,
                 ),
               const Text(
-                'Halal',
+                'Logo Halal',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,

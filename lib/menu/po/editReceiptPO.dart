@@ -1741,7 +1741,7 @@ class _editReceiptPO extends State<editReceiptPO> {
                 height: 12,
               ),
               const Text(
-                'Halal',
+                'Logo Halal',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,

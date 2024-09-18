@@ -949,7 +949,7 @@ class _createpoState extends State<createpo> {
                 height: 12,
               ),
               const Text(
-                'Halal',
+                'Logo Halal',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
