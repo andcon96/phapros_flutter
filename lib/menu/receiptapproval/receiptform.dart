@@ -1637,7 +1637,7 @@ class _receiptform extends State<receiptform> {
               ),
               if (_ismanufacturerlabel != 'null')
                 const Text(
-                  'Label Pabrika',
+                  'Label Pabrik',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
