@@ -134,7 +134,6 @@ class _wsaPOState extends State<wsaPO> {
 
         return true;
       } else {
-        
         setState(() {
           overlayLoading = false;
           print(response.body);
@@ -509,6 +508,8 @@ class _wsaPOState extends State<wsaPO> {
         setState(() {
           detailpo[index].tIsSelected = !detailpo[index].tIsSelected!;
           if (detailpo[index].tIsSelected == true) {
+            print(qtyrcvd);
+            print(receiptongoing);
             selectedDetailPO.add(Data(
                 tLvcDomain: domain,
                 tLvcNbr: ponbr,

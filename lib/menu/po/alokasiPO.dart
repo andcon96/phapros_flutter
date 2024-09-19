@@ -124,6 +124,9 @@ class _DetailPOState extends State<DetailPO> {
                     widget.cartItem.tLvdQtyord =
                         selecteddata[0].tLvdQtyord.toString();
 
+                    widget.cartItem.tLvdOngoingQtyrcvd =
+                        selecteddata[0].tLvdOngoingQtyrcvd.toString();
+
                     _um.text = selecteddata[0].tLvcUm.toString();
                     _umkonv.text = selecteddata[0].tLvdUmKonv.toString();
                     _umpt.text = selecteddata[0].tLvcPtUm.toString();
@@ -286,12 +289,11 @@ class _CartWidgetState extends State<CartWidget> {
   @override
   void initState() {
     super.initState();
-
     final now = DateTime.now();
     // Expiration Date
     final dataexpdet = widget.cart[widget.index].tLvcExpDetailDate;
     late String? newexpdet;
-    print(dataexpdet);
+
     if (dataexpdet != null && dataexpdet.isNotEmpty) {
       newexpdet = widget.cart[widget.index].tLvcExpDetailDate;
     } else {
@@ -643,9 +645,9 @@ class _CartWidgetState extends State<CartWidget> {
                                         title: 'Error');
                                     return;
                                   }
-                                  var qtyrcvd =
-                                      widget.cart[widget.index].tLvdQtyRcvd ??
-                                          '0.00';
+                                  var qtyrcvd = widget.cart[widget.index]
+                                          .tLvdOngoingQtyrcvd ??
+                                      '0.00';
                                   var qtyord =
                                       widget.cart[widget.index].tLvdQtyord ??
                                           '0.00';
@@ -1014,8 +1016,6 @@ class _alokasipoState extends State<alokasipo> {
       } else {
         setState(() {
           loading = false;
-          // print(cart);
-          // print(cart[0].tLvcBatch);
         });
         CoolAlert.show(
           context: context,
@@ -1066,6 +1066,7 @@ class _alokasipoState extends State<alokasipo> {
               tIMRNo: widget.imrno,
               tLvcPtUm: widget.selectedline[0].tLvcPtUm,
               tLvdUmKonv: widget.selectedline[0].tLvdUmKonv,
+              tLvdOngoingQtyrcvd: widget.selectedline[0].tLvdOngoingQtyrcvd,
               tIsSaved: false));
           setState(() {});
         },
