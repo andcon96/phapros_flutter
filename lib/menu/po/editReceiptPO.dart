@@ -933,6 +933,7 @@ class _editReceiptPO extends State<editReceiptPO> {
 
       var response = await request.send();
       final responsedata = await http.Response.fromStream(response);
+      print(response.statusCode);
       if (response.statusCode == 200) {
         var flg = 0; // 1 => Ada Qty Reject, kasi opsi ke Form Reject.
         for (var data in cart) {
@@ -1000,7 +1001,23 @@ class _editReceiptPO extends State<editReceiptPO> {
 
         return true;
       } else {
-        setState(() {
+
+        if(response.statusCode == 501){
+          setState(() {
+          overlayloading = false;
+        });
+
+        CoolAlert.show(
+          context: context,
+          type: CoolAlertType.error,
+          title: 'Error',
+          text: 'Qty ongoing melebihi qty open',
+          loopAnimation: false,
+        );
+        return false;
+        }
+        else{
+          setState(() {
           overlayloading = false;
         });
 
@@ -1012,6 +1029,8 @@ class _editReceiptPO extends State<editReceiptPO> {
           loopAnimation: false,
         );
         return false;
+        }
+        
       }
     } on Exception catch (e) {
       setState(() {
