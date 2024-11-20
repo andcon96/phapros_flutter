@@ -576,7 +576,6 @@ class _uploadfilepoState extends State<uploadfilepo> {
             body: SafeArea(
               child: LoadingOverlay(
                   isLoading: loading,
-                  opacity: 0.8,
                   progressIndicator:
                       SpinKitFadingCube(color: Colors.purple[300], size: 70.0),
                   color: Colors.grey[100],

@@ -72,7 +72,6 @@ class _changePassState extends State<changePass> {
   Widget build(BuildContext context) {
     return LoadingOverlay(
         isLoading: loading,
-        opacity: 0.8,
         progressIndicator:
             SpinKitFadingCube(color: Colors.blueGrey[300], size: 70.0),
         color: Colors.grey[100],

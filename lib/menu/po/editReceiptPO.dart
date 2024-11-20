@@ -1001,36 +1001,33 @@ class _editReceiptPO extends State<editReceiptPO> {
 
         return true;
       } else {
-
-        if(response.statusCode == 501){
+        if (response.statusCode == 501) {
           setState(() {
-          overlayloading = false;
-        });
+            overlayloading = false;
+          });
 
-        CoolAlert.show(
-          context: context,
-          type: CoolAlertType.error,
-          title: 'Error',
-          text: 'Qty ongoing melebihi qty open',
-          loopAnimation: false,
-        );
-        return false;
-        }
-        else{
+          CoolAlert.show(
+            context: context,
+            type: CoolAlertType.error,
+            title: 'Error',
+            text: 'Qty ongoing melebihi qty open',
+            loopAnimation: false,
+          );
+          return false;
+        } else {
           setState(() {
-          overlayloading = false;
-        });
+            overlayloading = false;
+          });
 
-        CoolAlert.show(
-          context: context,
-          type: CoolAlertType.error,
-          title: 'Error',
-          text: 'Terdapat Error pada API',
-          loopAnimation: false,
-        );
-        return false;
+          CoolAlert.show(
+            context: context,
+            type: CoolAlertType.error,
+            title: 'Error',
+            text: 'Terdapat Error pada API',
+            loopAnimation: false,
+          );
+          return false;
         }
-        
       }
     } on Exception catch (e) {
       setState(() {
@@ -2183,7 +2180,6 @@ class _editReceiptPO extends State<editReceiptPO> {
           body: SafeArea(
               child: LoadingOverlay(
                   isLoading: overlayloading,
-                  opacity: 0.8,
                   progressIndicator:
                       SpinKitFadingCube(color: Colors.purple[300], size: 70.0),
                   color: Colors.grey[100],

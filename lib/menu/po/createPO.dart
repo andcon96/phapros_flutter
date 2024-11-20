@@ -1287,7 +1287,6 @@ class _createpoState extends State<createpo> {
             body: SafeArea(
               child: LoadingOverlay(
                   isLoading: overlayloading,
-                  opacity: 0.8,
                   progressIndicator:
                       SpinKitFadingCube(color: Colors.purple[300], size: 70.0),
                   color: Colors.grey[100],

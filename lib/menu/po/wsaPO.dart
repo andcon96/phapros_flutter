@@ -244,7 +244,6 @@ class _wsaPOState extends State<wsaPO> {
                 body: SafeArea(
                   child: LoadingOverlay(
                       isLoading: overlayLoading,
-                      opacity: 0.8,
                       progressIndicator: SpinKitFadingCube(
                           color: Colors.purple[300], size: 70.0),
                       color: Colors.grey[100],

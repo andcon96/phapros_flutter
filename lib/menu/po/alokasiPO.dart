@@ -350,7 +350,7 @@ class _CartWidgetState extends State<CartWidget> {
       padding: EdgeInsets.all(10),
       child: Container(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-          height: 950,
+          height: 1000,
           width: double.maxFinite,
           child: Card(
             elevation: 5,
@@ -645,14 +645,18 @@ class _CartWidgetState extends State<CartWidget> {
                                         title: 'Error');
                                     return;
                                   }
-                                  var qtyrcvd = widget.cart[widget.index]
+                                  var ongoingRcvd = widget.cart[widget.index]
                                           .tLvdOngoingQtyrcvd ??
                                       '0.00';
                                   var qtyord =
                                       widget.cart[widget.index].tLvdQtyord ??
                                           '0.00';
+                                  var qtyrcvd =
+                                      widget.cart[widget.index].tLvdQtyRcvd ??
+                                          '0.00';
 
                                   var qtyopen = double.parse(qtyord) -
+                                      double.parse(ongoingRcvd) -
                                       double.parse(qtyrcvd);
 
                                   var line = widget.cart[widget.index].tLviLine;
@@ -662,7 +666,7 @@ class _CartWidgetState extends State<CartWidget> {
                                       widget.cart[widget.index].tLvdUmKonv ??
                                           '1');
 
-                                  widget.cart.forEach((element) {
+                                  for (var element in widget.cart) {
                                     if (element.tLviLine == line) {
                                       var qtyterimaline =
                                           element.tLvdQtyTerima ??
@@ -674,7 +678,7 @@ class _CartWidgetState extends State<CartWidget> {
                                       totalterima +=
                                           double.parse(qtyterimaline);
                                     }
-                                  });
+                                  }
 
                                   if (qtyopen < totalterima) {
                                     Navigator.of(context, rootNavigator: true)
@@ -683,7 +687,7 @@ class _CartWidgetState extends State<CartWidget> {
                                         context: context,
                                         type: CoolAlertType.error,
                                         text:
-                                            'Jumlah Qty Terima Line : ${widget.cart[widget.index].tLviLine!}, Melebihi Qty Open',
+                                            'Jumlah Qty Terima Line : ${widget.cart[widget.index].tLviLine!}, \n Melebihi Qty Open \n Qty Order : $qtyord \n Qty Received : $qtyrcvd \n Qty Ongoing Android : $ongoingRcvd \n Qty Available : $qtyopen',
                                         title: 'Error');
                                     return;
                                   }
@@ -1046,6 +1050,9 @@ class _alokasipoState extends State<alokasipo> {
       padding: EdgeInsets.only(bottom: 5),
       child: FloatingActionButton(
         onPressed: () {
+          print(widget.selectedline[0].tLvdQtyord);
+          print(widget.selectedline[0].tLvdQtyRcvd);
+          print(widget.selectedline[0].tLvdOngoingQtyrcvd);
           cart.add(Data(
               tLvcNbr: widget.selectedline[0].tLvcNbr,
               tLvcDomain: widget.selectedline[0].tLvcDomain,
@@ -1213,7 +1220,6 @@ class _alokasipoState extends State<alokasipo> {
             body: SafeArea(
               child: LoadingOverlay(
                   isLoading: loading,
-                  opacity: 0.8,
                   progressIndicator:
                       SpinKitFadingCube(color: Colors.purple[300], size: 70.0),
                   color: Colors.grey[100],
